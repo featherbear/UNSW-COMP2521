@@ -1,0 +1,98 @@
+publishDir = ".."
+baseURL = ""
+relativeurls = true
+summaryLength = 0
+languageCode = "en"
+defaultContentLanguage = "en"                             # en / zh-cn / ... (This field determines which i18n file to use)
+title = "COMP2521 Summer Fun"
+enableRobotsTXT = true
+enableEmoji = true
+theme = "hugo-theme-even"
+
+preserveTaxonomyNames = true
+paginate = 50                                              # 首页每页显示的文章数
+copyright = "Andrew Wong (z5206677)"
+
+[author]                  # essential                     # 必需
+  name = "z5206677"
+
+[sitemap]                 # essential                     # 必需
+  changefreq = "weekly"
+  priority = 0.5
+  filename = "sitemap.xml"
+
+[[menu.main]]             # config your menu              # 配置目录
+  name = "Home"
+  weight = 10
+  identifier = "home"
+  url = "/"
+[[menu.main]]
+  name = "GitHub"
+  weight = 20
+  identifier = "code"
+  url = "https://github.com/featherbear/UNSW-COMP2521"
+[[menu.main]]
+#  name = "Tags"
+#  weight = 30
+#  identifier = "tags"
+#  url = "/tags/"
+[[menu.main]]
+  name = "Categories"
+  weight = 40
+  identifier = "categories"
+  url = "/categories/"
+
+[params]
+  version = "3.x"           # Used to give a friendly message when you have an incompatible update
+  debug = false             # If true, load `eruda.min.js`. See https://github.com/liriliri/eruda
+
+  since = "2018"            # Site creation time          # 站点建立时间
+
+  # site info (optional)                                  # 站点信息（可选，不需要的可以直接注释掉）
+  logoTitle = "COMP2521 Musings"        # default: the title value    # 默认值: 上面设置的title值
+  keywords = ["Hugo", "theme","even"]
+  description = "Musings of a COMP2521 student"
+
+  # paginate of archives, tags and categories             # 归档、标签、分类每页显示的文章数目，建议修改为一个较大的值
+  archivePaginate = 5
+
+  # show 'xx Posts In Total' in archive page ?            # 是否在归档页显示文章的总数
+  showArchiveCount = false
+
+  # The date format to use; for a list of valid formats, see https://gohugo.io/functions/format/
+  dateFormatToUse = "2006-01-02"
+
+  # Some global options, you can also close or open something in front matter for a single post, see more information from `archetypes/default.md`.
+  toc = true                                                                            # 是否开启目录
+  autoCollapseToc = false   # Auto expand and collapse toc                              # 目录自动展开/折叠
+  fancybox = true           # see https://github.com/fancyapps/fancybox                 # 是否启用fancybox（图片可点击）
+
+  postMetaInFooter = true   # contain author, lastMod, markdown link, license           # 包含作者，上次修改时间，markdown链接，许可信息
+  linkToMarkDown = false    # Only effective when hugo will output .md files.           # 链接到markdown原始文件（仅当允许hugo生成markdown文件时有效）
+  contentCopyright = ''     # e.g. '<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a>'
+
+  # Link custom CSS and JS assets
+  #   (relative to /static/css and /static/js respectively)
+  customCSS = []
+  customJS = []
+
+  [params.publicCDN]        # load these files from public cdn                          # 启用公共CDN，需自行定义
+    enable = false
+    jquery = '<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>'
+    slideout = '<script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>'
+    fancyboxJs = '<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>'
+    fancyboxCss = '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">'
+  
+  [params.flowchartDiagrams]# see https://blog.olowolo.com/example-site/post/js-flowchart-diagrams/
+    enable = false
+    options = ""
+
+  [params.sequenceDiagrams] # see https://blog.olowolo.com/example-site/post/js-sequence-diagrams/
+    enable = false
+    options = ""            # default: "{theme: 'simple'}"
+
+  [params.social]                                         # 社交链接
+    a-email = "mailto:z5206677@student.unsw.edu.au"
+    e-linkedin = "https://www.linkedin.com/in/andrewjinmengwong/"
+    g-github = "https://github.com/featherbear"
+    m-instagram = "https://www.instagram.com/_andrewjwong/"
