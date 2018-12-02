@@ -5,6 +5,7 @@
 
 #include "textbuffer.h"
 #include <stdio.h>
+#include <assert.h>
 
 typedef struct textbuffer_line *TextbufferLine;
 struct textbuffer_line {
@@ -30,6 +31,38 @@ static void textbuffer_line_drop(TextbufferLine line);
 static void textbuffer_line_replace(TextbufferLine line, const char *match, const char *replace);
 
 static Textbuffer textbuffer_clone(Textbuffer tb);
+
+///
+
+#define HISTORY_SIZE 10
+
+struct _historyKey {
+    Textbuffer key;
+    char *records[HISTORY_SIZE];
+    size_t _cursor;
+};
+typedef struct _historyKey *_HistoryKey;
+
+struct _historyContainer {
+    _HistoryKey *items;
+    size_t size;
+};
+static struct _historyContainer *History;
+
+static void history_initHistory(void);
+
+static void history_addHistory(Textbuffer tb, const char *string);
+
+static char *history_getHistory(Textbuffer tb);
+
+static _HistoryKey history_getKey(Textbuffer tb);
+
+///
+
+void white_box_tests(void);
+void verifyLinks(Textbuffer tb);
+
+///
 
 
 static TextbufferLine textbuffer_line_copy(TextbufferLine line) {
@@ -110,20 +143,23 @@ static void textbuffer_line_drop(TextbufferLine line) {
     free(line);
 }
 
-/**
- * Release any resources used by a given textbuffer.
- * It is an error to access the textbuffer after this.
- */
-void textbuffer_drop(Textbuffer tb) {
+static void textbuffer_drop_head(Textbuffer tb) {
     TextbufferLine cursor = tb->head;
     while (cursor != NULL) {
         TextbufferLine next = cursor->next;
         textbuffer_line_drop(cursor);
         cursor = next;
     }
-    free(tb);
 }
 
+/**
+ * Release any resources used by a given textbuffer.
+ * It is an error to access the textbuffer after this.
+ */
+void textbuffer_drop(Textbuffer tb) {
+    textbuffer_drop_head(tb);
+    free(tb);
+}
 
 /**
  * Return the number of lines of text stored in the given textbuffer.
@@ -207,23 +243,19 @@ void textbuffer_swap(Textbuffer tb, size_t pos1, size_t pos2) {
 
     if (line1 == line2) return; // Silently fail if lines are the same (skip)
 
+    char *history_str = textbuffer_to_str(tb);
+    history_addHistory(tb, history_str);
+    free(history_str);
+
     TextbufferLine line1_prev, line1_next, line2_prev, line2_next;
     line1_prev = line1->prev;
     line1_next = line1->next;
     line2_prev = line2->prev;
     line2_next = line2->next;
 
-    printf("\n\nFROM\n");
-    printf("LINE1 %10p <- %10p -> %10p\n", line1->prev, line1, line1->next);
-    printf("LINE2 %10p <- %10p -> %10p\n", line2->prev, line2, line2->next);
-    printf("ORDER -> [%p]", tb->head);
-    for (TextbufferLine curr = tb->head->next; curr; curr = curr->next) printf(" -> %p", curr);
-
     if (line1_prev == NULL) {
-        printf("\n--> Head reassigned\n");
         tb->head = line2;
     } else if (line2_prev == NULL) {
-        printf("\n--> Head reassigned\n");
         tb->head = line1;
     }
 
@@ -240,61 +272,17 @@ void textbuffer_swap(Textbuffer tb, size_t pos1, size_t pos2) {
     if (line2_next) line2_next->prev = line1;
 
     if (line1_next == line2) {
-        printf("--> Adjacent elements\n");
         line1->next = line2_next;
         if (line2_next) line2_next->prev = line1;
 
         line2->next = line1;
         line1->prev = line2;
     } else if (line2_next == line1) {
-        printf("--> Adjacent elements\n");
         line2->next = line1_next;
         if (line1_next) line1_next->prev = line2;
 
         line1->next = line2;
         line2->prev = line1;
-    }
-//    line1->next = line2_next;
-//    if (line2_next) line2_next->prev = line1;
-//
-//    line2->prev = line1_prev;
-//    if (line1_prev) line1_prev->next = line2;
-////
-//
-//    if (line2_prev == line1) {
-//        printf("-ADJ-");
-//        line1->prev = line2;
-//        line2->next = line1;
-//    } else if (line1_prev == line2) {
-//        printf("-RADJ-");
-//        line1->next = line2;
-//        line2->prev = line1;
-//    } else {
-//        line1->prev = line2_prev;
-//        if (line2_prev) line2_prev->next = line1;
-//
-//    }
-////
-//    if (line1_next == line2) {
-//        printf("-ADJ-");
-//        line2->next = line1;
-//        line1->prev = line2;
-//    } else {
-//        line2->next = line1_next;
-//        if (line1_next) line1_next->prev = line2;
-//    }
-
-
-    printf("\n\nTO\n");
-    printf("LINE1 %10p <- %10p -> %10p\n", line1->prev, line1, line1->next);
-    printf("LINE2 %10p <- %10p -> %10p\n\n", line2->prev, line2, line2->next);
-    printf("ORDER -> [%p]", tb->head);
-    for (TextbufferLine curr = tb->head->next; curr; curr = curr->next) {
-        printf(" -> %p", curr);
-        if (curr->next == curr) {
-            printf("\nGOT LOOP\n");
-            abort();
-        }
     }
 }
 //
@@ -311,24 +299,46 @@ void textbuffer_swap(Textbuffer tb, size_t pos1, size_t pos2) {
  * `textbuffer_drop()` on it.
  */
 void textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2) {
-    if (tb1 == tb2) return;
+    verifyLinks(tb1);
+    if (tb1 == tb2 || tb2->head == NULL) return;
 
-    if (pos > 0) {
-        TextbufferLine tempTail = textbuffer_get_line(tb1, pos);
-        TextbufferLine tempTail_next = tempTail->next;
+    char *history_str = textbuffer_to_str(tb1);
+    history_addHistory(tb1, history_str);
+    free(history_str);
 
-        tempTail->next = tb2->head;
-        tempTail->next->prev = tempTail;
-
+    if (tb1->head == NULL) {
+        tb1->head = tb2->head;
+    } else {
         TextbufferLine tb2_tail;
         for (tb2_tail = tb2->head; tb2_tail && tb2_tail->next; tb2_tail = tb2_tail->next);
-        tb2_tail->next = tempTail_next;
-        tempTail_next->prev = tb2_tail;
-    } else {
-        tb1->head = tb2->head;
+
+        if (pos > textbuffer_lines(tb1)) {
+            fprintf(stderr, "Line index out of range!\n");
+            abort();
+        }
+
+        if (pos == textbuffer_lines(tb1)) {
+            TextbufferLine tb1_tail = textbuffer_get_line(tb1, pos - 1);
+            tb1_tail->next = tb2->head;
+        } else {
+
+            TextbufferLine tb1_split = textbuffer_get_line(tb1, pos);
+            TextbufferLine tb1_split_prev = tb1_split->prev;
+
+            if (tb1_split_prev) {
+                tb1_split_prev->next = tb2->head;
+            } else {
+                tb1->head = tb2->head;
+            }
+
+            tb2->head->prev = tb1_split_prev;
+            tb2_tail->next = tb1_split;
+            tb1_split->prev = tb2_tail;
+        }
     }
 
     tb1->size += tb2->size;
+    free(tb2); // free to clear the `size` data of tb2
 }
 
 static Textbuffer textbuffer_clone(Textbuffer tb) {
@@ -349,7 +359,6 @@ static Textbuffer textbuffer_clone(Textbuffer tb) {
 void textbuffer_paste(Textbuffer tb1, size_t pos, const Textbuffer tb2) {
     Textbuffer tb2_clone = textbuffer_clone(tb2);
     textbuffer_insert(tb1, pos, tb2_clone);
-    free(tb2); // free-ing just the `struct textbuffer`, and not the elements within
 }
 
 
@@ -370,11 +379,16 @@ Textbuffer textbuffer_cut(Textbuffer tb, size_t from, size_t to) {
         abort();
     }
 
+    char *history_str = textbuffer_to_str(tb);
+    history_addHistory(tb, history_str);
+    free(history_str);
+
     if (lineFrom->prev == NULL) {
         tb->head = lineTo->next;
-        if (lineTo->next != NULL) {
-            lineTo->next->prev = NULL;
-        }
+        if (tb->head) tb->head->prev = NULL;
+    } else {
+        lineFrom->prev->next = lineTo->next;
+        if (lineTo->next) lineTo->next->prev = lineFrom->prev;
     }
 
     lineFrom->prev = NULL;
@@ -387,6 +401,7 @@ Textbuffer textbuffer_cut(Textbuffer tb, size_t from, size_t to) {
     segment->size = newSize;
 
     tb->size -= newSize;
+
     return segment;
 }
 
@@ -399,41 +414,10 @@ Textbuffer textbuffer_cut(Textbuffer tb, size_t from, size_t to) {
  */
 Textbuffer textbuffer_copy(const Textbuffer tb, size_t from, size_t to) {
     Textbuffer tb_clone = textbuffer_clone(tb);
-    Textbuffer segment = textbuffer_cut(tb, from, to);
+    Textbuffer segment = textbuffer_cut(tb_clone, from, to);
     free(tb_clone); // free-ing just the `struct textbuffer`, and not the elements within
     return segment;
 }
-//Textbuffer textbuffer_copy(const Textbuffer tb, size_t from, size_t to) {
-//    TextbufferLine lineFrom = textbuffer_get_line(tb, from);
-//    TextbufferLine lineTo = textbuffer_get_line(tb, to);
-//    if (!lineFrom || !lineTo) {
-//        fprintf(stderr, "Line index out of range!\n");
-//        abort();
-//    }
-//
-//    size_t newSize = to - from + 1;
-//    TextbufferLine head = NULL, prev = NULL;
-//    TextbufferLine cursor = lineFrom;
-//    for (unsigned int count = 0; count < newSize; count++) {
-//        TextbufferLine line = textbuffer_line_copy(cursor);
-//        if (head == NULL) {
-//            head = line;
-//        }
-//
-//        if (prev != NULL) {
-//            prev->next = line;
-//        }
-//
-//        prev = line;
-//        cursor = cursor->next;
-//    }
-//
-//    Textbuffer segment = textbuffer_new(NULL);
-//    segment->head = head;
-//    segment->size = newSize;
-//
-//    return segment;
-//}
 
 /**
  * Remove lines `from` through `to` inclusive from textbuffer `tb`.
@@ -454,11 +438,12 @@ void textbuffer_delete(Textbuffer tb, size_t from, size_t to) {
  * @param match	the string to match on
  * @param rev	search for the previous matching term.
  */
-ssize_t textbuffer_search(const Textbuffer tb, const char *match, bool rev) {
+ssize_t textbuffer_search(Textbuffer tb, char *match, bool rev) {
+    if (strlen(match) == 0) return -1;
     if (!rev) {
         // Go from HEAD to TAIL
         size_t lineCount = 0;
-        for (TextbufferLine cursor = tb->head; cursor != NULL; cursor = cursor->next) {
+        for (TextbufferLine cursor = tb->head; cursor != NULL; cursor = cursor->next, lineCount++) {
             if (strstr(cursor->data, match)) {
                 return (ssize_t) lineCount;
             }
@@ -468,7 +453,7 @@ ssize_t textbuffer_search(const Textbuffer tb, const char *match, bool rev) {
         TextbufferLine cursor;
         for (cursor = tb->head; cursor && cursor->next; cursor = cursor->next);
         size_t lineCount = tb->size - 1;
-        for (; cursor != NULL; cursor = cursor->prev) {
+        for (; cursor != NULL; cursor = cursor->prev, lineCount--) {
             if (strstr(cursor->data, match)) {
                 return (ssize_t) lineCount;
             }
@@ -480,8 +465,10 @@ ssize_t textbuffer_search(const Textbuffer tb, const char *match, bool rev) {
 
 
 static void textbuffer_line_replace(TextbufferLine line, const char *match, const char *replace) {
-    size_t sizeReplace = strlen(replace);
+    if (strlen(match) == 0) return;
+
     size_t sizeMatch = strlen(match);
+    size_t sizeReplace = strlen(replace);
 
     int sizeDifference = (int) (sizeReplace - sizeMatch);
 
@@ -493,6 +480,7 @@ static void textbuffer_line_replace(TextbufferLine line, const char *match, cons
 
     char *token;
     while ((token = strstr(lineCursor, match)) != NULL) {
+        size_t offset = (size_t)(token - lineCursor);
         if (sizeDifference != 0) {
             int cursorOffset = newLineCursor - newLine;
             newLine = realloc(newLine, (newLine_len = (size_t)((int) newLine_len + sizeDifference)));
@@ -500,34 +488,180 @@ static void textbuffer_line_replace(TextbufferLine line, const char *match, cons
         }
 
         // Copy everything before the matched string
-        size_t offset = (size_t)(token - lineCursor);
         strncpy(newLineCursor, lineCursor, offset);
 
         // Copy the replacement string, growing/shrinking memory for newLine if necessary.
         strncpy(newLineCursor + offset, replace, sizeReplace);
 
-        lineCursor += sizeMatch;
+        lineCursor += offset + sizeMatch;
+        newLineCursor += offset + sizeReplace;
     }
 
+    strcpy(newLineCursor, lineCursor);
+
     line->size = newLine_len - 1;
+
+    free(line->data);
+    line->data = newLine;
 }
 
 /**
  * Search every line of `tb` for occurrences of `match`, and replace
  * them all with `replace`.
  */
-void textbuffer_replace(Textbuffer tb, const char *match, const char *replace) {
+void textbuffer_replace(Textbuffer tb, char *match, char *replace) {
     for (TextbufferLine cursor = tb->head; cursor != NULL; cursor = cursor->next) {
         textbuffer_line_replace(cursor, match, replace);
     }
 }
 
 /* Challenge Part */
+static void history_initHistory() {
+    History = malloc(sizeof(*History));
+    (*History) = (struct _historyContainer) {
+            .items = malloc(0),
+            .size = 0
+    };
+}
+
+static void history_addHistory(Textbuffer tb, const char *string) {
+    if (History == NULL) history_initHistory();
+    _HistoryKey key = history_getKey(tb);
+
+    key->records[key->_cursor++ % HISTORY_SIZE] = strdup(string);
+}
+
+static char *history_getHistory(Textbuffer tb) {
+    if (History == NULL) history_initHistory();
+    _HistoryKey key = history_getKey(tb);
+
+    key->_cursor = (key->_cursor - 1 % HISTORY_SIZE + HISTORY_SIZE) % HISTORY_SIZE;
+
+    char **data = &key->records[key->_cursor % HISTORY_SIZE];
+    char *res = strdup(*data);
+    free(*data);
+    *data = NULL;
+
+    return res;
+}
+
+static _HistoryKey history_getKey(Textbuffer tb) {
+    if (History == NULL) history_initHistory();
+
+    for (unsigned int i = 0; i < History->size; i++) {
+        if (History->items[i]->key == tb) return History->items[i];
+    }
+
+    History->items = realloc(History->items, (++History->size) * sizeof(_HistoryKey));
+    _HistoryKey *record = &History->items[History->size - 1];
+    *record = malloc(sizeof(struct _historyKey));
+
+    (**record) = (struct _historyKey) {
+            .key = tb,
+            .records = {NULL},
+            ._cursor = 0,
+    };
+
+    return *record;
+}
+
+/**
+ * CHALLENGE:
+ *
+ * Revert (up to) the ten most recently called operations on `tb`.
+ * Each time `textbuffer_undo` is called, one operation is reversed on
+ * `tb`; when the maximum number of reversible operations is reached,
+ * nothing is done.
+ *
+ * Applicable operations are:
+ *  - `textbuffer_swap`,
+ *  - `textbuffer_delete`,
+ *  - `textbuffer_insert`,
+ *  - `textbuffer_paste`, and
+ *  - `textbuffer_cut`.
+ */
+void textbuffer_undo(Textbuffer tb) {
+    char *lastVal = history_getHistory(tb);
+    Textbuffer oldTB = textbuffer_new(lastVal);
+    free(lastVal);
+    textbuffer_drop_head(tb);
+    tb->head = oldTB->head;
+    tb->size = oldTB->size;
+    free(oldTB);
+}
+
+/**
+ * CHALLENGE:
+ *
+ * Redo an operation that has been undone by `textbuffer_undo`.  This
+ * function should redo one operation per call; when a new operation is
+ * called on `tb`, previously-undone operations cannot be redone.
+ */
+void textbuffer_redo(Textbuffer tb) {
+    if (tb) 2;
+
+}
+
+
+/**
+ * CHALLENGE:
+ *
+ * Given two text files, we sometimes want to know what changes are made
+ * from one file to another file.  The function `textbuffer_diff` works
+ * out which lines of text have been added, removed, or modified from
+ * `tb1` to get `tb2`.  The returned string of the function is an edit
+ * script consisting of a series of add and delete commands.  Applying
+ * such commands on `tb1` in sequence should result in `tb2`.
+ *
+ * An edit solution should have one command per line to either add or
+ * delete a line of text at a specific line number.  An example is given
+ * below --
+ *
+ *     2+	add this line please
+ *     3-
+ *     12+	add this line as well please
+ *
+ * The first command adds a line of text 'add this line please' at line
+ * 2 of the textbuffer (counting from 0).  The existing line 2 is moved
+ * to line 3, and so on.  The second command deletes the line 3 of the
+ * textbuffer.  The last command adds the specified text at line 12 of
+ * the textbuffer.  The command and text are separated by a literal tab
+ * character.
+ *
+ * A mark is given if your solution is
+ *
+ * - Correct: applying your edit solution on `tb1` results in `tb2`; and
+ * - Compact: the size of your edit solution (i.e. number of lines) is
+ *   smaller than or equal to the size of our model solution (to avoid
+ *   trivial solutions that delete all lines in `tb1` then add all lines
+ *   of `tb2`)
+ */
+char *textbuffer_diff(Textbuffer tb1, Textbuffer tb2) {
+    if (tb1 && tb2) 0;
+}
 
 /* White box testing */
-void white_box_tests();
+void verifyLinks(Textbuffer tb) {
+    TextbufferLine curr = tb->head;
+    for (int i = 0; i < tb->size; curr=curr->next, i++) {
+           if (i != 0) {
+               assert(curr->prev);
+               assert(curr == curr->prev->next);
+           }
+           if (curr < (tb->size-1)) {
+               assert(curr->next);
+               assert(curr == curr->next->prev);
+           }
+    }
+//    for (TextbufferLine curr = tb->head; curr; curr = curr->next) {
+//        if (curr->prev) assert(curr == curr->prev->next);
+//        if (curr->next) assert(curr == curr->next->prev);
+//    }
+}
 
-void white_box_tests() {
+
+void white_box_tests(void) {
+
 
 //    static bool test_textbuffer_empty() {
 //        puts("test_textbuffer_empty ::");
