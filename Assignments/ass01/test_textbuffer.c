@@ -785,35 +785,24 @@ int main(void) {
 
     // Challenge tests
     Textbuffer a = textbuffer_new("Hey\nthere\n");
-    Textbuffer ins = textbuffer_new("Andrew\n");
     printf("1. %s\n", textbuffer_to_str(a));
 
+    Textbuffer ins = textbuffer_new("Andrew\n");
     textbuffer_insert(a, 2, ins);
     printf("2. %s\n", textbuffer_to_str(a));
 
-    ins = textbuffer_new("Andrew\n");
-    textbuffer_insert(a, 2, ins);
-    printf("2. %s\n", textbuffer_to_str(a));
+    ins = textbuffer_new("Wong\n");
+    textbuffer_insert(a, 3, ins);
+    printf("3. %s\n", textbuffer_to_str(a));
 
-    ins = textbuffer_new("Andrasfew\n");
-    textbuffer_insert(a, 2, ins);
-    printf("2. %s\n", textbuffer_to_str(a));
-
-    ins = textbuffer_new("Anderwtrew\n");
-    textbuffer_insert(a, 2, ins);
-    printf("2. %s\n", textbuffer_to_str(a));
-
-    ins = textbuffer_new("An345drew\n");
-    textbuffer_insert(a, 2, ins);
-    printf("2. %s\n", textbuffer_to_str(a));
-
-    ins = textbuffer_new("Anddasrew\n");
-    textbuffer_insert(a, 2, ins);
+    textbuffer_undo(a);
     printf("2. %s\n", textbuffer_to_str(a));
 
     textbuffer_undo(a);
-    printf("3. %s\n", textbuffer_to_str(a));
+    printf("1. %s\n", textbuffer_to_str(a));
 
+    textbuffer_undo(a);
+    printf("1. %s\n", textbuffer_to_str(a));
 
 
     printf("\nAll tests passed!\n");

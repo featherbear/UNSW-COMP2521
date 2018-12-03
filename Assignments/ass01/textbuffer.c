@@ -35,19 +35,10 @@ static Textbuffer textbuffer_clone(Textbuffer tb);
 ///
 
 #define HISTORY_SIZE 10
-
-struct _historyKey {
-    Textbuffer key;
-    char *records[HISTORY_SIZE];
-    size_t _cursor;
-};
+struct _historyKey;
+struct _historyContainer;
 typedef struct _historyKey *_HistoryKey;
 
-struct _historyContainer {
-    _HistoryKey *items;
-    size_t size;
-};
-static struct _historyContainer *History;
 
 static void history_initHistory(void);
 
@@ -56,10 +47,11 @@ static void history_addHistory(Textbuffer tb, const char *string);
 static char *history_getHistory(Textbuffer tb);
 
 static _HistoryKey history_getKey(Textbuffer tb);
-
+static void history_dropKey(Textbuffer tb);
 ///
 
 void white_box_tests(void);
+
 void verifyLinks(Textbuffer tb);
 
 ///
@@ -157,6 +149,7 @@ static void textbuffer_drop_head(Textbuffer tb) {
  * It is an error to access the textbuffer after this.
  */
 void textbuffer_drop(Textbuffer tb) {
+    history_dropKey(tb);
     textbuffer_drop_head(tb);
     free(tb);
 }
@@ -299,7 +292,6 @@ void textbuffer_swap(Textbuffer tb, size_t pos1, size_t pos2) {
  * `textbuffer_drop()` on it.
  */
 void textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2) {
-    verifyLinks(tb1);
     if (tb1 == tb2 || tb2->head == NULL) return;
 
     char *history_str = textbuffer_to_str(tb1);
@@ -320,6 +312,7 @@ void textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2) {
         if (pos == textbuffer_lines(tb1)) {
             TextbufferLine tb1_tail = textbuffer_get_line(tb1, pos - 1);
             tb1_tail->next = tb2->head;
+            tb2->head->prev = tb1_tail;
         } else {
 
             TextbufferLine tb1_split = textbuffer_get_line(tb1, pos);
@@ -516,10 +509,25 @@ void textbuffer_replace(Textbuffer tb, char *match, char *replace) {
 }
 
 /* Challenge Part */
+
+struct _historyKey {
+    Textbuffer key;
+    char *records[HISTORY_SIZE];
+    size_t _cursor;
+
+    _HistoryKey next;
+};
+struct _historyContainer {
+    _HistoryKey items;
+    size_t size;
+};
+static struct _historyContainer *History;
+
+
 static void history_initHistory() {
     History = malloc(sizeof(*History));
     (*History) = (struct _historyContainer) {
-            .items = malloc(0),
+            .items = NULL,
             .size = 0
     };
 }
@@ -528,7 +536,10 @@ static void history_addHistory(Textbuffer tb, const char *string) {
     if (History == NULL) history_initHistory();
     _HistoryKey key = history_getKey(tb);
 
-    key->records[key->_cursor++ % HISTORY_SIZE] = strdup(string);
+    char **record = &key->records[key->_cursor];
+    if (*record) free(*record)
+    *record = strdup(string);
+    key->_cursor = (key->_cursor + 1) % HISTORY_SIZE;
 }
 
 static char *history_getHistory(Textbuffer tb) {
@@ -538,31 +549,59 @@ static char *history_getHistory(Textbuffer tb) {
     key->_cursor = (key->_cursor - 1 % HISTORY_SIZE + HISTORY_SIZE) % HISTORY_SIZE;
 
     char **data = &key->records[key->_cursor % HISTORY_SIZE];
-    char *res = strdup(*data);
-    free(*data);
-    *data = NULL;
+    if (*data) {
+        char *res = strdup(*data);
+        free(*data);
+        *data = NULL;
 
-    return res;
+        return res;
+    }
+    return NULL;
 }
 
 static _HistoryKey history_getKey(Textbuffer tb) {
     if (History == NULL) history_initHistory();
 
-    for (unsigned int i = 0; i < History->size; i++) {
-        if (History->items[i]->key == tb) return History->items[i];
+    _HistoryKey *item = &History->items;
+    while (*item) {
+        if ((*item)->key == tb) return *item;
+        if ((*item)->next == NULL) break;
+        *item = (*item)->next;
     }
 
-    History->items = realloc(History->items, (++History->size) * sizeof(_HistoryKey));
-    _HistoryKey *record = &History->items[History->size - 1];
-    *record = malloc(sizeof(struct _historyKey));
+    *item = malloc(sizeof(struct _historyKey));
 
-    (**record) = (struct _historyKey) {
+    (**item) = (struct _historyKey) {
             .key = tb,
             .records = {NULL},
             ._cursor = 0,
+            .next = NULL
     };
 
-    return *record;
+    return *item;
+}
+
+static void history_dropKey(Textbuffer tb) {
+    if (History == NULL) history_initHistory();
+
+    _HistoryKey prev = NULL;
+    for (_HistoryKey item = History->items; item; item = item->next) {
+        if (item->key == tb) {
+            if (prev) prev->next = item->next;
+            if (History->items == item) {
+                History->items = item->next;
+            }
+
+            char **record = item->records;
+            for (int i = 0; i < HISTORY_SIZE; i++) {
+                if (record[i]) free(record[i]);
+            }
+
+            free(item);
+            return;
+        }
+        prev = item;
+    }
 }
 
 /**
@@ -582,12 +621,14 @@ static _HistoryKey history_getKey(Textbuffer tb) {
  */
 void textbuffer_undo(Textbuffer tb) {
     char *lastVal = history_getHistory(tb);
-    Textbuffer oldTB = textbuffer_new(lastVal);
-    free(lastVal);
-    textbuffer_drop_head(tb);
-    tb->head = oldTB->head;
-    tb->size = oldTB->size;
-    free(oldTB);
+    if (lastVal) {
+        Textbuffer oldTB = textbuffer_new(lastVal);
+        free(lastVal);
+        textbuffer_drop_head(tb);
+        tb->head = oldTB->head;
+        tb->size = oldTB->size;
+        free(oldTB);
+    }
 }
 
 /**
@@ -643,15 +684,16 @@ char *textbuffer_diff(Textbuffer tb1, Textbuffer tb2) {
 /* White box testing */
 void verifyLinks(Textbuffer tb) {
     TextbufferLine curr = tb->head;
-    for (int i = 0; i < tb->size; curr=curr->next, i++) {
-           if (i != 0) {
-               assert(curr->prev);
-               assert(curr == curr->prev->next);
-           }
-           if (curr < (tb->size-1)) {
-               assert(curr->next);
-               assert(curr == curr->next->prev);
-           }
+    for (int i = 0; i < tb->size; curr = curr->next, i++) {
+        if (i != 0) {
+            assert(curr->prev);
+            assert(curr == curr->prev->next);
+        }
+
+        if (curr < (tb->size - 1)) {
+            assert(curr->next);
+            assert(curr == curr->next->prev);
+        }
     }
 //    for (TextbufferLine curr = tb->head; curr; curr = curr->next) {
 //        if (curr->prev) assert(curr == curr->prev->next);
@@ -661,13 +703,4 @@ void verifyLinks(Textbuffer tb) {
 
 
 void white_box_tests(void) {
-
-
-//    static bool test_textbuffer_empty() {
-//        puts("test_textbuffer_empty ::");
-//        printf("  create textbuffer"); Textbuffer tb = textbuffer_new(NULL); printOK();
-//        printf("  check tb->head == NULL"); assert(tb->head == NULL); printOK();
-//        printf("  check tb->size == 0"); assert(tb->size == 0); printOK();
-//        return true;
-//    }
 }
