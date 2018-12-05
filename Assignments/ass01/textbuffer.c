@@ -6,6 +6,10 @@
 #include "textbuffer.h"
 #include <stdio.h>
 #include <assert.h>
+#include <stdbool.h>
+
+#define VERIFY 1
+#define doVerify(tb) if (VERIFY) verifyLinks(tb)
 
 typedef struct textbuffer_line *TextbufferLine;
 struct textbuffer_line {
@@ -42,12 +46,16 @@ typedef struct _historyKey *_HistoryKey;
 
 static void history_initHistory(void);
 
-static void history_addHistory(Textbuffer tb, const char *string);
+static void history_addHistory(Textbuffer tb, const char *string, bool clearRedo);
 
 static char *history_getHistory(Textbuffer tb);
 
 static _HistoryKey history_getKey(Textbuffer tb);
 static void history_dropKey(Textbuffer tb);
+
+static void history_clearRedo_by_key(_HistoryKey key);
+static char *history_getRedo(Textbuffer tb);
+static void history_addRedo(Textbuffer tb, const char* string);
 ///
 
 void white_box_tests(void);
@@ -226,8 +234,11 @@ static TextbufferLine textbuffer_get_line(Textbuffer tb, size_t lineNo) {
  * should manipulate your linked data structure.
  */
 void textbuffer_swap(Textbuffer tb, size_t pos1, size_t pos2) {
-    TextbufferLine line1 = textbuffer_get_line(tb, pos1);
-    TextbufferLine line2 = textbuffer_get_line(tb, pos2);
+    size_t _from = pos1 < pos2 ? pos1 : pos2;
+    size_t _to   = pos1 > pos2 ? pos1 : pos2;
+
+    TextbufferLine line1 = textbuffer_get_line(tb, _from);
+    TextbufferLine line2 = textbuffer_get_line(tb, _to);
 
     if (!line1 || !line2) {
         fprintf(stderr, "Line index out of range!\n");
@@ -237,7 +248,7 @@ void textbuffer_swap(Textbuffer tb, size_t pos1, size_t pos2) {
     if (line1 == line2) return; // Silently fail if lines are the same (skip)
 
     char *history_str = textbuffer_to_str(tb);
-    history_addHistory(tb, history_str);
+    history_addHistory(tb, history_str, true);
     free(history_str);
 
     TextbufferLine line1_prev, line1_next, line2_prev, line2_next;
@@ -252,31 +263,47 @@ void textbuffer_swap(Textbuffer tb, size_t pos1, size_t pos2) {
         tb->head = line1;
     }
 
-    line2->prev = line1_prev;
-    if (line1_prev) line1_prev->next = line2;
+    if (line1_next == line2) {
+//        printf("Adjacent match\n");
+    
+        line2->next = line1;
+        line1->prev = line2;
+        
+        line2->prev = line1_prev;
+        if (line1_prev) line1_prev->next = line2;
 
-    line2->next = line1_next;
-    if (line1_next) line1_next->prev = line2;
+        line1->next = line2_next;
+        if (line2_next) line2_next->prev = line1;    
+    } else {
+        line2->prev = line1_prev;
+        if (line1_prev) line1_prev->next = line2;
 
-    line1->prev = line2_prev;
-    if (line2_prev) line2_prev->next = line1;
+        line2->next = line1_next;
+        if (line1_next) line1_next->prev = line2;
 
-    line1->next = line2_next;
-    if (line2_next) line2_next->prev = line1;
+        line1->prev = line2_prev;
+        if (line2_prev) line2_prev->next = line1;
+
+        line1->next = line2_next;
+        if (line2_next) line2_next->prev = line1;
+    }
+
+
+
+
+/*
+
 
     if (line1_next == line2) {
+        printf("ADJACENT\n");
         line1->next = line2_next;
         if (line2_next) line2_next->prev = line1;
 
         line2->next = line1;
         line1->prev = line2;
-    } else if (line2_next == line1) {
-        line2->next = line1_next;
-        if (line1_next) line1_next->prev = line2;
-
-        line1->next = line2;
-        line2->prev = line1;
     }
+    */
+    doVerify(tb);
 }
 //
 /**
@@ -295,7 +322,7 @@ void textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2) {
     if (tb1 == tb2 || tb2->head == NULL) return;
 
     char *history_str = textbuffer_to_str(tb1);
-    history_addHistory(tb1, history_str);
+    history_addHistory(tb1, history_str, true);
     free(history_str);
 
     if (tb1->head == NULL) {
@@ -332,6 +359,7 @@ void textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2) {
 
     tb1->size += tb2->size;
     free(tb2); // free to clear the `size` data of tb2
+    doVerify(tb1);
 }
 
 static Textbuffer textbuffer_clone(Textbuffer tb) {
@@ -364,8 +392,11 @@ void textbuffer_paste(Textbuffer tb1, size_t pos, const Textbuffer tb2) {
  * `abort()` with an error message.
  */
 Textbuffer textbuffer_cut(Textbuffer tb, size_t from, size_t to) {
-    TextbufferLine lineFrom = textbuffer_get_line(tb, from);
-    TextbufferLine lineTo = textbuffer_get_line(tb, to);
+    size_t _from = from < to ? from : to;
+    size_t _to   = from > to ? from : to;
+
+    TextbufferLine lineFrom = textbuffer_get_line(tb, _from);
+    TextbufferLine lineTo = textbuffer_get_line(tb, _to);
 
     if (!lineFrom || !lineTo) {
         fprintf(stderr, "Line index out of range!\n");
@@ -373,7 +404,7 @@ Textbuffer textbuffer_cut(Textbuffer tb, size_t from, size_t to) {
     }
 
     char *history_str = textbuffer_to_str(tb);
-    history_addHistory(tb, history_str);
+    history_addHistory(tb, history_str, true);
     free(history_str);
 
     if (lineFrom->prev == NULL) {
@@ -514,6 +545,9 @@ struct _historyKey {
     Textbuffer key;
     char *records[HISTORY_SIZE];
     size_t _cursor;
+    
+    char *redoItems[HISTORY_SIZE]; 
+    size_t _redoItems_count;
 
     _HistoryKey next;
 };
@@ -532,14 +566,46 @@ static void history_initHistory() {
     };
 }
 
-static void history_addHistory(Textbuffer tb, const char *string) {
+static void history_addHistory(Textbuffer tb, const char *string, bool clearRedo) {
     if (History == NULL) history_initHistory();
     _HistoryKey key = history_getKey(tb);
 
     char **record = &key->records[key->_cursor];
-    if (*record) free(*record)
+    if (*record) free(*record);
     *record = strdup(string);
     key->_cursor = (key->_cursor + 1) % HISTORY_SIZE;
+    
+    if (clearRedo) history_clearRedo_by_key(key);
+}
+
+static void history_clearRedo_by_key(_HistoryKey key) {
+    while (key->_redoItems_count) {
+        free(key->redoItems[--key->_redoItems_count]);
+    };
+    assert(key->_redoItems_count == 0);
+}
+
+static void history_addRedo(Textbuffer tb, const char* string) {
+    if (History == NULL) history_initHistory();
+    _HistoryKey key = history_getKey(tb);
+    
+    // assert(key->_redoItems_count < 10);
+    key->redoItems[key->_redoItems_count++] = strdup(string);
+}
+
+static char *history_getRedo(Textbuffer tb) {
+    if (History == NULL) history_initHistory();
+    _HistoryKey key = history_getKey(tb);
+    
+    if (key->_redoItems_count) {
+        char **data = &key->redoItems[--key->_redoItems_count];
+        char *res = strdup(*data);
+        free(*data);
+        
+        return res;
+    }
+    
+    return NULL;
 }
 
 static char *history_getHistory(Textbuffer tb) {
@@ -559,6 +625,7 @@ static char *history_getHistory(Textbuffer tb) {
     return NULL;
 }
 
+
 static _HistoryKey history_getKey(Textbuffer tb) {
     if (History == NULL) history_initHistory();
 
@@ -575,11 +642,15 @@ static _HistoryKey history_getKey(Textbuffer tb) {
             .key = tb,
             .records = {NULL},
             ._cursor = 0,
-            .next = NULL
+            .next = NULL,
+            
+            .redoItems = {NULL},
+            ._redoItems_count = 0
     };
 
     return *item;
 }
+
 
 static void history_dropKey(Textbuffer tb) {
     if (History == NULL) history_initHistory();
@@ -597,6 +668,8 @@ static void history_dropKey(Textbuffer tb) {
                 if (record[i]) free(record[i]);
             }
 
+            history_clearRedo_by_key(item);
+            
             free(item);
             return;
         }
@@ -622,6 +695,11 @@ static void history_dropKey(Textbuffer tb) {
 void textbuffer_undo(Textbuffer tb) {
     char *lastVal = history_getHistory(tb);
     if (lastVal) {
+    
+        char* currVal = textbuffer_to_str(tb);
+        history_addRedo(tb, currVal);
+        free(currVal);
+        
         Textbuffer oldTB = textbuffer_new(lastVal);
         free(lastVal);
         textbuffer_drop_head(tb);
@@ -639,7 +717,19 @@ void textbuffer_undo(Textbuffer tb) {
  * called on `tb`, previously-undone operations cannot be redone.
  */
 void textbuffer_redo(Textbuffer tb) {
-    if (tb) 2;
+    char *lastVal = history_getRedo(tb);
+    if (lastVal) {
+        char* currVal = textbuffer_to_str(tb);
+        history_addHistory(tb, currVal, false);
+        free(currVal);
+    
+        Textbuffer oldTB = textbuffer_new(lastVal);
+        free(lastVal);
+        textbuffer_drop_head(tb);
+        tb->head = oldTB->head;
+        tb->size = oldTB->size;
+        free(oldTB);
+    }
 
 }
 
@@ -683,18 +773,25 @@ char *textbuffer_diff(Textbuffer tb1, Textbuffer tb2) {
 
 /* White box testing */
 void verifyLinks(Textbuffer tb) {
+//    printf("  Looking at tb: %p\n", tb);
     TextbufferLine curr = tb->head;
-    for (int i = 0; i < tb->size; curr = curr->next, i++) {
-        if (i != 0) {
+    for (unsigned int i = 0; i < tb->size; curr = curr->next, i++) {
+//        printf("%10p <- %10p -> %10p\n", curr->prev, curr, curr->next);
+        if (i == 0) {
+            assert(curr->prev == NULL);
+        } else {
             assert(curr->prev);
             assert(curr == curr->prev->next);
         }
 
-        if (curr < (tb->size - 1)) {
+        if (i == (tb->size - 1)) {
+            assert(curr->next == NULL);
+        } else {
             assert(curr->next);
             assert(curr == curr->next->prev);
         }
     }
+//    puts("");
 //    for (TextbufferLine curr = tb->head; curr; curr = curr->next) {
 //        if (curr->prev) assert(curr == curr->prev->next);
 //        if (curr->next) assert(curr == curr->next->prev);
