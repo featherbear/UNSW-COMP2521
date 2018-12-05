@@ -14,6 +14,7 @@
 
 static void test_empty_stack (void);
 static void test_one_item_stack (void);
+static void test_underflow (void);
 
 int main (void)
 {
@@ -23,6 +24,8 @@ int main (void)
 	test_one_item_stack ();
 
 	// add more tests of your own!
+
+//	test_underflow();
 
 	puts ("\nAll tests passed. You are awesome!");
 	return EXIT_SUCCESS;
@@ -48,4 +51,11 @@ static void test_one_item_stack (void)
 	assert (stack_size (s) == 0);
 
 	stack_drop (s);
+}
+
+static void test_underflow(void)
+{
+	Stack s = stack_new ();
+	assert (stack_size (s) == 0);
+	assert (stack_pop (s) == 1);
 }

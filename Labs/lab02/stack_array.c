@@ -16,6 +16,8 @@
 
 #define DEFAULT_SIZE 10
 
+int max(int a, int b);
+
 typedef struct stack stack;
 
 struct stack {
@@ -44,7 +46,7 @@ stack *stack_new (void)
 void stack_drop (stack *s)
 {
 	assert (s != NULL);
-	free (s->items);
+	free (s->items); // only frees one
 	free (s);
 }
 
@@ -54,15 +56,32 @@ void stack_push (stack *s, Item it)
 	assert (s != NULL);
 	s->items[s->n_items] = it;
 	s->n_items++;
+
+	if (s->n_items == s->capacity) {
+		s->capacity = s->capacity + DEFAULT_SIZE;
+		s->items = realloc(s->items, s->capacity);
+	}
+
 	return;
 }
+
+int max(int a, int b) { return a > b ? a : b; }
 
 /** Remove an item from the top of a Stack. */
 Item stack_pop (stack *s)
 {
 	assert (s != NULL);
+	if (!s->n_items) {
+		fprintf(stderr, "stack underflow");
+		abort();
+	}
 	Item it = s->items[s->n_items - 1];
 	s->n_items--;
+
+	if (s->n_items < s->capacity/4) {
+		s->items = realloc(s->items, (unsigned int)max(s->capacity/2, DEFAULT_SIZE));
+	}
+
 	return it;
 }
 
@@ -75,5 +94,7 @@ size_t stack_size (stack *s)
 
 void white_box_tests (void)
 {
-	// ... you need to write these!
+
+
+
 }

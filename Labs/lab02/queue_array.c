@@ -22,6 +22,7 @@ struct queue {
 	size_t n_items;
 	size_t capacity;
 	Item *items;
+	size_t start;
 };
 
 /** Create a new, empty Stack.  $ O(1) $. */
@@ -30,7 +31,7 @@ queue *queue_new (void)
 	queue *new = malloc (sizeof *new);
 	if (new == NULL)
 		err (EX_OSERR, "couldn't allocate queue");
-	(*new) = (queue) { .n_items = 0, .capacity = DEFAULT_SIZE };
+	(*new) = (queue) { .n_items = 0, .capacity = DEFAULT_SIZE, .start = 0 };
 
 	new->items = calloc (DEFAULT_SIZE, sizeof(Item));
 	if (new->items == NULL)
@@ -54,7 +55,7 @@ void queue_en (queue *q, Item it)
 {
 	assert (q != NULL);
 	assert (q->n_items < q->capacity);
-	q->items[q->n_items++] = it;
+	q->items[q->start + q->n_items++] = it;
 }
 
 /** Remove an item from the front of a Queue.  $ O(n) $.
@@ -68,11 +69,15 @@ Item queue_de (queue *q)
 	}
 
 	// shift the elements across
-	Item it = q->items[0];
+	Item it = q->items[q->start];
 	q->n_items--;
-	for (size_t i = 0; i < q->n_items; i++)
-		q->items[i] = q->items[i + 1];
 
+	/*
+	for (size_t i = 0; i < q->n_items; i++)
+		q->items[q->start + i] = q->items[q->start + i + 1];
+*/
+
+	q->start++;
 	return it;
 }
 
@@ -85,5 +90,47 @@ size_t queue_size (queue *q)
 
 void white_box_tests (void)
 {
-	// ... you need to write these!
+	// Create queue
+	queue *q = queue_new();
+	assert(q);
+	assert(q->n_items == 0);
+	assert(q->start == 0);
+
+	// Enqueue
+	queue_en(q, 5);
+	assert(q->n_items == 1);
+	assert(q->start == 0);
+	assert(q->items[0] == 5);
+
+	queue_en(q, 2);
+	assert(q->n_items == 2);
+	assert(q->start == 0);
+	assert(q->items[0] == 5);
+	assert(q->items[1] == 2);
+
+	queue_en(q, 0);
+	assert(q->n_items == 3);
+	assert(q->start == 0);
+	assert(q->items[0] == 5);
+	assert(q->items[1] == 2);
+	assert(q->items[2] == 0);
+
+	assert(queue_de(q) == 5);
+	assert(q->n_items == 2);
+	assert(q->start == 1);
+	assert(q->items[1] == 2);
+	assert(q->items[2] == 0);
+
+	assert(queue_de(q) == 2);
+	assert(q->n_items == 1);
+	assert(q->start == 2);
+	assert(q->items[2] == 0);
+
+	queue_en(q, 6);
+	assert(q->n_items == 2);
+	assert(q->start == 2);
+	assert(q->items[2] == 0);
+	assert(q->items[3] == 6);
+
+	queue_drop(q);
 }

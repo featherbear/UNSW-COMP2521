@@ -42,8 +42,11 @@ queue *queue_new (void)
 void queue_drop (queue *q)
 {
 	assert (q != NULL);
-	for (queue_node *curr = q->head; curr != NULL; curr = curr->next)
+	for (queue_node *curr = q->head; curr != NULL;) {
+		queue_node *next = curr->next;
 		free (curr);
+		curr = next;
+	}
     free (q);
 }
 
@@ -53,21 +56,30 @@ void queue_en (queue *q, Item it)
 {
 	queue_node *node = queue_node_new (it);
 	if (q->head != NULL) {
-		q->head->next = node;
+		q->tail->next = node;
 	} else {
-		q->tail = node;
+		q->head = node;
 	}
-	q->head = node;
+
+	q->tail = node;
+	q->n_items++;
 }
 
 /** Remove an item from the front of a Queue.
  * Sometimes referred to as "dequeue" or "shift". */
 Item queue_de (queue *q)
 {
+	assert (q != NULL);
+
+	if (q->n_items == 0) {
+		fprintf (stderr, "queue underflow!\n");
+		abort();
+	}
 	Item it = q->head->item;
 	queue_node *del = q->head;
 	q->head = q->head->next;
 	free (del);
+	q->n_items--;
 	return it;
 }
 
@@ -88,5 +100,40 @@ static queue_node *queue_node_new (Item it)
 
 void white_box_tests (void)
 {
-	// ... you need to write these!
+	// Create queue
+	queue *q = queue_new();
+	assert(q);
+	assert(q->n_items == 0);
+	assert(q->head == NULL);
+	assert(q->tail == NULL);
+
+	// Enqueue
+	queue_en(q, 5);
+	assert(q->n_items == 1);
+	assert(q->head == q->tail);
+	assert(q->head->item == 5);
+
+	queue_en(q, 2);
+	assert(q->n_items == 2);
+	assert(q->head->next == q->tail);
+	assert(q->head->item == 5);
+	assert(q->tail->item == 2);
+
+	queue_en(q, 0);
+	assert(q->n_items == 3);
+	assert(q->head->next->next == q->tail);
+	assert(q->head->item == 5);
+	assert(q->head->next->item == 2);
+	assert(q->tail->item == 0);
+
+	assert(queue_de(q) == 5);
+	assert(q->head->item == 2);
+	assert(q->head->next->item == 0);
+	assert(q->tail->item == 0);
+
+	assert(queue_de(q) == 2);
+	assert(q->head == q->tail);
+	assert(q->head->item == 0);
+
+	queue_drop(q);
 }
