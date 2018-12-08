@@ -288,21 +288,6 @@ void textbuffer_swap(Textbuffer tb, size_t pos1, size_t pos2) {
         if (line2_next) line2_next->prev = line1;
     }
 
-
-
-
-/*
-
-
-    if (line1_next == line2) {
-        printf("ADJACENT\n");
-        line1->next = line2_next;
-        if (line2_next) line2_next->prev = line1;
-
-        line2->next = line1;
-        line1->prev = line2;
-    }
-    */
     doVerify(tb);
 }
 //
@@ -358,12 +343,16 @@ void textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2) {
     }
 
     tb1->size += tb2->size;
+    history_dropKey(tb2);
     free(tb2); // free to clear the `size` data of tb2
     doVerify(tb1);
 }
 
 static Textbuffer textbuffer_clone(Textbuffer tb) {
-    return textbuffer_new(textbuffer_to_str(tb));
+    char *string = textbuffer_to_str(tb);
+    Textbuffer tb_new = textbuffer_new(string);
+    free(string);
+    return tb_new;
 }
 
 /**
@@ -392,11 +381,10 @@ void textbuffer_paste(Textbuffer tb1, size_t pos, const Textbuffer tb2) {
  * `abort()` with an error message.
  */
 Textbuffer textbuffer_cut(Textbuffer tb, size_t from, size_t to) {
-    size_t _from = from < to ? from : to;
-    size_t _to   = from > to ? from : to;
+    if (from > to) return NULL;
 
-    TextbufferLine lineFrom = textbuffer_get_line(tb, _from);
-    TextbufferLine lineTo = textbuffer_get_line(tb, _to);
+    TextbufferLine lineFrom = textbuffer_get_line(tb, from);
+    TextbufferLine lineTo = textbuffer_get_line(tb, to);
 
     if (!lineFrom || !lineTo) {
         fprintf(stderr, "Line index out of range!\n");
@@ -439,7 +427,7 @@ Textbuffer textbuffer_cut(Textbuffer tb, size_t from, size_t to) {
 Textbuffer textbuffer_copy(const Textbuffer tb, size_t from, size_t to) {
     Textbuffer tb_clone = textbuffer_clone(tb);
     Textbuffer segment = textbuffer_cut(tb_clone, from, to);
-    free(tb_clone); // free-ing just the `struct textbuffer`, and not the elements within
+    textbuffer_drop(tb_clone);
     return segment;
 }
 
@@ -553,7 +541,7 @@ struct _historyKey {
 };
 struct _historyContainer {
     _HistoryKey items;
-    size_t size;
+//    size_t size;
 };
 static struct _historyContainer *History;
 
@@ -562,7 +550,7 @@ static void history_initHistory() {
     History = malloc(sizeof(*History));
     (*History) = (struct _historyContainer) {
             .items = NULL,
-            .size = 0
+//            .size = 0
     };
 }
 
@@ -609,8 +597,8 @@ static char *history_getRedo(Textbuffer tb) {
 }
 
 static char *history_getHistory(Textbuffer tb) {
-    if (History == NULL) history_initHistory();
     _HistoryKey key = history_getKey(tb);
+    if (!key) return NULL;
 
     key->_cursor = (key->_cursor - 1 % HISTORY_SIZE + HISTORY_SIZE) % HISTORY_SIZE;
 
@@ -653,7 +641,8 @@ static _HistoryKey history_getKey(Textbuffer tb) {
 
 
 static void history_dropKey(Textbuffer tb) {
-    if (History == NULL) history_initHistory();
+    if (!History) return;
+    printf("Dropping key %p\n", tb);
 
     _HistoryKey prev = NULL;
     for (_HistoryKey item = History->items; item; item = item->next) {
@@ -674,6 +663,11 @@ static void history_dropKey(Textbuffer tb) {
             return;
         }
         prev = item;
+    }
+    if (!History->items) {
+        assert(History->items == NULL);
+        free(History);
+        History = NULL;
     }
 }
 
@@ -768,7 +762,7 @@ void textbuffer_redo(Textbuffer tb) {
  *   of `tb2`)
  */
 char *textbuffer_diff(Textbuffer tb1, Textbuffer tb2) {
-    if (tb1 && tb2) 0;
+    return (tb1 && tb2) ? NULL : NULL;
 }
 
 /* White box testing */
@@ -791,13 +785,8 @@ void verifyLinks(Textbuffer tb) {
             assert(curr == curr->next->prev);
         }
     }
-//    puts("");
-//    for (TextbufferLine curr = tb->head; curr; curr = curr->next) {
-//        if (curr->prev) assert(curr == curr->prev->next);
-//        if (curr->next) assert(curr == curr->next->prev);
-//    }
 }
 
-
 void white_box_tests(void) {
+
 }
