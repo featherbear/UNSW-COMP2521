@@ -265,7 +265,7 @@ void textbuffer_swap(Textbuffer tb, size_t pos1, size_t pos2) {
 
     if (line1_next == line2) {
 //        printf("Adjacent match\n");
-    
+
         line2->next = line1;
         line1->prev = line2;
         
@@ -381,10 +381,11 @@ void textbuffer_paste(Textbuffer tb1, size_t pos, const Textbuffer tb2) {
  * `abort()` with an error message.
  */
 Textbuffer textbuffer_cut(Textbuffer tb, size_t from, size_t to) {
-    if (from > to) return NULL;
+    size_t _from = from < to ? from : to;
+    size_t _to   = from > to ? from : to;
 
-    TextbufferLine lineFrom = textbuffer_get_line(tb, from);
-    TextbufferLine lineTo = textbuffer_get_line(tb, to);
+    TextbufferLine lineFrom = textbuffer_get_line(tb, _from);
+    TextbufferLine lineTo = textbuffer_get_line(tb, _to);
 
     if (!lineFrom || !lineTo) {
         fprintf(stderr, "Line index out of range!\n");

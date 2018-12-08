@@ -78,6 +78,15 @@ void test_replace__nothing(void);
 
 ///
 
+void test_compound__1(void);
+void test_compound__2(void);
+void test_compound__3(void);
+void test_compound__4(void);
+void test_compound__5(void);
+void test_compound__6(void);
+
+///
+
 void test_create(void);
 void test_swap(void);
 void test_swap_reverse(void);
@@ -93,12 +102,21 @@ void test_replace(void);
 
 ///
 
+void test_compound(void);
+
+///
+
+void test_history(void);
+void test_diff(void);
+
+///
+
 void test_create__emptyTextbuffer(void) {
     T("zero length textbuffer");
     A("new"); Textbuffer tb = textbuffer_new(NULL); O();
     A("lines"); assert(textbuffer_lines(tb) == 0); O();
     A("bytes"); assert(textbuffer_bytes(tb) == 0); O();
-    A("_to_str"); char *result = textbuffer_to_str(tb); assert(result == NULL); free(result); O();
+    A("_to_str"); char *result = textbuffer_to_str(tb); assert(result == NULL); O();
     A("drop"); textbuffer_drop(tb); O();
 }
 
@@ -351,8 +369,7 @@ void test_copy__one(void) {
     A("_lines (input)"); assert(textbuffer_lines(tb) == 5); O();
     A("_lines (segment)"); assert(textbuffer_lines(tb_segment) == 1); O();
     A("_to_str"); char *result = textbuffer_to_str(tb_segment); assert(strcmp(result, expectedOutput) == 0); free(result); O();
-    A("_drop (input)"); textbuffer_drop(tb); O();
-    A("_drop (segment)"); textbuffer_drop(tb_segment); O();
+    A("_drop"); textbuffer_drop(tb); textbuffer_drop(tb_segment); O();
 }
 
 void test_copy__many(void) {
@@ -364,8 +381,7 @@ void test_copy__many(void) {
     A("_lines (input)"); assert(textbuffer_lines(tb) == 5); O();
     A("_lines (segment)"); assert(textbuffer_lines(tb_segment) == 3); O();
     A("_to_str"); char *result = textbuffer_to_str(tb_segment); assert(strcmp(result, expectedOutput) == 0); free(result); O();
-    A("_drop (input)"); textbuffer_drop(tb); O();
-    A("_drop (segment)"); textbuffer_drop(tb_segment); O();
+    A("_drop"); textbuffer_drop(tb); textbuffer_drop(tb_segment); O();
 }
 
 void test_copy__all(void) {
@@ -376,8 +392,7 @@ void test_copy__all(void) {
     A("_lines (input)"); assert(textbuffer_lines(tb) == 5); O();
     A("_lines (segment)"); assert(textbuffer_lines(tb_segment) == 5); O();
     A("_to_str"); char *result = textbuffer_to_str(tb_segment); assert(strcmp(result, input) == 0); free(result); O();
-    A("_drop (input)"); textbuffer_drop(tb); O();
-    A("_drop (segment)"); textbuffer_drop(tb_segment); O();
+    A("_drop"); textbuffer_drop(tb); textbuffer_drop(tb_segment); O();
 }
 
 ///
@@ -391,8 +406,7 @@ void test_cut__one(void) {
     A("_lines (input)"); assert(textbuffer_lines(tb) == 4); O();
     A("_lines (segment)"); assert(textbuffer_lines(tb_segment) == 1); O();
     A("_to_str"); char *result = textbuffer_to_str(tb_segment); assert(strcmp(result, expectedOutput) == 0); free(result); O();
-    A("_drop (input)"); textbuffer_drop(tb); O();
-    A("_drop (segment)"); textbuffer_drop(tb_segment); O();
+    A("_drop"); textbuffer_drop(tb); textbuffer_drop(tb_segment); O();
 }
 
 void test_cut__many(void) {
@@ -404,8 +418,7 @@ void test_cut__many(void) {
     A("_lines (input)"); assert(textbuffer_lines(tb) == 2); O();
     A("_lines (segment)"); assert(textbuffer_lines(tb_segment) == 3); O();
     A("_to_str"); char *result = textbuffer_to_str(tb_segment); assert(strcmp(result, expectedOutput) == 0); free(result); O();
-    A("_drop (input)"); textbuffer_drop(tb); O();
-    A("_drop (segment)"); textbuffer_drop(tb_segment); O();
+    A("_drop"); textbuffer_drop(tb); textbuffer_drop(tb_segment); O();
 }
 
 void test_cut__all(void) {
@@ -416,8 +429,7 @@ void test_cut__all(void) {
     A("_lines (input)"); assert(textbuffer_lines(tb) == 0); O();
     A("_lines (segment)"); assert(textbuffer_lines(tb_segment) == 5); O();
     A("_to_str"); char *result = textbuffer_to_str(tb_segment); assert(strcmp(result, input) == 0); free(result); O();
-    A("_drop (input)"); textbuffer_drop(tb); O();
-    A("_drop (segment)"); textbuffer_drop(tb_segment); O();
+    A("_drop"); textbuffer_drop(tb); textbuffer_drop(tb_segment); O();
 }
 
 ///
@@ -466,7 +478,7 @@ void test_insert__insertHead(void) {
     A("_insert"); textbuffer_insert(tb, 0, tb_insert); O();
     A("_lines"); assert(textbuffer_lines(tb) == 5); O();
     A("_to_str"); char *result = textbuffer_to_str(tb); assert(strcmp(result, expectedOutput) == 0); free(result); O();
-    A("_drop (input)"); textbuffer_drop(tb); O();
+    A("_drop"); textbuffer_drop(tb); O();
 }
 
 void test_insert__insertBody(void) {
@@ -479,7 +491,7 @@ void test_insert__insertBody(void) {
     A("_insert"); textbuffer_insert(tb, 1, tb_insert); O();
     A("_lines"); assert(textbuffer_lines(tb) == 5); O();
     A("_to_str"); char *result = textbuffer_to_str(tb); assert(strcmp(result, expectedOutput) == 0); free(result); O();
-    A("_drop (input)"); textbuffer_drop(tb); O();
+    A("_drop"); textbuffer_drop(tb); O();
 }
 
 void test_insert__insertTail(void) {
@@ -492,7 +504,7 @@ void test_insert__insertTail(void) {
     A("_insert"); textbuffer_insert(tb, 4, tb_insert); O();
     A("_lines"); assert(textbuffer_lines(tb) == 5); O();
     A("_to_str"); char *result = textbuffer_to_str(tb); assert(strcmp(result, expectedOutput) == 0); free(result); O();
-    A("_drop (input)"); textbuffer_drop(tb); O();
+    A("_drop"); textbuffer_drop(tb); O();
 }
 
 void test_insert__insertBodyTwice(void) {
@@ -508,7 +520,7 @@ void test_insert__insertBodyTwice(void) {
     A("_insert 2"); textbuffer_insert(tb, 1, tb_insert2); O();
     A("_lines"); assert(textbuffer_lines(tb) == 5); O();
     A("_to_str"); char *result = textbuffer_to_str(tb); assert(strcmp(result, expectedOutput) == 0); free(result); O();
-    A("_drop (input)"); textbuffer_drop(tb); O();
+    A("_drop"); textbuffer_drop(tb); O();
 }
 
 ///
@@ -524,7 +536,7 @@ void test_paste__pasteHead(void) {
     A("_lines (input)"); assert(textbuffer_lines(tb) == 5); O();
     A("_lines (paste)"); assert(textbuffer_lines(tb_paste) == 1); O();
     A("_to_str"); char *result = textbuffer_to_str(tb); assert(strcmp(result, expectedOutput) == 0); free(result); O();
-    A("_drop (input)"); textbuffer_drop(tb); O();
+    A("_drop"); textbuffer_drop(tb); textbuffer_drop(tb_paste); O();
 }
 
 void test_paste__pasteBody(void) {
@@ -538,7 +550,7 @@ void test_paste__pasteBody(void) {
     A("_lines (input)"); assert(textbuffer_lines(tb) == 5); O();
     A("_lines (paste)"); assert(textbuffer_lines(tb_paste) == 1); O();
     A("_to_str"); char *result = textbuffer_to_str(tb); assert(strcmp(result, expectedOutput) == 0); free(result); O();
-    A("_drop (input)"); textbuffer_drop(tb); O();
+    A("_drop"); textbuffer_drop(tb); textbuffer_drop(tb_paste); O();
 }
 
 void test_paste__pasteTail(void) {
@@ -552,7 +564,7 @@ void test_paste__pasteTail(void) {
     A("_lines (input)"); assert(textbuffer_lines(tb) == 5); O();
     A("_lines (paste)"); assert(textbuffer_lines(tb_paste) == 1); O();
     A("_to_str"); char *result = textbuffer_to_str(tb); assert(strcmp(result, expectedOutput) == 0); free(result); O();
-    A("_drop (input)"); textbuffer_drop(tb); O();
+    A("_drop"); textbuffer_drop(tb); textbuffer_drop(tb_paste); O();
 }
 
 void test_paste__pasteBodyTwice(void) {
@@ -567,7 +579,7 @@ void test_paste__pasteBodyTwice(void) {
     A("_lines (input)"); assert(textbuffer_lines(tb) == 7); O();
     A("_lines (paste)"); assert(textbuffer_lines(tb_paste) == 1); O();
     A("_to_str"); char *result = textbuffer_to_str(tb); assert(strcmp(result, expectedOutput) == 0); free(result); O();
-    A("_drop (input)"); textbuffer_drop(tb); O();
+    A("_drop"); textbuffer_drop(tb); textbuffer_drop(tb_paste); O();
 }
 
 ///
@@ -681,6 +693,32 @@ void test_replace__nothing(void) {
 
 ///
 
+void test_compound__1(void) {
+
+}
+
+void test_compound__2(void) {
+
+}
+
+void test_compound__3(void) {
+
+}
+
+void test_compound__4(void) {
+
+}
+
+void test_compound__5(void) {
+
+}
+
+void test_compound__6(void) {
+
+}
+
+///
+
 void test_create(void) {
     test_create__emptyTextbuffer();
     test_create__singleLineTextbuffer();
@@ -766,9 +804,52 @@ void test_replace(void) {
 
 ///
 
+void test_compound(void) {
+    test_compound__1();
+    test_compound__2();
+    test_compound__3();
+    test_compound__4();
+    test_compound__5();
+    test_compound__6();
+}
+
+///
+
+void test_history(void) {
+    char *input = "Hey\nthere\n";
+    /* insert */ char *insert1 = "Andrew\n"; char *expected1 = "Hey\nthere\nAndrew\n";
+    /* insert */ char *insert2 = "Wong\n"; char *expected2 = "Hey\nthere\nAndrew\nWong\n";
+    /*  undo  */ char *expected3 = expected1;
+    /*  undo  */ char *expected4 = input;
+    /*  redo  */ char *expected5 = expected1;
+    /*  redo  */ char *expected6 = expected2;
+    char *result;
+    T("textbuffer check history undo/redo");
+    A("_new (input)"); Textbuffer tb = textbuffer_new(input); O();
+    A("_new (insert 1)"); Textbuffer tb_insert1 = textbuffer_new(insert1); O();
+    A("_new (insert 2)"); Textbuffer tb_insert2 = textbuffer_new(insert2); O();
+    A("_insert (1)"); textbuffer_insert(tb, 2, tb_insert1); O();
+    A("_to_str"); result = textbuffer_to_str(tb); assert(strcmp(result, expected1) == 0); free(result); O();
+    A("_insert (2)"); textbuffer_insert(tb, 3, tb_insert2); O();
+    A("_to_str"); result = textbuffer_to_str(tb); assert(strcmp(result, expected2) == 0); free(result); O();
+    A("_undo"); textbuffer_undo(tb); O();
+    A("_to_str"); result = textbuffer_to_str(tb); assert(strcmp(result, expected3) == 0); free(result); O();
+    A("_undo"); textbuffer_undo(tb); O();
+    A("_to_str"); result = textbuffer_to_str(tb); assert(strcmp(result, expected4) == 0); free(result); O();
+    A("_redo"); textbuffer_redo(tb); O();
+    A("_to_str"); result = textbuffer_to_str(tb); assert(strcmp(result, expected5) == 0); free(result); O();
+    A("_redo"); textbuffer_redo(tb); O();
+    A("_to_str"); result = textbuffer_to_str(tb); assert(strcmp(result, expected6) == 0); free(result); O();
+    A("_drop"); textbuffer_drop(tb); O();
+}
+
+void test_diff(void) {
+
+}
+
+///
+
 int main(void) {
-
-
     // Standard tests
     test_create();
     test_swap();
@@ -783,26 +864,12 @@ int main(void) {
     test_search_reverse();
     test_replace();
 
+    // Compound tests
+    test_compound();
+
     // Challenge tests
-    Textbuffer a = textbuffer_new("Hey\nthere\n");
-    printf("1. %s\n", textbuffer_to_str(a));
-
-    Textbuffer ins = textbuffer_new("Andrew\n");
-    textbuffer_insert(a, 2, ins);
-    printf("2. %s\n", textbuffer_to_str(a));
-
-    ins = textbuffer_new("Wong\n");
-    textbuffer_insert(a, 3, ins);
-    printf("3. %s\n", textbuffer_to_str(a));
-
-    textbuffer_undo(a);
-    printf("2. %s\n", textbuffer_to_str(a));
-
-    textbuffer_undo(a);
-    printf("1. %s\n", textbuffer_to_str(a));
-
-    textbuffer_undo(a);
-    printf("1. %s\n", textbuffer_to_str(a));
+    test_history();
+    test_diff();
 
 
     printf("\nAll tests passed!\n");
