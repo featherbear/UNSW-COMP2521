@@ -650,7 +650,7 @@ static void history_dropKey(Textbuffer tb) {
             history_clearRedo_by_key(item);
             
             free(item);
-            return;
+            break;
         }
         prev = item;
     }
