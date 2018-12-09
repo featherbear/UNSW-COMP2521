@@ -8,72 +8,67 @@
 #include <assert.h>
 #include <stdbool.h>
 
+/// TODO Delete me
 #define VERIFY 1
-#define doVerify(tb) if (VERIFY) verifyLinks(tb)
+#define doVerify(tb) if (VERIFY) _verifyLinks(tb)
+
+// Structure definitions
 
 typedef struct textbuffer_line *TextbufferLine;
 struct textbuffer_line {
-    size_t size;
-    char *data;
-    TextbufferLine prev;
-    TextbufferLine next;
+    size_t size;            // number of characters in .data; equivalent to strlen(3)
+    char *data;             // line data
+    TextbufferLine prev;    // previous line
+    TextbufferLine next;    // next line
 };
 
 struct textbuffer {
-    size_t size;
-    TextbufferLine head;
+    size_t size;            // number of lines
+    TextbufferLine head;    // first line
 };
 
-static TextbufferLine textbuffer_line_copy(TextbufferLine line);
+/// Helper function prototypes
 
 static TextbufferLine textbuffer_line_new(const char *text);
-
 static TextbufferLine textbuffer_get_line(Textbuffer tb, size_t lineNo);
-
 static void textbuffer_line_drop(TextbufferLine line);
-
 static void textbuffer_line_replace(TextbufferLine line, const char *match, const char *replace);
-
 static Textbuffer textbuffer_clone(Textbuffer tb);
 
-///
+/// Challenge: History structure definitions, function prototypes
 
 #define HISTORY_SIZE 10
 struct _historyKey;
 struct _historyContainer;
 typedef struct _historyKey *_HistoryKey;
 
-
 static void history_initHistory(void);
-
 static void history_addHistory(Textbuffer tb, const char *string, bool clearRedo);
-
 static char *history_getHistory(Textbuffer tb);
-
 static _HistoryKey history_getKey(Textbuffer tb);
 static void history_dropKey(Textbuffer tb);
-
 static void history_clearRedo_by_key(_HistoryKey key);
 static char *history_getRedo(Textbuffer tb);
-static void history_addRedo(Textbuffer tb, const char* string);
-///
+static void history_addRedo(Textbuffer tb, const char *string);
+static void history_saveTextbufferState(Textbuffer tb);
+
+/// White box test and helper function prototypes
 
 void white_box_tests(void);
-
-void verifyLinks(Textbuffer tb);
+static void _verifyLinks(Textbuffer tb);
 
 ///
 
-
-static TextbufferLine textbuffer_line_copy(TextbufferLine line) {
-    if (!line) return NULL;
-    return textbuffer_line_new(line->data);
-}
-
+/*
+ * textbuffer_line_new
+ *
+ * Creates a line node which contains `text`
+ */
 static TextbufferLine textbuffer_line_new(const char *text) {
-    // Assume that text does not end with a \n character.
+    // Return NULL if the input was empty
     if (!text) return NULL;
 
+    // Allocate memory and populate the textbuffer line node
     TextbufferLine line = malloc(sizeof(*line));
     (*line) = (struct textbuffer_line) {
             .size = strlen(text),
@@ -90,45 +85,47 @@ static TextbufferLine textbuffer_line_new(const char *text) {
  * text given in the array.  The lines in the input array are all
  * terminated by a `'\\n'`. The whole text is terminated by a `'\\0'`.
  */
-
 Textbuffer textbuffer_new(const char *text) {
+    // Note: Passing in a null pointer will return an empty textbuffer, rather than a NULL.
+
     size_t size = 0;
     TextbufferLine head = NULL;
 
     if (text != NULL) {
         TextbufferLine prev = NULL;
 
+        // Clone the input, and set up variables for iterating over tokens
         char *input = strdup(text);
-        char *EOL = input + strlen(text);
 
+        char *EOL = input + strlen(text);
         char *inputCursor = input;
         char *line;
+
+        // For each line, append a new instance of a TextbufferLine to the textbuffer
         while ((line = strsep(&inputCursor, "\n")) != NULL) {
-            // Create the single textbuffer instance
+            // Create a line node
             TextbufferLine tb_line = textbuffer_line_new(line);
 
-            // Update cursors
-            if (head == NULL) {
-                head = tb_line;
-            }
-
-            // Link instances
+            // Update links
+            if (head == NULL) head = tb_line;
             if (prev != NULL) {
                 prev->next = tb_line;
                 tb_line->prev = prev;
             }
-
             prev = tb_line;
 
+            // Increase the line count
             size++;
 
             // check if we've reached the end
             if (inputCursor == EOL) break;
         }
 
+        // Memory management
         free(input);
     }
 
+    // Create the Textbuffer, and attach the line nodes
     Textbuffer tb = malloc(sizeof(*tb));
     (*tb) = (struct textbuffer) {
             .head = head,
@@ -138,12 +135,20 @@ Textbuffer textbuffer_new(const char *text) {
     return tb;
 }
 
+/*
+ * textbuffer_line_drop
+ * Drops a line node
+ */
 static void textbuffer_line_drop(TextbufferLine line) {
     free(line->data);
     free(line);
 }
 
-static void textbuffer_drop_head(Textbuffer tb) {
+/*
+ * textbuffer_drop_lines
+ * Drops only the lines of a given textbuffer, but not drop the textbuffer itself
+ */
+static void textbuffer_drop_lines(Textbuffer tb) {
     TextbufferLine cursor = tb->head;
     while (cursor != NULL) {
         TextbufferLine next = cursor->next;
@@ -157,10 +162,12 @@ static void textbuffer_drop_head(Textbuffer tb) {
  * It is an error to access the textbuffer after this.
  */
 void textbuffer_drop(Textbuffer tb) {
+    // Fail silently if tb == NULL
     if (!tb) return;
 
+    // Drop data related to the textbuffer
     history_dropKey(tb);
-    textbuffer_drop_head(tb);
+    textbuffer_drop_lines(tb);
     free(tb);
 }
 
@@ -176,6 +183,7 @@ size_t textbuffer_lines(const Textbuffer tb) {
  * counting the newlines that would be needed.
  */
 size_t textbuffer_bytes(const Textbuffer tb) {
+    // Sum the size elements in the line nodes, adding an additional byte for the newline character
     size_t bytes = 0;
     for (TextbufferLine cursor = tb->head; cursor != NULL; cursor = cursor->next) {
         bytes += cursor->size + 1;
@@ -193,19 +201,19 @@ size_t textbuffer_bytes(const Textbuffer tb) {
  * It is the caller's responsibility to free the returned array.
  */
 char *textbuffer_to_str(const Textbuffer tb) {
+    // Check the number of bytes to allocate for the string
+    // Return NULL if the textbuffer is empty
     size_t bytes = textbuffer_bytes(tb);
-
-    // If the textbuffer has lines, then add one more byte for the string NULL terminator character
-    bytes = bytes ? bytes + 1 : 0;
-
     if (bytes == 0) return NULL;
 
+    // Allocate n+1 bytes (one extra byte for the null terminator)
     char *string = malloc(bytes + 1);
     if (string == NULL) {
         fprintf(stderr, "Could not allocate memory!\n");
         abort();
     }
 
+    // Concatenate the lines together
     char *stringCursor = string;
     for (TextbufferLine cursor = tb->head; cursor != NULL; cursor = cursor->next) {
         sprintf(stringCursor, "%s\n", cursor->data);
@@ -213,15 +221,19 @@ char *textbuffer_to_str(const Textbuffer tb) {
     }
 
     return string;
-
 }
 
+/*
+ * textbuffer_get_line
+ * Returns line number `lineNo` (0-based) of the textbuffer `tb`
+ */
 static TextbufferLine textbuffer_get_line(Textbuffer tb, size_t lineNo) {
-    //    if (lineNo < 0 || lineNo >= textbuffer_lines(tb)) return NULL;
-    // size_t is unsigned
     if (lineNo >= textbuffer_lines(tb)) return NULL;
+
+    // Step through the textbuffer until lineNo is reached
     TextbufferLine curr = tb->head;
     for (size_t i = 0; i < lineNo; i++) curr = curr->next;
+
     return curr;
 }
 
@@ -236,39 +248,44 @@ static TextbufferLine textbuffer_get_line(Textbuffer tb, size_t lineNo) {
  * should manipulate your linked data structure.
  */
 void textbuffer_swap(Textbuffer tb, size_t pos1, size_t pos2) {
+    // Sort pos1 and pos2 so that pos1 <= pos2
+    // Makes it simpler for adjacent line detection
     size_t _from = pos1 < pos2 ? pos1 : pos2;
-    size_t _to   = pos1 > pos2 ? pos1 : pos2;
+    size_t _to = pos1 > pos2 ? pos1 : pos2;
 
+    // Get the textbuffer lines to swap
     TextbufferLine line1 = textbuffer_get_line(tb, _from);
     TextbufferLine line2 = textbuffer_get_line(tb, _to);
-
     if (!line1 || !line2) {
         fprintf(stderr, "Line index out of range!\n");
         abort();
     }
 
-    if (line1 == line2) return; // Silently fail if lines are the same (skip)
+    // Skip if the lines are the same
+    if (line1 == line2) return;
 
-    char *history_str = textbuffer_to_str(tb);
-    history_addHistory(tb, history_str, true);
-    free(history_str);
+    // Save the current textbuffer content
+    history_saveTextbufferState(tb);
 
+    // Assign variables to hold the line nodes
     TextbufferLine line1_prev, line1_next, line2_prev, line2_next;
     line1_prev = line1->prev;
     line1_next = line1->next;
     line2_prev = line2->prev;
     line2_next = line2->next;
 
-    if (line1_prev == NULL) {
-        tb->head = line2;
-    }
+    // Reassign head if line1 was the head
+    if (line1_prev == NULL) tb->head = line2;
 
+    // Pointer reassignment magic
     line2->prev = line1_prev;
     line1->next = line2_next;
+
     if (line1_prev) line1_prev->next = line2;
     if (line2_next) line2_next->prev = line1;
 
     if (line1_next == line2) {
+        // If the lines are adjacent, make them point to each other, rather than their prev/next nodes
         line2->next = line1;
         line1->prev = line2;
     } else {
@@ -276,12 +293,9 @@ void textbuffer_swap(Textbuffer tb, size_t pos1, size_t pos2) {
         if (line1_next) line1_next->prev = line2;
         line1->prev = line2_prev;
         if (line2_prev) line2_prev->next = line1;
- 
     }
-
-    doVerify(tb);
 }
-//
+
 /**
  * Merge `tb2` into `tb1` at line `pos`.
  *
@@ -295,53 +309,72 @@ void textbuffer_swap(Textbuffer tb, size_t pos1, size_t pos2) {
  * `textbuffer_drop()` on it.
  */
 void textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2) {
-    if (tb1 == tb2 || tb2->head == NULL) return;
+    // Fail silently if the textbuffers are empty, or if `tb2` is empty
+    if (tb1 == tb2 || tb1->head == NULL || tb2->head == NULL) return;
 
-    char *history_str = textbuffer_to_str(tb1);
-    history_addHistory(tb1, history_str, true);
-    free(history_str);
+    // Save the current textbuffer content
+    history_saveTextbufferState(tb1);
 
     if (tb1->head == NULL) {
+        // If `tb1` is empty, change its head to point to `tb2` head
         tb1->head = tb2->head;
     } else {
+        // Find tail line node of `tb2`
         TextbufferLine tb2_tail;
         for (tb2_tail = tb2->head; tb2_tail && tb2_tail->next; tb2_tail = tb2_tail->next);
 
+        // Check that pos <= lines
         if (pos > textbuffer_lines(tb1)) {
             fprintf(stderr, "Line index out of range!\n");
             abort();
         }
 
         if (pos == textbuffer_lines(tb1)) {
+            // Append `tb2` to the end of `tb1`
             TextbufferLine tb1_tail = textbuffer_get_line(tb1, pos - 1);
             tb1_tail->next = tb2->head;
             tb2->head->prev = tb1_tail;
         } else {
+            // Insert `tb2` into `tb1` and update links
 
+            // Find lines to insert between
             TextbufferLine tb1_split = textbuffer_get_line(tb1, pos);
             TextbufferLine tb1_split_prev = tb1_split->prev;
 
+            // Update links for the start of `tb2`
             if (tb1_split_prev) {
                 tb1_split_prev->next = tb2->head;
             } else {
                 tb1->head = tb2->head;
             }
 
+            // Update links for the end of `tb2`
             tb2->head->prev = tb1_split_prev;
             tb2_tail->next = tb1_split;
             tb1_split->prev = tb2_tail;
         }
     }
 
+    // Update the line count of `tb1`
     tb1->size += tb2->size;
+
+    // Memory management
     history_dropKey(tb2);
-    free(tb2); // free to clear the `size` data of tb2
-    doVerify(tb1);
+    free(tb2);
 }
 
+/*
+ * textbuffer_clone
+ * Create a deep copy of a textbuffer
+ *
+ * Instead of actually stepping through each line node and malloc'ing, strdup'ing, etc
+ * This function creates a new Textbuffer from the textbuffer_to_str function
+ */
 static Textbuffer textbuffer_clone(Textbuffer tb) {
     char *string = textbuffer_to_str(tb);
+
     Textbuffer tb_new = textbuffer_new(string);
+
     free(string);
     return tb_new;
 }
@@ -358,7 +391,10 @@ static Textbuffer textbuffer_clone(Textbuffer tb) {
  * `tb2` is unmodified and remains usable independent of `tb1`.
  */
 void textbuffer_paste(Textbuffer tb1, size_t pos, const Textbuffer tb2) {
+    // Clone tb2 so that tb2 can still be used
     Textbuffer tb2_clone = textbuffer_clone(tb2);
+
+    // Insert the clone into tb1
     textbuffer_insert(tb1, pos, tb2_clone);
 }
 
@@ -372,8 +408,10 @@ void textbuffer_paste(Textbuffer tb1, size_t pos, const Textbuffer tb2) {
  * `abort()` with an error message.
  */
 Textbuffer textbuffer_cut(Textbuffer tb, size_t from, size_t to) {
+    // Fail silently if from > to
     if (from > to) return NULL;
 
+    // Get the textbuffer lines
     TextbufferLine lineFrom = textbuffer_get_line(tb, from);
     TextbufferLine lineTo = textbuffer_get_line(tb, to);
 
@@ -382,10 +420,10 @@ Textbuffer textbuffer_cut(Textbuffer tb, size_t from, size_t to) {
         abort();
     }
 
-    char *history_str = textbuffer_to_str(tb);
-    history_addHistory(tb, history_str, true);
-    free(history_str);
+    // Save the current textbuffer content
+    history_saveTextbufferState(tb);
 
+    // Update links of the textbuffer
     if (lineFrom->prev == NULL) {
         tb->head = lineTo->next;
         if (tb->head) tb->head->prev = NULL;
@@ -394,15 +432,19 @@ Textbuffer textbuffer_cut(Textbuffer tb, size_t from, size_t to) {
         if (lineTo->next) lineTo->next->prev = lineFrom->prev;
     }
 
+    // Unlink the extracted lines from adjacent line nodes
     lineFrom->prev = NULL;
     lineTo->next = NULL;
 
+    // Calculate the number of extracted lines
     size_t newSize = to - from + 1;
 
+    // Create and populate the new textbuffer
     Textbuffer segment = textbuffer_new(NULL);
     segment->head = lineFrom;
     segment->size = newSize;
 
+    // Decrease the line count of the old textbuffer
     tb->size -= newSize;
 
     return segment;
@@ -416,8 +458,12 @@ Textbuffer textbuffer_cut(Textbuffer tb, size_t from, size_t to) {
  * `abort()` with an error message.
  */
 Textbuffer textbuffer_copy(const Textbuffer tb, size_t from, size_t to) {
+    // Clone `tb`  so that it can still be used
     Textbuffer tb_clone = textbuffer_clone(tb);
+
+    // Extract lines
     Textbuffer segment = textbuffer_cut(tb_clone, from, to);
+
     textbuffer_drop(tb_clone);
     return segment;
 }
@@ -429,6 +475,8 @@ Textbuffer textbuffer_copy(const Textbuffer tb, size_t from, size_t to) {
  * `abort()` with an error message.
  */
 void textbuffer_delete(Textbuffer tb, size_t from, size_t to) {
+    // textbuffer_cut removes lines from-to from tb, and returns a new textbuffer with the extracted lines
+    // These extracted lines are then dropped, as they are not needed
     textbuffer_drop(textbuffer_cut(tb, from, to));
 }
 
@@ -442,48 +490,70 @@ void textbuffer_delete(Textbuffer tb, size_t from, size_t to) {
  * @param rev	search for the previous matching term.
  */
 ssize_t textbuffer_search(Textbuffer tb, char *match, bool rev) {
+    // Fail if there is no search term
     if (strlen(match) == 0) return -1;
+
     if (!rev) {
-        // Go from HEAD to TAIL
+        // reverse = false ... search from HEAD to TAIL
+
+        // For each textbuffer line, check if that line contains the search term
         size_t lineCount = 0;
         for (TextbufferLine cursor = tb->head; cursor != NULL; cursor = cursor->next, lineCount++) {
             if (strstr(cursor->data, match)) {
+                // A match was found, return the current line number
                 return (ssize_t) lineCount;
             }
         }
     } else {
-        // Go from TAIL to HEAD
+        // reverse = true ... search from TAIL to HEAD
+
+        // Get the last line of the textbuffer
         TextbufferLine cursor;
         for (cursor = tb->head; cursor && cursor->next; cursor = cursor->next);
+
+        // For each textbuffer line, check if that line contains the search term
         size_t lineCount = tb->size - 1;
         for (; cursor != NULL; cursor = cursor->prev, lineCount--) {
             if (strstr(cursor->data, match)) {
+                // A match was found, return the current line number
                 return (ssize_t) lineCount;
             }
         }
     }
 
+    // No match found, fail
     return -1;
 }
 
 
+/*
+ * textbuffer_line_replace
+ * Replaces instances of `match` by copying characters up to and after the `match` position
+ */
 static void textbuffer_line_replace(TextbufferLine line, const char *match, const char *replace) {
+    // Fail if there is no search term
     if (strlen(match) == 0) return;
 
+    // Store the string lengths of the search and replacement strings
     size_t sizeMatch = strlen(match);
     size_t sizeReplace = strlen(replace);
 
+    // Calculate the length difference between the search and replacement strings (to efficiently allocate memory)
     int sizeDifference = (int) (sizeReplace - sizeMatch);
 
+    // Allocate memory and create pointers to the output line
     size_t newLine_len = line->size + 1;
     char *newLine = malloc(newLine_len);
     char *newLineCursor = newLine;
 
+    // For each match, perform a replacement
     char *lineCursor = line->data;
-
     char *token;
     while ((token = strstr(lineCursor, match)) != NULL) {
+        // Get position of the matched string
         size_t offset = (size_t)(token - lineCursor);
+
+        // If the length of the search and replacement strings differ, expand/truncate memory to fit
         if (sizeDifference != 0) {
             int cursorOffset = newLineCursor - newLine;
             newLine = realloc(newLine, (newLine_len = (size_t)((int) newLine_len + sizeDifference)));
@@ -496,14 +566,19 @@ static void textbuffer_line_replace(TextbufferLine line, const char *match, cons
         // Copy the replacement string, growing/shrinking memory for newLine if necessary.
         strncpy(newLineCursor + offset, replace, sizeReplace);
 
+        // Move cursors
         lineCursor += offset + sizeMatch;
         newLineCursor += offset + sizeReplace;
     }
 
+    // Copy the remaining characters of the input line
+    // This additional call is needed due to the nature of strsep(3)
     strcpy(newLineCursor, lineCursor);
 
+    // Remove the null terminating character from the character count
     line->size = newLine_len - 1;
 
+    // Memory management
     free(line->data);
     line->data = newLine;
 }
@@ -513,6 +588,7 @@ static void textbuffer_line_replace(TextbufferLine line, const char *match, cons
  * them all with `replace`.
  */
 void textbuffer_replace(Textbuffer tb, char *match, char *replace) {
+    // For each line, check for matches and replace
     for (TextbufferLine cursor = tb->head; cursor != NULL; cursor = cursor->next) {
         textbuffer_line_replace(cursor, match, replace);
     }
@@ -521,81 +597,139 @@ void textbuffer_replace(Textbuffer tb, char *match, char *replace) {
 /* Challenge Part */
 
 struct _historyKey {
-    Textbuffer key;
-    char *records[HISTORY_SIZE];
-    size_t _cursor;
-    
-    char *redoItems[HISTORY_SIZE]; 
-    size_t _redoItems_count;
+    Textbuffer key;                 // key
+    char *records[HISTORY_SIZE];    // array of strings (for undo)
+    size_t _cursor;                 // current position in .records
 
-    _HistoryKey next;
+    char *redoItems[HISTORY_SIZE];  // array of strings (undone items)
+    size_t _redoItems_count;        // number of items in .redoItems
+
+    _HistoryKey next;               // next key record
 };
+
+
 struct _historyContainer {
     _HistoryKey items;
-//    size_t size;
 };
+
+/*
+ * Aaaah! A global variable!
+ *
+ * I could have achieved a history management system without using a global variable.
+ * BUT - It's not good practice to store every bit of metadata in the same struct.
+ *     - A database engineer would lose their job if they didn't use a one to many approach here...
+ * ...
+ * I got Jashank's approval though, so it's all gucci
+ */
 static struct _historyContainer *History;
 
-
+/*
+ * history_initHistory
+ * Initialise the history container
+ */
 static void history_initHistory() {
+    // Abort if _initHistory is called when it is already initialised
+    assert(History == NULL);
+
+    // Allocate memory for the history container
     History = malloc(sizeof(*History));
-    (*History) = (struct _historyContainer) {
-            .items = NULL,
-//            .size = 0
-    };
+    History->items = NULL;
 }
 
+/*
+ * history_addHistory
+ * Add `string` to the history record for `tb`, overriding the oldest values
+ */
 static void history_addHistory(Textbuffer tb, const char *string, bool clearRedo) {
+    // Initialise history if not initialised
     if (History == NULL) history_initHistory();
+
+    // Get the history key record for `tb`
     _HistoryKey key = history_getKey(tb);
 
+    // Create a pointer to the location of the history record in the array
+    // (pointer needed so the value in the array can be changed)
+    // (actually just because I didn't want to keep typing **key->records[key->_cursor]**)
     char **record = &key->records[key->_cursor];
+
+    // Free the old value
     if (*record) free(*record);
+
+    // Store the new value
     *record = strdup(string);
     key->_cursor = (key->_cursor + 1) % HISTORY_SIZE;
-    
+
+    // Clear the redo history array if `clearRedo` is true
     if (clearRedo) history_clearRedo_by_key(key);
 }
 
+/*
+ * history_clearRedo_by_key
+ * Clears the redo array
+ */
 static void history_clearRedo_by_key(_HistoryKey key) {
-    while (key->_redoItems_count) {
-        free(key->redoItems[--key->_redoItems_count]);
-    };
+    // Free all of the strings in the .redoItems array
+    while (key->_redoItems_count) free(key->redoItems[--key->_redoItems_count]);
     assert(key->_redoItems_count == 0);
 }
 
-static void history_addRedo(Textbuffer tb, const char* string) {
+/*
+ * history_addRedo
+ * Add a new entry into the redo array of the record for `tb`
+ */
+static void history_addRedo(Textbuffer tb, const char *string) {
     if (History == NULL) history_initHistory();
     _HistoryKey key = history_getKey(tb);
-    
-    // assert(key->_redoItems_count < 10);
+
+    // Add a new entry into .redoItems
     key->redoItems[key->_redoItems_count++] = strdup(string);
 }
 
+/*
+ * history_getRedo
+ * Gets the value before the last undo
+ *
+ * NOTE: No need to set the pointer to NULL for redo, as the ._redoItems_count element dictates which pointers are valid
+ */
 static char *history_getRedo(Textbuffer tb) {
+    // Initialise history if not initialised
     if (History == NULL) history_initHistory();
+
+    // Get the history key record for `tb`
     _HistoryKey key = history_getKey(tb);
-    
+
     if (key->_redoItems_count) {
+        // Get the latest value
         char **data = &key->redoItems[--key->_redoItems_count];
+
+        // Duplicate the value
         char *res = strdup(*data);
         free(*data);
-        
+
         return res;
     }
-    
+
+    // No actions have been undone
     return NULL;
 }
 
+/*
+ * history_getHistory
+ * Gets the value before the latest action
+ */
 static char *history_getHistory(Textbuffer tb) {
+    // Get the history key record for `tb`
     _HistoryKey key = history_getKey(tb);
-    if (!key) return NULL;
 
+    // Decrement the cursor
     key->_cursor = (key->_cursor - 1 % HISTORY_SIZE + HISTORY_SIZE) % HISTORY_SIZE;
 
+    // Get the last value
     char **data = &key->records[key->_cursor % HISTORY_SIZE];
     if (*data) {
         char *res = strdup(*data);
+
+        // Create a copy of the value, and unlink from the history record
         free(*data);
         *data = NULL;
 
@@ -605,60 +739,84 @@ static char *history_getHistory(Textbuffer tb) {
 }
 
 
+/*
+ * history_getKey
+ * Return the key record for `tb`
+ * Creates a record and returns it if there is no previous record for `tb`
+ */
 static _HistoryKey history_getKey(Textbuffer tb) {
+    // Initialise history if not initialised
     if (History == NULL) history_initHistory();
 
+    // Pointer to the pointer to the head of History->items
     _HistoryKey *item = &History->items;
+
+    // Search through the current history records
     while (*item) {
         if ((*item)->key == tb) return *item;
         if ((*item)->next == NULL) break;
         *item = (*item)->next;
     }
 
+    // No matching record was found, create a new record
     *item = malloc(sizeof(struct _historyKey));
-
     (**item) = (struct _historyKey) {
             .key = tb,
             .records = {NULL},
             ._cursor = 0,
             .next = NULL,
-            
+
             .redoItems = {NULL},
             ._redoItems_count = 0
     };
-
     return *item;
 }
 
-
+/*
+ * history_dropKey
+ * Drop all records for `tb`
+ */
 static void history_dropKey(Textbuffer tb) {
+    // If History has not been initialised, fail silently
     if (!History) return;
 
+    // Search for the record for `tb`, remove and update links
     _HistoryKey prev = NULL;
-    for (_HistoryKey item = History->items; item; item = item->next) {
-        if (item->key == tb) {
-            if (prev) prev->next = item->next;
-            if (History->items == item) {
-                History->items = item->next;
-            }
+    for (_HistoryKey item = History->items; item; prev = item, item = item->next) {
+        // Skip if the current record does not match
+        if (item->key != tb) continue;
 
-            char **record = item->records;
-            for (int i = 0; i < HISTORY_SIZE; i++) {
-                if (record[i]) free(record[i]);
-            }
+        // Update links from previous record to the record after the matching record
+        if (prev) prev->next = item->next;
+        if (History->items == item) History->items = item->next;
 
-            history_clearRedo_by_key(item);
-            
-            free(item);
-            break;
+        // Free all values in the record
+        char **record = item->records;
+        for (int i = 0; i < HISTORY_SIZE; i++) {
+            if (record[i]) free(record[i]);
         }
-        prev = item;
+        history_clearRedo_by_key(item);
+        free(item);
+
+        break;
     }
+
+    // Destroy the History container if there are no more items in the container
     if (!History->items) {
         assert(History->items == NULL);
         free(History);
         History = NULL;
     }
+}
+
+/*
+ * history_saveTextbufferState
+ * Store the lines of a textbuffer to history
+ */
+static void history_saveTextbufferState(Textbuffer tb) {
+    char *history_str = textbuffer_to_str(tb);
+    history_addHistory(tb, history_str, true);
+    free(history_str);
 }
 
 /**
@@ -677,18 +835,26 @@ static void history_dropKey(Textbuffer tb) {
  *  - `textbuffer_cut`.
  */
 void textbuffer_undo(Textbuffer tb) {
+    // Try get the last value before an operation
     char *lastVal = history_getHistory(tb);
     if (lastVal) {
-    
-        char* currVal = textbuffer_to_str(tb);
+        // Add current value to the redo array
+        char *currVal = textbuffer_to_str(tb);
         history_addRedo(tb, currVal);
         free(currVal);
-        
+
+        // Free the current lines in `tb`
+        textbuffer_drop_lines(tb);
+
+        // Create a textbuffer with the last value
         Textbuffer oldTB = textbuffer_new(lastVal);
-        free(lastVal);
-        textbuffer_drop_head(tb);
+
+        // Relink
         tb->head = oldTB->head;
         tb->size = oldTB->size;
+
+        // Memory management
+        free(lastVal);
         free(oldTB);
     }
 }
@@ -701,20 +867,28 @@ void textbuffer_undo(Textbuffer tb) {
  * called on `tb`, previously-undone operations cannot be redone.
  */
 void textbuffer_redo(Textbuffer tb) {
+    // Try get the last value before an undo
     char *lastVal = history_getRedo(tb);
     if (lastVal) {
-        char* currVal = textbuffer_to_str(tb);
+        // Add current value to the undo array
+        char *currVal = textbuffer_to_str(tb);
         history_addHistory(tb, currVal, false);
         free(currVal);
-    
+
+        // Free the current lines in `tb`
+        textbuffer_drop_lines(tb);
+
+        // Create a textbuffer with the last value
         Textbuffer oldTB = textbuffer_new(lastVal);
-        free(lastVal);
-        textbuffer_drop_head(tb);
+
+        // Relink
         tb->head = oldTB->head;
         tb->size = oldTB->size;
+
+        // Memory management
+        free(lastVal);
         free(oldTB);
     }
-
 }
 
 
@@ -756,21 +930,28 @@ char *textbuffer_diff(Textbuffer tb1, Textbuffer tb2) {
 }
 
 /* White box testing */
-void verifyLinks(Textbuffer tb) {
-//    printf("  Looking at tb: %p\n", tb);
+
+/*
+ * _verifyLinks
+ * Checks that each line node has correct prev/next pointer values
+ */
+static void _verifyLinks(Textbuffer tb) {
     TextbufferLine curr = tb->head;
     for (unsigned int i = 0; i < tb->size; curr = curr->next, i++) {
-//        printf("%10p <- %10p -> %10p\n", curr->prev, curr, curr->next);
         if (i == 0) {
+            // Check that the head item has no previous node assigned
             assert(curr->prev == NULL);
         } else {
+            // Check that the previous and current node point to each other
             assert(curr->prev);
             assert(curr == curr->prev->next);
         }
 
         if (i == (tb->size - 1)) {
+            // Check that the tail item has no next node assigned
             assert(curr->next == NULL);
         } else {
+            // Check that the current and next node point to each other
             assert(curr->next);
             assert(curr == curr->next->prev);
         }
