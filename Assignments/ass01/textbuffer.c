@@ -66,13 +66,13 @@ void verifyLinks(Textbuffer tb);
 
 
 static TextbufferLine textbuffer_line_copy(TextbufferLine line) {
-    if (line == NULL) return NULL;
+    if (!line) return NULL;
     return textbuffer_line_new(line->data);
 }
 
 static TextbufferLine textbuffer_line_new(const char *text) {
     // Assume that text does not end with a \n character.
-    if (text == NULL) return NULL;
+    if (!text) return NULL;
 
     TextbufferLine line = malloc(sizeof(*line));
     (*line) = (struct textbuffer_line) {
@@ -157,6 +157,8 @@ static void textbuffer_drop_head(Textbuffer tb) {
  * It is an error to access the textbuffer after this.
  */
 void textbuffer_drop(Textbuffer tb) {
+    if (!tb) return;
+
     history_dropKey(tb);
     textbuffer_drop_head(tb);
     free(tb);
@@ -259,33 +261,22 @@ void textbuffer_swap(Textbuffer tb, size_t pos1, size_t pos2) {
 
     if (line1_prev == NULL) {
         tb->head = line2;
-    } else if (line2_prev == NULL) {
-        tb->head = line1;
     }
 
-    if (line1_next == line2) {
-//        printf("Adjacent match\n");
+    line2->prev = line1_prev;
+    line1->next = line2_next;
+    if (line1_prev) line1_prev->next = line2;
+    if (line2_next) line2_next->prev = line1;
 
+    if (line1_next == line2) {
         line2->next = line1;
         line1->prev = line2;
-        
-        line2->prev = line1_prev;
-        if (line1_prev) line1_prev->next = line2;
-
-        line1->next = line2_next;
-        if (line2_next) line2_next->prev = line1;    
     } else {
-        line2->prev = line1_prev;
-        if (line1_prev) line1_prev->next = line2;
-
         line2->next = line1_next;
         if (line1_next) line1_next->prev = line2;
-
         line1->prev = line2_prev;
         if (line2_prev) line2_prev->next = line1;
-
-        line1->next = line2_next;
-        if (line2_next) line2_next->prev = line1;
+ 
     }
 
     doVerify(tb);
@@ -381,11 +372,10 @@ void textbuffer_paste(Textbuffer tb1, size_t pos, const Textbuffer tb2) {
  * `abort()` with an error message.
  */
 Textbuffer textbuffer_cut(Textbuffer tb, size_t from, size_t to) {
-    size_t _from = from < to ? from : to;
-    size_t _to   = from > to ? from : to;
+    if (from > to) return NULL;
 
-    TextbufferLine lineFrom = textbuffer_get_line(tb, _from);
-    TextbufferLine lineTo = textbuffer_get_line(tb, _to);
+    TextbufferLine lineFrom = textbuffer_get_line(tb, from);
+    TextbufferLine lineTo = textbuffer_get_line(tb, to);
 
     if (!lineFrom || !lineTo) {
         fprintf(stderr, "Line index out of range!\n");
@@ -643,7 +633,6 @@ static _HistoryKey history_getKey(Textbuffer tb) {
 
 static void history_dropKey(Textbuffer tb) {
     if (!History) return;
-    printf("Dropping key %p\n", tb);
 
     _HistoryKey prev = NULL;
     for (_HistoryKey item = History->items; item; item = item->next) {
