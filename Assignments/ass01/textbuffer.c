@@ -91,7 +91,7 @@ static TextbufferLine textbuffer_line_new(const char *text) {
 /**
  * Allocate a new textbuffer, whose contents is initialised with the
  * text given in the array.  The lines in the input array are all
- * terminated by a `'\\n'`. The whole text is terminated by a `'\\0'`.
+ * terminated by a '\n'. The whole text is terminated by a '\0'.
  */
 Textbuffer textbuffer_new(const char *text) {
     // Note: Passing in a null pointer will return an empty textbuffer, rather than a NULL.
@@ -1014,6 +1014,12 @@ char *textbuffer_diff(Textbuffer tb1, Textbuffer tb2) {
             // Attach the disabled line
             _textbuffer_insert(tb1, lineCounter, nullLine, false);
         }
+    }
+
+    // Remove items that have shifted down
+    while (textbuffer_get_line(tb1, lineCounter)) {
+        textbuffer_diff_addDiff(&result, false, lineCounter, NULL);
+        _textbuffer_delete(tb1, lineCounter, lineCounter, false);
     }
 
     // Memory management
