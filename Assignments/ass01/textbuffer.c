@@ -104,13 +104,11 @@ Textbuffer textbuffer_new(const char *text) {
 
         // Clone the input, and set up variables for iterating over tokens
         char *input = strdup(text);
-
-        char *EOL = input + strlen(text);
         char *inputCursor = input;
         char *line;
 
         // For each line, append a new instance of a TextbufferLine to the textbuffer
-        while ((line = strsep(&inputCursor, "\n")) != NULL) {
+        while ((line = strsep(&inputCursor, "\n")) != NULL && inputCursor) {
             // Create a line node
             TextbufferLine tb_line = textbuffer_line_new(line);
 
@@ -124,9 +122,6 @@ Textbuffer textbuffer_new(const char *text) {
 
             // Increase the line count
             size++;
-
-            // check if we've reached the end
-            if (inputCursor == EOL) break;
         }
 
         // Memory management
