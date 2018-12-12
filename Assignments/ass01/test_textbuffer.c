@@ -4,11 +4,8 @@
 // 2018-11-30	Andrew Wong <z5206677@unsw.edu.au>
 
 #include <assert.h>
-#include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
 
-#include "textbuffer.local.h"
 #include "textbuffer.h"
 
 #define O() printf(" [OK]\n");
@@ -78,15 +75,6 @@ void test_replace__nothing(void);
 
 ///
 
-void test_compound__1(void);
-void test_compound__2(void);
-void test_compound__3(void);
-void test_compound__4(void);
-void test_compound__5(void);
-void test_compound__6(void);
-
-///
-
 void test_create(void);
 void test_swap(void);
 void test_swap_reverse(void);
@@ -102,12 +90,36 @@ void test_replace(void);
 
 ///
 
-void test_compound(void);
+void test_history(void);
+
+void test_diff(void);
+char* _diff_applyEdit(Textbuffer tb, char* script);
 
 ///
 
-void test_history(void);
-void test_diff(void);
+int main(void) {
+
+    // Standard tests
+    test_create();
+    test_swap();
+    test_swap_reverse();
+    test_swap_self();
+    test_copy();
+    test_cut();
+    test_delete();
+    test_insert();
+    test_paste();
+    test_search();
+    test_search_reverse();
+    test_replace();
+
+    // Challenge tests
+    test_history();
+    test_diff();
+
+    printf("\nAll tests passed!\n");
+    return EXIT_SUCCESS;
+}
 
 ///
 
@@ -693,32 +705,6 @@ void test_replace__nothing(void) {
 
 ///
 
-void test_compound__1(void) {
-
-}
-
-void test_compound__2(void) {
-
-}
-
-void test_compound__3(void) {
-
-}
-
-void test_compound__4(void) {
-
-}
-
-void test_compound__5(void) {
-
-}
-
-void test_compound__6(void) {
-
-}
-
-///
-
 void test_create(void) {
     test_create__emptyTextbuffer();
     test_create__singleLineTextbuffer();
@@ -804,17 +790,6 @@ void test_replace(void) {
 
 ///
 
-void test_compound(void) {
-    test_compound__1();
-    test_compound__2();
-    test_compound__3();
-    test_compound__4();
-    test_compound__5();
-    test_compound__6();
-}
-
-///
-
 void test_history(void) {
     char *input = "Hey\nthere\n";
     /* insert */ char *insert1 = "Andrew\n"; char *expected1 = "Hey\nthere\nAndrew\n";
@@ -843,36 +818,76 @@ void test_history(void) {
     A("_drop"); textbuffer_drop(tb); O();
 }
 
-void test_diff(void) {
-
-}
-
 ///
 
-int main(void) {
-    // Standard tests
-    test_create();
-    test_swap();
-    test_swap_reverse();
-    test_swap_self();
-    test_copy();
-    test_cut();
-    test_delete();
-    test_insert();
-    test_paste();
-    test_search();
-    test_search_reverse();
-    test_replace();
+/*
+ * _diff_applyEdit
+ * Performs edit operations on `tb`, given instructions from `script`
+ */
+char* _diff_applyEdit(Textbuffer tb, char* script) {
+    if (!script) return NULL;
 
-    // Compound tests
-    test_compound();
+    // Clone the function parameters
+    char* src = textbuffer_to_str(tb); tb = textbuffer_new(src); free(src);
+    script = strdup(script);
 
-    // Challenge tests
-    test_history();
-    test_diff();
+    char *scriptPtr = script;
+    char* editLine;
 
+    while((editLine = strsep(&scriptPtr, "\n")) != NULL && scriptPtr) {
+        char* editLinePtr = editLine;
 
-    printf("\nAll tests passed!\n");
-    return EXIT_SUCCESS;
+        // Get metadata of the line (line number, add/delete)
+        char* metadata = strsep(&editLinePtr, "\t");
+        assert(metadata != NULL);
+
+        // Extract action ('+'/'-')
+        char *actionPtr = &metadata[strlen(metadata)-1];
+        char action = *actionPtr;
+        *actionPtr = '\0';
+
+        // Extract line number
+        size_t line = (size_t) strtol(metadata, NULL, 10);
+
+        if (action == '+') {
+            // Get line content
+            char* editData = editLinePtr;
+            assert(editData);
+
+            // Append '\n' to the end of the line
+            char *insertData = malloc(strlen(editData) + 1 + 1);
+            sprintf(insertData, "%s\n", editData);
+
+            // Insert the edit line
+            textbuffer_insert(tb, line, textbuffer_new(insertData));
+            free(insertData);
+        } else {
+            // Delete the line
+            textbuffer_delete(tb, line, line);
+        }
+    }
+
+    char *result = textbuffer_to_str(tb); textbuffer_drop(tb); free(script);
+    return result;
 }
 
+void test_diff(void) {
+    {
+        char *source = "\nDont\nreally\n\nknow\nhow\n2\ntest this\n";
+        char *output = "I\nDon't\nreally\n\nknow\nhow\ntwo\ntest\nthis\n";
+
+        T("textbuffer difference check");
+        A("_new (source)"); Textbuffer tb_source = textbuffer_new(source); O();
+        A("_new (output)"); Textbuffer tb_output = textbuffer_new(output); O();
+
+        A("_diff"); char* diff = textbuffer_diff(tb_source, tb_output); O();
+        A("[edit]"); char* edit = _diff_applyEdit(tb_source, diff); assert(edit && strcmp(output, edit) == 0); O();
+
+        A("_drop"); {
+            free(diff);
+            free(edit);
+            textbuffer_drop(tb_source);
+            textbuffer_drop(tb_output);
+        }; O();
+    }
+}
