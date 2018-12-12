@@ -403,7 +403,7 @@ void textbuffer_paste(Textbuffer tb1, size_t pos, const Textbuffer tb2) {
     Textbuffer tb2_clone = textbuffer_clone(tb2);
 
     // Insert the clone into tb1
-    _textbuffer_insert(tb1, pos, tb2_clone, false);
+    _textbuffer_insert(tb1, pos, tb2_clone, true);
 }
 
 
@@ -1163,7 +1163,7 @@ void white_box_tests(void) {
         assert(strcmp(tb_str, tb_clone_str) == 0);
         free(tb_str);
         free(tb_clone_str);
-        free(tb_clone);
+        textbuffer_drop(tb_clone);
     }
 
     textbuffer_drop(tb);
