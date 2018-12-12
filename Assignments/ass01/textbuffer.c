@@ -40,17 +40,16 @@ static void _textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2, bool 
 /// Challenge: History structure definitions, function prototypes
 
 #define HISTORY_SIZE 10
-struct _historyKey;
 struct _historyContainer;
+struct _historyKey;
 typedef struct _historyKey *_HistoryKey;
-
 static void history_initHistory(void);
-static void history_addHistory(Textbuffer tb, const char *string, bool clearRedo);
-static char *history_getHistory(Textbuffer tb);
+static void history_addUndo(Textbuffer tb, const char *string, bool clearRedo);
+static char *history_getUndo(Textbuffer tb, bool *status);
 static _HistoryKey history_getKey(Textbuffer tb);
 static void history_dropKey(Textbuffer tb);
 static void history_clearRedo_by_key(_HistoryKey key);
-static char *history_getRedo(Textbuffer tb);
+static char *history_getRedo(Textbuffer tb, bool *status);
 static void history_addRedo(Textbuffer tb, const char *string);
 static void history_saveTextbufferState(Textbuffer tb);
 
@@ -158,6 +157,8 @@ static void textbuffer_drop_lines(Textbuffer tb) {
         textbuffer_line_drop(cursor);
         cursor = next;
     }
+    tb->head = NULL;
+    tb->size = 0;
 }
 
 /**
@@ -316,13 +317,24 @@ void textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2) {
 }
 
 void _textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2, bool touchHistory) {
-    // Fail silently if the textbuffers are the same, or if `tb2` is empty
-    if (tb1 == tb2 || tb2->head == NULL) return;
-
     // Save the current textbuffer content
+    // NOTE: Perform this first before checking for fails
+    // TODO: Pending forum post: #2714052
     if (touchHistory) history_saveTextbufferState(tb1);
 
-    if (tb1->head == NULL) {
+    /*
+     * Q: if I call delete or insert or swap with no effect on a textbuffer, then i call undo,
+     *    should a same textbuffer be returned since operation with no effect is still an operation?
+     * Jashank: Yes, operations that do nothing are valid to undo.
+     */
+
+    // Fail silently if the textbuffers are the same, or if `tb2` is empty
+    if (tb1 == tb2) {
+
+        return;
+    } else if (tb2->head == NULL) {
+
+    } else if (tb1->head == NULL) {
         // If `tb1` is empty, change its head to point to `tb2` head
         tb1->head = tb2->head;
     } else {
@@ -363,7 +375,6 @@ void _textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2, bool touchHi
     }
 
     // Update the line count of `tb1`
-//    printf("AAAAAAAAAAAAAAAAAAAAAAA %s, %s\n", tb1->size, tb2->size);
     tb1->size += tb2->size;
 
     // Memory management
@@ -421,6 +432,7 @@ Textbuffer textbuffer_cut(Textbuffer tb, size_t from, size_t to) {
 
 Textbuffer _textbuffer_cut(Textbuffer tb, size_t from, size_t to, bool touchHistory) {
     // Fail silently if from > to
+    // TODO: Pending forum post: #2714052
     if (from > to) return NULL;
 
     // Get the textbuffer lines
@@ -433,7 +445,9 @@ Textbuffer _textbuffer_cut(Textbuffer tb, size_t from, size_t to, bool touchHist
     }
 
     // Save the current textbuffer content
-    if (touchHistory) history_saveTextbufferState(tb);
+    if (touchHistory) {
+        history_saveTextbufferState(tb);
+    }
 
     // Update links of the textbuffer
     if (lineFrom->prev == NULL) {
@@ -544,7 +558,7 @@ static ssize_t _textbuffer_search(Textbuffer tb, char *match, bool rev, bool exa
 
         // For each textbuffer line, check if that line contains the search term
         size_t lineCount = tb->size - 1;
-        for (; cursor != NULL; cursor = cursor->prev, lineCount--) {
+        for (; cursor; cursor = cursor->prev, lineCount--) {
             if (cursor->data && (exact ? (strcmp(cursor->data, match) == 0) : (strstr(cursor->data, match) != NULL))) {
                 // A match was found, return the current line number
                 return (ssize_t) lineCount;
@@ -619,6 +633,9 @@ static void textbuffer_line_replace(TextbufferLine line, const char *match, cons
  * them all with `replace`.
  */
 void textbuffer_replace(Textbuffer tb, char *match, char *replace) {
+    // history_saveTextbufferState(tb);
+    // TODO pending for forum post: #2714115
+
     // For each line, check for matches and replace
     for (TextbufferLine cursor = tb->head; cursor != NULL; cursor = cursor->next) {
         textbuffer_line_replace(cursor, match, replace);
@@ -628,16 +645,16 @@ void textbuffer_replace(Textbuffer tb, char *match, char *replace) {
 /* Challenge Part */
 
 struct _historyKey {
-    Textbuffer key;                 // key
-    char *records[HISTORY_SIZE];    // array of strings (for undo)
-    size_t _cursor;                 // current position in .records
+    Textbuffer key;                  // key
+    char *records[HISTORY_SIZE];     // array of history records (for undo)
+    size_t _records_count;           // number of items in .records
+    size_t _cursor;                  // current position in .records
 
-    char *redoItems[HISTORY_SIZE];  // array of strings (undone items)
-    size_t _redoItems_count;        // number of items in .redoItems
+    char *redoItems[HISTORY_SIZE];   // array of history records (undone items)
+    size_t _redoItems_count;         // number of items in .redoItems
 
-    _HistoryKey next;               // next key record
+    _HistoryKey next;                // next key record
 };
-
 
 struct _historyContainer {
     _HistoryKey items;
@@ -668,10 +685,10 @@ static void history_initHistory() {
 }
 
 /*
- * history_addHistory
+ * history_addUndo
  * Add `string` to the history record for `tb`, overriding the oldest values
  */
-static void history_addHistory(Textbuffer tb, const char *string, bool clearRedo) {
+static void history_addUndo(Textbuffer tb, const char *string, bool clearRedo) {
     // Initialise history if not initialised
     if (History == NULL) history_initHistory();
 
@@ -687,8 +704,11 @@ static void history_addHistory(Textbuffer tb, const char *string, bool clearRedo
     if (*record) free(*record);
 
     // Store the new value
-    *record = strdup(string);
+    *record = string ? strdup(string) : NULL;
+
     key->_cursor = (key->_cursor + 1) % HISTORY_SIZE;
+
+    if (++key->_records_count > HISTORY_SIZE) key->_records_count = HISTORY_SIZE;
 
     // Clear the redo history array if `clearRedo` is true
     if (clearRedo) history_clearRedo_by_key(key);
@@ -722,37 +742,43 @@ static void history_addRedo(Textbuffer tb, const char *string) {
  *
  * NOTE: No need to set the pointer to NULL for redo, as the ._redoItems_count element dictates which pointers are valid
  */
-static char *history_getRedo(Textbuffer tb) {
+static char *history_getRedo(Textbuffer tb, bool *status) {
     // Initialise history if not initialised
     if (History == NULL) history_initHistory();
 
     // Get the history key record for `tb`
     _HistoryKey key = history_getKey(tb);
 
-    if (key->_redoItems_count) {
-        // Get the latest value
-        char **data = &key->redoItems[--key->_redoItems_count];
+    if (key->_redoItems_count == 0) {
+        *status = false;
+        return NULL;
+    } else *status = true;
 
-        // Duplicate the value
-        char *res = strdup(*data);
-        free(*data);
+    // Get the latest value
+    char **data = &key->redoItems[--key->_redoItems_count];
 
-        return res;
-    }
+    // Duplicate the value
+    char *res = strdup(*data);
+    free(*data);
 
-    // No actions have been undone
-    return NULL;
+    return res;
 }
 
 /*
- * history_getHistory
+ * history_getUndo
  * Gets the value before the latest action
  */
-static char *history_getHistory(Textbuffer tb) {
+static char *history_getUndo(Textbuffer tb, bool *status) {
     // Get the history key record for `tb`
     _HistoryKey key = history_getKey(tb);
 
-    // Decrement the cursor
+    if (key->_records_count == 0) {
+        *status = false;
+        return NULL;
+    } else *status = true;
+
+    // Decrement the cursors
+    key->_records_count--;
     key->_cursor = (key->_cursor - 1 % HISTORY_SIZE + HISTORY_SIZE) % HISTORY_SIZE;
 
     // Get the last value
@@ -766,6 +792,7 @@ static char *history_getHistory(Textbuffer tb) {
 
         return res;
     }
+
     return NULL;
 }
 
@@ -785,8 +812,7 @@ static _HistoryKey history_getKey(Textbuffer tb) {
     // Search through the current history records
     while (*item) {
         if ((*item)->key == tb) return *item;
-        if ((*item)->next == NULL) break;
-        *item = (*item)->next;
+        item = &((*item)->next);
     }
 
     // No matching record was found, create a new record
@@ -794,12 +820,14 @@ static _HistoryKey history_getKey(Textbuffer tb) {
     (**item) = (struct _historyKey) {
             .key = tb,
             .records = {NULL},
+            ._records_count = 0,
             ._cursor = 0,
             .next = NULL,
 
             .redoItems = {NULL},
             ._redoItems_count = 0
     };
+
     return *item;
 }
 
@@ -834,7 +862,6 @@ static void history_dropKey(Textbuffer tb) {
 
     // Destroy the History container if there are no more items in the container
     if (!History->items) {
-        assert(History->items == NULL);
         free(History);
         History = NULL;
     }
@@ -846,7 +873,7 @@ static void history_dropKey(Textbuffer tb) {
  */
 static void history_saveTextbufferState(Textbuffer tb) {
     char *history_str = textbuffer_to_str(tb);
-    history_addHistory(tb, history_str, true);
+    history_addUndo(tb, history_str, true);
     free(history_str);
 }
 
@@ -867,8 +894,9 @@ static void history_saveTextbufferState(Textbuffer tb) {
  */
 void textbuffer_undo(Textbuffer tb) {
     // Try get the last value before an operation
-    char *lastVal = history_getHistory(tb);
-    if (lastVal) {
+    bool status;
+    char *lastVal = history_getUndo(tb, &status);
+    if (status) {
         // Add current value to the redo array
         char *currVal = textbuffer_to_str(tb);
         history_addRedo(tb, currVal);
@@ -899,11 +927,12 @@ void textbuffer_undo(Textbuffer tb) {
  */
 void textbuffer_redo(Textbuffer tb) {
     // Try get the last value before an undo
-    char *lastVal = history_getRedo(tb);
-    if (lastVal) {
+    bool status;
+    char *lastVal = history_getRedo(tb, &status);
+    if (status) {
         // Add current value to the undo array
         char *currVal = textbuffer_to_str(tb);
-        history_addHistory(tb, currVal, false);
+        history_addUndo(tb, currVal, false);
         free(currVal);
 
         // Free the current lines in `tb`
@@ -1095,6 +1124,16 @@ static void _verifyLinks(Textbuffer tb) {
     }
 }
 
+/*
+ * _verifySize
+ * Checks that tb->size is equal to the number of lines in `tb`
+ */
+static void _verifySize(Textbuffer tb) {
+    size_t count = 0;
+    for (TextbufferLine curr = tb->head; curr; curr = curr->next) count++;
+    assert(count == tb->size);
+}
+
 void white_box_tests(void) {
     Textbuffer tb;
     Textbuffer tb_insert;
@@ -1102,8 +1141,9 @@ void white_box_tests(void) {
     tb = textbuffer_new("0\n");
     {
         _verifyLinks(tb);
-        assert(tb->head != NULL);
+        _verifySize(tb);
         assert(tb->size == 1);
+        assert(tb->head != NULL);
         assert(strcmp(tb->head->data, "0") == 0);
         assert(tb->head->size == strlen(tb->head->data));
     }
@@ -1111,22 +1151,35 @@ void white_box_tests(void) {
     tb_insert = textbuffer_new("1\n2\n3\n4\n5\n6\n");
     {
         _verifyLinks(tb_insert);
+        _verifySize(tb_insert);
+        assert(tb_insert->size == 6);
         assert(tb_insert->head != NULL);
         assert(strcmp(tb_insert->head->data, "1") == 0);
-        assert(tb_insert->size == 6);
     }
 
+    // Test history, and paste
     assert(History == NULL);
-    textbuffer_insert(tb, 1, tb_insert);
-    assert(History != NULL);
+    textbuffer_paste(tb, 1, tb_insert);
+    {
+        assert(History != NULL);
+        assert(History->items->key == tb);
+        assert(History->items->key == tb);
+        assert(History->items->next == NULL);
+        assert(History->items->_cursor == 1);
+        assert(History->items->records[0] != NULL);
+    }
     {
         _verifyLinks(tb);
+        _verifySize(tb);
         assert(tb->size == 7);
     }
 
+
+    // Test multiple swaps
     textbuffer_swap(tb, 0, 5);
     {
         _verifyLinks(tb);
+        _verifySize(tb);
         assert(strcmp(tb->head->data, "5") == 0);
         assert(strcmp(tb->head->next->next->next->next->next->data, "0") == 0);
     }
@@ -1134,6 +1187,7 @@ void white_box_tests(void) {
     textbuffer_swap(tb, 5, 6);
     {
         _verifyLinks(tb);
+        _verifySize(tb);
         assert(strcmp(tb->head->next->next->next->next->next->data, "6") == 0);
         assert(strcmp(tb->head->next->next->next->next->next->next->data, "0") == 0);
     }
@@ -1141,6 +1195,7 @@ void white_box_tests(void) {
     textbuffer_swap(tb, 0, 6);
     {
         _verifyLinks(tb);
+        _verifySize(tb);
         assert(strcmp(tb->head->data, "0") == 0);
         assert(strcmp(tb->head->next->next->next->next->next->next->data, "5") == 0);
     }
@@ -1148,14 +1203,17 @@ void white_box_tests(void) {
     textbuffer_swap(tb, 5, 6);
     {
         _verifyLinks(tb);
+        _verifySize(tb);
         assert(strcmp(tb->head->next->next->next->next->next->data, "5") == 0);
         assert(strcmp(tb->head->next->next->next->next->next->next->data, "6") == 0);
     }
 
+    // Test textbuffer_get_line
     assert(textbuffer_get_line(tb, 0) == tb->head);
     assert(textbuffer_get_line(tb, 1) == tb->head->next);
     assert(textbuffer_get_line(tb, tb->size) == NULL);
 
+    // Test textbuffer_to_str
     {
         Textbuffer tb_clone = textbuffer_clone(tb);
         char *tb_str = textbuffer_to_str(tb);
@@ -1164,6 +1222,28 @@ void white_box_tests(void) {
         free(tb_str);
         free(tb_clone_str);
         textbuffer_drop(tb_clone);
+    }
+
+    // Delete first line
+    textbuffer_delete(tb, 0, 0);
+    {
+        assert(tb->size == 6);
+        assert(strcmp(tb->head->data, "1") == 0);
+    }
+
+    // Clear textbuffer
+    textbuffer_drop_lines(tb);
+    {
+        assert(tb->size == 0);
+        assert(tb->head == NULL);
+    }
+
+    // Test adding into an empty textbuffer
+    textbuffer_insert(tb, 0, tb_insert);
+    {
+        _verifyLinks(tb);
+        _verifySize(tb);
+        assert(tb->size == 6);
     }
 
     textbuffer_drop(tb);

@@ -53,6 +53,9 @@ void test_insert__insertHead(void);
 void test_insert__insertBody(void);
 void test_insert__insertTail(void);
 void test_insert__insertBodyTwice(void);
+void test_insert__insertEmpty(void);
+void test_insert__insertIntoEmpty(void);
+
 
 void test_paste__pasteHead(void);
 void test_paste__pasteBody(void);
@@ -127,11 +130,14 @@ int main(void) {
 
 void test_create__emptyTextbuffer(void) {
     T("zero length textbuffer");
-    A("new"); Textbuffer tb = textbuffer_new(NULL); O();
-    A("lines"); assert(textbuffer_lines(tb) == 0); O();
-    A("bytes"); assert(textbuffer_bytes(tb) == 0); O();
+    printf("Assignment spec does not cover a truly empty input (NULL), will fallback to deleting all lines\n");
+    // A("_new"); Textbuffer tb = textbuffer_new(NULL); O();
+    A("_new"); Textbuffer tb = textbuffer_new("\n"); O();
+    A("_delete"); textbuffer_delete(tb, 0, 0); O();
+    A("_lines"); assert(textbuffer_lines(tb) == 0); O();
+    A("_bytes"); assert(textbuffer_bytes(tb) == 0); O();
     A("_to_str"); char *result = textbuffer_to_str(tb); assert(result == NULL); O();
-    A("drop"); textbuffer_drop(tb); O();
+    A("_drop"); textbuffer_drop(tb); O();
 }
 
 void test_create__singleLineTextbuffer(void) {
@@ -537,6 +543,36 @@ void test_insert__insertBodyTwice(void) {
     A("_drop"); textbuffer_drop(tb); O();
 }
 
+void test_insert__insertEmpty(void) {
+    char *input = "1\n2\n3\n4\n5\n";
+    char *insert = "\n";
+    char *expectedOutput = "1\n2\n3\n4\n5\n";
+    T("textbuffer insert an empty textbuffer");
+    printf("Assignment spec does not cover a truly empty input (NULL), will fallback to deleting all lines\n");
+    A("_new (input)"); Textbuffer tb = textbuffer_new(input); O();
+    A("_new (insert)"); Textbuffer tb_insert = textbuffer_new(insert); O();
+    A("_delete (insert)"); textbuffer_delete(tb_insert, 0, 0); O();
+    A("_insert"); textbuffer_insert(tb, 0, tb_insert); O();
+    A("_lines"); assert(textbuffer_lines(tb) == 5); O();
+    A("_to_str"); char *result = textbuffer_to_str(tb); assert(strcmp(result, expectedOutput) == 0); free(result); O();
+    A("_drop"); textbuffer_drop(tb); O();
+}
+
+void test_insert__insertIntoEmpty(void) {
+    char *input = "\n";
+    char *insert = "1\n2\n3\n4\n5\n";
+    char *expectedOutput = "1\n2\n3\n4\n5\n";
+    T("textbuffer insert into an empty textbuffer");
+    printf("Assignment spec does not cover a truly empty input (NULL), will fallback to deleting all lines\n");
+    A("_new (input)"); Textbuffer tb = textbuffer_new(input); O();
+    A("_new (insert)"); Textbuffer tb_insert = textbuffer_new(insert); O();
+    A("_delete (input)"); textbuffer_delete(tb, 0, 0); O();
+    A("_insert"); textbuffer_insert(tb, 0, tb_insert); O();
+    A("_lines"); assert(textbuffer_lines(tb) == 5); O();
+    A("_to_str"); char *result = textbuffer_to_str(tb); assert(strcmp(result, expectedOutput) == 0); free(result); O();
+    A("_drop"); textbuffer_drop(tb); O();
+}
+
 ///
 
 void test_paste__pasteHead(void) {
@@ -761,6 +797,8 @@ void test_insert(void) {
     test_insert__insertBody();
     test_insert__insertTail();
     test_insert__insertBodyTwice();
+    test_insert__insertEmpty();
+    test_insert__insertIntoEmpty();
 }
 
 void test_paste(void) {
