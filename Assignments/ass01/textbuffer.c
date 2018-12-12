@@ -8,10 +8,6 @@
 #include <assert.h>
 #include <stdbool.h>
 
-/// TODO Delete me
-#define VERIFY 1
-#define doVerify(tb) if (VERIFY) _verifyLinks(tb)
-
 // Structure definitions
 
 typedef struct textbuffer_line *TextbufferLine;
@@ -22,6 +18,7 @@ struct textbuffer_line {
     TextbufferLine next;    // next line
 };
 
+typedef struct textbuffer *Textbuffer;
 struct textbuffer {
     size_t size;            // number of lines
     TextbufferLine head;    // first line
@@ -34,6 +31,11 @@ static TextbufferLine textbuffer_get_line(Textbuffer tb, size_t lineNo);
 static void textbuffer_line_drop(TextbufferLine line);
 static void textbuffer_line_replace(TextbufferLine line, const char *match, const char *replace);
 static Textbuffer textbuffer_clone(Textbuffer tb);
+static ssize_t _textbuffer_search(Textbuffer tb, char *match, bool rev, bool exact);
+static void _textbuffer_delete(Textbuffer tb, size_t from, size_t to, bool touchHistory);
+static Textbuffer _textbuffer_cut(Textbuffer tb, size_t from, size_t to, bool touchHistory);
+static void _textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2, bool touchHistory);
+static size_t _nDigits(size_t number);
 
 /// Challenge: History structure definitions, function prototypes
 
@@ -309,11 +311,15 @@ void textbuffer_swap(Textbuffer tb, size_t pos1, size_t pos2) {
  * `textbuffer_drop()` on it.
  */
 void textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2) {
+    _textbuffer_insert(tb1, pos, tb2, true);
+}
+
+void _textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2, bool touchHistory) {
     // Fail silently if the textbuffers are empty, or if `tb2` is empty
     if (tb1 == tb2 || tb1->head == NULL || tb2->head == NULL) return;
 
     // Save the current textbuffer content
-    history_saveTextbufferState(tb1);
+    if (touchHistory) history_saveTextbufferState(tb1);
 
     if (tb1->head == NULL) {
         // If `tb1` is empty, change its head to point to `tb2` head
@@ -359,7 +365,8 @@ void textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2) {
     tb1->size += tb2->size;
 
     // Memory management
-    history_dropKey(tb2);
+    if (touchHistory) history_dropKey(tb2);
+
     free(tb2);
 }
 
@@ -395,7 +402,7 @@ void textbuffer_paste(Textbuffer tb1, size_t pos, const Textbuffer tb2) {
     Textbuffer tb2_clone = textbuffer_clone(tb2);
 
     // Insert the clone into tb1
-    textbuffer_insert(tb1, pos, tb2_clone);
+    _textbuffer_insert(tb1, pos, tb2_clone, false);
 }
 
 
@@ -408,6 +415,10 @@ void textbuffer_paste(Textbuffer tb1, size_t pos, const Textbuffer tb2) {
  * `abort()` with an error message.
  */
 Textbuffer textbuffer_cut(Textbuffer tb, size_t from, size_t to) {
+    return _textbuffer_cut(tb, from, to, true);
+}
+
+Textbuffer _textbuffer_cut(Textbuffer tb, size_t from, size_t to, bool touchHistory) {
     // Fail silently if from > to
     if (from > to) return NULL;
 
@@ -421,7 +432,7 @@ Textbuffer textbuffer_cut(Textbuffer tb, size_t from, size_t to) {
     }
 
     // Save the current textbuffer content
-    history_saveTextbufferState(tb);
+    if (touchHistory) history_saveTextbufferState(tb);
 
     // Update links of the textbuffer
     if (lineFrom->prev == NULL) {
@@ -477,7 +488,13 @@ Textbuffer textbuffer_copy(const Textbuffer tb, size_t from, size_t to) {
 void textbuffer_delete(Textbuffer tb, size_t from, size_t to) {
     // textbuffer_cut removes lines from-to from tb, and returns a new textbuffer with the extracted lines
     // These extracted lines are then dropped, as they are not needed
-    textbuffer_drop(textbuffer_cut(tb, from, to));
+    _textbuffer_delete(tb, from, to, true);
+}
+
+static void _textbuffer_delete(Textbuffer tb, size_t from, size_t to, bool touchHistory) {
+    // textbuffer_cut removes lines from-to from tb, and returns a new textbuffer with the extracted lines
+    // These extracted lines are then dropped, as they are not needed
+    textbuffer_drop(_textbuffer_cut(tb, from, to, touchHistory));
 }
 
 /**
@@ -490,8 +507,21 @@ void textbuffer_delete(Textbuffer tb, size_t from, size_t to) {
  * @param rev	search for the previous matching term.
  */
 ssize_t textbuffer_search(Textbuffer tb, char *match, bool rev) {
+    // Function wrapper to perform a loose search
+    return _textbuffer_search(tb, match, rev, false);
+}
+
+/*
+ * _textbuffer_search
+ * From the beginning/end of the textbuffer, search for the first line that matches the string `match`.
+ * If `exact` is true, then the line must match completely
+ * Return the number of the line containing the match.
+ */
+static ssize_t _textbuffer_search(Textbuffer tb, char *match, bool rev, bool exact) {
+    // cursor->data could be NULL, when altered in the diff check
+
     // Fail if there is no search term
-    if (strlen(match) == 0) return -1;
+    if (strlen(match) == 0 && !exact) return -1;
 
     if (!rev) {
         // reverse = false ... search from HEAD to TAIL
@@ -499,7 +529,7 @@ ssize_t textbuffer_search(Textbuffer tb, char *match, bool rev) {
         // For each textbuffer line, check if that line contains the search term
         size_t lineCount = 0;
         for (TextbufferLine cursor = tb->head; cursor != NULL; cursor = cursor->next, lineCount++) {
-            if (strstr(cursor->data, match)) {
+            if (cursor->data && (exact ? (strcmp(cursor->data, match) == 0) : (strstr(cursor->data, match) != NULL))) {
                 // A match was found, return the current line number
                 return (ssize_t) lineCount;
             }
@@ -514,7 +544,7 @@ ssize_t textbuffer_search(Textbuffer tb, char *match, bool rev) {
         // For each textbuffer line, check if that line contains the search term
         size_t lineCount = tb->size - 1;
         for (; cursor != NULL; cursor = cursor->prev, lineCount--) {
-            if (strstr(cursor->data, match)) {
+            if (cursor->data && (exact ? (strcmp(cursor->data, match) == 0) : (strstr(cursor->data, match) != NULL))) {
                 // A match was found, return the current line number
                 return (ssize_t) lineCount;
             }
@@ -925,9 +955,98 @@ void textbuffer_redo(Textbuffer tb) {
  *   trivial solutions that delete all lines in `tb1` then add all lines
  *   of `tb2`)
  */
-char *textbuffer_diff(Textbuffer tb1, Textbuffer tb2) {
-    return (tb1 && tb2) ? NULL : NULL;
+static void textbuffer_diff_addDiff(char **string, bool diffIsAdd, size_t lineNo, TextbufferLine tb) {
+    size_t currentLength = *string ? strlen(*string) : 0;
+
+    size_t lineDigits = _nDigits(lineNo);
+    if (!lineDigits) lineDigits++;
+
+    size_t lineLength = lineDigits + 1 + 1;
+    if (diffIsAdd) lineLength += 1 + tb->size;
+
+    *string = realloc(*string, currentLength + lineLength + 1);
+
+    if (diffIsAdd) {
+        sprintf(*string + currentLength, "%d+\t%s\n", lineNo, tb->data);
+    } else {
+        sprintf(*string + currentLength, "%d-\n", lineNo);
+    }
 }
+
+char *textbuffer_diff(Textbuffer tb1, Textbuffer tb2) {
+    size_t lineCounter = 0;
+    char *result = NULL;
+
+    if (!tb1 || !tb1->head) {
+        for (TextbufferLine tb2_curr = tb2->head; tb2_curr; tb2_curr = tb2_curr->next, lineCounter++) {
+            textbuffer_diff_addDiff(&result, true, lineCounter, tb2_curr);
+        }
+        return result;
+    }
+
+    if (!tb2 || !tb2->head) {
+        for (TextbufferLine tb1_curr = tb1->head; tb1_curr; tb1_curr = tb1_curr->next, lineCounter++) {
+            // Always remove line 0
+            textbuffer_diff_addDiff(&result, false, 0, NULL);
+        }
+        return result;
+    }
+
+    // Make a copy of tb1
+    tb1 = textbuffer_clone(tb1);
+
+    // For each line in tb2, check if it exists in tb1, and make edits
+    for (TextbufferLine tb2_curr = tb2->head; tb2_curr; tb2_curr = tb2_curr->next, lineCounter++) {
+        ssize_t line;
+
+        // Check if tb1 contains the line in tb2
+        if ((line = _textbuffer_search(tb1, tb2_curr->data, false, true)) > -1) {
+
+            // Check if the matched line is in the same position as the search line
+            if ((size_t) line > lineCounter) {
+
+                // Remove the previous lines
+                for (size_t i = 0; i < ((size_t) line - lineCounter); i++) {
+                    textbuffer_diff_addDiff(&result, false, lineCounter, NULL);
+                    _textbuffer_delete(tb1, lineCounter, lineCounter, false);
+                }
+            }
+
+            // Disable the matched lines (for duplicate lines)
+            TextbufferLine curr = textbuffer_get_line(tb1, lineCounter);
+            curr->size = 0;
+            free(curr->data);
+            curr->data = NULL;
+        } else {
+            textbuffer_diff_addDiff(&result, true, lineCounter, tb2_curr);
+
+            // Create a 'disabled' line node
+            Textbuffer nullLine = textbuffer_new(NULL);
+            nullLine->head = malloc(sizeof(struct textbuffer_line));
+            (*nullLine->head) = (struct textbuffer_line) {
+                    .data = NULL, .size = 0, .next = NULL, .prev = NULL
+            };
+            nullLine->size = 1;
+
+            // Attach the disabled line
+            _textbuffer_insert(tb1, lineCounter, nullLine, false);
+        }
+    }
+
+    // Memory management
+    textbuffer_drop(tb1);
+    return result;
+}
+
+/*
+ * _nDigits
+ * Calculates the number of digits of `number`
+ */
+static size_t _nDigits(size_t number) {
+    if (number == 0) return 0;
+    return 1 + _nDigits(number / 10);
+}
+
 
 /* White box testing */
 
@@ -937,7 +1056,7 @@ char *textbuffer_diff(Textbuffer tb1, Textbuffer tb2) {
  */
 static void _verifyLinks(Textbuffer tb) {
     TextbufferLine curr = tb->head;
-    for (unsigned int i = 0; i < tb->size; curr = curr->next, i++) {
+    for (size_t i = 0; i < tb->size; curr = curr->next, i++) {
         if (i == 0) {
             // Check that the head item has no previous node assigned
             assert(curr->prev == NULL);
