@@ -316,8 +316,8 @@ void textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2) {
 }
 
 void _textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2, bool touchHistory) {
-    // Fail silently if the textbuffers are empty, or if `tb2` is empty
-    if (tb1 == tb2 || tb1->head == NULL || tb2->head == NULL) return;
+    // Fail silently if the textbuffers are the same, or if `tb2` is empty
+    if (tb1 == tb2 || tb2->head == NULL) return;
 
     // Save the current textbuffer content
     if (touchHistory) history_saveTextbufferState(tb1);
@@ -363,11 +363,11 @@ void _textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2, bool touchHi
     }
 
     // Update the line count of `tb1`
+//    printf("AAAAAAAAAAAAAAAAAAAAAAA %s, %s\n", tb1->size, tb2->size);
     tb1->size += tb2->size;
 
     // Memory management
-    if (touchHistory) history_dropKey(tb2);
-
+    history_dropKey(tb2);
     free(tb2);
 }
 
@@ -1096,5 +1096,75 @@ static void _verifyLinks(Textbuffer tb) {
 }
 
 void white_box_tests(void) {
+    Textbuffer tb;
+    Textbuffer tb_insert;
 
+    tb = textbuffer_new("0\n");
+    {
+        _verifyLinks(tb);
+        assert(tb->head != NULL);
+        assert(tb->size == 1);
+        assert(strcmp(tb->head->data, "0") == 0);
+        assert(tb->head->size == strlen(tb->head->data));
+    }
+
+    tb_insert = textbuffer_new("1\n2\n3\n4\n5\n6\n");
+    {
+        _verifyLinks(tb_insert);
+        assert(tb_insert->head != NULL);
+        assert(strcmp(tb_insert->head->data, "1") == 0);
+        assert(tb_insert->size == 6);
+    }
+
+    assert(History == NULL);
+    textbuffer_insert(tb, 1, tb_insert);
+    assert(History != NULL);
+    {
+        _verifyLinks(tb);
+        assert(tb->size == 7);
+    }
+
+    textbuffer_swap(tb, 0, 5);
+    {
+        _verifyLinks(tb);
+        assert(strcmp(tb->head->data, "5") == 0);
+        assert(strcmp(tb->head->next->next->next->next->next->data, "0") == 0);
+    }
+
+    textbuffer_swap(tb, 5, 6);
+    {
+        _verifyLinks(tb);
+        assert(strcmp(tb->head->next->next->next->next->next->data, "6") == 0);
+        assert(strcmp(tb->head->next->next->next->next->next->next->data, "0") == 0);
+    }
+
+    textbuffer_swap(tb, 0, 6);
+    {
+        _verifyLinks(tb);
+        assert(strcmp(tb->head->data, "0") == 0);
+        assert(strcmp(tb->head->next->next->next->next->next->next->data, "5") == 0);
+    }
+
+    textbuffer_swap(tb, 5, 6);
+    {
+        _verifyLinks(tb);
+        assert(strcmp(tb->head->next->next->next->next->next->data, "5") == 0);
+        assert(strcmp(tb->head->next->next->next->next->next->next->data, "6") == 0);
+    }
+
+    assert(textbuffer_get_line(tb, 0) == tb->head);
+    assert(textbuffer_get_line(tb, 1) == tb->head->next);
+    assert(textbuffer_get_line(tb, tb->size) == NULL);
+
+    {
+        Textbuffer tb_clone = textbuffer_clone(tb);
+        char *tb_str = textbuffer_to_str(tb);
+        char *tb_clone_str = textbuffer_to_str(tb_clone);
+        assert(strcmp(tb_str, tb_clone_str) == 0);
+        free(tb_str);
+        free(tb_clone_str);
+        free(tb_clone);
+    }
+
+    textbuffer_drop(tb);
 }

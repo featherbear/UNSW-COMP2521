@@ -98,6 +98,8 @@ char* _diff_applyEdit(Textbuffer tb, char* script);
 ///
 
 int main(void) {
+    // White-box tests
+    white_box_tests();
 
     // Standard tests
     test_create();
