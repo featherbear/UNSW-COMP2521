@@ -28,14 +28,14 @@ struct textbuffer {
 
 static TextbufferLine textbuffer_line_new(const char *text);
 static TextbufferLine textbuffer_get_line(Textbuffer tb, size_t lineNo);
+static Textbuffer textbuffer_clone(Textbuffer tb);
 static void textbuffer_line_drop(TextbufferLine line);
 static void textbuffer_line_replace(TextbufferLine line, const char *match, const char *replace);
-static Textbuffer textbuffer_clone(Textbuffer tb);
+
 static ssize_t _textbuffer_search(Textbuffer tb, char *match, bool rev, bool exact);
 static void _textbuffer_delete(Textbuffer tb, size_t from, size_t to, bool touchHistory);
 static Textbuffer _textbuffer_cut(Textbuffer tb, size_t from, size_t to, bool touchHistory);
 static void _textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2, bool touchHistory);
-static size_t _nDigits(size_t number);
 
 /// Challenge: History structure definitions, function prototypes
 
@@ -53,6 +53,12 @@ static void history_clearRedo_by_key(_HistoryKey key);
 static char *history_getRedo(Textbuffer tb);
 static void history_addRedo(Textbuffer tb, const char *string);
 static void history_saveTextbufferState(Textbuffer tb);
+
+/// Challenge: Difference
+
+static void textbuffer_diff_addDiff(char **string, bool diffIsAdd, size_t lineNo, TextbufferLine tb);
+static size_t _nDigits(size_t number);
+
 
 /// White box test and helper function prototypes
 
@@ -955,24 +961,6 @@ void textbuffer_redo(Textbuffer tb) {
  *   trivial solutions that delete all lines in `tb1` then add all lines
  *   of `tb2`)
  */
-static void textbuffer_diff_addDiff(char **string, bool diffIsAdd, size_t lineNo, TextbufferLine tb) {
-    size_t currentLength = *string ? strlen(*string) : 0;
-
-    size_t lineDigits = _nDigits(lineNo);
-    if (!lineDigits) lineDigits++;
-
-    size_t lineLength = lineDigits + 1 + 1;
-    if (diffIsAdd) lineLength += 1 + tb->size;
-
-    *string = realloc(*string, currentLength + lineLength + 1);
-
-    if (diffIsAdd) {
-        sprintf(*string + currentLength, "%d+\t%s\n", lineNo, tb->data);
-    } else {
-        sprintf(*string + currentLength, "%d-\n", lineNo);
-    }
-}
-
 char *textbuffer_diff(Textbuffer tb1, Textbuffer tb2) {
     size_t lineCounter = 0;
     char *result = NULL;
@@ -1038,6 +1026,35 @@ char *textbuffer_diff(Textbuffer tb1, Textbuffer tb2) {
     return result;
 }
 
+/**
+ * textbuffer_diff_addDiff
+ * Appends difference edit message to string
+ * If @param diffIsAdd is true --> add data from @param tb
+ * If @param diffIsAdd is true --> delete
+ */
+static void textbuffer_diff_addDiff(char **string, bool diffIsAdd, size_t lineNo, TextbufferLine tb) {
+    // Check current size (length) of the string
+    size_t currentLength = *string ? strlen(*string) : 0;
+
+    // Count the number of characters needed to hold the line number
+    size_t lineDigits = _nDigits(lineNo);
+    if (!lineDigits) lineDigits++;
+
+    // A line consists of: [number]TAB{data}\n.
+    size_t lineLength = lineDigits + 1 + 1;
+    if (diffIsAdd) lineLength += 1 + tb->size;
+
+    // malloc or realloc space for the string
+    *string = realloc(*string, currentLength + lineLength + 1);
+
+    // Append to the string
+    if (diffIsAdd) {
+        sprintf(*string + currentLength, "%d+\t%s\n", lineNo, tb->data);
+    } else {
+        sprintf(*string + currentLength, "%d-\n", lineNo);
+    }
+}
+
 /*
  * _nDigits
  * Calculates the number of digits of `number`
@@ -1050,7 +1067,7 @@ static size_t _nDigits(size_t number) {
 
 /* White box testing */
 
-/*
+/**
  * _verifyLinks
  * Checks that each line node has correct prev/next pointer values
  */
