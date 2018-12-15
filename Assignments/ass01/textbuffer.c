@@ -58,7 +58,6 @@ static void history_saveTextbufferState(Textbuffer tb);
 static void textbuffer_diff_addDiff(char **string, bool diffIsAdd, size_t lineNo, TextbufferLine tb);
 static size_t _nDigits(size_t number);
 
-
 /// White box test and helper function prototypes
 
 void white_box_tests(void);
@@ -318,10 +317,9 @@ void textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2) {
 
 void _textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2, bool touchHistory) {
     // Save the current textbuffer content
-    // NOTE: Perform this first before checking for fails
+    // NOTE: Perform this first before checking for fails ? ? ? ?
     // TODO: Pending forum post: #2714052
     if (touchHistory) history_saveTextbufferState(tb1);
-
     /*
      * Q: if I call delete or insert or swap with no effect on a textbuffer, then i call undo,
      *    should a same textbuffer be returned since operation with no effect is still an operation?
@@ -329,12 +327,11 @@ void _textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2, bool touchHi
      */
 
     // Fail silently if the textbuffers are the same, or if `tb2` is empty
-    if (tb1 == tb2) {
-
-        return;
-    } else if (tb2->head == NULL) {
-
-    } else if (tb1->head == NULL) {
+    if (tb1 == tb2) return;
+    if (tb2->head == NULL) {
+        // do nothing
+    }
+    else if (tb1->head == NULL) {
         // If `tb1` is empty, change its head to point to `tb2` head
         tb1->head = tb2->head;
     } else {
@@ -431,10 +428,6 @@ Textbuffer textbuffer_cut(Textbuffer tb, size_t from, size_t to) {
 }
 
 Textbuffer _textbuffer_cut(Textbuffer tb, size_t from, size_t to, bool touchHistory) {
-    // Fail silently if from > to
-    // TODO: Pending forum post: #2714052
-    if (from > to) return NULL;
-
     // Get the textbuffer lines
     TextbufferLine lineFrom = textbuffer_get_line(tb, from);
     TextbufferLine lineTo = textbuffer_get_line(tb, to);
@@ -448,6 +441,11 @@ Textbuffer _textbuffer_cut(Textbuffer tb, size_t from, size_t to, bool touchHist
     if (touchHistory) {
         history_saveTextbufferState(tb);
     }
+
+    //////// TODO: Pending forum post: #2714052 ///////////
+    // This condition should be checked first, but the assignment spec isn't clear
+    // Fail silently if from > to
+    if (from > to) return NULL;
 
     // Update links of the textbuffer
     if (lineFrom->prev == NULL) {
@@ -634,7 +632,7 @@ static void textbuffer_line_replace(TextbufferLine line, const char *match, cons
  */
 void textbuffer_replace(Textbuffer tb, char *match, char *replace) {
     // history_saveTextbufferState(tb);
-    // TODO pending for forum post: #2714115
+    // TODO: Pending for forum post: #2714115
 
     // For each line, check for matches and replace
     for (TextbufferLine cursor = tb->head; cursor != NULL; cursor = cursor->next) {
