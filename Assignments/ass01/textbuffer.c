@@ -2,6 +2,7 @@
 // COMP2521 19T0 ... assignment 1: Textbuffer ADT
 //
 // 2018-11-30	Andrew Wong <z5206677@unsw.edu.au>
+// https://github.com/featherbear/UNSW-COMP2521/blob/gh-pages/Assignments/ass01/textbuffer.c
 
 #include "textbuffer.h"
 #include <stdio.h>
@@ -330,8 +331,7 @@ void _textbuffer_insert(Textbuffer tb1, size_t pos, Textbuffer tb2, bool touchHi
     if (tb1 == tb2) return;
     if (tb2->head == NULL) {
         // do nothing
-    }
-    else if (tb1->head == NULL) {
+    } else if (tb1->head == NULL) {
         // If `tb1` is empty, change its head to point to `tb2` head
         tb1->head = tb2->head;
     } else {
@@ -1136,6 +1136,7 @@ void white_box_tests(void) {
     Textbuffer tb;
     Textbuffer tb_insert;
 
+    // Create textbuffer with one line
     tb = textbuffer_new("0\n");
     {
         _verifyLinks(tb);
@@ -1146,6 +1147,7 @@ void white_box_tests(void) {
         assert(tb->head->size == strlen(tb->head->data));
     }
 
+    // Create textbuffer with six lines
     tb_insert = textbuffer_new("1\n2\n3\n4\n5\n6\n");
     {
         _verifyLinks(tb_insert);
@@ -1161,10 +1163,10 @@ void white_box_tests(void) {
     {
         assert(History != NULL);
         assert(History->items->key == tb);
-        assert(History->items->key == tb);
-        assert(History->items->next == NULL);
-        assert(History->items->_cursor == 1);
         assert(History->items->records[0] != NULL);
+        assert(History->items->_records_count == 1);
+        assert(History->items->_cursor == 1);
+        assert(History->items->next == NULL);
     }
     {
         _verifyLinks(tb);
@@ -1244,5 +1246,35 @@ void white_box_tests(void) {
         assert(tb->size == 6);
     }
 
+    // Test _nDigits helper
+    {
+        assert(_nDigits(0) == 0);
+        assert(_nDigits(1) == 1);
+        assert(_nDigits(10) == 2);
+        assert(_nDigits(100) == 3);
+        assert(_nDigits(1000) == 4);
+    }
+
+    // Text tb_clone (deep copy)
+    {
+        Textbuffer tb_clone = textbuffer_clone(tb);
+        _verifyLinks(tb_clone);
+        _verifySize(tb_clone);
+
+        assert(tb_clone->size == tb->size);
+
+        for (TextbufferLine tb_curr = tb->head, tb_clone_curr = tb_clone->head;
+             tb_curr;
+             tb_curr = tb_curr->next, tb_clone_curr = tb_clone_curr->next) {
+            assert(tb_curr->size == tb_clone_curr->size);
+            assert(strcmp(tb_curr->data, tb_clone_curr->data) == 0);
+        }
+
+        textbuffer_drop(tb_clone);
+    }
+
+    // Test history, and drop
+    assert(History != NULL);
     textbuffer_drop(tb);
+    assert(History == NULL);
 }
