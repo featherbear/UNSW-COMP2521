@@ -3,19 +3,133 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>/post/tut03/</loc>
+    <lastmod>2018-12-11T17:19:30+11:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>/post/lec05/</loc>
+    <lastmod>2018-12-11T14:45:10+11:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>/post/lec04/</loc>
+    <lastmod>2018-12-06T10:16:32+11:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>/post/c-fibonacci/</loc>
+    <lastmod>2018-12-05T17:13:11+11:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>/post/binary-trees/</loc>
+    <lastmod>2018-12-04T14:40:39+11:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>/post/searchingalgorithms/</loc>
+    <lastmod>2018-12-04T14:40:39+11:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>/post/lec03/</loc>
+    <lastmod>2018-12-04T14:14:06+11:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>/post/ass01/</loc>
+    <lastmod>2018-11-30T18:33:40+11:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>/post/lec02/</loc>
+    <lastmod>2018-11-29T10:11:01+11:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>/post/tut01/</loc>
+    <lastmod>2018-11-27T17:05:45+11:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>/post/lec01/</loc>
+    <lastmod>2018-11-27T14:00:00+11:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <lastmod>2018-12-05T17:13:11+11:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/assignments/</loc>
+    <lastmod>2018-11-30T18:33:40+11:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/</loc>
+    <lastmod>2018-12-11T17:19:30+11:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/</loc>
+    <lastmod>2018-12-05T17:13:11+11:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/lectures/</loc>
+    <lastmod>2018-12-11T14:45:10+11:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2018-12-11T17:19:30+11:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/tutorial-/-labs/</loc>
+    <lastmod>2018-11-27T17:05:45+11:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

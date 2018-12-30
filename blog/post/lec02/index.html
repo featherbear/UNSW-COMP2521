@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Lecture 2 - Abstraction - COMP2521 Summer Fun</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="z5206677" /><meta name="description" content="ADTs, Stacks & Queues, Analysis and Testing" />
+
+  <meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.47.1" />
+
+
+<link rel="canonical" href="../../post/lec02/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../manifest.json">
+<link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="../../dist/even.min.css?v=3.2.0" rel="stylesheet">
+<link href="../../lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="Lecture 2 - Abstraction" />
+<meta property="og:description" content="ADTs, Stacks &amp; Queues, Analysis and Testing" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/lec02/" /><meta property="article:published_time" content="2018-11-29T10:11:01&#43;11:00"/>
+<meta property="article:modified_time" content="2018-11-29T10:11:01&#43;11:00"/>
+<meta itemprop="name" content="Lecture 2 - Abstraction">
+<meta itemprop="description" content="ADTs, Stacks &amp; Queues, Analysis and Testing">
+
+
+<meta itemprop="datePublished" content="2018-11-29T10:11:01&#43;11:00" />
+<meta itemprop="dateModified" content="2018-11-29T10:11:01&#43;11:00" />
+<meta itemprop="wordCount" content="458">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Lecture 2 - Abstraction"/>
+<meta name="twitter:description" content="ADTs, Stacks &amp; Queues, Analysis and Testing"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="../../" class="logo">COMP2521 Musings</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="../../">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="https://github.com/featherbear/UNSW-COMP2521">
+        <li class="mobile-menu-item">GitHub</li>
+      </a><a href="../../categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="">
+        <li class="mobile-menu-item"></li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="../../" class="logo">COMP2521 Musings</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="../../">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/featherbear/UNSW-COMP2521">GitHub</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="../../categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href=""></a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Lecture 2 - Abstraction</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-11-29 </span>
+        <div class="post-category">
+            
+              <a href="../../categories/lectures/"> Lectures </a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#abstraction">Abstraction</a>
+<ul>
+<li><a href="#how-to-implement-this-abstraction-thing">How to implement this, abstraction thing..?</a>
+<ul>
+<li><a href="#interface">Interface</a></li>
+<li><a href="#implementation">Implementation</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#uses-of-abstract-data-types">Uses of Abstract Data Types</a>
+<ul>
+<li><a href="#stacks-lifo">Stacks (LIFO)</a>
+<ul>
+<li><a href="#interface-1">Interface</a></li>
+<li><a href="#implementation-1">Implementation</a></li>
+</ul></li>
+<li><a href="#queues-fifo">Queues (FIFO)</a>
+<ul>
+<li><a href="#interface-2">Interface</a></li>
+<li><a href="#implementation-2">Implementation</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#analysis-and-testing">Analysis and Testing</a>
+<ul>
+<li><a href="#approaches">Approaches</a>
+<ul>
+<li><a href="#tdd-test-driven-development">TDD - Test Driven Development</a></li>
+<li><a href="#unit-tests">Unit Tests</a></li>
+<li><a href="#integration-tests">Integration Tests</a></li>
+<li><a href="#regression-tests">Regression Tests</a></li>
+</ul></li>
+<li><a href="#black-box-white-box-tests">Black Box / White Box Tests</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    
+
+    
+    <div class="post-content">
+      
+
+<h1 id="abstraction">Abstraction</h1>
+
+<p>Abstraction is the concept of taking a step back from something, and providing a wider overview.</p>
+
+<p>It does <strong>NOT</strong> mean to be vague, but rather give a higher level of meaning.</p>
+
+<blockquote>
+<p><strong>Example</strong><br />
+If we swap two variables with <code>swap(&amp;var1, &amp;var2)</code>. The user doesn&rsquo;t need to know about the <code>temp</code> variable that is needed.</p>
+</blockquote>
+
+<h2 id="how-to-implement-this-abstraction-thing">How to implement this, abstraction thing..?</h2>
+
+<p>There are two parts to an ADT, the <u>interface</u>, and the <u>implementation</u></p>
+
+<p>When designing a library,<br />
+What are the abstract properties of the datatypes we want to provide?</p>
+
+<h3 id="interface">Interface</h3>
+
+<p>An ADT&rsquo;s interface is the components that are exposed to the user to see and use. These are usually placed in an ADT&rsquo;s file header (.h file).</p>
+
+<blockquote>
+<p><strong>Example</strong><br />
+Function prototypes: <code>void swap((void*)var1, (void*)var2)</code><br />
+Structure pointers: <code>typedef struct st *St</code></p>
+</blockquote>
+
+<p><em>Fun Fact: The C language allows us to forward-declare function and types - We term these as prototypes</em></p>
+
+<h3 id="implementation">Implementation</h3>
+
+<p>An ADT&rsquo;s implementation is the actual inner-workings of the ADT&hellip; Helper functions, variable states, etcetera</p>
+
+<h1 id="uses-of-abstract-data-types">Uses of Abstract Data Types</h1>
+
+<p>Stacks and Queues are common types of ADT implementations.</p>
+
+<h2 id="stacks-lifo">Stacks (LIFO)</h2>
+
+<blockquote>
+<p>The <strong>L</strong>ast <strong>I</strong>n is the <strong>F</strong>irst <strong>O</strong>ut</p>
+</blockquote>
+
+<h3 id="interface-1">Interface</h3>
+
+<p>The interfaces would be the functions that a program would use
+* <code>Stack stack_new(item_t)</code>
+* <code>void stack_push(Stack, item_t)</code>
+* <code>item_t stack_pop(Stack)</code>
+* <code>size_t stack_size(Stack)</code>
+* <code>item_t stack_peek(Stack)</code></p>
+
+<h3 id="implementation-1">Implementation</h3>
+
+<pre><code class="language-c">Stack stack_new(item_t item) {
+  ... malloc ...
+  ... assign ... // (*stack) = (struct stack) { ... }
+  ... return ...
+}
+void stack_push(Stack s, Item it) {
+  ... add item to tail of stack ...
+}
+</code></pre>
+
+<h2 id="queues-fifo">Queues (FIFO)</h2>
+
+<blockquote>
+<p>The <strong>F</strong>irst <strong>I</strong>n is the <strong>F</strong>irst <strong>O</strong>ut</p>
+</blockquote>
+
+<h3 id="interface-2">Interface</h3>
+
+<ul>
+<li>push</li>
+<li>pop</li>
+<li>size</li>
+<li>peek</li>
+</ul>
+
+<h3 id="implementation-2">Implementation</h3>
+
+<p><code>code for queue functions go here!!</code></p>
+
+<h1 id="analysis-and-testing">Analysis and Testing</h1>
+
+<p>It&rsquo;s important to test our code&hellip; to make sure that it works.<br />
+&gt; <em>It&rsquo;s also important to check for the efficiency of our code&hellip; more on that in the <a href="../lec03">next lecture</a>.</em></p>
+
+<h2 id="approaches">Approaches</h2>
+
+<h3 id="tdd-test-driven-development">TDD - Test Driven Development</h3>
+
+<p>Write tests for your code with expected values BEFORE you write your code.</p>
+
+<p>(Often people write their code, then test it against output values&hellip; this <strong>isn&rsquo;t</strong> writing tests, as all of your tests will be false negatives)</p>
+
+<h3 id="unit-tests">Unit Tests</h3>
+
+<p>Testing each function</p>
+
+<h3 id="integration-tests">Integration Tests</h3>
+
+<p>Testing functions together</p>
+
+<h3 id="regression-tests">Regression Tests</h3>
+
+<p>Testing that further development has not affected previous behaviour</p>
+
+<blockquote>
+<p><a href="https://stackoverflow.com/questions/7672511/unit-test-integration-test-regression-test-acceptance-test">Read more about testing on StackOverflow</a></p>
+</blockquote>
+
+<h2 id="black-box-white-box-tests">Black Box / White Box Tests</h2>
+
+<p>There&rsquo;s also another two types of testing.</p>
+
+<p><strong>Black Box Tests</strong> as aptly named - you don&rsquo;t know what&rsquo;s inside the black-box, only the inputs and outputs. For these tests, we compared the output given an input.</p>
+
+<p><strong>White Box Tests</strong> on the other hand, is testing with knowledge of the inner workings of the code. Here we&rsquo;d be checking for <em>structure values</em>, <em>counters</em>, <em>pointer locations</em>, <em>etcetera</em>.</p>
+
+<p>The lecturer wrote some stuff about <a href="https://blog.jashankj.space/2016-12-23-black-white-box-tests">Black and White Box Tests</a></p>
+
+    </div>
+
+    
+    
+
+    
+    
+
+    <footer class="post-footer">
+      
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="../../post/ass01/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Assignment One - Textbuffer</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="../../post/tut01/">
+            <span class="next-text nav-default">Tutorial One</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:z5206677@student.unsw.edu.au" class="iconfont icon-email" title="email"></a>
+      <a href="https://www.linkedin.com/in/andrewjinmengwong/" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="https://github.com/featherbear" class="iconfont icon-github" title="github"></a>
+      <a href="https://www.instagram.com/_andrewjwong/" class="iconfont icon-instagram" title="instagram"></a>
+  <a href="../../index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Andrew Wong (z5206677)</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="../../lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="../../lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="../../lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="../../lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+<script type="text/javascript" src="../../dist/even.min.js?v=3.2.0"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

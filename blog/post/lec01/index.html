@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Lecture 1 - COMP2521 Summer Fun</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="z5206677" /><meta name="description" content="3c, switch, misc, gdb" />
+
+  <meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.47.1" />
+
+
+<link rel="canonical" href="../../post/lec01/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../manifest.json">
+<link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="../../dist/even.min.css?v=3.2.0" rel="stylesheet">
+<link href="../../lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="Lecture 1" />
+<meta property="og:description" content="3c, switch, misc, gdb" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/lec01/" /><meta property="article:published_time" content="2018-11-27T14:00:00&#43;11:00"/>
+<meta property="article:modified_time" content="2018-11-27T14:00:00&#43;11:00"/>
+<meta itemprop="name" content="Lecture 1">
+<meta itemprop="description" content="3c, switch, misc, gdb">
+
+
+<meta itemprop="datePublished" content="2018-11-27T14:00:00&#43;11:00" />
+<meta itemprop="dateModified" content="2018-11-27T14:00:00&#43;11:00" />
+<meta itemprop="wordCount" content="248">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Lecture 1"/>
+<meta name="twitter:description" content="3c, switch, misc, gdb"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="../../" class="logo">COMP2521 Musings</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="../../">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="https://github.com/featherbear/UNSW-COMP2521">
+        <li class="mobile-menu-item">GitHub</li>
+      </a><a href="../../categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="">
+        <li class="mobile-menu-item"></li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="../../" class="logo">COMP2521 Musings</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="../../">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/featherbear/UNSW-COMP2521">GitHub</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="../../categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href=""></a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Lecture 1</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-11-27 </span>
+        <div class="post-category">
+            
+              <a href="../../categories/lectures/"> Lectures </a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#psa-a-new-compiler-has-entered-the-game">PSA: A new compiler has entered the game</a>
+<ul>
+<li><a href="#compiling-a-single-file">Compiling a single file</a></li>
+<li><a href="#compiling-from-multiple-files">Compiling from multiple files</a></li>
+<li><a href="#compiling-with-leak-checking">Compiling with leak checking</a></li>
+</ul></li>
+<li><a href="#switch-statements">Switch Statements</a>
+<ul>
+<li><a href="#the-default-case">The default case</a></li>
+</ul></li>
+<li><a href="#misc">Misc</a>
+<ul>
+<li><a href="#break-continue-return">break, continue, return</a></li>
+<li><a href="#function-pointers">function pointers</a></li>
+<li><a href="#when-malloc-ing-structs">When <code>malloc</code>&lsquo;ing structs</a></li>
+</ul></li>
+<li><a href="#and-a-summary-of-a-summary-of-gdb">And a summary of a summary of gdb</a></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    
+
+    
+    <div class="post-content">
+      
+
+<h1 id="psa-a-new-compiler-has-entered-the-game">PSA: A new compiler has entered the game</h1>
+
+<p>Okay not really, it&rsquo;s the lecturer&rsquo;s wrapper for <code>clang</code>, which has pretty love messages (error messages in red) when things go wrong.</p>
+
+<h2 id="compiling-a-single-file">Compiling a single file</h2>
+
+<p><code>2521 3c -o prog prog.c</code></p>
+
+<h2 id="compiling-from-multiple-files">Compiling from multiple files</h2>
+
+<p><code>2521 3c -o prog prog.c f2.c f3.c</code></p>
+
+<h2 id="compiling-with-leak-checking">Compiling with leak checking</h2>
+
+<p><code>2521 3c +leak -o prog prog.c f2.c f3.c</code></p>
+
+<h1 id="switch-statements">Switch Statements</h1>
+
+<pre><code class="language-c">switch (variable) {
+  case a:
+    ...
+    break;
+  case b:
+    ...
+    break;
+  case c:
+    ...
+    break;
+}
+</code></pre>
+
+<p>Equivalent to</p>
+
+<pre><code class="language-c">if (variable == a) {
+  ...
+} else if (variable == b) {
+  ...
+} else if (variable == c) {
+
+}
+</code></pre>
+
+<h2 id="the-default-case">The default case</h2>
+
+<pre><code class="language-c">switch() {
+  case: ...
+  case: ...
+  default:
+    ...
+}
+</code></pre>
+
+<h1 id="misc">Misc</h1>
+
+<ul>
+<li>Function prototypes don&rsquo;t need a variable name, only the type</li>
+</ul>
+
+<h2 id="break-continue-return">break, continue, return</h2>
+
+<ul>
+<li><code>break</code> - exit a loop</li>
+<li><code>continue</code> - steps through the loop to the next iteration</li>
+<li><code>return</code> - exit a function (exits a loop implicitly)</li>
+</ul>
+
+<h2 id="function-pointers">function pointers</h2>
+
+<p>return_t (*var)(arg_t, &hellip;)</p>
+
+<p>int -&gt; int: int (*fp)(int);<br />
+(int, int) -&gt; void: void(*fp2)(int,int);</p>
+
+<h2 id="when-malloc-ing-structs">When <code>malloc</code>&lsquo;ing structs</h2>
+
+<p>If we&rsquo;re using a pointer type, remember to pass in the actual struct to malloc</p>
+
+<pre><code class="language-c">struct st;
+typedef struct st *St;
+
+/* 1 */ St st_ptr = malloc(sizeof(St));      // Will ONLY malloc 4 bytes (sizeof a pointer)
+/* 2 */ St st_ptr = malloc(sizeof(*st_ptr)); // Would malloc the space we need
+</code></pre>
+
+<ul>
+<li>Can&rsquo;t dereference a typedef&rsquo;d struct</li>
+<li><code>#2</code> - <code>sizeof(*st_ptr)</code> -&gt; dereferencing during declaration to give us <code>struct st</code></li>
+</ul>
+
+<h1 id="and-a-summary-of-a-summary-of-gdb">And a summary of a summary of gdb</h1>
+
+<p><img src="../gdb.png" alt="" /></p>
+
+    </div>
+
+    
+    
+
+    
+    
+
+    <footer class="post-footer">
+      
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="../../post/tut01/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Tutorial One</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:z5206677@student.unsw.edu.au" class="iconfont icon-email" title="email"></a>
+      <a href="https://www.linkedin.com/in/andrewjinmengwong/" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="https://github.com/featherbear" class="iconfont icon-github" title="github"></a>
+      <a href="https://www.instagram.com/_andrewjwong/" class="iconfont icon-instagram" title="instagram"></a>
+  <a href="../../index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Andrew Wong (z5206677)</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="../../lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="../../lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="../../lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="../../lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+<script type="text/javascript" src="../../dist/even.min.js?v=3.2.0"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Assignments on COMP2521 Summer Fun</title>
+    <link>/categories/assignments/</link>
+    <description>Recent content in Assignments on COMP2521 Summer Fun</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>Andrew Wong (z5206677)</copyright>
+    <lastBuildDate>Fri, 30 Nov 2018 18:33:40 +1100</lastBuildDate>
+    
+	<atom:link href="/categories/assignments/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Assignment One - Textbuffer</title>
+      <link>/post/ass01/</link>
+      <pubDate>Fri, 30 Nov 2018 18:33:40 +1100</pubDate>
+      
+      <guid>/post/ass01/</guid>
+      <description>Questions struct textbuffer { &amp;hellip; } Having a look at textbuffer.</description>
+    </item>
+    
+  </channel>
+</rss>

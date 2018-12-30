@@ -136,7 +136,8 @@ dlink append (dlink list1, dlink list2) {
 }
 ```
 
-> Is it necessary to return the resulting list? Could we instead get away with the following interface?
+> Is it necessary to return the resulting list?  
+Could we instead get away with the following interface?  
 `void append (dlink list1, dlink list2);`
 
 -- We could.
@@ -144,7 +145,7 @@ dlink append (dlink list1, dlink list2) {
 ---
 
 # Switch statements
-switch(variable){...}
+switch (variable) {...}  
 --> if A else if B else if C else if D else ...
 
 ## The `break` statement; execution fall-through
@@ -214,9 +215,3 @@ if (condition) {
   return valieIfFalse;
 }
 ```
-
-# Sorting
-## Efficiency 
-### is sorted
--> find the first occurence where something is NOT sorted
-

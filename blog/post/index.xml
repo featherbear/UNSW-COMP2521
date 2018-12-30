@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on COMP2521 Summer Fun</title>
+    <link>/post/</link>
+    <description>Recent content in Posts on COMP2521 Summer Fun</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>Andrew Wong (z5206677)</copyright>
+    <lastBuildDate>Tue, 11 Dec 2018 17:19:30 +1100</lastBuildDate>
+    
+	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Tutorial Three</title>
+      <link>/post/tut03/</link>
+      <pubDate>Tue, 11 Dec 2018 17:19:30 +1100</pubDate>
+      
+      <guid>/post/tut03/</guid>
+      <description>This tutorial inspected the time costs for different algorithm complexities</description>
+    </item>
+    
+    <item>
+      <title>Lecture 5 - Priority Queues and Graphs</title>
+      <link>/post/lec05/</link>
+      <pubDate>Tue, 11 Dec 2018 14:45:10 +1100</pubDate>
+      
+      <guid>/post/lec05/</guid>
+      <description>Binary Heaps A binary heap is similar to a binary search tree.</description>
+    </item>
+    
+    <item>
+      <title>Lecture 4 - Applications of Recursion</title>
+      <link>/post/lec04/</link>
+      <pubDate>Thu, 06 Dec 2018 10:16:32 +1100</pubDate>
+      
+      <guid>/post/lec04/</guid>
+      <description>Recursive Linked Lists Drop a list void list_drop_recursive(node *curr) { if (curr == NULL) return; list_drop_recursive(curr-&amp;gt;next); free(curr); }  Delete a node from a list void list_delete_recursive(node *curr, node *it) { if (curr == NULL) return NULL; if (curr == it) { node next = curr-&amp;gt;next; free(curr); return next; } curr-&amp;gt;next = list_delete_node(curr-&amp;gt;next, it); return curr; }  Max value in an array (Divide and Conquer) Iterative approach Complexity: O(n)</description>
+    </item>
+    
+    <item>
+      <title>fibonacci.c</title>
+      <link>/post/c-fibonacci/</link>
+      <pubDate>Wed, 05 Dec 2018 17:13:11 +1100</pubDate>
+      
+      <guid>/post/c-fibonacci/</guid>
+      <description>The fibonacci function is a great (or horrible) way to demonstrate the pros and cons of iterative and recursive approaches</description>
+    </item>
+    
+    <item>
+      <title>Binary Trees</title>
+      <link>/post/binary-trees/</link>
+      <pubDate>Tue, 04 Dec 2018 14:40:39 +1100</pubDate>
+      
+      <guid>/post/binary-trees/</guid>
+      <description>In programming, a tree is an efficient system of storing data.</description>
+    </item>
+    
+    <item>
+      <title>Searching Algorithms</title>
+      <link>/post/searchingalgorithms/</link>
+      <pubDate>Tue, 04 Dec 2018 14:40:39 +1100</pubDate>
+      
+      <guid>/post/searchingalgorithms/</guid>
+      <description> Linear Search  Searches from 0 to n-1 (linearly)  Linear Search (ordered data)  if (k &amp;gt; list[n]) break;  Binary Search (ordered data)  divide and conquer start at the middle; and we can check which side to continue checking &amp;gt; best case: t(n) ~ O(1) &amp;gt; worst case: t(N) = 1 + t(N/2) = log2(N) + 1 ~= O(log N)  </description>
+    </item>
+    
+    <item>
+      <title>Lecture 3 - Algorithms</title>
+      <link>/post/lec03/</link>
+      <pubDate>Tue, 04 Dec 2018 14:14:06 +1100</pubDate>
+      
+      <guid>/post/lec03/</guid>
+      <description>Complexity Factors that affect good programs Environment  the Operating System the Compiler the Hardware</description>
+    </item>
+    
+    <item>
+      <title>Assignment One - Textbuffer</title>
+      <link>/post/ass01/</link>
+      <pubDate>Fri, 30 Nov 2018 18:33:40 +1100</pubDate>
+      
+      <guid>/post/ass01/</guid>
+      <description>Questions struct textbuffer { &amp;hellip; } Having a look at textbuffer.</description>
+    </item>
+    
+    <item>
+      <title>Lecture 2 - Abstraction</title>
+      <link>/post/lec02/</link>
+      <pubDate>Thu, 29 Nov 2018 10:11:01 +1100</pubDate>
+      
+      <guid>/post/lec02/</guid>
+      <description>Abstraction Abstraction is the concept of taking a step back from something, and providing a wider overview.</description>
+    </item>
+    
+    <item>
+      <title>Tutorial One</title>
+      <link>/post/tut01/</link>
+      <pubDate>Tue, 27 Nov 2018 17:05:45 +1100</pubDate>
+      
+      <guid>/post/tut01/</guid>
+      <description>this is my name</description>
+    </item>
+    
+    <item>
+      <title>Lecture 1</title>
+      <link>/post/lec01/</link>
+      <pubDate>Tue, 27 Nov 2018 14:00:00 +1100</pubDate>
+      
+      <guid>/post/lec01/</guid>
+      <description>PSA: A new compiler has entered the game Okay not really, it&amp;rsquo;s the lecturer&amp;rsquo;s wrapper for clang, which has pretty love messages (error messages in red) when things go wrong.</description>
+    </item>
+    
+  </channel>
+</rss>
