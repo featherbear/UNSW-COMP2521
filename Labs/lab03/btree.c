@@ -315,6 +315,23 @@ bool negative_p(Item it) {
 ////////////////////////////////////////////////////////////////////////
 
 void white_box_tests(void) {
-    warnx("white_box_tests unimplemented");
-    // implement me!
+//    btree_node_value
+//    btree_insert
+//    btree_search
+//    btree_delete_node // TODO
+//    btree_traverse
+//    btree_size
+//    btree_size_leaf
+//    btree_height
+//    btree_drop
+//    btree_count_if
+//    btree_node_new
+//    btree_traverse_prefix
+//    btree_traverse_infix
+//    btree_traverse_postfix
+//    btree_traverse_level
+//    btree_traverse_visit
+//    even_p
+//    odd_p
+//    negative_p
 }
