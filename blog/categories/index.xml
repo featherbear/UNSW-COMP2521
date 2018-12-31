@@ -7,19 +7,10 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Andrew Wong (z5206677)</copyright>
-    <lastBuildDate>Wed, 05 Dec 2018 17:13:11 +1100</lastBuildDate>
+    <lastBuildDate>Fri, 30 Nov 2018 18:33:40 +1100</lastBuildDate>
     
 	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title></title>
-      <link>/categories/</link>
-      <pubDate>Wed, 05 Dec 2018 17:13:11 +1100</pubDate>
-      
-      <guid>/categories/</guid>
-      <description></description>
-    </item>
     
     <item>
       <title>Assignments</title>
@@ -33,18 +24,27 @@
     <item>
       <title>Lectures</title>
       <link>/categories/lectures/</link>
-      <pubDate>Tue, 11 Dec 2018 14:45:10 +1100</pubDate>
+      <pubDate>Thu, 13 Dec 2018 10:00:10 +1100</pubDate>
       
       <guid>/categories/lectures/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Tutorial / Labs</title>
-      <link>/categories/tutorial-/-labs/</link>
-      <pubDate>Tue, 27 Nov 2018 17:05:45 +1100</pubDate>
+      <title>Posts</title>
+      <link>/categories/posts/</link>
+      <pubDate>Wed, 05 Dec 2018 17:13:11 +1100</pubDate>
       
-      <guid>/categories/tutorial-/-labs/</guid>
+      <guid>/categories/posts/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tutorial / Labs</title>
+      <link>/categories/tutorial-labs/</link>
+      <pubDate>Tue, 11 Dec 2018 17:19:30 +1100</pubDate>
+      
+      <guid>/categories/tutorial-labs/</guid>
       <description></description>
     </item>
     

@@ -23,11 +23,13 @@ sequenceDiagrams:
 * the Operating System
 * the Compiler
 * the Hardware
+
 ### Implementation
 * the Algorithm (our code)
 
 ## Testing
 > Empirical testing of the efficiency of algorithms
+
 * Choose a good set of inputs
 * Measure the actual runtime (environment is important)
 
@@ -42,37 +44,42 @@ _(ie for a search algorithm; key not in A)_
 #### Big-O Notation
 > From best to worst timing
 
-Constant - `O(1)`  
-Logarithmic - `O(log n)`  
-Linear - `O(n)`  
-n-log-n - `O(n log n)`  
-Quadratic - `O(n^2)`  
-Cubic - `O(n^3)`  
-~~ fac - `O(n!)`  
-~~ Exponential - `O(2^n)`  
+|    | Type | Time Cost |
+| :--: | :--: | :--------- |
+|**best**| Constant | `O(1)`   |
+|| Logarithmic | `O(log n)`   |
+|| Linear | `O(n)`   |
+|| n-log-n | `O(n log n)` |  
+|| Quadratic | `O(n^2)` |  
+|| Cubic | `O(n^3)`   |
+|| Exponential | `O(2^n)`  |
+|| Factorial | `O(n!)`   |
+|**worst**| _all hell breaks loose_ | `O(n^n)` |
 
 
 
-The worst case execution time is between the fastest and slowest possible operation time.
-[Searching Algorithms](../searchingAlgorithms)
+The worst case execution time is between the fastest and slowest possible operation time.  
+
+> Suggested: [Searching Algorithms](../searchingAlgorithms)
 
 #### Calculating Big-O Values
-> Remember: The Big-O value refers to the worst-case scenario  
+// Remember: The Big-O value refers to the worst-case scenario  
 
-Step through the algorithm and count the number of operations performed. When you encounter a loop, add `n`, or a variant of `n`.
+Step through the algorithm and count the number of operations performed.  
+When you encounter a loop, add `n`, or a variant of `n`.
 
 The resulting Big-O is the highest power of n, expressed without the coefficient.
 
 > Example :: 4 + **<u>3n</u>**  
 Highest power of n: 3n  
 Big-O: O(n) - linear  
-
+&nbsp;  
 > Example :: 4 + 3n + **<u>3n^2</u>**  
 Highest power of n: 3n^2  
 Big-O: O(n^2) - quadratic  
 
 
-##### Maths-y stuff
+#### Maths-y stuff
 f(n) is O(g(n)) if f(n) is asymptotically less than or equal to g(n).  
 f(n) is Omega(g(n)) if f(n) is asymptotically greater than or equal to g(n).  
 f(n) is Theta(g(n)) if f(n) is asymptotically equal to g(n).
@@ -90,7 +97,7 @@ Feasible only for small n
 
 ### Tools
 #### _time(1)_
-measure execution time  
+measures execution time  
 Also available at `/usr/bin/time`
 
 # Recursion
@@ -125,7 +132,15 @@ Would be better to just iterate for a factorial function
 
 ## Fibonacci
 _So this section alone got quite large..._
+
 > [Click here to read the Fibonacci post](../c-fibonacci)
 
 ## Optimisation
-Tail-call optimisation:
+### Tail-call optimisation
+Tail-call optimisation is where you are able to avoid allocating a new stack frame for a function because the calling function will simply return the value that it gets from the called function.
+
+A function ends with a tail call if the last operation before the function returns is another function call. If this call invokes the same function, it is tail-recursive.
+
+// A function can probably be optimised if it's last operation is calling itself
+
+Source: [StackOverflow](https://stackoverflow.com/questions/310974/what-is-tail-call-optimization)

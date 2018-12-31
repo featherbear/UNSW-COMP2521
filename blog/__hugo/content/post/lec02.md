@@ -23,10 +23,11 @@ Abstraction is the concept of taking a step back from something, and providing a
 It does **NOT** mean to be vague, but rather give a higher level of meaning.
 
 > **Example**  
-If we swap two variables with `swap(&var1, &var2)`. The user doesn't need to know about the `temp` variable that is needed.
+If we swap two variables with `swap(&var1, &var2)`,  
+the user doesn't need to know about the `temp` variable that is needed.
 
 ## How to implement this, abstraction thing..?
-There are two parts to an ADT, the <u>interface</u>, and the <u>implementation</u>
+There are two parts to an ADT, the <u>[interface](#interface)</u>, and the <u>[implementation](#implementation)</u>
 
 When designing a library,  
 What are the abstract properties of the datatypes we want to provide?
@@ -51,6 +52,7 @@ Stacks and Queues are common types of ADT implementations.
 
 ### Interface
 The interfaces would be the functions that a program would use
+
 * `Stack stack_new(item_t)`
 * `void stack_push(Stack, item_t)`
 * `item_t stack_pop(Stack)`

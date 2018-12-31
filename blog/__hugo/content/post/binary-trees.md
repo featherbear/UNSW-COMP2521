@@ -1,7 +1,7 @@
 ---
 title: "Binary Trees"
 date: 2018-12-04T14:40:39+11:00
-
+categories: ["Posts"]
 hiddenFromHomePage: false
 postMetaInFooter: false
 

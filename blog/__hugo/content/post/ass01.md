@@ -17,17 +17,22 @@ sequenceDiagrams:
 
 ---
 
+The first assignment for this course was to implement an ADT that would be able to store, and modify lines of text in it.
+
+> Also, suprised pikachu meme, I choose you!!  
+![](/post/ass01/48389837_1237744566363342_5786992012112691200_n.png)
+
 
 # Questions
 
-## struct textbuffer { ... }
+## struct textbuffer {...}
 Having a look at `textbuffer.h`, I was abit confused as to where the `struct textbuffer` definition was.  
 _The compiler needs to know right?_  
 We're not just just doing `Textbuffer __ = malloc(sizeof(*__))`; since the compiler won't know how large `struct textbuffer` is?  
 
 EDIT: Nevermind, I did a dumb dumb; I **am** meant to implement the structure for `struct textbuffer` myself.
 
-## Splitting the new lines.
+## Iterating new lines
 If I were to use `strsep(3)`, `if (*line == '\0') break;` won't work.  
 Why? Because if I had an input of `\n\nhello\n\0`, the loop would break because between `\n` and `\n` is `\0`. Aaaah!
 
@@ -102,7 +107,7 @@ Also, oh boy look at this madness
 ```
 
 
-# More on strok vs strsep
+# strok vs strsep
 > "You would only use strtok() when someone threatens your life if you don't do so."  - [_StackOverflow_](https://stackoverflow.com/a/7219504)
 
 # TIL

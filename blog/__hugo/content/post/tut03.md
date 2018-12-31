@@ -2,6 +2,7 @@
 title: "Tutorial Three"
 date: 2018-12-11T17:19:30+11:00
 
+categories: ["Tutorial / Labs"]
 hiddenFromHomePage: false
 postMetaInFooter: false
 

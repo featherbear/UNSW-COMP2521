@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Andrew Wong (z5206677)</copyright>
-    <lastBuildDate>Tue, 11 Dec 2018 17:19:30 +1100</lastBuildDate>
+    <lastBuildDate>Thu, 13 Dec 2018 10:00:10 +1100</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Lecture 6 - Graph Representations and Graph Search</title>
+      <link>/post/lec06/</link>
+      <pubDate>Thu, 13 Dec 2018 10:00:10 +1100</pubDate>
+      
+      <guid>/post/lec06/</guid>
+      <description>Graph Representation</description>
+    </item>
     
     <item>
       <title>Tutorial Three</title>
@@ -27,7 +36,7 @@
       <pubDate>Tue, 11 Dec 2018 14:45:10 +1100</pubDate>
       
       <guid>/post/lec05/</guid>
-      <description>Binary Heaps A binary heap is similar to a binary search tree.</description>
+      <description>Binary Heaps can be used as priority queues, as the root of a binary tree is always the largest/highest value.</description>
     </item>
     
     <item>
@@ -36,7 +45,7 @@
       <pubDate>Thu, 06 Dec 2018 10:16:32 +1100</pubDate>
       
       <guid>/post/lec04/</guid>
-      <description>Recursive Linked Lists Drop a list void list_drop_recursive(node *curr) { if (curr == NULL) return; list_drop_recursive(curr-&amp;gt;next); free(curr); }  Delete a node from a list void list_delete_recursive(node *curr, node *it) { if (curr == NULL) return NULL; if (curr == it) { node next = curr-&amp;gt;next; free(curr); return next; } curr-&amp;gt;next = list_delete_node(curr-&amp;gt;next, it); return curr; }  Max value in an array (Divide and Conquer) Iterative approach Complexity: O(n)</description>
+      <description>Recursive Linked Lists Drop a list 1 2 3 4 5  void list_drop_recursive(node *curr) { if (curr == NULL) return; list_drop_recursive(curr-&amp;gt;next); free(curr); }   Delete a node from a list 1 2 3 4 5 6 7 8 9 10  void list_delete_recursive(node *curr, node *it) { if (curr == NULL) return NULL; if (curr == it) { node next = curr-&amp;gt;next; free(curr); return next; } curr-&amp;gt;next = list_delete_node(curr-&amp;gt;next, it); return curr; }   Max value in an array (Divide and Conquer) Iterative approach Complexity: O(n)</description>
     </item>
     
     <item>
@@ -49,6 +58,15 @@
     </item>
     
     <item>
+      <title>Binary Heaps</title>
+      <link>/post/binary-heaps/</link>
+      <pubDate>Tue, 04 Dec 2018 14:40:39 +1100</pubDate>
+      
+      <guid>/post/binary-heaps/</guid>
+      <description>Binary Heaps A binary heap is similar to a binary search tree.</description>
+    </item>
+    
+    <item>
       <title>Binary Trees</title>
       <link>/post/binary-trees/</link>
       <pubDate>Tue, 04 Dec 2018 14:40:39 +1100</pubDate>
@@ -58,12 +76,21 @@
     </item>
     
     <item>
+      <title>Graphs</title>
+      <link>/post/graphs/</link>
+      <pubDate>Tue, 04 Dec 2018 14:40:39 +1100</pubDate>
+      
+      <guid>/post/graphs/</guid>
+      <description>A graph is a collection type where each node knows of its related nodes.</description>
+    </item>
+    
+    <item>
       <title>Searching Algorithms</title>
       <link>/post/searchingalgorithms/</link>
       <pubDate>Tue, 04 Dec 2018 14:40:39 +1100</pubDate>
       
       <guid>/post/searchingalgorithms/</guid>
-      <description> Linear Search  Searches from 0 to n-1 (linearly)  Linear Search (ordered data)  if (k &amp;gt; list[n]) break;  Binary Search (ordered data)  divide and conquer start at the middle; and we can check which side to continue checking &amp;gt; best case: t(n) ~ O(1) &amp;gt; worst case: t(N) = 1 + t(N/2) = log2(N) + 1 ~= O(log N)  </description>
+      <description>Linear Search  Searches from 0 to n-1 (linearly)</description>
     </item>
     
     <item>
@@ -72,7 +99,7 @@
       <pubDate>Tue, 04 Dec 2018 14:14:06 +1100</pubDate>
       
       <guid>/post/lec03/</guid>
-      <description>Complexity Factors that affect good programs Environment  the Operating System the Compiler the Hardware</description>
+      <description>Complexity Factors that affect good programs Environment  the Operating System the Compiler the Hardware  Implementation  the Algorithm (our code)  Testing  Empirical testing of the efficiency of algorithms</description>
     </item>
     
     <item>
@@ -81,7 +108,7 @@
       <pubDate>Fri, 30 Nov 2018 18:33:40 +1100</pubDate>
       
       <guid>/post/ass01/</guid>
-      <description>Questions struct textbuffer { &amp;hellip; } Having a look at textbuffer.</description>
+      <description>The first assignment for this course was to implement an ADT that would be able to store, and modify lines of text in it.</description>
     </item>
     
     <item>

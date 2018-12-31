@@ -16,21 +16,17 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="z5206677" />
-  <meta name="description" content="Questions struct textbuffer { &amp;hellip; } Having a look at textbuffer." />
-
-  <meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="z5206677" /><meta name="description" content="The first assignment for this course was to implement an ADT that would be able to store, and modify lines of text in it." /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
 
 
 
-<meta name="generator" content="Hugo 0.47.1" />
+<meta name="generator" content="Hugo 0.52 with even 4.0.0" />
 
 
 <link rel="canonical" href="../../post/ass01/" />
-
 <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
@@ -38,36 +34,30 @@
 <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
 
 
-
-
-
-
-
-<link href="../../dist/even.min.css?v=3.2.0" rel="stylesheet">
-<link href="../../lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
-
-
+<link href="../../dist/even.93844dae.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
 <meta property="og:title" content="Assignment One - Textbuffer" />
-<meta property="og:description" content="Questions struct textbuffer { &hellip; } Having a look at textbuffer." />
+<meta property="og:description" content="The first assignment for this course was to implement an ADT that would be able to store, and modify lines of text in it." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/ass01/" /><meta property="article:published_time" content="2018-11-30T18:33:40&#43;11:00"/>
 <meta property="article:modified_time" content="2018-11-30T18:33:40&#43;11:00"/>
+
 <meta itemprop="name" content="Assignment One - Textbuffer">
-<meta itemprop="description" content="Questions struct textbuffer { &hellip; } Having a look at textbuffer.">
+<meta itemprop="description" content="The first assignment for this course was to implement an ADT that would be able to store, and modify lines of text in it.">
 
 
 <meta itemprop="datePublished" content="2018-11-30T18:33:40&#43;11:00" />
 <meta itemprop="dateModified" content="2018-11-30T18:33:40&#43;11:00" />
-<meta itemprop="wordCount" content="512">
+<meta itemprop="wordCount" content="549">
 
 
 
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Assignment One - Textbuffer"/>
-<meta name="twitter:description" content="Questions struct textbuffer { &hellip; } Having a look at textbuffer."/>
+<meta name="twitter:description" content="The first assignment for this course was to implement an ADT that would be able to store, and modify lines of text in it."/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -98,8 +88,6 @@
         <li class="mobile-menu-item">GitHub</li>
       </a><a href="../../categories/">
         <li class="mobile-menu-item">Categories</li>
-      </a><a href="">
-        <li class="mobile-menu-item"></li>
       </a>
   </ul>
 </nav>
@@ -117,8 +105,6 @@
         <a class="menu-item-link" href="https://github.com/featherbear/UNSW-COMP2521">GitHub</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="../../categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href=""></a>
       </li>
   </ul>
 </nav>
@@ -135,27 +121,21 @@
       <div class="post-meta">
         <span class="post-time"> 2018-11-30 </span>
         <div class="post-category">
-            
-              <a href="../../categories/assignments/"> Assignments </a>
-            
-          </div>
-        
+            <a href="../../categories/assignments/"> Assignments </a>
+            </div>
         
       </div>
     </header>
 
-    
-    
-<div class="post-toc" id="post-toc">
+    <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
-  
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
 <ul>
 <li><a href="#questions">Questions</a>
 <ul>
-<li><a href="#struct-textbuffer">struct textbuffer { &hellip; }</a></li>
-<li><a href="#splitting-the-new-lines">Splitting the new lines.</a></li>
+<li><a href="#struct-textbuffer">struct textbuffer {&hellip;}</a></li>
+<li><a href="#iterating-new-lines">Iterating new lines</a></li>
 <li><a href="#textbuffer-swap">textbuffer_swap</a></li>
 <li><a href="#textbuffer-to-str">textbuffer_to_str</a></li>
 <li><a href="#textbuffer-bytes">textbuffer_bytes</a></li>
@@ -163,23 +143,25 @@
 <li><a href="#textbuffer-replace">textbuffer_replace</a></li>
 <li><a href="#textbuffer-undo-textbuffer-redo">textbuffer_undo / textbuffer_redo</a></li>
 </ul></li>
-<li><a href="#more-on-strok-vs-strsep">More on strok vs strsep</a></li>
+<li><a href="#strok-vs-strsep">strok vs strsep</a></li>
 <li><a href="#til">TIL</a></li>
 </ul>
 </nav>
   </div>
 </div>
-
-    
-    
-
-    
     <div class="post-content">
       
 
+<p>The first assignment for this course was to implement an ADT that would be able to store, and modify lines of text in it.</p>
+
+<blockquote>
+<p>Also, suprised pikachu meme, I choose you!!<br />
+<img src="../../post/ass01/48389837_1237744566363342_5786992012112691200_n.png" alt="" /></p>
+</blockquote>
+
 <h1 id="questions">Questions</h1>
 
-<h2 id="struct-textbuffer">struct textbuffer { &hellip; }</h2>
+<h2 id="struct-textbuffer">struct textbuffer {&hellip;}</h2>
 
 <p>Having a look at <code>textbuffer.h</code>, I was abit confused as to where the <code>struct textbuffer</code> definition was.<br />
 <em>The compiler needs to know right?</em><br />
@@ -187,18 +169,24 @@ We&rsquo;re not just just doing <code>Textbuffer __ = malloc(sizeof(*__))</code>
 
 <p>EDIT: Nevermind, I did a dumb dumb; I <strong>am</strong> meant to implement the structure for <code>struct textbuffer</code> myself.</p>
 
-<h2 id="splitting-the-new-lines">Splitting the new lines.</h2>
+<h2 id="iterating-new-lines">Iterating new lines</h2>
 
 <p>If I were to use <code>strsep(3)</code>, <code>if (*line == '\0') break;</code> won&rsquo;t work.<br />
 Why? Because if I had an input of <code>\n\nhello\n\0</code>, the loop would break because between <code>\n</code> and <code>\n</code> is <code>\0</code>. Aaaah!</p>
 
 <p>The way I did it was:</p>
-
-<pre><code class="language-c">while ((line = strsep(&amp;inputCursor, &quot;\n&quot;)) != NULL &amp;&amp; inputCursor) {
-  ...
-}
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">while</span> <span class="p">((</span><span class="n">line</span> <span class="o">=</span> <span class="n">strsep</span><span class="p">(</span><span class="o">&amp;</span><span class="n">inputCursor</span><span class="p">,</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span> <span class="n">inputCursor</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">...</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
 <p>The special thing here is the <code>&amp;&amp; inputCursor</code> part:<br />
 When <code>strsep</code> encounters the EOL; it returns the previous value of <code>inputCursor</code>, before setting <code>inputCursor = NULL</code>.</p>
 
@@ -261,18 +249,29 @@ But then I would run into overlapping, where continuous redos would eventually c
 Sure I could have gotten it to work; but I decided that it was easier to just separate both.</p>
 
 <p>Also, oh boy look at this madness</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c">    <span class="c1">// Pointer to the pointer to the head of History-&gt;items
+</span><span class="c1"></span>    <span class="n">_HistoryKey</span> <span class="o">*</span><span class="n">item</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">History</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">;</span>
 
-<pre><code class="language-c">    // Pointer to the pointer to the head of History-&gt;items
-    _HistoryKey *item = &amp;History-&gt;items;
-
-    // Search through the current history records
-    while (*item) {
-        if ((*item)-&gt;key == tb) return *item;
-        item = &amp;((*item)-&gt;next);
-    }
-</code></pre>
-
-<h1 id="more-on-strok-vs-strsep">More on strok vs strsep</h1>
+    <span class="c1">// Search through the current history records
+</span><span class="c1"></span>    <span class="k">while</span> <span class="p">(</span><span class="o">*</span><span class="n">item</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">((</span><span class="o">*</span><span class="n">item</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">key</span> <span class="o">==</span> <span class="n">tb</span><span class="p">)</span> <span class="k">return</span> <span class="o">*</span><span class="n">item</span><span class="p">;</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="o">&amp;</span><span class="p">((</span><span class="o">*</span><span class="n">item</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
+    <span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<h1 id="strok-vs-strsep">strok vs strsep</h1>
 
 <blockquote>
 <p>&ldquo;You would only use strtok() when someone threatens your life if you don&rsquo;t do so.&rdquo;  - <a href="https://stackoverflow.com/a/7219504"><em>StackOverflow</em></a></p>
@@ -286,26 +285,16 @@ Sure I could have gotten it to work; but I decided that it was easier to just se
 
     </div>
 
-    
-    
-
-    
-    
-
     <footer class="post-footer">
       
-
-      
       <nav class="post-nav">
-        
-          <a class="prev" href="../../post/lec03/">
+        <a class="prev" href="../../post/lec02/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Lecture 3 - Algorithms</span>
+            <span class="prev-text nav-default">Lecture 2 - Abstraction</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        
-          <a class="next" href="../../post/lec02/">
-            <span class="next-text nav-default">Lecture 2 - Abstraction</span>
+        <a class="next" href="../../post/lec03/">
+            <span class="next-text nav-default">Lecture 3 - Algorithms</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -314,9 +303,6 @@ Sure I could have gotten it to work; but I decided that it was easier to just se
   </article>
         </div>
         
-  
-
-  
 
       </div>
     </main>
@@ -358,12 +344,10 @@ Sure I could have gotten it to work; but I decided that it was easier to just se
     </div>
   </div>
   
-<script src="../../lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="../../lib/jquery/jquery-3.2.1.min.js"></script>
-  <script type="text/javascript" src="../../lib/slideout/slideout-1.0.1.min.js"></script>
-  <script type="text/javascript" src="../../lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
-
-
-<script type="text/javascript" src="../../dist/even.min.js?v=3.2.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="../../dist/even.ece58db6.min.js"></script>
 
 
 

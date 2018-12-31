@@ -16,20 +16,17 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="z5206677" /><meta name="description" content="Recursive Linked Lists, Binary Trees" />
-
-  <meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="z5206677" /><meta name="description" content="Recursive Linked Lists, Binary Trees" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
 
 
 
-<meta name="generator" content="Hugo 0.47.1" />
+<meta name="generator" content="Hugo 0.52 with even 4.0.0" />
 
 
 <link rel="canonical" href="../../post/lec04/" />
-
 <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
@@ -37,15 +34,8 @@
 <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
 
 
-
-
-
-
-
-<link href="../../dist/even.min.css?v=3.2.0" rel="stylesheet">
-<link href="../../lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
-
-
+<link href="../../dist/even.93844dae.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
 <meta property="og:title" content="Lecture 4 - Applications of Recursion" />
@@ -53,13 +43,14 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/lec04/" /><meta property="article:published_time" content="2018-12-06T10:16:32&#43;11:00"/>
 <meta property="article:modified_time" content="2018-12-06T10:16:32&#43;11:00"/>
+
 <meta itemprop="name" content="Lecture 4 - Applications of Recursion">
 <meta itemprop="description" content="Recursive Linked Lists, Binary Trees">
 
 
 <meta itemprop="datePublished" content="2018-12-06T10:16:32&#43;11:00" />
 <meta itemprop="dateModified" content="2018-12-06T10:16:32&#43;11:00" />
-<meta itemprop="wordCount" content="143">
+<meta itemprop="wordCount" content="171">
 
 
 
@@ -97,8 +88,6 @@
         <li class="mobile-menu-item">GitHub</li>
       </a><a href="../../categories/">
         <li class="mobile-menu-item">Categories</li>
-      </a><a href="">
-        <li class="mobile-menu-item"></li>
       </a>
   </ul>
 </nav>
@@ -116,8 +105,6 @@
         <a class="menu-item-link" href="https://github.com/featherbear/UNSW-COMP2521">GitHub</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="../../categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href=""></a>
       </li>
   </ul>
 </nav>
@@ -134,20 +121,14 @@
       <div class="post-meta">
         <span class="post-time"> 2018-12-06 </span>
         <div class="post-category">
-            
-              <a href="../../categories/lectures/"> Lectures </a>
-            
-          </div>
-        
+            <a href="../../categories/lectures/"> Lectures </a>
+            </div>
         
       </div>
     </header>
 
-    
-    
-<div class="post-toc" id="post-toc">
+    <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
-  
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
 <ul>
@@ -165,90 +146,115 @@
 </nav>
   </div>
 </div>
-
-    
-    
-
-    
     <div class="post-content">
       
 
 <h1 id="recursive-linked-lists">Recursive Linked Lists</h1>
 
 <h2 id="drop-a-list">Drop a list</h2>
-
-<pre><code class="language-c">void list_drop_recursive(node *curr) {
-  if (curr == NULL) return;
-  list_drop_recursive(curr-&gt;next);
-  free(curr);
-}
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="nf">list_drop_recursive</span><span class="p">(</span><span class="n">node</span> <span class="o">*</span><span class="n">curr</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">curr</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+  <span class="n">list_drop_recursive</span><span class="p">(</span><span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
+  <span class="n">free</span><span class="p">(</span><span class="n">curr</span><span class="p">);</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
 <h2 id="delete-a-node-from-a-list">Delete a node from a list</h2>
-
-<pre><code class="language-c">void list_delete_recursive(node *curr, node *it) {
-  if (curr == NULL) return NULL;
-  if (curr == it) {
-    node next = curr-&gt;next;
-    free(curr);
-    return next;
-  }
-  curr-&gt;next = list_delete_node(curr-&gt;next, it);
-  return curr;
-}
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="nf">list_delete_recursive</span><span class="p">(</span><span class="n">node</span> <span class="o">*</span><span class="n">curr</span><span class="p">,</span> <span class="n">node</span> <span class="o">*</span><span class="n">it</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">curr</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">curr</span> <span class="o">==</span> <span class="n">it</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">node</span> <span class="n">next</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">curr</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">next</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">list_delete_node</span><span class="p">(</span><span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">,</span> <span class="n">it</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">curr</span><span class="p">;</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
 <h1 id="max-value-in-an-array-divide-and-conquer">Max value in an array (Divide and Conquer)</h1>
 
 <h2 id="iterative-approach">Iterative approach</h2>
 
 <p>Complexity: O(n)</p>
-
-<pre><code class="language-c">int array_max(int a[], size_t n) {
-  int max = a[0];
-  for (size_t i = 0; i &lt;; i++) {
-    if (a[i] &gt; max) max = a[i];
-  }
-}
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">array_max</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span> <span class="n">size_t</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">max</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">max</span><span class="p">)</span> <span class="n">max</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
 <h2 id="recursive-approach">Recursive approach</h2>
 
 <p>Complexity: O(n) <em>?</em></p>
-
-<pre><code class="language-c">int array_max(int a[], size_t l, size_t, r) {
-  if (l == r) return a[l];
-  int m = (l + r) / 2;
-  int m1 = array_max(a, l, m);
-  int m2 = array_max(a, m+1, r);
-  return m2 &gt; m1 ? m2: m1;
-}
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">array_max</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span> <span class="n">size_t</span> <span class="n">l</span><span class="p">,</span> <span class="n">size_t</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">==</span> <span class="n">r</span><span class="p">)</span> <span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="n">l</span><span class="p">];</span>
+  <span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">m1</span> <span class="o">=</span> <span class="n">array_max</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">m</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">m2</span> <span class="o">=</span> <span class="n">array_max</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">m2</span> <span class="o">&gt;</span> <span class="n">m1</span> <span class="o">?</span> <span class="nl">m2</span><span class="p">:</span> <span class="n">m1</span><span class="p">;</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
 <!-- map-reduce -->
 
     </div>
 
-    
-    
-
-    
-    
-
     <footer class="post-footer">
       
-
-      
       <nav class="post-nav">
-        
-          <a class="prev" href="../../post/lec05/">
+        <a class="prev" href="../../post/c-fibonacci/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Lecture 5 - Priority Queues and Graphs</span>
+            <span class="prev-text nav-default">fibonacci.c</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        
-          <a class="next" href="../../post/c-fibonacci/">
-            <span class="next-text nav-default">fibonacci.c</span>
+        <a class="next" href="../../post/lec05/">
+            <span class="next-text nav-default">Lecture 5 - Priority Queues and Graphs</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -257,9 +263,6 @@
   </article>
         </div>
         
-  
-
-  
 
       </div>
     </main>
@@ -301,17 +304,11 @@
     </div>
   </div>
   
-<script src="../../lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="../../lib/jquery/jquery-3.2.1.min.js"></script>
-  <script type="text/javascript" src="../../lib/slideout/slideout-1.0.1.min.js"></script>
-  <script type="text/javascript" src="../../lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
-
-<script>window.sequenceDiagramsOptions = {theme: 'hand'};</script>
-<script src="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.js" integrity="sha256-4O4pS1SH31ZqrSO2A/2QJTVjTPqVe+jnYgOWUVr7EEc=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/snapsvg@0.5.1/dist/snap.svg-min.js" integrity="sha256-oI+elz+sIm+jpn8F/qEspKoKveTc5uKeFHNNVexe6d8=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/underscore@1.8.3/underscore-min.js" integrity="sha256-obZACiHd7gkOk9iIL/pimWMTJ4W/pBsKu+oZnSeBIek=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/gh/bramp/js-sequence-diagrams@2.0.1/dist/sequence-diagram-min.js" integrity="sha384-8748Vn52gHJYJI0XEuPB2QlPVNUkJlJn9tHqKec6J3q2r9l8fvRxrgn/E5ZHV0sP" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bramp/js-sequence-diagrams@2.0.1/dist/sequence-diagram-min.css" integrity="sha384-6QbLKJMz5dS3adWSeINZe74uSydBGFbnzaAYmp+tKyq60S7H2p6V7g1TysM5lAaF" crossorigin="anonymous">
-<script type="text/javascript" src="../../dist/even.min.js?v=3.2.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script><script>window.sequenceDiagramsOptions = {theme: 'hand'};</script><script src="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.js" integrity="sha256-4O4pS1SH31ZqrSO2A/2QJTVjTPqVe+jnYgOWUVr7EEc=" crossorigin="anonymous"></script> <script src="https://cdn.jsdelivr.net/npm/snapsvg@0.5.1/dist/snap.svg-min.js" integrity="sha256-oI+elz+sIm+jpn8F/qEspKoKveTc5uKeFHNNVexe6d8=" crossorigin="anonymous"></script> <script src="https://cdn.jsdelivr.net/npm/underscore@1.8.3/underscore-min.js" integrity="sha256-obZACiHd7gkOk9iIL/pimWMTJ4W/pBsKu+oZnSeBIek=" crossorigin="anonymous"></script> <script src="https://cdn.jsdelivr.net/gh/bramp/js-sequence-diagrams@2.0.1/dist/sequence-diagram-min.js" integrity="sha384-8748Vn52gHJYJI0XEuPB2QlPVNUkJlJn9tHqKec6J3q2r9l8fvRxrgn/E5ZHV0sP" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bramp/js-sequence-diagrams@2.0.1/dist/sequence-diagram-min.css" integrity="sha384-6QbLKJMz5dS3adWSeINZe74uSydBGFbnzaAYmp+tKyq60S7H2p6V7g1TysM5lAaF" crossorigin="anonymous">
+<script type="text/javascript" src="../../dist/even.ece58db6.min.js"></script>
 
 
 

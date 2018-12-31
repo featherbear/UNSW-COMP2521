@@ -16,21 +16,17 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="z5206677" />
-  <meta name="description" content="In programming, a tree is an efficient system of storing data." />
-
-  <meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="z5206677" /><meta name="description" content="In programming, a tree is an efficient system of storing data." /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
 
 
 
-<meta name="generator" content="Hugo 0.47.1" />
+<meta name="generator" content="Hugo 0.52 with even 4.0.0" />
 
 
 <link rel="canonical" href="../../post/binary-trees/" />
-
 <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
@@ -38,15 +34,8 @@
 <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
 
 
-
-
-
-
-
-<link href="../../dist/even.min.css?v=3.2.0" rel="stylesheet">
-<link href="../../lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
-
-
+<link href="../../dist/even.93844dae.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
 <meta property="og:title" content="Binary Trees" />
@@ -54,13 +43,14 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/binary-trees/" /><meta property="article:published_time" content="2018-12-04T14:40:39&#43;11:00"/>
 <meta property="article:modified_time" content="2018-12-04T14:40:39&#43;11:00"/>
+
 <meta itemprop="name" content="Binary Trees">
 <meta itemprop="description" content="In programming, a tree is an efficient system of storing data.">
 
 
 <meta itemprop="datePublished" content="2018-12-04T14:40:39&#43;11:00" />
 <meta itemprop="dateModified" content="2018-12-04T14:40:39&#43;11:00" />
-<meta itemprop="wordCount" content="533">
+<meta itemprop="wordCount" content="582">
 
 
 
@@ -98,8 +88,6 @@
         <li class="mobile-menu-item">GitHub</li>
       </a><a href="../../categories/">
         <li class="mobile-menu-item">Categories</li>
-      </a><a href="">
-        <li class="mobile-menu-item"></li>
       </a>
   </ul>
 </nav>
@@ -117,8 +105,6 @@
         <a class="menu-item-link" href="https://github.com/featherbear/UNSW-COMP2521">GitHub</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="../../categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href=""></a>
       </li>
   </ul>
 </nav>
@@ -134,17 +120,15 @@
 
       <div class="post-meta">
         <span class="post-time"> 2018-12-04 </span>
-        
-        
+        <div class="post-category">
+            <a href="../../categories/posts/"> Posts </a>
+            </div>
         
       </div>
     </header>
 
-    
-    
-<div class="post-toc" id="post-toc">
+    <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
-  
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
 <ul>
@@ -180,11 +164,6 @@
 </nav>
   </div>
 </div>
-
-    
-    
-
-    
     <div class="post-content">
       
 
@@ -279,75 +258,129 @@ balanced - at least log2 n</p>
 <h1 id="binarytree-c">BinaryTree.c</h1>
 
 <p>Consider a Binary Tree structure implemented by</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">btree_node</span> <span class="n">btree_node</span><span class="p">;</span>
 
-<pre><code class="language-c">typedef struct btree_node btree_node;
-
-struct btree_node {
-    Item item;
-    btree_node *left;
-    btree_node *right;
-};
-</code></pre>
-
+<span class="k">struct</span> <span class="n">btree_node</span> <span class="p">{</span>
+    <span class="n">Item</span> <span class="n">item</span><span class="p">;</span>
+    <span class="n">btree_node</span> <span class="o">*</span><span class="n">left</span><span class="p">;</span>
+    <span class="n">btree_node</span> <span class="o">*</span><span class="n">right</span><span class="p">;</span>
+<span class="p">};</span></code></pre></td></tr></table>
+</div>
+</div>
 <h2 id="sum-the-items">Sum the items</h2>
 
 <blockquote>
 <p>Return current plus childrens</p>
 </blockquote>
-
-<pre><code class="language-c">int int_btree_sum (btree_node *tree) {
-   if (tree == NULL) return 0; // If we hit an empty node, return 0
-   return tree-&gt;item           // Return the current node's value plus the values of its children nodes
-          + int_btree_sum(tree-&gt;left) + int_btree_sum(tree-&gt;right);
-}
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">int_btree_sum</span> <span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="n">tree</span><span class="p">)</span> <span class="p">{</span>
+   <span class="k">if</span> <span class="p">(</span><span class="n">tree</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// If we hit an empty node, return 0
+</span><span class="c1"></span>   <span class="k">return</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">item</span>           <span class="c1">// Return the current node&#39;s value plus the values of its children nodes
+</span><span class="c1"></span>          <span class="o">+</span> <span class="n">int_btree_sum</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="o">+</span> <span class="n">int_btree_sum</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
 <h2 id="search-for-an-item">Search for an item</h2>
 
 <blockquote>
 <p>Check current, else check children</p>
 </blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">bool</span> <span class="nf">btree_search</span> <span class="p">(</span><span class="n">btree</span><span class="o">-</span><span class="n">node</span> <span class="o">*</span><span class="n">tree</span><span class="p">,</span> <span class="n">Item</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">tree</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
 
-<pre><code class="language-c">bool btree_search (btree-node *tree, Item key) {
-    if (tree == NULL) return false;
+    <span class="n">Item</span> <span class="n">cmp</span> <span class="o">=</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">cmp</span> <span class="o">==</span> <span class="n">key</span><span class="p">)</span> <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">cmp</span> <span class="o">&gt;</span> <span class="n">key</span><span class="p">)</span> <span class="k">return</span> <span class="n">btree_search</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">cmp</span> <span class="o">&lt;</span> <span class="n">key</span><span class="p">)</span> <span class="k">return</span> <span class="n">btree_search</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>
 
-    Item cmp = tree-&gt;item;
-    if (cmp == key) return true;
-    if (cmp &gt; key) return btree_search(tree-&gt;left, key);
-    if (cmp &lt; key) return btree_search(tree-&gt;right, key);
-
-    return false;
-}
-</code></pre>
-
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
 <h2 id="insert-an-item-into-a-tree">Insert an item into a tree</h2>
 
 <blockquote>
 <p>Find location, create node, link parent</p>
 </blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">btree_node</span> <span class="o">*</span><span class="nf">btree_insert</span><span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="n">root</span><span class="p">,</span> <span class="kt">int</span> <span class="n">it</span><span class="p">)</span> <span class="p">{</span>  
+  <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">btree_node</span><span class="p">));</span>
+    <span class="p">(</span><span class="o">*</span><span class="n">root</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">btree_node</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">.</span><span class="n">item</span> <span class="o">=</span> <span class="n">it</span><span class="p">,</span>
+      <span class="p">.</span><span class="n">left</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">,</span>
+     <span class="p">.</span><span class="n">right</span> <span class="o">=</span> <span class="nb">NULL</span>
+    <span class="p">};</span>
+  <span class="p">}</span>
 
-<pre><code class="language-c">btree_node *btree_insert(btree_node *root, int it) {  
-  if (root == NULL) {
-    root = malloc(sizeof(btree_node));
-    (*root) = (btree_node) {
-      .item = it,
-      .left = NULL,
-     .right = NULL
-    };
-  }
+  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">it</span> <span class="o">&lt;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">btree_insert</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">it</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">it</span> <span class="o">&gt;</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">btree_insert</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">it</span><span class="p">);</span>
+  <span class="p">}</span>
 
-  else if (it &lt; root-&gt;item) {
-    root-&gt;left = btree_insert(root-&gt;left, it);
-  } else if (it &gt; root-&gt;item) {
-    root-&gt;right = btree_insert(root-&gt;right, it);
-  }
-
-  // what if it's the same
-
-  return root;
-}
-</code></pre>
-
+  <span class="c1">// what if it&#39;s the same
+</span><span class="c1"></span>
+  <span class="k">return</span> <span class="n">root</span><span class="p">;</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
 <h2 id="delete-an-item-from-a-tree">Delete an item from a tree</h2>
 
 <p>Deletion is much harder than insertion!<br />
@@ -356,38 +389,38 @@ struct btree_node {
 <p>If we delete a node with children, we need to promote the children. If there are two children, the <strong>leftmost of the right subtree</strong> should be promoted.</p>
 
 <h2 id="drop-a-tree">Drop a tree</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">void</span> <span class="nf">btree_drop</span> <span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="n">tree</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">tree</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
 
-<pre><code class="language-c">void btree_drop (btree_node *tree) {
-  if (tree == NULL) return;
-
-  btree_drop(tree-&gt;left);
-  btree_drop(tree-&gt;right);
-  free(tree);
-}
-</code></pre>
-
+  <span class="n">btree_drop</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+  <span class="n">btree_drop</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+  <span class="n">free</span><span class="p">(</span><span class="n">tree</span><span class="p">);</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
     </div>
-
-    
-    
-
-    
-    
 
     <footer class="post-footer">
       
-
-      
       <nav class="post-nav">
-        
-          <a class="prev" href="../../post/c-fibonacci/">
+        <a class="prev" href="../../post/graphs/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">fibonacci.c</span>
+            <span class="prev-text nav-default">Graphs</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        
-          <a class="next" href="../../post/searchingalgorithms/">
-            <span class="next-text nav-default">Searching Algorithms</span>
+        <a class="next" href="../../post/binary-heaps/">
+            <span class="next-text nav-default">Binary Heaps</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -396,9 +429,6 @@ struct btree_node {
   </article>
         </div>
         
-  
-
-  
 
       </div>
     </main>
@@ -440,12 +470,10 @@ struct btree_node {
     </div>
   </div>
   
-<script src="../../lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="../../lib/jquery/jquery-3.2.1.min.js"></script>
-  <script type="text/javascript" src="../../lib/slideout/slideout-1.0.1.min.js"></script>
-  <script type="text/javascript" src="../../lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
-
-
-<script type="text/javascript" src="../../dist/even.min.js?v=3.2.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="../../dist/even.ece58db6.min.js"></script>
 
 
 

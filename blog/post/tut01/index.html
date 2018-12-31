@@ -16,21 +16,17 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="z5206677" />
-  <meta name="description" content="this is my name" />
-
-  <meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="z5206677" /><meta name="description" content="this is my name" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
 
 
 
-<meta name="generator" content="Hugo 0.47.1" />
+<meta name="generator" content="Hugo 0.52 with even 4.0.0" />
 
 
 <link rel="canonical" href="../../post/tut01/" />
-
 <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
@@ -38,15 +34,8 @@
 <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
 
 
-
-
-
-
-
-<link href="../../dist/even.min.css?v=3.2.0" rel="stylesheet">
-<link href="../../lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
-
-
+<link href="../../dist/even.93844dae.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
 <meta property="og:title" content="Tutorial One" />
@@ -54,13 +43,14 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/tut01/" /><meta property="article:published_time" content="2018-11-27T17:05:45&#43;11:00"/>
 <meta property="article:modified_time" content="2018-11-27T17:05:45&#43;11:00"/>
+
 <meta itemprop="name" content="Tutorial One">
 <meta itemprop="description" content="this is my name">
 
 
 <meta itemprop="datePublished" content="2018-11-27T17:05:45&#43;11:00" />
 <meta itemprop="dateModified" content="2018-11-27T17:05:45&#43;11:00" />
-<meta itemprop="wordCount" content="590">
+<meta itemprop="wordCount" content="703">
 
 
 
@@ -98,8 +88,6 @@
         <li class="mobile-menu-item">GitHub</li>
       </a><a href="../../categories/">
         <li class="mobile-menu-item">Categories</li>
-      </a><a href="">
-        <li class="mobile-menu-item"></li>
       </a>
   </ul>
 </nav>
@@ -117,8 +105,6 @@
         <a class="menu-item-link" href="https://github.com/featherbear/UNSW-COMP2521">GitHub</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="../../categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href=""></a>
       </li>
   </ul>
 </nav>
@@ -135,20 +121,14 @@
       <div class="post-meta">
         <span class="post-time"> 2018-11-27 </span>
         <div class="post-category">
-            
-              <a href="../../categories/tutorial-/-labs/"> Tutorial / Labs </a>
-            
-          </div>
-        
+            <a href="../../categories/tutorial-/-labs/"> Tutorial / Labs </a>
+            </div>
         
       </div>
     </header>
 
-    
-    
-<div class="post-toc" id="post-toc">
+    <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
-  
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
 <ul>
@@ -170,11 +150,6 @@
 </nav>
   </div>
 </div>
-
-    
-    
-
-    
     <div class="post-content">
       
 
@@ -194,73 +169,139 @@ this is my intro</p>
 <hr />
 
 <h1 id="duplicating-cloning-a-linked-list">Duplicating / cloning a linked list</h1>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="c1">// Creates a new node, initialised with the item provided.
+</span><span class="c1">// Returns pointer to node (link).
+</span><span class="c1"></span><span class="n">link</span> <span class="nf">node_new</span> <span class="p">(</span><span class="n">Item</span> <span class="n">item</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">link</span> <span class="n">n</span> <span class="o">=</span> <span class="n">malloc</span> <span class="p">(</span><span class="k">sizeof</span> <span class="p">(</span><span class="o">*</span><span class="n">n</span><span class="p">));</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+        <span class="n">err</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#34;couldn&#39;t allocate&#34;</span><span class="p">);</span>
+    <span class="n">n</span><span class="o">-&gt;</span><span class="n">item</span> <span class="o">=</span> <span class="n">item</span><span class="p">;</span>
+    <span class="n">n</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">n</span><span class="p">;</span>
+<span class="p">}</span>
 
-<pre><code class="language-c">// Creates a new node, initialised with the item provided.
-// Returns pointer to node (link).
-link node_new (Item item)
-{
-    link n = malloc (sizeof (*n));
-    if (n == NULL)
-        err (1, &quot;couldn't allocate&quot;);
-    n-&gt;item = item;
-    n-&gt;next = NULL;
-    return n;
-}
-
-// Insert a new node into a given non-empty list.
-// The node is inserted directly after the head of the list ls.
-void list_insert_next (link ls, link node)
-{
-    assert (ls != NULL);
-    assert (node != NULL);
-    node-&gt;next = ls-&gt;next;
-    ls-&gt;next = node;
-}
+<span class="c1">// Insert a new node into a given non-empty list.
+</span><span class="c1">// The node is inserted directly after the head of the list ls.
+</span><span class="c1"></span><span class="kt">void</span> <span class="nf">list_insert_next</span> <span class="p">(</span><span class="n">link</span> <span class="n">ls</span><span class="p">,</span> <span class="n">link</span> <span class="n">node</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">assert</span> <span class="p">(</span><span class="n">ls</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+    <span class="n">assert</span> <span class="p">(</span><span class="n">node</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+    <span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">ls</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+    <span class="n">ls</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+<span class="p">}</span>
 
 
-/* ... */
+<span class="cm">/* ... */</span>
 
-link duplicateList(link ls) {
-  // if given an empty list, return NULL
-  if (!ls) return NULL;
+<span class="n">link</span> <span class="nf">duplicateList</span><span class="p">(</span><span class="n">link</span> <span class="n">ls</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// if given an empty list, return NULL
+</span><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ls</span><span class="p">)</span> <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
 
-  // Create a new node with the item of the frst item
-  link head = node_new(ls-&gt;item);
+  <span class="c1">// Create a new node with the item of the frst item
+</span><span class="c1"></span>  <span class="n">link</span> <span class="n">head</span> <span class="o">=</span> <span class="n">node_new</span><span class="p">(</span><span class="n">ls</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">);</span>
   
-  // Set pointer to the last element of the new list
-  link ptr = head;
+  <span class="c1">// Set pointer to the last element of the new list
+</span><span class="c1"></span>  <span class="n">link</span> <span class="n">ptr</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
 
-  // Set a pointer to the next element of the original list
-  link cursor = head-&gt;next;
+  <span class="c1">// Set a pointer to the next element of the original list
+</span><span class="c1"></span>  <span class="n">link</span> <span class="n">cursor</span> <span class="o">=</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
 
-  // Move through the list and clone the items
-  while (cursor) {
-    list_insert_next(node_new(cursor-&gt;item), ptr)  
-    ptr = ptr -&gt; next;
-    cursor = cursor -&gt; next;
-  }
+  <span class="c1">// Move through the list and clone the items
+</span><span class="c1"></span>  <span class="k">while</span> <span class="p">(</span><span class="n">cursor</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">list_insert_next</span><span class="p">(</span><span class="n">node_new</span><span class="p">(</span><span class="n">cursor</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">),</span> <span class="n">ptr</span><span class="p">)</span>  
+    <span class="n">ptr</span> <span class="o">=</span> <span class="n">ptr</span> <span class="o">-&gt;</span> <span class="n">next</span><span class="p">;</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">cursor</span> <span class="o">-&gt;</span> <span class="n">next</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  return head;
-}
-</code></pre>
-
+  <span class="k">return</span> <span class="n">head</span><span class="p">;</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
 <h1 id="reversing-a-linked-list">Reversing a linked list</h1>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+    <span class="n">link</span> <span class="n">ls</span> <span class="o">=</span> <span class="n">list_from_cstr</span> <span class="p">(</span><span class="s">&#34;hello world!&#34;</span><span class="p">);</span>
+    <span class="n">link</span> <span class="n">ls2</span> <span class="o">=</span> <span class="n">list_duplicate</span> <span class="p">(</span><span class="n">ls</span><span class="p">);</span>
 
-<pre><code class="language-c">int main (int argc, char *argv[])
-{
-    link ls = list_from_cstr (&quot;hello world!&quot;);
-    link ls2 = list_duplicate (ls);
+    <span class="n">list_print</span> <span class="p">(</span><span class="n">ls</span><span class="p">);</span>
+    <span class="n">list_print</span> <span class="p">(</span><span class="n">ls2</span><span class="p">);</span>
+    <span class="n">list_print</span> <span class="p">(</span><span class="n">list_reverse</span> <span class="p">(</span><span class="n">ls</span><span class="p">));</span>
+    <span class="n">list_print</span> <span class="p">(</span><span class="n">ls</span><span class="p">);</span>
+    <span class="n">list_print</span> <span class="p">(</span><span class="n">ls2</span><span class="p">);</span>
 
-    list_print (ls);
-    list_print (ls2);
-    list_print (list_reverse (ls));
-    list_print (ls);
-    list_print (ls2);
-
-    return 0;
-}
-</code></pre>
-
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
 <p>hello world!<br />
 hello world!<br />
 !dlrow elloh<br />
@@ -270,34 +311,60 @@ hello world!</p>
 <h1 id="double-linked-list">Double linked list</h1>
 
 <p><em>e.g linked lists with <code>next</code> and <code>prev</code></em></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">typedef</span> <span class="kt">char</span> <span class="n">Item</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">dnode</span> <span class="o">*</span><span class="n">dlink</span><span class="p">;</span>
 
-<pre><code class="language-c">typedef char Item;
-typedef struct dnode *dlink;
-
-struct dnode {
-    Item item;
-    dlink prev, next;
-};
-
-</code></pre>
-
+<span class="k">struct</span> <span class="n">dnode</span> <span class="p">{</span>
+    <span class="n">Item</span> <span class="n">item</span><span class="p">;</span>
+    <span class="n">dlink</span> <span class="n">prev</span><span class="p">,</span> <span class="n">next</span><span class="p">;</span>
+<span class="p">};</span></code></pre></td></tr></table>
+</div>
+</div>
 <blockquote>
 <p>Write a function append which attaches the list list2 at the end of list1 and returns the resulting list.</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">dlink</span> <span class="nf">append</span> <span class="p">(</span><span class="n">dlink</span> <span class="n">list1</span><span class="p">,</span> <span class="n">dlink</span> <span class="n">list2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">list1</span><span class="p">)</span> <span class="k">return</span> <span class="n">list2</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">list2</span><span class="p">)</span> <span class="k">return</span> <span class="n">list1</span><span class="p">;</span>
 
-<pre><code class="language-c">dlink append (dlink list1, dlink list2) {
-  if (!list1) return list2;
-  if (!list2) return list1;
+  <span class="n">dlink</span> <span class="n">last</span> <span class="o">=</span> <span class="n">list1</span><span class="p">;</span>
+  <span class="k">for</span><span class="p">(;</span> <span class="n">last</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span> <span class="n">last</span><span class="o">=</span><span class="n">last</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span> <span class="c1">// while (last-&gt;next) last = last-&gt;next;
+</span><span class="c1"></span>  
+  <span class="n">last</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">list2</span><span class="p">;</span>
+  <span class="n">list2</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">last</span><span class="p">;</span>
 
-  dlink last = list1;
-  for(; last-&gt;next; last=last-&gt;next); // while (last-&gt;next) last = last-&gt;next;
-  
-  last-&gt;next = list2;
-  list2-&gt;prev = last;
-
-  return list1;
-}
-</code></pre>
-
+  <span class="k">return</span> <span class="n">list1</span><span class="p">;</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<blockquote>
 <p>Is it necessary to return the resulting list?<br />
 Could we instead get away with the following interface?<br />
 <code>void append (dlink list1, dlink list2);</code></p>
@@ -318,27 +385,43 @@ Could we instead get away with the following interface?<br />
 
 <p>If it is not present, the execution can continue into other statements.<br />
 This could be beneficial in some cases</p>
-
-<pre><code class="language-c">speed = 200;
-switch (speed) {
-  case 200:
-    printf(&quot;You're going REALLY REALLY fast\n&quot;)
-  case 150:
-    printf(&quot;You're going REALLY fast\n&quot;)
-  case 100:
-    printf(&quot;On your green Ps?\n&quot;)
-  case 90:
-    printf(&quot;Hah learner's license\n&quot;)
-  case 40:
-    printf(&quot;ScHoOl ZoNe SpEeD\n&quot;)
-}
-</code></pre>
-
-<p>You&rsquo;re going REALLY REALLY fast<br />
-You&rsquo;re going REALLY fast<br />
-On your green Ps?<br />
-Hah learner&rsquo;s license<br />
-ScHoOl ZoNe SpEeD</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">speed</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+<span class="k">switch</span> <span class="p">(</span><span class="n">speed</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">case</span> <span class="mi">200</span><span class="o">:</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;You&#39;re going REALLY REALLY fast</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">)</span>
+  <span class="k">case</span> <span class="mi">150</span><span class="o">:</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;You&#39;re going REALLY fast</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">)</span>
+  <span class="k">case</span> <span class="mi">100</span><span class="o">:</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;On your green Ps?</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">)</span>
+  <span class="k">case</span> <span class="mi">90</span><span class="o">:</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Hah learner&#39;s license</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">)</span>
+  <span class="k">case</span> <span class="mi">40</span><span class="o">:</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;ScHoOl ZoNe SpEeD</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">)</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<p><code>You're going REALLY REALLY fast</code><br />
+<code>You're going REALLY fast</code><br />
+<code>On your green Ps?</code><br />
+<code>Hah learner's license</code><br />
+<code>ScHoOl ZoNe SpEeD</code></p>
 
 <h2 id="return-functions-only"><code>return</code> (functions only)</h2>
 
@@ -347,62 +430,84 @@ ScHoOl ZoNe SpEeD</p>
 <h2 id="switch-vs-if-else">switch vs if/else</h2>
 
 <h3 id="using-switch">Using switch</h3>
-
-<pre><code class="language-c">assert (islower (ch));
-switch (ch) {
-case 'a':
-case 'e':
-case 'i':
-case 'o':
-case 'u':
-    printf (&quot;vowel&quot;);
-    break;
-default:
-    printf (&quot;consonant&quot;);
-    break;
-}
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">assert</span> <span class="p">(</span><span class="n">islower</span> <span class="p">(</span><span class="n">ch</span><span class="p">));</span>
+<span class="k">switch</span> <span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">case</span> <span class="sc">&#39;a&#39;</span><span class="o">:</span>
+<span class="k">case</span> <span class="sc">&#39;e&#39;</span><span class="o">:</span>
+<span class="k">case</span> <span class="sc">&#39;i&#39;</span><span class="o">:</span>
+<span class="k">case</span> <span class="sc">&#39;o&#39;</span><span class="o">:</span>
+<span class="k">case</span> <span class="sc">&#39;u&#39;</span><span class="o">:</span>
+    <span class="n">printf</span> <span class="p">(</span><span class="s">&#34;vowel&#34;</span><span class="p">);</span>
+    <span class="k">break</span><span class="p">;</span>
+<span class="k">default</span><span class="o">:</span>
+    <span class="n">printf</span> <span class="p">(</span><span class="s">&#34;consonant&#34;</span><span class="p">);</span>
+    <span class="k">break</span><span class="p">;</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
 <h3 id="using-if-else">Using if else</h3>
-
-<pre><code class="language-c">assert (islower (ch));
-if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') printf(&quot;vowel&quot;);
-else printf (&quot;consonant&quot;);
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">assert</span> <span class="p">(</span><span class="n">islower</span> <span class="p">(</span><span class="n">ch</span><span class="p">));</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">ch</span> <span class="o">==</span> <span class="sc">&#39;a&#39;</span> <span class="o">||</span> <span class="n">ch</span> <span class="o">==</span> <span class="sc">&#39;e&#39;</span> <span class="o">||</span> <span class="n">ch</span> <span class="o">==</span> <span class="sc">&#39;i&#39;</span> <span class="o">||</span> <span class="n">ch</span> <span class="o">==</span> <span class="sc">&#39;o&#39;</span> <span class="o">||</span> <span class="n">ch</span> <span class="o">==</span> <span class="sc">&#39;u&#39;</span><span class="p">)</span> <span class="n">printf</span><span class="p">(</span><span class="s">&#34;vowel&#34;</span><span class="p">);</span>
+<span class="k">else</span> <span class="nf">printf</span> <span class="p">(</span><span class="s">&#34;consonant&#34;</span><span class="p">);</span></code></pre></td></tr></table>
+</div>
+</div>
 <h1 id="ternary-operator">Ternary operator</h1>
 
+<blockquote>
 <p><code>condition ? valueIfTrue : valueIfFalse</code></p>
-
-<pre><code class="language-c">if (condition) {
-  return valueIfTrue;
-} else {
-  return valieIfFalse;
-}
-</code></pre>
-
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">if</span> <span class="p">(</span><span class="n">condition</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">valueIfTrue</span><span class="p">;</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">valieIfFalse</span><span class="p">;</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
     </div>
-
-    
-    
-
-    
-    
 
     <footer class="post-footer">
       
-
-      
       <nav class="post-nav">
-        
-          <a class="prev" href="../../post/lec02/">
+        <a class="prev" href="../../post/lec01/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Lecture 2 - Abstraction</span>
+            <span class="prev-text nav-default">Lecture 1</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        
-          <a class="next" href="../../post/lec01/">
-            <span class="next-text nav-default">Lecture 1</span>
+        <a class="next" href="../../post/lec02/">
+            <span class="next-text nav-default">Lecture 2 - Abstraction</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -411,9 +516,6 @@ else printf (&quot;consonant&quot;);
   </article>
         </div>
         
-  
-
-  
 
       </div>
     </main>
@@ -455,12 +557,10 @@ else printf (&quot;consonant&quot;);
     </div>
   </div>
   
-<script src="../../lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="../../lib/jquery/jquery-3.2.1.min.js"></script>
-  <script type="text/javascript" src="../../lib/slideout/slideout-1.0.1.min.js"></script>
-  <script type="text/javascript" src="../../lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
-
-
-<script type="text/javascript" src="../../dist/even.min.js?v=3.2.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="../../dist/even.ece58db6.min.js"></script>
 
 
 

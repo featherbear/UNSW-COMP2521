@@ -121,6 +121,7 @@ struct dnode {
 ```
 
 > Write a function append which attaches the list list2 at the end of list1 and returns the resulting list.
+
 ```c
 dlink append (dlink list1, dlink list2) {
   if (!list1) return list2;
@@ -170,11 +171,12 @@ switch (speed) {
 }
 ```
 
-You're going REALLY REALLY fast  
-You're going REALLY fast  
-On your green Ps?  
-Hah learner's license  
-ScHoOl ZoNe SpEeD
+
+`You're going REALLY REALLY fast`  
+`You're going REALLY fast`  
+`On your green Ps?`  
+`Hah learner's license`  
+`ScHoOl ZoNe SpEeD`
 
 ## `return` (functions only)
 We can use a `return` statement in place of a break if our switch statement is the only code in a function
@@ -207,7 +209,8 @@ else printf ("consonant");
 
 
 # Ternary operator
-`condition ? valueIfTrue : valueIfFalse`
+> `condition ? valueIfTrue : valueIfFalse`
+
 ```c
 if (condition) {
   return valueIfTrue;

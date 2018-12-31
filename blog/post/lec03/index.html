@@ -16,20 +16,17 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="z5206677" /><meta name="description" content="Complexity, Recursion, Fibonacci" />
-
-  <meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="z5206677" /><meta name="description" content="Complexity, Recursion, Fibonacci" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
 
 
 
-<meta name="generator" content="Hugo 0.47.1" />
+<meta name="generator" content="Hugo 0.52 with even 4.0.0" />
 
 
 <link rel="canonical" href="../../post/lec03/" />
-
 <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
@@ -37,15 +34,8 @@
 <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
 
 
-
-
-
-
-
-<link href="../../dist/even.min.css?v=3.2.0" rel="stylesheet">
-<link href="../../lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
-
-
+<link href="../../dist/even.93844dae.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
 <meta property="og:title" content="Lecture 3 - Algorithms" />
@@ -53,13 +43,14 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/lec03/" /><meta property="article:published_time" content="2018-12-04T14:14:06&#43;11:00"/>
 <meta property="article:modified_time" content="2018-12-04T14:14:06&#43;11:00"/>
+
 <meta itemprop="name" content="Lecture 3 - Algorithms">
 <meta itemprop="description" content="Complexity, Recursion, Fibonacci">
 
 
 <meta itemprop="datePublished" content="2018-12-04T14:14:06&#43;11:00" />
 <meta itemprop="dateModified" content="2018-12-04T14:14:06&#43;11:00" />
-<meta itemprop="wordCount" content="456">
+<meta itemprop="wordCount" content="546">
 
 
 
@@ -97,8 +88,6 @@
         <li class="mobile-menu-item">GitHub</li>
       </a><a href="../../categories/">
         <li class="mobile-menu-item">Categories</li>
-      </a><a href="">
-        <li class="mobile-menu-item"></li>
       </a>
   </ul>
 </nav>
@@ -116,8 +105,6 @@
         <a class="menu-item-link" href="https://github.com/featherbear/UNSW-COMP2521">GitHub</a>
       </li><li class="menu-item">
         <a class="menu-item-link" href="../../categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href=""></a>
       </li>
   </ul>
 </nav>
@@ -134,20 +121,14 @@
       <div class="post-meta">
         <span class="post-time"> 2018-12-04 </span>
         <div class="post-category">
-            
-              <a href="../../categories/lectures/"> Lectures </a>
-            
-          </div>
-        
+            <a href="../../categories/lectures/"> Lectures </a>
+            </div>
         
       </div>
     </header>
 
-    
-    
-<div class="post-toc" id="post-toc">
+    <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
-  
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
 <ul>
@@ -165,10 +146,8 @@
 <li><a href="#time-complexity">Time Complexity</a>
 <ul>
 <li><a href="#big-o-notation">Big-O Notation</a></li>
-<li><a href="#calculating-big-o-values">Calculating Big-O Values</a>
-<ul>
+<li><a href="#calculating-big-o-values">Calculating Big-O Values</a></li>
 <li><a href="#maths-y-stuff">Maths-y stuff</a></li>
-</ul></li>
 </ul></li>
 <li><a href="#tools">Tools</a>
 <ul>
@@ -185,17 +164,15 @@
 <li><a href="#recursive-approach">Recursive Approach</a></li>
 </ul></li>
 <li><a href="#fibonacci">Fibonacci</a></li>
-<li><a href="#optimisation">Optimisation</a></li>
+<li><a href="#optimisation">Optimisation</a>
+<ul>
+<li><a href="#tail-call-optimisation">Tail-call optimisation</a></li>
+</ul></li>
 </ul></li>
 </ul>
 </nav>
   </div>
 </div>
-
-    
-    
-
-    
     <div class="post-content">
       
 
@@ -208,21 +185,25 @@
 <ul>
 <li>the Operating System</li>
 <li>the Compiler</li>
+<li>the Hardware</li>
+</ul>
 
-<li><p>the Hardware</p>
+<h3 id="implementation">Implementation</h3>
 
-<h3 id="implementation">Implementation</h3></li>
-
-<li><p>the Algorithm (our code)</p></li>
+<ul>
+<li>the Algorithm (our code)</li>
 </ul>
 
 <h2 id="testing">Testing</h2>
 
 <blockquote>
-<p>Empirical testing of the efficiency of algorithms
-* Choose a good set of inputs
-* Measure the actual runtime (environment is important)</p>
+<p>Empirical testing of the efficiency of algorithms</p>
 </blockquote>
+
+<ul>
+<li>Choose a good set of inputs</li>
+<li>Measure the actual runtime (environment is important)</li>
+</ul>
 
 <h2 id="timing">Timing</h2>
 
@@ -241,39 +222,98 @@
 <p>From best to worst timing</p>
 </blockquote>
 
-<p>Constant - <code>O(1)</code><br />
-Logarithmic - <code>O(log n)</code><br />
-Linear - <code>O(n)</code><br />
-n-log-n - <code>O(n log n)</code><br />
-Quadratic - <code>O(n^2)</code><br />
-Cubic - <code>O(n^3)</code><br />
-~~ fac - <code>O(n!)</code><br />
-~~ Exponential - <code>O(2^n)</code></p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">Type</th>
+<th align="left">Time Cost</th>
+</tr>
+</thead>
 
-<p>The worst case execution time is between the fastest and slowest possible operation time.
-<a href="../searchingAlgorithms">Searching Algorithms</a></p>
+<tbody>
+<tr>
+<td align="center"><strong>best</strong></td>
+<td align="center">Constant</td>
+<td align="left"><code>O(1)</code></td>
+</tr>
+
+<tr>
+<td align="center"></td>
+<td align="center">Logarithmic</td>
+<td align="left"><code>O(log n)</code></td>
+</tr>
+
+<tr>
+<td align="center"></td>
+<td align="center">Linear</td>
+<td align="left"><code>O(n)</code></td>
+</tr>
+
+<tr>
+<td align="center"></td>
+<td align="center">n-log-n</td>
+<td align="left"><code>O(n log n)</code></td>
+</tr>
+
+<tr>
+<td align="center"></td>
+<td align="center">Quadratic</td>
+<td align="left"><code>O(n^2)</code></td>
+</tr>
+
+<tr>
+<td align="center"></td>
+<td align="center">Cubic</td>
+<td align="left"><code>O(n^3)</code></td>
+</tr>
+
+<tr>
+<td align="center"></td>
+<td align="center">Exponential</td>
+<td align="left"><code>O(2^n)</code></td>
+</tr>
+
+<tr>
+<td align="center"></td>
+<td align="center">Factorial</td>
+<td align="left"><code>O(n!)</code></td>
+</tr>
+
+<tr>
+<td align="center"><strong>worst</strong></td>
+<td align="center"><em>all hell breaks loose</em></td>
+<td align="left"><code>O(n^n)</code></td>
+</tr>
+</tbody>
+</table>
+
+<p>The worst case execution time is between the fastest and slowest possible operation time.</p>
+
+<blockquote>
+<p>Suggested: <a href="../searchingAlgorithms">Searching Algorithms</a></p>
+</blockquote>
 
 <h4 id="calculating-big-o-values">Calculating Big-O Values</h4>
 
-<blockquote>
-<p>Remember: The Big-O value refers to the worst-case scenario</p>
-</blockquote>
+<p>// Remember: The Big-O value refers to the worst-case scenario</p>
 
-<p>Step through the algorithm and count the number of operations performed. When you encounter a loop, add <code>n</code>, or a variant of <code>n</code>.</p>
+<p>Step through the algorithm and count the number of operations performed.<br />
+When you encounter a loop, add <code>n</code>, or a variant of <code>n</code>.</p>
 
 <p>The resulting Big-O is the highest power of n, expressed without the coefficient.</p>
 
 <blockquote>
 <p>Example :: 4 + <strong><u>3n</u></strong><br />
 Highest power of n: 3n<br />
-Big-O: O(n) - linear</p>
-
-<p>Example :: 4 + 3n + <strong><u>3n^2</u></strong><br />
+Big-O: O(n) - linear<br />
+&nbsp;<br />
+Example :: 4 + 3n + <strong><u>3n^2</u></strong><br />
 Highest power of n: 3n^2<br />
 Big-O: O(n^2) - quadratic</p>
 </blockquote>
 
-<h5 id="maths-y-stuff">Maths-y stuff</h5>
+<h4 id="maths-y-stuff">Maths-y stuff</h4>
 
 <p>f(n) is O(g(n)) if f(n) is asymptotically less than or equal to g(n).<br />
 f(n) is Omega(g(n)) if f(n) is asymptotically greater than or equal to g(n).<br />
@@ -294,7 +334,7 @@ Feasible only for small n</p>
 
 <h4 id="time-1"><em>time(1)</em></h4>
 
-<p>measure execution time<br />
+<p>measures execution time<br />
 Also available at <code>/usr/bin/time</code></p>
 
 <h1 id="recursion">Recursion</h1>
@@ -309,62 +349,85 @@ Also available at <code>/usr/bin/time</code></p>
 <h2 id="calculating-factorials">Calculating Factorials</h2>
 
 <h3 id="iterative-approach">Iterative Approach</h3>
-
-<pre><code class="language-c">int fac(int n) {
-  int result = 1;
-  for (int i = 1; i &lt;= n; i++) result *= i;
-  return result;
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">fac</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="n">result</span> <span class="o">*=</span> <span class="n">i</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">result</span><span class="p">;</span></code></pre></td></tr></table>
+</div>
+</div>
 <h3 id="recursive-approach">Recursive Approach</h3>
-
-<pre><code class="language-c">int fac(int n) {
-  if (n == 1) return 1;
-  return n * fac(n-1);
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">fac</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fac</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span></code></pre></td></tr></table>
+</div>
+</div>
 <p>To calculate <code>fac(3)</code> the program will need to do</p>
-
-<pre><code class="language-js">1 | fac(4) = 4 * fac(3)
-2 |              fac(3) = 3 * fac(2)
-3 |                           fac(2) = 2 * fac(1)
-4 |                                        fac(1) = 1
-</code></pre>
-
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="mi">1</span> <span class="o">|</span> <span class="nx">fac</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="nx">fac</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="mi">2</span> <span class="o">|</span>              <span class="nx">fac</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="nx">fac</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="mi">3</span> <span class="o">|</span>                           <span class="nx">fac</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="nx">fac</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="mi">4</span> <span class="o">|</span>                                        <span class="nx">fac</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></td></tr></table>
+</div>
+</div>
 <p>That&rsquo;s a lot of stack frames that it needs to set up and destroy&hellip;<br />
 Would be better to just iterate for a factorial function</p>
 
 <h2 id="fibonacci">Fibonacci</h2>
 
-<p><em>So this section alone got quite large&hellip;</em>
-&gt; <a href="../c-fibonacci">Click here to read the Fibonacci post</a></p>
+<p><em>So this section alone got quite large&hellip;</em></p>
+
+<blockquote>
+<p><a href="../c-fibonacci">Click here to read the Fibonacci post</a></p>
+</blockquote>
 
 <h2 id="optimisation">Optimisation</h2>
 
-<p>Tail-call optimisation:</p>
+<h3 id="tail-call-optimisation">Tail-call optimisation</h3>
+
+<p>Tail-call optimisation is where you are able to avoid allocating a new stack frame for a function because the calling function will simply return the value that it gets from the called function.</p>
+
+<p>A function ends with a tail call if the last operation before the function returns is another function call. If this call invokes the same function, it is tail-recursive.</p>
+
+<p>// A function can probably be optimised if it&rsquo;s last operation is calling itself</p>
+
+<p>Source: <a href="https://stackoverflow.com/questions/310974/what-is-tail-call-optimization">StackOverflow</a></p>
 
     </div>
 
-    
-    
-
-    
-    
-
     <footer class="post-footer">
       
-
-      
       <nav class="post-nav">
-        
-          <a class="prev" href="../../post/searchingalgorithms/">
+        <a class="prev" href="../../post/ass01/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Searching Algorithms</span>
+            <span class="prev-text nav-default">Assignment One - Textbuffer</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        
-          <a class="next" href="../../post/ass01/">
-            <span class="next-text nav-default">Assignment One - Textbuffer</span>
+        <a class="next" href="../../post/searchingalgorithms/">
+            <span class="next-text nav-default">Searching Algorithms</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -373,9 +436,6 @@ Would be better to just iterate for a factorial function</p>
   </article>
         </div>
         
-  
-
-  
 
       </div>
     </main>
@@ -417,12 +477,10 @@ Would be better to just iterate for a factorial function</p>
     </div>
   </div>
   
-<script src="../../lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="../../lib/jquery/jquery-3.2.1.min.js"></script>
-  <script type="text/javascript" src="../../lib/slideout/slideout-1.0.1.min.js"></script>
-  <script type="text/javascript" src="../../lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
-
-
-<script type="text/javascript" src="../../dist/even.min.js?v=3.2.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="../../dist/even.ece58db6.min.js"></script>
 
 
 
