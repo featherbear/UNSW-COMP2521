@@ -10,7 +10,9 @@
 #include <stdlib.h>
 #include <sysexits.h>
 
+#include "queue.h"
 #include "btree.h"
+#include "item_btree_node.h"
 #include "item.h"
 #include "item_int.h"
 #include "testable.h"
@@ -115,7 +117,12 @@ btree_node *btree_delete_node(btree_node *tree, Item item __unused) {
  *          or a dynamically allocated array of nodes.
  */
 btree_node **btree_traverse(btree_node *tree, btree_traversal how, btree_visitor_fp visit) {
+    // For each node visited in `tree` (traverse via `how`), perform `visit(node)`
+
     traverse_state state;
+
+    // This should probably be here to comply with the return docs
+    state.nodes = NULL;
 
     if (visit == NULL) {
         state.n_nodes = btree_size(tree);
@@ -155,6 +162,7 @@ size_t btree_size(btree_node *tree) {
 }
 
 /** Returns the number of leaf nodes in the tree. */
+// leaf nodes are the very last nodes in a branch (no children)
 size_t btree_size_leaf(BTreeNode tree) {
     if (!tree) return 0;
     return (tree->left == NULL && tree->right == NULL) + btree_size_leaf(tree->left) + btree_size_leaf(tree->right);
@@ -173,6 +181,8 @@ void btree_drop(btree_node *tree) {
     if (!tree) return;
     btree_drop(tree->left);
     btree_drop(tree->right);
+
+    item_drop(tree->item);
     free(tree);
 }
 
@@ -249,9 +259,20 @@ static void btree_traverse_postfix(btree_node *tree, traverse_state *state) {
  */
 static void btree_traverse_level(btree_node *tree, traverse_state *state) {
     if (tree == NULL) return;
-    btree_traverse_visit(tree, state);
-    btree_traverse_level(tree->left, state);
-    btree_traverse_level(tree->right, state);
+    Queue q = queue_new();
+    Item root = BTreeNode_item_new(tree);
+    queue_en(q, root);
+
+    while (queue_size(q) > 0) {
+        Item node = queue_de(q);
+        BTreeNode bt_node = BTreeNode_item(node);
+        btree_traverse_visit(bt_node, state);
+        if (bt_node->left) queue_en(q, BTreeNode_item_new(bt_node->left));
+        if (bt_node->right) queue_en(q, BTreeNode_item_new(bt_node->right));
+        item_drop(node);
+    }
+
+    queue_drop(q);
 }
 
 /**
@@ -276,15 +297,17 @@ static void btree_traverse_visit(btree_node *tree, traverse_state *state) {
 /////
 
 bool even_p(Item it) {
-    return *(int *) (&it->item) % 2 == 0;
+    // Is 0 even or odd!?
+    return int_item(it) % 2 == 0;
 }
 
 bool odd_p(Item it) {
-    return *(int *) (&it->item) % 2 != 0;
+    // Is 0 even or odd!?
+    return int_item(it) % 2 != 0;
 }
 
 bool negative_p(Item it) {
-    return *(int *) (&it->item) < 0;
+    return int_item(it) < 0;
 }
 
 /////

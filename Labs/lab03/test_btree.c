@@ -11,6 +11,16 @@
 #include "btree.h"
 #include "testable.h"
 
+#define O() printf(" [OK]\n");
+#define T(m) printf("\n"); t(m);
+#define t(m) printf(m); printf(" ::\n");
+#define A(m) printf("  "); printf(m);
+
+static int sum = 0;
+static void node_add (BTreeNode node) {
+    sum += int_item(btree_node_value(node));
+}
+
 int main(void) {
     white_box_tests();
 
@@ -24,56 +34,142 @@ int main(void) {
         BTREE_TRAVERSE_LEVEL,       /**< Order: left-to-right by level */
     } btree_traversal;
 
-//    assert(!even_p(5) && odd_p(5) && !negative_p(5));
-
-    Item it1 = int_item_new(5);
-    Item it2 = int_item_new(-2);
-
-    BTreeNode t = btree_insert(NULL, it1);
+    BTreeNode tree;
     {
-        assert(btree_size_leaf(t) == 1);
-        assert(btree_height(t) == 1);
-        Item retVal = btree_node_value(t);
-        assert(item_cmp(it1, retVal) == 0);
-        assert(!even_p(retVal) && odd_p(retVal) && !negative_p(retVal));
-        assert(btree_size(t) == 1);
+        T("Testing `btree_size_leaf()`");
+        A("Insert int_item 5 into a new BTree");
+        {
+            // `btree_node_new` not exposed, so create through `btree_insert`
+            BTreeNode node = tree = btree_insert(NULL, int_item_new(5));
+            assert(node != NULL);
+            assert(tree != NULL);
+            assert(btree_size(tree) == 1);
+            assert(btree_size_leaf(tree) == 1);
+        }
+        O();
 
-        assert(btree_search(t, it2) == NULL);
+        A("Insert int_item -2 into a existing BTree");
+        {
+            btree_insert(tree, int_item_new(-2));
+            assert(btree_size(tree) == 2);
+            assert(btree_size_leaf(tree) == 1);
+        }
+        O();
+
+        A("Insert int_item 6 into a existing BTree");
+        {
+            btree_insert(tree, int_item_new(6));
+            assert(btree_size(tree) == 3);
+            assert(btree_size_leaf(tree) == 2);
+        }
+        O();
+
+        A("Insert int_item 0 into a existing BTree");
+        {
+            btree_insert(tree, int_item_new(0));
+            assert(btree_size(tree) == 4);
+            assert(btree_size_leaf(tree) == 2);
+        }
+        O();
+
+
+        A("Insert int_item 3 into a existing BTree");
+        {
+            btree_insert(tree, int_item_new(3));
+            assert(btree_size(tree) == 5);
+            assert(btree_size_leaf(tree) == 2);
+        }
+        O();
+
+
+        A("Insert int_item -7 into a existing BTree");
+        {
+            btree_insert(tree, int_item_new(-7));
+            assert(btree_size(tree) == 6);
+            assert(btree_size_leaf(tree) == 3);
+        }
+        O();
     }
 
-    btree_insert(t, it2);
     {
-        assert(btree_size_leaf(t) == 1);
-        assert(btree_height(t) == 2);
+        T("Testing `btree_traverse_level()` via `btree_traverse()`");
+        {
+            A("Default visitor function");
+            BTreeNode *nodes = btree_traverse(tree, BTREE_TRAVERSE_LEVEL, NULL);
 
-        Item retVal = btree_node_value(t);
-        assert(item_cmp(it2, retVal) == 0);
-        assert(even_p(retVal) && !odd_p(retVal) && negative_p(retVal));
-
-        assert(btree_size(t) == 2);
-        assert(btree_search(t, it2) != NULL);
+            assert(int_item(btree_node_value(nodes[0])) == 5);
+            assert(int_item(btree_node_value(nodes[1])) == -2);
+            assert(int_item(btree_node_value(nodes[2])) == 6);
+            assert(int_item(btree_node_value(nodes[3])) == -7);
+            assert(int_item(btree_node_value(nodes[4])) == 0);
+            assert(int_item(btree_node_value(nodes[5])) == 3);
+            free(nodes);
+            O();
+        }
+        {
+            A("Custom visitor function");
+            BTreeNode *shouldBeNull = btree_traverse(tree, BTREE_TRAVERSE_LEVEL, node_add);
+            assert(shouldBeNull == NULL);
+            assert(sum == 5);
+            O();
+        }
     }
 
-    t = btree_delete_node(t, it2);
     {
-        assert(btree_size_leaf(t) == 1);
-        assert(btree_height(t) == 1);
-        Item retVal = btree_node_value(t);
-        assert(item_cmp(it1, retVal) == 0);
-        assert(!even_p(retVal) && odd_p(retVal) && !negative_p(retVal));
-        assert(btree_size(t) == 1);
-
-        assert(btree_search(t, it2) == NULL);
+        T("Testing `even_p()`, `odd_p()` and `negative_p()`");
+        Item it;
+        {
+            t("  int_item_new(5)");
+            it = int_item_new(5);
+            A("  even_p"); assert(even_p(it) == 0); O();
+            A("  odd_p"); assert(odd_p(it) == 1); O();
+            A("  negative_p"); assert(negative_p(it) == 0); O();
+            item_drop(it);
+        }
+        {
+            T("  int_item_new(2)");
+            it = int_item_new(2);
+            A("  even_p"); assert(even_p(it) == 1); O();
+            A("  odd_p"); assert(odd_p(it) == 0); O();
+            A("  negative_p"); assert(negative_p(it) == 0); O();
+            item_drop(it);
+        }
+        {
+            T("  int_item_new(0)");
+            it = int_item_new(0);
+            A("  even_p"); assert(even_p(it) == 1); O();
+            A("  odd_p"); assert(odd_p(it) == 0); O();
+            A("  negative_p"); assert(negative_p(it) == 0); O();
+            item_drop(it);
+        }
+        {
+            T("  int_item_new(-6)");
+            it = int_item_new(-6);
+            A("  even_p"); assert(even_p(it) == 1); O();
+            A("  odd_p"); assert(odd_p(it) == 0); O();
+            A("  negative_p"); assert(negative_p(it) == 1); O();
+            item_drop(it);
+        }
+        {
+            T("  int_item_new(-7)");
+            it = int_item_new(-7);
+            A("  even_p"); assert(even_p(it) == 0); O();
+            A("  odd_p"); assert(odd_p(it) == 1); O();
+            A("  negative_p"); assert(negative_p(it) == 1); O();
+            item_drop(it);
+        }
     }
 
+    {
+        T("Testing `btree_count_if()`");
+        A("even_p"); assert(btree_count_if(tree, even_p) == 3); O();
+        A("odd_p"); assert(btree_count_if(tree, odd_p) == 3); O();
+        A("negative_p"); assert(btree_count_if(tree, negative_p) == 2); O();
+    }
 
-    btree_drop(t);
-    // BTreeNode *btree_traverse(BTreeNode tree, btree_traversal how, btree_visitor_fp visit);
-    // size_t btree_count_if(BTreeNode tree, btree_pred_fp pred);
-
-//    btree_count_if(t, btree_pred_fp)
-
+    btree_drop(tree);
     puts("\nAll tests passed. You are awesome!");
+
     return EXIT_SUCCESS;
 }
 
