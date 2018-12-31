@@ -17,6 +17,26 @@ sequenceDiagrams:
 
 ---
 
+| _Colors_      | Fruits          | Vegetable         |
+| ------------- |:---------------:| -----------------:|
+| Red           | *Apple*         | [Pepper](#Tables) |
+| ~~Orange~~    | Oranges         | **Carrot**        |
+| Green         | ~~***Pears***~~ | Spinach           |
+
+{{% admonition note "I'm title!" false %}}
+biu biu biu.
+
+{{% admonition type="note" title="note" details="true" %}}
+biu biu biu.
+{{% /admonition %}}
+
+{{% admonition example %}}
+Without title.
+{{% /admonition %}}
+
+{{% /admonition %}}
+
+
 # Recursive Linked Lists
 ## Drop a list
 ```c
