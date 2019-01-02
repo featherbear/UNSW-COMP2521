@@ -200,8 +200,7 @@ size_t btree_count_if(btree_node *tree, btree_pred_fp pred) {
 ////////////////////////////////////////////////////////////////////////
 
 static btree_node *btree_node_new(Item it) {
-    btree_node *
-    new = malloc(sizeof *new);
+    btree_node *new = malloc(sizeof *new);
     if (new == NULL) err(EX_OSERR, "couldn't allocate btree_node");
     *new = (btree_node) {.item = it, .left = NULL, .right = NULL};
     return new;
@@ -310,28 +309,154 @@ bool negative_p(Item it) {
     return int_item(it) < 0;
 }
 
-/////
-
 ////////////////////////////////////////////////////////////////////////
 
 void white_box_tests(void) {
-//    btree_node_value
-//    btree_insert
-//    btree_search
-//    btree_delete_node // TODO
-//    btree_traverse
-//    btree_size
-//    btree_size_leaf
-//    btree_height
-//    btree_drop
-//    btree_count_if
-//    btree_node_new
-//    btree_traverse_prefix
-//    btree_traverse_infix
-//    btree_traverse_postfix
-//    btree_traverse_level
-//    btree_traverse_visit
-//    even_p
-//    odd_p
-//    negative_p
+    BTreeNode tree = NULL;
+
+    Item intItem = NULL;
+    assert(intItem == NULL);
+    intItem = int_item_new(5);
+    assert(int_item(intItem) == 5);
+
+    Item intItem2 = NULL;
+    assert(intItem2 == NULL);
+    intItem2 = int_item_new(2);
+    assert(int_item(intItem2) == 2);
+
+    // btree_node_value
+    assert(tree == NULL);
+
+    // btree_insert
+    {
+        btree_insert(tree, intItem);
+        assert(tree != NULL);
+        assert(tree->item == intItem);
+        assert(tree->left == NULL);
+        assert(tree->right == NULL);
+    }
+
+    // btree_search
+    {
+        assert(btree_search(tree, intItem) == intItem);
+        assert(btree_search(tree, intItem2) == NULL);
+        {
+            btree_insert(tree, intItem2);
+            assert(btree_search(tree, intItem2) == intItem2);
+        }
+    }
+
+    // btree_delete_node
+    {
+        assert(tree->left != NULL);
+        btree_delete_node(tree, intItem2);
+        assert(tree->left == NULL);
+    }
+
+    // btree_size
+    {
+        assert(btree_size(tree->left) == 0);
+        assert(btree_size(tree->right) == 0);
+        assert(btree_size(tree) == 1);
+
+        {
+            btree_insert(tree, intItem2);
+            assert(btree_size(tree->left) == 1);
+            assert(btree_size(tree->right) == 0);
+            assert(btree_size(tree) == 2);
+        }
+    }
+
+    // btree_size_leaf
+    {
+        assert(btree_size_leaf(tree->left) == 1);
+        assert(btree_size_leaf(tree->right) == 0);
+        assert(btree_size_leaf(tree) == 1);
+
+        {
+            btree_delete_node(tree, intItem2);
+            assert(btree_size_leaf(tree->left) == 0);
+            assert(btree_size_leaf(tree->right) == 0);
+            assert(btree_size_leaf(tree) == 1);
+        }
+    }
+
+    // btree_height
+    {
+        assert(btree_height(tree->left) == 0);
+        assert(btree_height(tree->right) == 0);
+        assert(btree_height(tree) == 1);
+
+        {
+            btree_insert(tree, intItem2);
+            assert(btree_height(tree->left) == 1);
+            assert(btree_height(tree->right) == 0);
+            assert(btree_height(tree) == 2);
+        }
+    }
+
+    ///// btree_count_if
+
+    // btree_node_new
+    {
+        Item it = int_item_new(0);
+        assert(it != NULL);
+        BTreeNode node = btree_node_new(it);
+
+        assert(node != NULL);
+        assert(node->item == node);
+        assert(node->left == NULL);
+        assert(node->right == NULL);
+
+        item_drop(it);
+        free(node);
+    }
+
+    ///// btree_traverse
+
+    {
+        // btree_traverse_prefix
+        // btree_traverse_infix
+        // btree_traverse_postfix
+        // btree_traverse_level
+
+        // btree_traverse_visit
+        {
+            assert(btree_size(tree) == 2);
+            traverse_state state = {
+                    .n_nodes = 2,
+                    // .how
+                    .upto = 0,
+                    .nodes = calloc(state.n_nodes, sizeof BTreeNode),
+                    .visitor = NULL,
+            };
+
+            {
+                btree_traverse_visit(tree, &state);
+                assert(state.n_nodes == 2);
+                assert(state.upto == 1);
+                assert(state.nodes[0] != NULL);
+                assert(state.nodes[0]->item != intItem);
+                assert(state.visitor == NULL);
+            }
+
+            {
+                btree_traverse_visit(tree->left, &state);
+                assert(state.n_nodes == 2);
+                assert(state.upto == 2);
+                assert(state.nodes[0] != NULL);
+                assert(state.nodes[0]->item != intItem);
+                assert(state.nodes[1] != NULL);
+                assert(state.nodes[1]->item != intItem2);
+                assert(state.visitor == NULL);
+            }
+        }
+    }
+
+    ///// even_p
+    ///// odd_p
+    ///// negative_p
+
+    // btree_drop
+    btree_drop(tree);
 }
