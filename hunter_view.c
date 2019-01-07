@@ -73,16 +73,25 @@ location_t *hv_get_dests (
 	hunter_view *hv, size_t *n_locations,
 	bool road, bool rail, bool sea)
 {
-	/// @todo REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	*n_locations = 0;
-	return NULL;
+	round_t round = hv_get_round(hv);
 }
 
 location_t *hv_get_dests_player (
 	hunter_view *hv, size_t *n_locations, enum player player,
 	bool road, bool rail, bool sea)
 {
-	/// @todo REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	*n_locations = 0;
-	return NULL;
+    assert(hv);
+
+    // Get the current round
+    round_t round = hv_get_round(hv);
+
+    // Get the current location
+	location_t location = hv_get_location(hv, player);
+
+    // Get the available connections
+    return gv_get_connections(gv, n_locations, location, player, round, road, rail, sea);
 }
+
+// Special Rules for Hunters
+
+// if (all 6 hunters have rested in this turn) reveal the 6th move of the dracula's trail is revealed

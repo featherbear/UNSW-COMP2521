@@ -1,5 +1,5 @@
-//
 // Created by Andrew on 7/01/2019.
+//
 //
 
 #ifndef ASS02_DLIST_H
@@ -23,8 +23,8 @@ struct dlist_node {
 ///
 
 DNode dlist_node_new(int item) {
-    DNode
-    new = malloc(sizeof(*new));
+    DNode new = malloc(sizeof(*new));
+    assert(new != NULL);
     (*new) = (struct dlist_node) {
             .prev = NULL,
             .next = NULL,
@@ -37,7 +37,8 @@ void dlist_push(DList list, int item) {
     DNode *headPtr = &(list->head);
     DNode *tailPtr = &(list->tail);
 
-    DNode new = dlist_node_new(item);
+    DNode
+    new = dlist_node_new(item);
 
     if (!*headPtr) *headPtr = new;
 
@@ -49,11 +50,12 @@ void dlist_push(DList list, int item) {
 }
 
 DList dlist_new(void) {
-    DList new = malloc(sizeof(*new));
+    DList
+    new = malloc(sizeof(*new));
     (*new) = (struct dlist_container) {
-        .size = 0,
-        .head = NULL,
-        .tail = NULL
+            .size = 0,
+            .head = NULL,
+            .tail = NULL
     };
     return new;
 }
