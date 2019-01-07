@@ -373,9 +373,7 @@ void gv_get_history(game_view *gv, enum player player, location_t trail[TRAIL_SI
 location_t *
 gv_get_connections(game_view *gv, size_t *n_locations, location_t from, enum player player, round_t round,
                    bool road, bool rail, bool sea) {
-    *n_locations = 0;
-
-/*
+/* Dunno what this is for @_@
  *
  *    for each place
  *       if (    (P.type == ROAD  && road)
@@ -389,13 +387,10 @@ gv_get_connections(game_view *gv, size_t *n_locations, location_t from, enum pla
  */
 
 /*
-    1. Account for the hunters
-    2. Account for the draculas
-
     Draculas:
         Cannot travel by rail
         Cannot go to the hospital
-        Cannot go to a location currently in his trail
+        Cannot go to a location currently in his trail // So can't back back to where he came from
 
         Doesn't need to account for 'instantly transporting to hospital'
 
@@ -403,12 +398,23 @@ gv_get_connections(game_view *gv, size_t *n_locations, location_t from, enum pla
           HIDE:
           DOUBLE_BACK: To travel to any of the locations in the trail 
                 TODO: Write a function bool canDoubleBack()
+
+
+    Hunters:
+        Moving by rail depends on sum = roundNo + hunterNo
+        switch (sum % 4)
+        {
+            case 0: Cannot move by rail ;break;
+            case 1: Can move to the adj location; break;
+            case 2: Can move two rails; break;
+            case 3: Can move up to three rails; break;
+
+        }
     */
 
     // TODO: Figure out the locations player can go to
     // Function accounts for the fact that draculas cannot go by rail etc
     // For seas, you can moves from a boat to an ajacent sea or vice verse but not port to port..
-    // For hunters when travelling by rail.. very tricky :(
     location_t *validMoves = connection_getLocations();
 
 
@@ -416,7 +422,7 @@ gv_get_connections(game_view *gv, size_t *n_locations, location_t from, enum pla
     if (player == PLAYER_DRACULA) {
         if (gv->timers.doubleBack == 0) // TODO add DOUBLE_BACK as a valid move and realloc
             if (gv->timers.hide == 0) // TODO add HIDE as a valid move and realloc
-                ;
+        // Why did you indent the second if statement?
     } else {
         // TODO add 'rest' as a valid move and realloc
     }
@@ -435,7 +441,44 @@ typedef struct map {
 } map;
 
 */
-location_t *getLocation(game_view *gv, location_t from, Map m) {
+location_t *connection_getLocation(game_view *gv, location_t from, size_t *n_locations, player p, Map m)
+{
+    location_t *l = malloc(1 * sizeof(location_t)); // or is it sizeof(*location_t)?? also can I make it start from size 0?
+    n_locations = 0;
+
+    // Add all the available connections into the array (including rail)
     map_adj tmp = m->connections[from];
-    // Go through them and add them to the array
+    for (map_adj tmp = m->connections[from]; tmp != NULL; tmp = tmp->next) {
+
+        // Special cases if transport_type is rail
+        if (tmp->type == RAIL) {
+
+            // Case for hunter
+            if (p != PLAYER_DRACULA) {
+                int sum = (int)gv_get_round(gv) + (int)gv_get_player(gv); // Can I do that I typecast?
+                switch (sum % 4)
+                   {
+                        // Cannot move by rail
+                        case 0: continue; // Can I use continue here to continue the loop?
+
+                        // Can only move one station
+                        case 1: Can move to the adj location; break;
+
+                        // Can move up to two stations
+                        case 2: Can move two rails; break;
+
+                        // Can move up to three stations
+                        case 3: Can move up to three rails; break;
+
+                   }
+
+                // If it passes all the conditions
+                //l[n_locations] = tmp->v;
+                //n_locations++;
+            }
+
+        // Special cases for dracular: Can't visit the hospital and can't go back on trail (unless you call double_back)
+        } else if (tmp->location == HOSPITAL) continue;
+          else if (tmp->location == gv->players[PLAYER_DRACULA]->tail.location && player == PLAYER_DRACULA) continue;
+    }
 }
