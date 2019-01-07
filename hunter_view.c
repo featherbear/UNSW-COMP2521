@@ -18,7 +18,7 @@
 // #include "map.h" ... if you decide to use the Map ADT
 
 typedef struct hunter_view {
-	/// @todo REPLACE THIS WITH YOUR OWN IMPLEMENTATION
+	GameView gv;
 } hunter_view;
 
 hunter_view *hv_new (char *past_plays, player_message messages[])
@@ -38,37 +38,30 @@ void hv_drop (hunter_view *hv)
 
 round_t hv_get_round (hunter_view *hv)
 {
-	/// @todo REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return 0;
+    return gv_get_round(hv->gv);
 }
 
 enum player hv_get_player (hunter_view *hv)
 {
-	/// @todo REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return 0;
+    return gv_get_player(hv->gv);
 }
 
 int hv_get_score (hunter_view *hv)
 {
-	/// @todo REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return 0;
+    return gv_get_score(hv->gv);
 }
 
 int hv_get_health (hunter_view *hv, enum player player)
 {
-	/// @todo REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return 0;
+    return gv_get_health(hv->gv, player);
 }
 
 location_t hv_get_location (hunter_view *hv, enum player player)
 {
-	/// @todo REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return 0;
+    return gv_get_location(hv->gv, player);
 }
 
-void hv_get_trail (
-	hunter_view *hv, enum player player,
-	location_t trail[TRAIL_SIZE])
+void hv_get_trail (hunter_view *hv, enum player player,	location_t trail[TRAIL_SIZE])
 {
 	/// @todo REPLACE THIS WITH YOUR OWN IMPLEMENTATION
 }

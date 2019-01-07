@@ -19,6 +19,7 @@
 
 typedef struct dracula_view {
 	/// @todo REPLACE THIS WITH YOUR OWN IMPLEMENTATION
+	GameView gv;
 } dracula_view;
 
 dracula_view *dv_new (char *past_plays, player_message messages[])
@@ -26,6 +27,11 @@ dracula_view *dv_new (char *past_plays, player_message messages[])
 	/// @todo REPLACE THIS WITH YOUR OWN IMPLEMENTATION
 	dracula_view *new = malloc (sizeof *new);
 	if (new == NULL) err (EX_OSERR, "couldn't allocate DraculaView");
+
+  // @TODO: Parse the string past_plays. It contains all the plays made since the beginning of the game (including dracula);
+      // Thinking of making a struct for this.. struct for everything aye...
+
+  // What to do with the messages :0
 
 	return new;
 }
@@ -38,26 +44,22 @@ void dv_drop (dracula_view *dv)
 
 round_t dv_get_round (dracula_view *dv)
 {
-	/// @todo REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return 0;
+	return gv_get_round(dv->gv);
 }
 
 int dv_get_score (dracula_view *dv)
 {
-	/// @todo REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return 0;
+	return gv_get_score(dv->gv);
 }
 
 int dv_get_health (dracula_view *dv, enum player player)
 {
-	/// @todo REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return 0;
+	return gv_get_health(dv->gv, player);
 }
 
 location_t dv_get_location (dracula_view *dv, enum player player)
 {
-	/// @todo REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	return 0;
+	return gv_get_location(dv->gv, player);
 }
 
 void dv_get_player_move (
@@ -97,5 +99,4 @@ location_t *dv_get_dests_player (
 {
 	/// @todo REPLACE THIS WITH YOUR OWN IMPLEMENTATION
 	*n_locations = 0;
-	return NULL;
 }
