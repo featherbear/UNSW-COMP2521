@@ -27,11 +27,14 @@ hunter_view *hv_new (char *past_plays, player_message messages[])
 	hunter_view *new = malloc (sizeof *new);
 	if (new == NULL) err (EX_OSERR, "couldn't allocate HunterView");
 
+	new->gv = gv_new(past_plays, messages);
+
 	return new;
 }
 
 void hv_drop (hunter_view *hv)
 {
+    gv_drop(hv->gv);
 	/// @todo REPLACE THIS WITH YOUR OWN IMPLEMENTATION
 	free (hv);
 }

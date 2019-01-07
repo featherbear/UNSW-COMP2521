@@ -19,6 +19,20 @@
 
 int main (void)
 {
+	char *trail =
+            "GED.... SGE.... HZU.... MCA.... DCF.V.. "
+            "GMN.... SCFVD.. HGE.... MLS.... DBOT... "
+            "GLO.... SMR.... HCF.... MMA.... DTOT... "
+            "GPL.... SMS.... HMR.... MGR.... DBAT... "
+            "GLO.... SBATD.. HMS.... MMA.... DSRT... "
+            "GPL.... SSJ.... HBA.... MGR.... DALT... "
+            "GPL.... SSJ.... HBA.... MGR.... DMAT... "
+            "GLO.... SBE.... HMS.... MMATD..";
+	player_message messages[] = {
+			"Hello", "Rubbish", "Stuff", "", "Mwahahah"};
+	GameView gv = gv_new (trail, messages);
+free(gv);
+	return 0;
 	do {////////////////////////////////////////////////////////////////
 		puts ("Test basic empty initialisation");
 
