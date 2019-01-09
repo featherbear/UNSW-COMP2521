@@ -16,6 +16,8 @@
 #define t(m) printf(m); printf(" ::\n");
 #define A(m) printf("  "); printf(m);
 
+#define TEST(x) printf(#x "%d", x);
+
 static int sum = 0;
 static void node_add (BTreeNode node) {
     sum += int_item(btree_node_value(node));
@@ -40,13 +42,14 @@ int main(void) {
         A("Insert int_item 5 into a new BTree");
         {
             // `btree_node_new` not exposed, so create through `btree_insert`
-            BTreeNode node = tree = btree_insert(NULL, int_item_new(5));
-            assert(node != NULL);
+            tree = btree_insert(NULL, int_item_new(5));
             assert(tree != NULL);
             assert(btree_size(tree) == 1);
             assert(btree_size_leaf(tree) == 1);
         }
         O();
+
+        TEST(1 == 2);
 
         A("Insert int_item -2 into a existing BTree");
         {
@@ -165,6 +168,98 @@ int main(void) {
         A("even_p"); assert(btree_count_if(tree, even_p) == 3); O();
         A("odd_p"); assert(btree_count_if(tree, odd_p) == 3); O();
         A("negative_p"); assert(btree_count_if(tree, negative_p) == 2); O();
+    }
+
+    {
+        T("Testing `btree_delete_node()`");
+        int items[7] = {10, 20, 5, 30, 15, 25, 24};
+        BTreeNode t = NULL;
+
+        {
+            A("Insert");
+            for (size_t i = 0; i < 7; i++) {
+                Item it = int_item_new(items[i]);
+                assert(int_item(it) == items[i]);
+                t = btree_insert(t, it);
+            }
+            assert(btree_height(t) == 5);
+            assert(btree_size_leaf(t) == 3);
+            assert(btree_size(t) == 7);
+
+            BTreeNode *nodes = btree_traverse(t, BTREE_TRAVERSE_LEVEL, NULL);
+            assert(nodes);
+            assert(int_item(btree_node_value(nodes[0])) == 10);
+            assert(int_item(btree_node_value(nodes[1])) == 5);
+            assert(int_item(btree_node_value(nodes[2])) == 20);
+            assert(int_item(btree_node_value(nodes[3])) == 15);
+            assert(int_item(btree_node_value(nodes[4])) == 30);
+            assert(int_item(btree_node_value(nodes[5])) == 25);
+            assert(int_item(btree_node_value(nodes[6])) == 24);
+            free(nodes);
+            O();
+        }
+
+        {
+            A("Delete 5");
+            Item search = int_item_new(5);
+            t = btree_delete_node(t, search);
+            item_drop(search);
+            assert(btree_height(t) == 5);
+            assert(btree_size_leaf(t) == 2);
+            assert(btree_size(t) == 6);
+
+            BTreeNode *nodes = btree_traverse(t, BTREE_TRAVERSE_LEVEL, NULL);
+            assert(nodes);
+            assert(int_item(btree_node_value(nodes[0])) == 10);
+            assert(int_item(btree_node_value(nodes[1])) == 20);
+            assert(int_item(btree_node_value(nodes[2])) == 15);
+            assert(int_item(btree_node_value(nodes[3])) == 30);
+            assert(int_item(btree_node_value(nodes[4])) == 25);
+            assert(int_item(btree_node_value(nodes[5])) == 24);
+            free(nodes);
+            O();
+        }
+
+        {
+            A("Delete 30");
+            Item search = int_item_new(30);
+            t = btree_delete_node(t, search);
+            item_drop(search);
+            assert(btree_height(t) == 4);
+            assert(btree_size_leaf(t) == 2);
+            assert(btree_size(t) == 5);
+
+            BTreeNode *nodes = btree_traverse(t, BTREE_TRAVERSE_LEVEL, NULL);
+            assert(nodes);
+            assert(int_item(btree_node_value(nodes[0])) == 10);
+            assert(int_item(btree_node_value(nodes[1])) == 20);
+            assert(int_item(btree_node_value(nodes[2])) == 15);
+            assert(int_item(btree_node_value(nodes[3])) == 25);
+            assert(int_item(btree_node_value(nodes[4])) == 24);
+            free(nodes);
+            O();
+        }
+
+        {
+            A("Delete 20");
+            Item search = int_item_new(20);
+            t = btree_delete_node(t, search);
+            item_drop(search);
+
+            assert(btree_height(t) == 3);
+            assert(btree_size_leaf(t) == 2);
+            assert(btree_size(t) == 4);
+
+            BTreeNode *nodes = btree_traverse(t, BTREE_TRAVERSE_LEVEL, NULL);
+            assert(nodes);
+            assert(int_item(btree_node_value(nodes[0])) == 10);
+            assert(int_item(btree_node_value(nodes[1])) == 24);
+            assert(int_item(btree_node_value(nodes[2])) == 15);
+            assert(int_item(btree_node_value(nodes[3])) == 25);
+            free(nodes);
+            O();
+        }
+        btree_drop(t);
     }
 
     btree_drop(tree);

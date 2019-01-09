@@ -100,10 +100,32 @@ btree_node *btree_search(btree_node *tree, Item item) {
  * @param key	the key to search and delete
  * @returns the root of the resulting tree
  */
-btree_node *btree_delete_node(btree_node *tree, Item item __unused) {
-    warnx("btree_delete_node unimplemented");
-    // implement me!
+btree_node *btree_delete_node(btree_node *tree, Item item) {
+
+    if (tree == NULL) return NULL;
+
+    int cmp = item_cmp (tree->item, item);
+    if (cmp == 0) {
+//        item_drop(tree->item);
+//        free(tree);
+        if (!tree->left && !tree->right) return NULL ;
+        if (tree->left && !tree->right) return tree->left;
+        if (!tree->left && tree->right) return tree->right;
+
+        // https://www.youtube.com/watch?v=puyl7MBqPIg
+        BTreeNode leftMost = tree->right->left ? tree->right->left : tree->right->right;
+        tree->item = leftMost->item;
+        tree->right = btree_delete_node(tree->right, leftMost->item);
+
+    } else if (cmp > 0) {
+        tree->left  = btree_delete_node (tree->left,  item);
+    } else if (cmp < 0) {
+        tree->right = btree_delete_node (tree->right, item);
+    }
+
+
     return tree;
+
 }
 
 /**
@@ -329,7 +351,7 @@ void white_box_tests(void) {
 
     // btree_insert
     {
-        btree_insert(tree, intItem);
+        tree = btree_insert(tree, intItem);
         assert(tree != NULL);
         assert(tree->item == intItem);
         assert(tree->left == NULL);
@@ -338,18 +360,18 @@ void white_box_tests(void) {
 
     // btree_search
     {
-        assert(btree_search(tree, intItem) == intItem);
+        assert(btree_search(tree, intItem));
         assert(btree_search(tree, intItem2) == NULL);
         {
-            btree_insert(tree, intItem2);
-            assert(btree_search(tree, intItem2) == intItem2);
+            tree = btree_insert(tree, intItem2);
+            assert(btree_search(tree, intItem2));
         }
     }
 
     // btree_delete_node
     {
         assert(tree->left != NULL);
-        btree_delete_node(tree, intItem2);
+        tree = btree_delete_node(tree, intItem2);
         assert(tree->left == NULL);
     }
 
@@ -360,7 +382,7 @@ void white_box_tests(void) {
         assert(btree_size(tree) == 1);
 
         {
-            btree_insert(tree, intItem2);
+            tree = btree_insert(tree, intItem2);
             assert(btree_size(tree->left) == 1);
             assert(btree_size(tree->right) == 0);
             assert(btree_size(tree) == 2);
@@ -374,7 +396,7 @@ void white_box_tests(void) {
         assert(btree_size_leaf(tree) == 1);
 
         {
-            btree_delete_node(tree, intItem2);
+            tree = btree_delete_node(tree, intItem2);
             assert(btree_size_leaf(tree->left) == 0);
             assert(btree_size_leaf(tree->right) == 0);
             assert(btree_size_leaf(tree) == 1);
@@ -388,7 +410,7 @@ void white_box_tests(void) {
         assert(btree_height(tree) == 1);
 
         {
-            btree_insert(tree, intItem2);
+            tree = btree_insert(tree, intItem2);
             assert(btree_height(tree->left) == 1);
             assert(btree_height(tree->right) == 0);
             assert(btree_height(tree) == 2);
@@ -404,7 +426,7 @@ void white_box_tests(void) {
         BTreeNode node = btree_node_new(it);
 
         assert(node != NULL);
-        assert(node->item == node);
+        assert(node->item == it);
         assert(node->left == NULL);
         assert(node->right == NULL);
 
@@ -421,36 +443,38 @@ void white_box_tests(void) {
         // btree_traverse_level
 
         // btree_traverse_visit
+
+        assert(btree_size(tree) == 2);
+        traverse_state state = {
+                .n_nodes = 2,
+                // .how
+                .upto = 0,
+                .nodes = calloc(state.n_nodes, sizeof (BTreeNode)),
+                .visitor = NULL,
+        };
+
         {
-            assert(btree_size(tree) == 2);
-            traverse_state state = {
-                    .n_nodes = 2,
-                    // .how
-                    .upto = 0,
-                    .nodes = calloc(state.n_nodes, sizeof BTreeNode),
-                    .visitor = NULL,
-            };
-
-            {
-                btree_traverse_visit(tree, &state);
-                assert(state.n_nodes == 2);
-                assert(state.upto == 1);
-                assert(state.nodes[0] != NULL);
-                assert(state.nodes[0]->item != intItem);
-                assert(state.visitor == NULL);
-            }
-
-            {
-                btree_traverse_visit(tree->left, &state);
-                assert(state.n_nodes == 2);
-                assert(state.upto == 2);
-                assert(state.nodes[0] != NULL);
-                assert(state.nodes[0]->item != intItem);
-                assert(state.nodes[1] != NULL);
-                assert(state.nodes[1]->item != intItem2);
-                assert(state.visitor == NULL);
-            }
+            btree_traverse_visit(tree, &state);
+            assert(state.n_nodes == 2);
+            assert(state.upto == 1);
+            assert(state.nodes[0] != NULL);
+            assert(state.nodes[0]->item == intItem);
+            assert(state.visitor == NULL);
         }
+
+        {
+            btree_traverse_visit(tree->left, &state);
+            assert(state.n_nodes == 2);
+            assert(state.upto == 2);
+            assert(state.nodes[0] != NULL);
+            assert(state.nodes[0]->item == intItem);
+            assert(state.nodes[1] != NULL);
+            assert(state.nodes[1]->item == intItem2);
+            assert(state.visitor == NULL);
+        }
+
+        free(state.nodes);
+
     }
 
     ///// even_p
