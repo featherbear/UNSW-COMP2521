@@ -3,6 +3,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>/post/tut04/</loc>
+    <lastmod>2019-01-03T14:10:18+11:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>/post/ass02/</loc>
+    <lastmod>2019-01-03T10:25:05+11:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>/post/lec07/</loc>
+    <lastmod>2019-01-03T10:00:00+11:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>/post/lec06/</loc>
     <lastmod>2018-12-13T10:00:10+11:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -102,21 +123,21 @@
   
   <url>
     <loc>/categories/assignments/</loc>
-    <lastmod>2018-11-30T18:33:40+11:00</lastmod>
+    <lastmod>2019-01-03T10:25:05+11:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-12-13T10:00:10+11:00</lastmod>
+    <lastmod>2019-01-03T14:10:18+11:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2018-11-30T18:33:40+11:00</lastmod>
+    <lastmod>2019-01-03T10:25:05+11:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -130,7 +151,7 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2018-12-13T10:00:10+11:00</lastmod>
+    <lastmod>2019-01-03T14:10:18+11:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

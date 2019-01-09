@@ -50,7 +50,7 @@
 
 <meta itemprop="datePublished" content="2018-12-04T14:40:39&#43;11:00" />
 <meta itemprop="dateModified" content="2018-12-04T14:40:39&#43;11:00" />
-<meta itemprop="wordCount" content="814">
+<meta itemprop="wordCount" content="819">
 
 
 
@@ -150,7 +150,9 @@
 <ul>
 <li><a href="#implementation-1">Implementation</a></li>
 </ul></li>
-<li><a href="#adjacency-matrices-vs-adjacency-lists">Adjacency Matrices vs Adjacency Lists</a></li>
+<li><a href="#edge-lists">Edge Lists</a></li>
+<li><a href="#node-links">Node Links</a></li>
+<li><a href="#comparison">Comparison</a></li>
 </ul></li>
 <li><a href="#graph-search">Graph Search</a>
 <ul>
@@ -234,7 +236,7 @@ If E = |E| - complete graph</p>
 <li>A path is a <strong>cycle</strong> if it is simple, but loops (like a circular linked list)</li>
 <li>A graph is <strong>connected</strong> if there is a path from every vertex to every other (A somehow reaches B)</li>
 <li>A <strong>tree</strong> is a connected with no cycles; each pair of vertices has <strong>only one</strong> path between</li>
-<li>A *<em>spanning tree</em> of a graph is a subgraph that contains all its vertices and is a single tree (???)</li>
+<li>A <strong>spanning tree</strong> of a graph is a subgraph that contains all its vertices and is a single tree (???)</li>
 <li>A <strong>spanning forest</strong> of a graph is a subgraph that contains all its vertices an is a set of trees</li>
 <li>A <strong>clique</strong> is a complete subgraph</li>
 </ul>
@@ -359,7 +361,11 @@ Here we use a linked list association to only store information of edges that ex
 <span class="p">};</span></code></pre></td></tr></table>
 </div>
 </div>
-<h2 id="adjacency-matrices-vs-adjacency-lists">Adjacency Matrices vs Adjacency Lists</h2>
+<h2 id="edge-lists">Edge Lists</h2>
+
+<h2 id="node-links">Node Links</h2>
+
+<h2 id="comparison">Comparison</h2>
 
 <table>
 <thead>
@@ -367,6 +373,8 @@ Here we use a linked list association to only store information of edges that ex
 <th align="center">Function</th>
 <th align="center">Matrix</th>
 <th align="center">List</th>
+<th align="center">Edge</th>
+<th align="center">Node</th>
 </tr>
 </thead>
 
@@ -375,62 +383,79 @@ Here we use a linked list association to only store information of edges that ex
 <td align="center">Space</td>
 <td align="center"><code>V^2</code></td>
 <td align="center"><code>V+E</code></td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 
 <tr>
 <td align="center">Initialise</td>
 <td align="center"><code>V^2</code></td>
 <td align="center"><code>V</code></td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 
 <tr>
 <td align="center">Destroy</td>
 <td align="center"><code>V</code></td>
 <td align="center"><code>E</code></td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 
 <tr>
 <td align="center">Insert Edge</td>
 <td align="center"><code>1</code></td>
 <td align="center"><code>V</code></td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 
 <tr>
 <td align="center">Delete Edge</td>
 <td align="center"><code>1</code></td>
 <td align="center"><code>V</code></td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 
 <tr>
 <td align="center">Find Edge</td>
 <td align="center"><code>1</code></td>
 <td align="center"><code>V</code></td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 
 <tr>
 <td align="center">Is Isolated</td>
 <td align="center"><code>V</code></td>
 <td align="center"><code>1</code></td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 
 <tr>
 <td align="center">Is Adjacent</td>
 <td align="center"><code>1</code></td>
 <td align="center"><code>V</code></td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 
 <tr>
 <td align="center">Degree</td>
 <td align="center"><code>V</code></td>
 <td align="center"><code>E</code></td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 </tbody>
 </table>
 
-<p>So, this suggests that adjacency matrices are better!<br />
-They cost less operations, however take up a higher memory footprint.</p>
-
-<p>Sooo, for small numbers of vertices (<em>how small is small though???</em>), adjacency matrices are preferred, else use adjacency lists.</p>
+<p>So, this suggests that adjacency matrices are better than adjacency lists!<br />
+They cost less operations, however take up a higher memory footprint.<br />
+Sooo, for small numbers of vertices (<em>how small is small though???</em>), adjacency matrices are preferred, else use adjacency lists.</p>
 
 <h1 id="graph-search">Graph Search</h1>
 
@@ -520,7 +545,8 @@ An edge connecting a vertex with an ancestor that is not its parent is a <em>bac
 
   <span class="copyright-year">
     &copy; 
-    2018
+    2018 - 
+    2019
     <span class="heart">
       <i class="iconfont icon-heart"></i>
     </span>
