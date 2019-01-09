@@ -68,7 +68,7 @@ If E = |E| - complete graph
 * A path is a **cycle** if it is simple, but loops (like a circular linked list)
 * A graph is **connected** if there is a path from every vertex to every other (A somehow reaches B)
 * A **tree** is a connected with no cycles; each pair of vertices has **only one** path between
-* A **spanning tree* of a graph is a subgraph that contains all its vertices and is a single tree (???)
+* A **spanning tree** of a graph is a subgraph that contains all its vertices and is a single tree (???)
 * A **spanning forest** of a graph is a subgraph that contains all its vertices an is a set of trees
 * A **clique** is a complete subgraph
 
@@ -121,22 +121,25 @@ struct graph {
 };
 ```
 
-## Adjacency Matrices vs Adjacency Lists
-| Function | Matrix | List |
-| :------: | :----: | :--: |
-| Space | `V^2` | `V+E` |
-| Initialise| `V^2` | `V` |
-| Destroy | `V` | `E` |
-| Insert Edge | `1` | `V` |
-| Delete Edge | `1`| `V` |
-| Find Edge | `1` | `V` |
-| Is Isolated |`V` | `1` |
-| Is Adjacent |`1` | `V` |
-| Degree | `V` | `E` |
+## Edge Lists
 
-So, this suggests that adjacency matrices are better!  
-They cost less operations, however take up a higher memory footprint.
+## Node Links
 
+## Comparison
+| Function | Matrix | List | Edge | Node |
+| :------: | :----: | :--: | :--: | :--: |
+| Space | `V^2` | `V+E` | ||
+| Initialise| `V^2` | `V` | ||
+| Destroy | `V` | `E` | ||
+| Insert Edge | `1` | `V` | ||
+| Delete Edge | `1`| `V` | ||
+| Find Edge | `1` | `V` | ||
+| Is Isolated |`V` | `1` | ||
+| Is Adjacent |`1` | `V` | ||
+| Degree | `V` | `E` | ||
+
+So, this suggests that adjacency matrices are better than adjacency lists!  
+They cost less operations, however take up a higher memory footprint.  
 Sooo, for small numbers of vertices (_how small is small though???_), adjacency matrices are preferred, else use adjacency lists.
 
 # Graph Search
