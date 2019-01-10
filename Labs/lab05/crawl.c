@@ -85,19 +85,27 @@ int main(int argc, char **argv) {
             memset(result, 0, BUFSIZE);
             while ((pos = GetNextURL(buffer, link, result, pos)) > 0) {
 
+                // Challenge A: Filter out non-html links...
+                // Sure.. just check that the end of the string is .html
+                // Because that's 'surely' a foolproof method!...
+                int isHTML;
+                char *suffix = ".html";
+                isHTML = strcmp(result + strlen(result) - strlen(suffix), suffix) == 0;
 
-                if (nVertices(g) < maxURLs) {//|| (isElem(s, link) && isElem(s, result))) {
+                if (isHTML) {
+                    if (nVertices(g) < maxURLs) {//|| (isElem(s, link) && isElem(s, result))) {
 
-                    if (!isConnected(g, link, result)) {
-                        addEdge(g, link, result);
+                        if (!isConnected(g, link, result)) {
+                            addEdge(g, link, result);
 
+                        }
                     }
-                }
 
-                if (!isElem(s, result)) {
-                    printf("Found: '%s'\n", result);
-                    insertInto(s, result);
-                    pushOnto(S, result);
+                    if (!isElem(s, result)) {
+                        printf("Found: '%s'\n", result);
+                        insertInto(s, result);
+                        pushOnto(S, result);
+                    }
                 }
 
                 memset(result, 0, BUFSIZE);
