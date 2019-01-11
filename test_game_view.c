@@ -16,66 +16,51 @@
 #include <string.h>
 
 #include "game_view.h"
+#include "testing.h"
+
+//#define tTEST(x) printf("  assert [" #x); TEST(x); puts("] OK");
 
 int main(void) {
-    char *trail =
-            "GED.... SGE.... HZU.... MCA.... DCF.V.. "
-            "GMN.... SCFVD.. HGE.... MLS.... DBOT... "
-            "GLO.... SMR.... HCF.... MMA.... DTOT... "
-            "GPL.... SMS.... HMR.... MGR.... DBAT... "
-            "GLO.... SBATD.. HMS.... MMA.... DSRT... "
-            "GPL.... SSJ.... HBA.... MGR.... DALT... "
-            "GPL.... SSJ.... HBA.... MGR.... DMAT... "
-            "GLO.... SBE.... HMS.... MMATD..";
-    player_message messages[] = {
-            "Hello", "Rubbish", "Stuff", "", "Mwahahah"};
-    GameView gv = gv_new(trail, messages);
-    gv_drop(gv);
-    return 0;
     do {////////////////////////////////////////////////////////////////
-        puts("Test basic empty initialisation");
+        T("Test basic empty initialisation");
 
         char *trail = "";
         player_message messages[] = {};
         GameView gv = gv_new(trail, messages);
 
-        assert(gv_get_player(gv) == PLAYER_LORD_GODALMING);
-        assert(gv_get_round(gv) == 0);
-        assert(gv_get_health(gv, PLAYER_DR_SEWARD) == GAME_START_HUNTER_LIFE_POINTS);
-        assert(gv_get_health(gv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
-        assert(gv_get_score(gv) == GAME_START_SCORE);
-        assert(gv_get_location(gv, PLAYER_LORD_GODALMING) == UNKNOWN_LOCATION);
-
+        TEST(gv_get_player(gv) == PLAYER_LORD_GODALMING);
+        TEST(gv_get_round(gv) == 0);
+        TEST(gv_get_health(gv, PLAYER_DR_SEWARD) == GAME_START_HUNTER_LIFE_POINTS);
+        TEST(gv_get_health(gv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
+        TEST(gv_get_score(gv) == GAME_START_SCORE);
+        TEST(gv_get_location(gv, PLAYER_LORD_GODALMING) == UNKNOWN_LOCATION);
         puts("passed");
         gv_drop(gv);
     } while (0);
 
-
     do {////////////////////////////////////////////////////////////////
-        puts("Test for Dracula trail and basic functions");
+        T("Test for Dracula trail and basic functions");
 
-        char *trail =
-                "GST.... SAO.... HZU.... MBB.... DC?....";
-        player_message messages[] = {
-                "Hello", "Rubbish", "Stuff", "", "Mwahahah"};
+        char *trail = "GST.... SAO.... HZU.... MBB.... DC?....";
+        player_message messages[] = {"Hello", "Rubbish", "Stuff", "", "Mwahahah"};
         GameView gv = gv_new(trail, messages);
 
-        assert(gv_get_player(gv) == PLAYER_LORD_GODALMING);
-        assert(gv_get_round(gv) == 1);
-        assert(gv_get_location(gv, PLAYER_LORD_GODALMING) == STRASBOURG);
-        assert(gv_get_location(gv, PLAYER_DR_SEWARD) == ATLANTIC_OCEAN);
-        assert(gv_get_location(gv, PLAYER_VAN_HELSING) == ZURICH);
-        assert(gv_get_location(gv, PLAYER_MINA_HARKER) == BAY_OF_BISCAY);
-        assert(gv_get_location(gv, PLAYER_DRACULA) == CITY_UNKNOWN);
-        assert(gv_get_health(gv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
+        TEST(gv_get_player(gv) == PLAYER_LORD_GODALMING);
+        TEST(gv_get_round(gv) == 1);
+
+        TEST(gv_get_location(gv, PLAYER_LORD_GODALMING) == STRASBOURG);
+        TEST(gv_get_location(gv, PLAYER_DR_SEWARD) == ATLANTIC_OCEAN);
+        TEST(gv_get_location(gv, PLAYER_VAN_HELSING) == ZURICH);
+        TEST(gv_get_location(gv, PLAYER_MINA_HARKER) == BAY_OF_BISCAY);
+        TEST(gv_get_location(gv, PLAYER_DRACULA) == CITY_UNKNOWN);
+        TEST(gv_get_health(gv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
 
         puts("passed");
         gv_drop(gv);
     } while (0);
 
-
     do {////////////////////////////////////////////////////////////////
-        puts("Test for encountering Dracula and hunter history");
+        T("Test for encountering Dracula and hunter history");
 
         char *trail =
                 "GST.... SAO.... HCD.... MAO.... DGE.... "
@@ -85,29 +70,37 @@ int main(void) {
                 "Aha!"};
         GameView gv = gv_new(trail, messages);
 
-        assert(gv_get_location(gv, PLAYER_DRACULA) == GENEVA);
-        assert(gv_get_health(gv, PLAYER_LORD_GODALMING) == 5);
-        assert(gv_get_health(gv, PLAYER_DRACULA) == 30);
-        assert(gv_get_location(gv, PLAYER_LORD_GODALMING) == GENEVA);
+        TEST(gv_get_location(gv, PLAYER_DRACULA) == GENEVA);
+        TEST(gv_get_health(gv, PLAYER_LORD_GODALMING) == 5);
+        TEST(gv_get_health(gv, PLAYER_DRACULA) == 30);
+        TEST(gv_get_location(gv, PLAYER_LORD_GODALMING) == GENEVA);
 
         location_t history[TRAIL_SIZE];
+
+        A("Check Dracula's move history");
         gv_get_history(gv, PLAYER_DRACULA, history);
         assert(history[0] == GENEVA);
         assert(history[1] == UNKNOWN_LOCATION);
+        O();
 
+        A("Check Lord Godalming's move history");
         gv_get_history(gv, PLAYER_LORD_GODALMING, history);
         assert(history[0] == GENEVA);
         assert(history[1] == STRASBOURG);
         assert(history[2] == UNKNOWN_LOCATION);
+        O();
 
+        A("Check Dr Seward's move history");
         gv_get_history(gv, PLAYER_DR_SEWARD, history);
         assert(history[0] == ATLANTIC_OCEAN);
         assert(history[1] == UNKNOWN_LOCATION);
+        O();
 
         puts("passed");
         gv_drop(gv);
     } while (0);
 
+    return 0;
 
     do {////////////////////////////////////////////////////////////////
         puts("Test for Dracula doubling back at sea, "
@@ -121,15 +114,15 @@ int main(void) {
                 "Aha!", "", "", "", "Back I go"};
         GameView gv = gv_new(trail, messages);
 
-        assert(gv_get_player(gv) == 0);
-        assert(gv_get_health(gv, PLAYER_DRACULA) ==
+        TEST(gv_get_player(gv) == 0);
+        TEST(gv_get_health(gv, PLAYER_DRACULA) ==
                GAME_START_BLOOD_POINTS - (2 * LIFE_LOSS_SEA));
-        assert(gv_get_location(gv, PLAYER_DRACULA) == DOUBLE_BACK_1);
+        TEST(gv_get_location(gv, PLAYER_DRACULA) == DOUBLE_BACK_1);
 
         location_t history[TRAIL_SIZE];
         gv_get_history(gv, PLAYER_DRACULA, history);
-        assert(history[0] == DOUBLE_BACK_1);
-        assert(history[1] == SEA_UNKNOWN);
+        TEST(history[0] == DOUBLE_BACK_1);
+        TEST(history[1] == SEA_UNKNOWN);
 
         puts("passed");
         gv_drop(gv);
@@ -148,15 +141,15 @@ int main(void) {
                 "Aha!", "", "", "", "Back I go"};
         GameView gv = gv_new(trail, messages);
 
-        assert(gv_get_player(gv) == 0);
-        assert(gv_get_health(gv, PLAYER_DRACULA) ==
+        TEST(gv_get_player(gv) == 0);
+        TEST(gv_get_health(gv, PLAYER_DRACULA) ==
                GAME_START_BLOOD_POINTS - (2 * LIFE_LOSS_SEA));
-        assert(gv_get_location(gv, PLAYER_DRACULA) == DOUBLE_BACK_1);
+        TEST(gv_get_location(gv, PLAYER_DRACULA) == DOUBLE_BACK_1);
 
         location_t history[TRAIL_SIZE];
         gv_get_history(gv, PLAYER_DRACULA, history);
-        assert(history[0] == DOUBLE_BACK_1);
-        assert(history[1] == ENGLISH_CHANNEL);
+        TEST(history[0] == DOUBLE_BACK_1);
+        TEST(history[1] == ENGLISH_CHANNEL);
 
         puts("passed");
         gv_drop(gv);
@@ -182,12 +175,12 @@ int main(void) {
             for (size_t i = 0; i < n_edges; i++)
                 seen[edges[i]] = true;
 
-            assert(n_edges == 5);
-            assert(seen[GALATZ]);
-            assert(seen[CONSTANTA]);
-            assert(seen[BUCHAREST]);
-            assert(seen[KLAUSENBURG]);
-            assert(seen[CASTLE_DRACULA]);
+            TEST(n_edges == 5);
+            TEST(seen[GALATZ]);
+            TEST(seen[CONSTANTA]);
+            TEST(seen[BUCHAREST]);
+            TEST(seen[KLAUSENBURG]);
+            TEST(seen[CASTLE_DRACULA]);
 
             free(edges);
         } while (0);
@@ -205,14 +198,14 @@ int main(void) {
             for (size_t i = 0; i < n_edges; i++)
                 seen[edges[i]] = true;
 
-            assert(n_edges == 7);
-            assert(seen[IONIAN_SEA]);
-            assert(seen[BLACK_SEA]);
-            assert(seen[ADRIATIC_SEA]);
-            assert(seen[TYRRHENIAN_SEA]);
-            assert(seen[ATHENS]);
-            assert(seen[VALONA]);
-            assert(seen[SALONICA]);
+            TEST(n_edges == 7);
+            TEST(seen[IONIAN_SEA]);
+            TEST(seen[BLACK_SEA]);
+            TEST(seen[ADRIATIC_SEA]);
+            TEST(seen[TYRRHENIAN_SEA]);
+            TEST(seen[ATHENS]);
+            TEST(seen[VALONA]);
+            TEST(seen[SALONICA]);
 
             free(edges);
         } while (0);
@@ -226,8 +219,8 @@ int main(void) {
                     false, true, false
             );
 
-            assert(n_edges == 1);
-            assert(edges[0] == ATHENS);
+            TEST(n_edges == 1);
+            TEST(edges[0] == ATHENS);
 
             free(edges);
         } while (0);
