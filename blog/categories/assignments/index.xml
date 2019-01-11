@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Andrew Wong (z5206677)</copyright>
-    <lastBuildDate>Thu, 03 Jan 2019 10:25:05 +1100</lastBuildDate>
+    <lastBuildDate>Thu, 10 Jan 2019 12:00:00 +1100</lastBuildDate>
     
 	<atom:link href="/categories/assignments/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Practice Exam</title>
+      <link>/post/test01/</link>
+      <pubDate>Thu, 10 Jan 2019 12:00:00 +1100</pubDate>
+      
+      <guid>/post/test01/</guid>
+      <description>Had my first practice exam for COMP2521 this week!</description>
+    </item>
     
     <item>
       <title>Assignment Two - Fury of Dracula</title>
@@ -27,7 +36,7 @@
       <pubDate>Fri, 30 Nov 2018 18:33:40 +1100</pubDate>
       
       <guid>/post/ass01/</guid>
-      <description>The first assignment for this course was to implement an ADT that would be able to store, and modify lines of text in it.</description>
+      <description>Questions Having a look at textbuffer.</description>
     </item>
     
   </channel>

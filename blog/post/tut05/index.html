@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Tut05 - COMP2521 Summer Fun</title>
+  <title>Tutorial Five - COMP2521 Summer Fun</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="z5206677" /><meta name="description" content="DFS - Stack" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="z5206677" /><meta name="description" content="A look at more BFSs and DFSs" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -38,26 +38,26 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="Tut05" />
-<meta property="og:description" content="DFS - Stack" />
+<meta property="og:title" content="Tutorial Five" />
+<meta property="og:description" content="A look at more BFSs and DFSs" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/tut05/" /><meta property="article:published_time" content="2019-01-08T17:09:10&#43;11:00"/>
 <meta property="article:modified_time" content="2019-01-08T17:09:10&#43;11:00"/>
 
-<meta itemprop="name" content="Tut05">
-<meta itemprop="description" content="DFS - Stack">
+<meta itemprop="name" content="Tutorial Five">
+<meta itemprop="description" content="A look at more BFSs and DFSs">
 
 
 <meta itemprop="datePublished" content="2019-01-08T17:09:10&#43;11:00" />
 <meta itemprop="dateModified" content="2019-01-08T17:09:10&#43;11:00" />
-<meta itemprop="wordCount" content="69">
+<meta itemprop="wordCount" content="96">
 
 
 
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Tut05"/>
-<meta name="twitter:description" content="DFS - Stack"/>
+<meta name="twitter:title" content="Tutorial Five"/>
+<meta name="twitter:description" content="A look at more BFSs and DFSs"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -116,11 +116,13 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Tut05</h1>
+      <h1 class="post-title">Tutorial Five</h1>
 
       <div class="post-meta">
         <span class="post-time"> 2019-01-08 </span>
-        
+        <div class="post-category">
+            <a href="../../categories/tutorial-/-labs/"> Tutorial / Labs </a>
+            </div>
         
       </div>
     </header>
@@ -128,12 +130,50 @@
     <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content always-active">
-    
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#traversal">Traversal</a></li>
+<li><a href="#spanning-tree">Spanning Tree</a>
+<ul>
+<li><a href="#kruskal-apos-s-algorithm">Kruskal&apos;s Algorithm</a></li>
+<li><a href="#prim-apos-s-algorithm">Prim&apos;s Algorithm</a></li>
+</ul></li>
+</ul>
+</nav>
   </div>
 </div>
     <div class="post-content">
-      <p>DFS - Stack<br />
-BFS - Queue</p>
+      
+
+<h1 id="traversal">Traversal</h1>
+
+<p><em>Pseudocode</em></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></pre></td>
+<td class="lntd">
+<pre class="chroma">Add item onto stack/queue
+
+while stack/queue is not empty {
+  dequeue/pop
+  mark item as visited
+  -&gt; perform operations here if needed
+  add neighbouring nodes
+}</pre></td></tr></table>
+</div>
+</div>
+<ul>
+<li>DFS - Stack<br /></li>
+<li>BFS - Queue<br /></li>
+</ul>
 
 <p>Find shortest (non-weighted) -&gt; BFS (from a or b) (to b or a)</p>
 
@@ -141,17 +181,26 @@ BFS - Queue</p>
 
 <p>// BFS Search Example</p>
 
-<p>// Spanning Tree
-&ndash;&gt; Kruskal
-* Sort min max
-* Add edges incrementally (as long as they don&rsquo;t lead to a cycle)
-  * Add edge, if cycle created
-  * Remove edge</p>
+<h1 id="spanning-tree">Spanning Tree</h1>
 
-<p>&ndash;&gt; Prim
-* Start at any
-* Add neighbouring vertices
-A3</p>
+<h2 id="kruskal-apos-s-algorithm">Kruskal&apos;s Algorithm</h2>
+
+<ul>
+<li>Sort min max</li>
+<li>Add edges incrementally (as long as they don&rsquo;t lead to a cycle)
+
+<ul>
+<li>Add edge, if cycle created</li>
+<li>Remove edge</li>
+</ul></li>
+</ul>
+
+<h2 id="prim-apos-s-algorithm">Prim&apos;s Algorithm</h2>
+
+<ul>
+<li>Start at any</li>
+<li>Add neighbouring vertices</li>
+</ul>
 
     </div>
 
@@ -160,11 +209,11 @@ A3</p>
       <nav class="post-nav">
         <a class="prev" href="../../post/lec08/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Lecture 8 - Digraphs and Wgraphs</span>
+            <span class="prev-text nav-default">Lecture 8 - Directed and Weighted Graphs</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         <a class="next" href="../../post/test01/">
-            <span class="next-text nav-default">Test01</span>
+            <span class="next-text nav-default">Practice Exam</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

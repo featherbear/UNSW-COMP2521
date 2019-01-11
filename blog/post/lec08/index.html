@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Lecture 8 - Digraphs and Wgraphs - COMP2521 Summer Fun</title>
+  <title>Lecture 8 - Directed and Weighted Graphs - COMP2521 Summer Fun</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="z5206677" /><meta name="description" content="Directed Graphs  Undirected Graphs - an edge relates two vertices equivalently Directed Graphs - only one direction | self loops!" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="z5206677" /><meta name="description" content="Directed Graphs  undirected graphs - an edge relates two vertices equivalently directed graphs - only one direction | self loops!" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -38,26 +38,26 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="Lecture 8 - Digraphs and Wgraphs" />
-<meta property="og:description" content="Directed Graphs  Undirected Graphs - an edge relates two vertices equivalently Directed Graphs - only one direction | self loops!" />
+<meta property="og:title" content="Lecture 8 - Directed and Weighted Graphs" />
+<meta property="og:description" content="Directed Graphs  undirected graphs - an edge relates two vertices equivalently directed graphs - only one direction | self loops!" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/lec08/" /><meta property="article:published_time" content="2019-01-08T14:00:00&#43;11:00"/>
 <meta property="article:modified_time" content="2019-01-08T14:00:00&#43;11:00"/>
 
-<meta itemprop="name" content="Lecture 8 - Digraphs and Wgraphs">
-<meta itemprop="description" content="Directed Graphs  Undirected Graphs - an edge relates two vertices equivalently Directed Graphs - only one direction | self loops!">
+<meta itemprop="name" content="Lecture 8 - Directed and Weighted Graphs">
+<meta itemprop="description" content="Directed Graphs  undirected graphs - an edge relates two vertices equivalently directed graphs - only one direction | self loops!">
 
 
 <meta itemprop="datePublished" content="2019-01-08T14:00:00&#43;11:00" />
 <meta itemprop="dateModified" content="2019-01-08T14:00:00&#43;11:00" />
-<meta itemprop="wordCount" content="458">
+<meta itemprop="wordCount" content="499">
 
 
 
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Lecture 8 - Digraphs and Wgraphs"/>
-<meta name="twitter:description" content="Directed Graphs  Undirected Graphs - an edge relates two vertices equivalently Directed Graphs - only one direction | self loops!"/>
+<meta name="twitter:title" content="Lecture 8 - Directed and Weighted Graphs"/>
+<meta name="twitter:description" content="Directed Graphs  undirected graphs - an edge relates two vertices equivalently directed graphs - only one direction | self loops!"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -116,11 +116,13 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Lecture 8 - Digraphs and Wgraphs</h1>
+      <h1 class="post-title">Lecture 8 - Directed and Weighted Graphs</h1>
 
       <div class="post-meta">
         <span class="post-time"> 2019-01-08 </span>
-        
+        <div class="post-category">
+            <a href="../../categories/lectures/"> Lectures </a>
+            </div>
         
       </div>
     </header>
@@ -133,6 +135,7 @@
 <li><a href="#directed-graphs">Directed Graphs</a>
 <ul>
 <li><a href="#keywords">Keywords</a></li>
+<li><a href="#methods-of-representation">Methods of representation</a></li>
 <li><a href="#directed-acyclic-graph-dag">Directed Acyclic Graph (DAG)</a></li>
 </ul></li>
 <li><a href="#weighted-graphs">Weighted Graphs</a>
@@ -141,13 +144,12 @@
 <ul>
 <li><a href="#shortest-path-search">Shortest Path Search</a></li>
 <li><a href="#single-source-shortest-path-search">Single Source Shortest Path Search</a></li>
-<li><a href="#minimum-spanning-tree-mst">Minimum Spanning Tree (MST)</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#minumum-spanning-trees">Minumum Spanning Trees</a>
+<li><a href="#minumum-spanning-trees-mst">Minumum Spanning Trees (MST)</a>
 <ul>
-<li><a href="#kruskal-s-algorithm">Kruskal&rsquo;s Algorithm</a></li>
-<li><a href="#prim-s-algorithm">Prim&rsquo;s Algorithm</a></li>
+<li><a href="#kruskal-apos-s-algorithm">Kruskal&apos;s Algorithm</a></li>
+<li><a href="#prim-apos-s-algorithm">Prim&apos;s Algorithm</a></li>
 <li><a href="#demo">Demo</a></li>
 </ul></li>
 </ul>
@@ -160,52 +162,81 @@
 <h1 id="directed-graphs">Directed Graphs</h1>
 
 <ul>
-<li><strong>Undirected Graphs</strong> - an edge relates two vertices equivalently</li>
-<li><strong>Directed Graphs</strong> - only one direction | self loops!?</li>
+<li><strong>undirected graphs</strong> - an edge relates two vertices equivalently</li>
+<li><strong>directed graphs</strong> - only one direction | self loops!?</li>
 </ul>
 
 <h2 id="keywords">Keywords</h2>
 
 <ul>
-<li>Transitive closure - Directed path from <strong>s</strong> to <strong>t</strong></li>
-<li>Shortest path search - Shortest path from <strong>s</strong> to <strong>t</strong></li>
+<li><strong>transitive closure</strong> - Directed path from <strong>s</strong> to <strong>t</strong></li>
+<li><strong>shortest path search</strong> - Shortest path from <strong>s</strong> to <strong>t</strong></li>
 
-<li><p>Strong connectivity - vertices mutually reachable</p></li>
+<li><p><strong>strong connectivity</strong> - vertices mutually reachable</p></li>
 
-<li><p>in-degree (d^(-1)(v)) - number of directed edges leading into a vertex</p></li>
+<li><p><strong>in-degree</strong> (d^(-1)(v)) - number of directed edges leading into a vertex</p></li>
 
-<li><p>out-degree (d(v)) - number of directed edges leading out of a vertex</p></li>
+<li><p><strong>out-degree</strong> (d(v)) - number of directed edges leading out of a vertex</p></li>
 
-<li><p>sink - vertex with out-degree 0 (only in)</p></li>
+<li><p><strong>sink</strong> - vertex with out-degree 0 (only in)</p></li>
 
-<li><p>source - vertex with in-degree 0 (only out)</p></li>
+<li><p><strong>source</strong> - vertex with in-degree 0 (only out)</p></li>
 
-<li><p>reachability - if v-&gt;w exists, w is reachable from v</p></li>
+<li><p><strong>reachability</strong> - if v-&gt;w exists, w is reachable from v</p></li>
 
-<li><p>strongly connected - if v-&gt;w and w-&gt;v exists</p></li>
+<li><p><strong>strongly connected</strong> - if v-&gt;w and w-&gt;v exists</p></li>
 
-<li><p>strong connectivity - every vertex reachable from every other vertex</p></li>
+<li><p><strong>strong connectivity</strong> - every vertex reachable from every other vertex</p></li>
 
-<li><p>strongly-connected component - maximal strongly-connected subgraph</p></li>
+<li><p><strong>strongly-connected component</strong> - maximal strongly-connected subgraph</p></li>
 </ul>
 
-<p>///////////
-Adjacency matrix - asymmetric, spare, less space efficient
-adjaceny list - !!!
-edge list - order of edge components matter
-linked data tructures - pointers inherently directional</p>
+<p>///////////</p>
 
-<p>-|storage|edge ad|has edge|out degree|
-adj mat | O(V+V^w) | O(1) | O(1) | O(V)
-adj list O(V+E) | O(d(v)) | O(d(v)) | O(d(v))</p>
+<h2 id="methods-of-representation">Methods of representation</h2>
 
-<p>adj list (y)
+<p>Adjacency matrix - asymmetric, spare, less space efficient<br />
+Adjaceny list - !!!<br />
+Edge list - order of edge components matter<br />
+Linked data tructures - pointers inherently directional</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">-</th>
+<th align="center">storage</th>
+<th align="center">edge add</th>
+<th align="center">has edge</th>
+<th align="center">out degree</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">adj mat</td>
+<td align="center">O(V+V^w)</td>
+<td align="center">O(1)</td>
+<td align="center">O(1)</td>
+<td align="center">O(V)</td>
+</tr>
+
+<tr>
+<td align="center">adj list</td>
+<td align="center">O(V+E)</td>
+<td align="center">O(d(v))</td>
+<td align="center">O(d(v))</td>
+<td align="center">O(d(v))</td>
+</tr>
+</tbody>
+</table>
+
+<p>adj list (y)<br />
 digraph ehhhh &ndash; sparse</p>
 
 <h2 id="directed-acyclic-graph-dag">Directed Acyclic Graph (DAG)</h2>
 
-<p>Is it a tree? Is it a graph? No it&rsquo;s a dag!
-Nodes don&rsquo;t go back</p>
+<p><em>Is it a tree? Is it a graph? No it&rsquo;s a dag!</em><br />
+DAGs are a type of tree/graph, where nodes don&rsquo;t go back</p>
 
 <h1 id="weighted-graphs">Weighted Graphs</h1>
 
@@ -213,14 +244,14 @@ Nodes don&rsquo;t go back</p>
 
 <h2 id="theoretical-implementation">Theoretical Implementation</h2>
 
-<p>Adjacency Matrix - store the weight rather than just true/false
-- Needs some &lsquo;no edge exists&rsquo; value, as zero might be a valid weight</p>
+<p>Adjacency Matrix - store the weight rather than just true/false<br />
+<em>- may need some &lsquo;no edge exists&rsquo; value, as zero might be a valid weight</em></p>
 
 <p>Adjacency List - add weight to each list node</p>
 
 <p>Edge list - add weight to each edge</p>
 
-<p>Linked datastructure - links become link/weight pairs</p>
+<p>Linked data structure - links become link/weight pairs</p>
 
 <h3 id="shortest-path-search">Shortest Path Search</h3>
 
@@ -232,27 +263,19 @@ Nodes don&rsquo;t go back</p>
 single-source - from v to all
 all-pairs - (v,w) [ minimum for all pairs ]</p>
 
-<p>// Formal stuff
-For a path P, its weight is the sum of weights of its edges</p>
-
-<p>Edge relaxation</p>
-
 <h3 id="single-source-shortest-path-search">Single Source Shortest Path Search</h3>
 
 <p>O(nlogv) - adjaceny matrix and heap
 for an adjacency matrix (O(V^2))</p>
 
-<h3 id="minimum-spanning-tree-mst">Minimum Spanning Tree (MST)</h3>
+<p><strong>Given a counter; the first time a node is visited is the earliest time it could be visited</strong></p>
 
-<p>(All vertices, no cycles)
-  0
-  1
-  2
-  3</p>
+<h1 id="minumum-spanning-trees-mst">Minumum Spanning Trees (MST)</h1>
 
-<h1 id="minumum-spanning-trees">Minumum Spanning Trees</h1>
+<p>Reminder: A spanning tree is a acyclic graph with all vertices of a graph.<br />
+A minimum spanning tree is the smallest representation of this subgraph.</p>
 
-<h2 id="kruskal-s-algorithm">Kruskal&rsquo;s Algorithm</h2>
+<h2 id="kruskal-apos-s-algorithm">Kruskal&apos;s Algorithm</h2>
 
 <p>= take all edges, sorted according to their weight; and for each add it to the prototype MST unless it will introduce a cycle
 [A, B, C, D, E, F, G, H]
@@ -261,7 +284,7 @@ for an adjacency matrix (O(V^2))</p>
 <p>** Cycle checking is expensive - (dfs everything!?)
 &ndash;&gt; O(ElogE)</p>
 
-<h2 id="prim-s-algorithm">Prim&rsquo;s Algorithm</h2>
+<h2 id="prim-apos-s-algorithm">Prim&apos;s Algorithm</h2>
 
 <p>(Prim, Jarnik and Dijkstra)</p>
 
@@ -269,8 +292,11 @@ for an adjacency matrix (O(V^2))</p>
 Choose an edge not already in the MST, that
 - does not cause a cycle
 - connects to a vertex on the mst (&lsquo;on the fringe&rsquo;)
-- minimum possible edge
-// and takes us somewhere new</p>
+- minimum possible edge</p>
+
+<p>&ndash;&gt; Choose the smallest edge from any of the vertices in the MST that does not cause a cycle</p>
+
+<p>// and takes us somewhere new</p>
 
 <p>// <strong>But lol they&rsquo;re the same!</strong> &ndash;&gt; Prim == Jarnik == Dijkstra
 (pick a new edge, minimum, no cycle)</p>
@@ -290,7 +316,7 @@ Choose an edge not already in the MST, that
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         <a class="next" href="../../post/tut05/">
-            <span class="next-text nav-default">Tut05</span>
+            <span class="next-text nav-default">Tutorial Five</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Andrew Wong (z5206677)</copyright>
-    <lastBuildDate>Thu, 03 Jan 2019 10:25:05 +1100</lastBuildDate>
+    <lastBuildDate>Thu, 10 Jan 2019 12:00:00 +1100</lastBuildDate>
     
 	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Assignments</title>
       <link>/categories/assignments/</link>
-      <pubDate>Thu, 03 Jan 2019 10:25:05 +1100</pubDate>
+      <pubDate>Thu, 10 Jan 2019 12:00:00 +1100</pubDate>
       
       <guid>/categories/assignments/</guid>
       <description></description>
@@ -24,7 +24,7 @@
     <item>
       <title>Lectures</title>
       <link>/categories/lectures/</link>
-      <pubDate>Thu, 13 Dec 2018 10:00:10 +1100</pubDate>
+      <pubDate>Tue, 08 Jan 2019 14:00:00 +1100</pubDate>
       
       <guid>/categories/lectures/</guid>
       <description></description>
@@ -42,7 +42,7 @@
     <item>
       <title>Tutorial / Labs</title>
       <link>/categories/tutorial-labs/</link>
-      <pubDate>Tue, 11 Dec 2018 17:19:30 +1100</pubDate>
+      <pubDate>Tue, 08 Jan 2019 17:09:10 +1100</pubDate>
       
       <guid>/categories/tutorial-labs/</guid>
       <description></description>

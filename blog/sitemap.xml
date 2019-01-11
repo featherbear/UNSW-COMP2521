@@ -4,7 +4,7 @@
   
   <url>
     <loc>/post/test01/</loc>
-    <lastmod>2019-01-10T23:01:36+11:00</lastmod>
+    <lastmod>2019-01-10T12:00:00+11:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -144,35 +144,35 @@
   
   <url>
     <loc>/categories/assignments/</loc>
-    <lastmod>2019-01-03T10:25:05+11:00</lastmod>
+    <lastmod>2019-01-10T12:00:00+11:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-01-10T23:01:36+11:00</lastmod>
+    <lastmod>2019-01-10T12:00:00+11:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2019-01-03T10:25:05+11:00</lastmod>
+    <lastmod>2019-01-10T12:00:00+11:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/lectures/</loc>
-    <lastmod>2018-12-13T10:00:10+11:00</lastmod>
+    <lastmod>2019-01-08T14:00:00+11:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2019-01-10T23:01:36+11:00</lastmod>
+    <lastmod>2019-01-10T12:00:00+11:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -192,7 +192,7 @@
   
   <url>
     <loc>/categories/tutorial-labs/</loc>
-    <lastmod>2018-12-11T17:19:30+11:00</lastmod>
+    <lastmod>2019-01-08T17:09:10+11:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

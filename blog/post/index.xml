@@ -7,36 +7,36 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Andrew Wong (z5206677)</copyright>
-    <lastBuildDate>Thu, 10 Jan 2019 23:01:36 +1100</lastBuildDate>
+    <lastBuildDate>Thu, 10 Jan 2019 12:00:00 +1100</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Test01</title>
+      <title>Practice Exam</title>
       <link>/post/test01/</link>
-      <pubDate>Thu, 10 Jan 2019 23:01:36 +1100</pubDate>
+      <pubDate>Thu, 10 Jan 2019 12:00:00 +1100</pubDate>
       
       <guid>/post/test01/</guid>
-      <description> Check if an array is sorted (recursive) 1 2 3  bool search_p (int xs[], int l, int r) { }   Fibonacci list Relink dlist BST order check BST prune </description>
+      <description>Had my first practice exam for COMP2521 this week!</description>
     </item>
     
     <item>
-      <title>Tut05</title>
+      <title>Tutorial Five</title>
       <link>/post/tut05/</link>
       <pubDate>Tue, 08 Jan 2019 17:09:10 +1100</pubDate>
       
       <guid>/post/tut05/</guid>
-      <description>DFS - Stack</description>
+      <description>Traversal Pseudocode</description>
     </item>
     
     <item>
-      <title>Lecture 8 - Digraphs and Wgraphs</title>
+      <title>Lecture 8 - Directed and Weighted Graphs</title>
       <link>/post/lec08/</link>
       <pubDate>Tue, 08 Jan 2019 14:00:00 +1100</pubDate>
       
       <guid>/post/lec08/</guid>
-      <description>Directed Graphs  Undirected Graphs - an edge relates two vertices equivalently Directed Graphs - only one direction | self loops!</description>
+      <description>Directed Graphs  undirected graphs - an edge relates two vertices equivalently directed graphs - only one direction | self loops!</description>
     </item>
     
     <item>
@@ -58,7 +58,7 @@
     </item>
     
     <item>
-      <title>Lecture 07 -</title>
+      <title>Lecture 7 - </title>
       <link>/post/lec07/</link>
       <pubDate>Thu, 03 Jan 2019 10:00:00 +1100</pubDate>
       
@@ -162,7 +162,7 @@
       <pubDate>Fri, 30 Nov 2018 18:33:40 +1100</pubDate>
       
       <guid>/post/ass01/</guid>
-      <description>The first assignment for this course was to implement an ADT that would be able to store, and modify lines of text in it.</description>
+      <description>Questions Having a look at textbuffer.</description>
     </item>
     
     <item>

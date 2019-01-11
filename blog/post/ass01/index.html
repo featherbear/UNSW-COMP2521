@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="z5206677" /><meta name="description" content="The first assignment for this course was to implement an ADT that would be able to store, and modify lines of text in it." /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="z5206677" /><meta name="description" content="Questions Having a look at textbuffer." /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -39,25 +39,25 @@
 
 
 <meta property="og:title" content="Assignment One - Textbuffer" />
-<meta property="og:description" content="The first assignment for this course was to implement an ADT that would be able to store, and modify lines of text in it." />
+<meta property="og:description" content="Questions Having a look at textbuffer." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/ass01/" /><meta property="article:published_time" content="2018-11-30T18:33:40&#43;11:00"/>
 <meta property="article:modified_time" content="2018-11-30T18:33:40&#43;11:00"/>
 
 <meta itemprop="name" content="Assignment One - Textbuffer">
-<meta itemprop="description" content="The first assignment for this course was to implement an ADT that would be able to store, and modify lines of text in it.">
+<meta itemprop="description" content="Questions Having a look at textbuffer.">
 
 
 <meta itemprop="datePublished" content="2018-11-30T18:33:40&#43;11:00" />
 <meta itemprop="dateModified" content="2018-11-30T18:33:40&#43;11:00" />
-<meta itemprop="wordCount" content="549">
+<meta itemprop="wordCount" content="314">
 
 
 
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Assignment One - Textbuffer"/>
-<meta name="twitter:description" content="The first assignment for this course was to implement an ADT that would be able to store, and modify lines of text in it."/>
+<meta name="twitter:description" content="Questions Having a look at textbuffer."/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -134,16 +134,14 @@
 <ul>
 <li><a href="#questions">Questions</a>
 <ul>
-<li><a href="#struct-textbuffer">struct textbuffer {&hellip;}</a></li>
-<li><a href="#iterating-new-lines">Iterating new lines</a></li>
+<li><a href="#splitting-the-new-lines">Splitting the new lines.</a></li>
 <li><a href="#textbuffer-swap">textbuffer_swap</a></li>
 <li><a href="#textbuffer-to-str">textbuffer_to_str</a></li>
 <li><a href="#textbuffer-bytes">textbuffer_bytes</a></li>
 <li><a href="#textbuffer-search">textbuffer_search</a></li>
 <li><a href="#textbuffer-replace">textbuffer_replace</a></li>
-<li><a href="#textbuffer-undo-textbuffer-redo">textbuffer_undo / textbuffer_redo</a></li>
 </ul></li>
-<li><a href="#strok-vs-strsep">strok vs strsep</a></li>
+<li><a href="#more-on-strok-vs-strsep">More on strok vs strsep</a></li>
 <li><a href="#til">TIL</a></li>
 </ul>
 </nav>
@@ -152,16 +150,7 @@
     <div class="post-content">
       
 
-<p>The first assignment for this course was to implement an ADT that would be able to store, and modify lines of text in it.</p>
-
-<blockquote>
-<p>Also, suprised pikachu meme, I choose you!!<br />
-<img src="../../post/ass01/48389837_1237744566363342_5786992012112691200_n.png" alt="" /></p>
-</blockquote>
-
 <h1 id="questions">Questions</h1>
-
-<h2 id="struct-textbuffer">struct textbuffer {&hellip;}</h2>
 
 <p>Having a look at <code>textbuffer.h</code>, I was abit confused as to where the <code>struct textbuffer</code> definition was.<br />
 <em>The compiler needs to know right?</em><br />
@@ -169,35 +158,15 @@ We&rsquo;re not just just doing <code>Textbuffer __ = malloc(sizeof(*__))</code>
 
 <p>EDIT: Nevermind, I did a dumb dumb; I <strong>am</strong> meant to implement the structure for <code>struct textbuffer</code> myself.</p>
 
-<h2 id="iterating-new-lines">Iterating new lines</h2>
+<h2 id="splitting-the-new-lines">Splitting the new lines.</h2>
 
-<p>If I were to use <code>strsep(3)</code>, <code>if (*line == '\0') break;</code> won&rsquo;t work.<br />
-Why? Because if I had an input of <code>\n\nhello\n\0</code>, the loop would break because between <code>\n</code> and <code>\n</code> is <code>\0</code>. Aaaah!</p>
-
-<p>The way I did it was:</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">while</span> <span class="p">((</span><span class="n">line</span> <span class="o">=</span> <span class="n">strsep</span><span class="p">(</span><span class="o">&amp;</span><span class="n">inputCursor</span><span class="p">,</span> <span class="s">&#34;</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span> <span class="n">inputCursor</span><span class="p">)</span> <span class="p">{</span>
-  <span class="p">...</span>
-<span class="p">}</span></code></pre></td></tr></table>
-</div>
-</div>
-<p>The special thing here is the <code>&amp;&amp; inputCursor</code> part:<br />
-When <code>strsep</code> encounters the EOL; it returns the previous value of <code>inputCursor</code>, before setting <code>inputCursor = NULL</code>.</p>
-
-<p>Without this, the loop would execute one too many times.</p>
+<p><code>if (*line == '\0') break;</code> won&rsquo;t work.<br />
+Why? Because if I had an input of <code>\n\nhello\n\0</code>, the loop would break because between <code>\n</code> and <code>\n</code> is <code>\0</code>. Aaaaeh!</p>
 
 <h2 id="textbuffer-swap">textbuffer_swap</h2>
 
 <p>If I switch <code>tb[0]</code>, the head does not change, and cannot change via the current function prototype.<br />
 So then, I&rsquo;ll have to separate the <code>struct textbuffer</code> type from the <code>struct textbufferline</code> type.</p>
-
-<p>EDIT: Okay four rewrites later, I finally got it working ahahh. Each time an edge case always broke.</p>
 
 <h2 id="textbuffer-to-str">textbuffer_to_str</h2>
 
@@ -212,25 +181,24 @@ So then, I&rsquo;ll have to separate the <code>struct textbuffer</code> type fro
 <h2 id="textbuffer-bytes">textbuffer_bytes</h2>
 
 <p>This function returns the number of characters that the textbuffer represents, but does it include the <code>\0</code> (string EOF) character?<br />
-&gt; UPDATE: Nope it doesn&rsquo;t - it functions accordingly to <code>strlen(3)</code></p>
+&gt; UPDATE: Nope it doesn&rsquo;t.</p>
 
 <h2 id="textbuffer-search">textbuffer_search</h2>
 
-<p>This function returns the line number that contains a string.</p>
-
-<p>BUT WHAT IF DOESN&rsquo;T CONTAIN THAT STRING? HALP<br />
-<strong>UPDATE</strong>: <code>size_t</code> changed to <code>ssize_t</code> to accomate for failed searches (ret: -1)</p>
+<p>This function returns the line number that contains a string.<br />
+BUT WHAT IF DOESN&rsquo;T CONTAIN THAT STRING? HALP</p>
 
 <p>Also, the <code>rev</code> parameter means to search starting from the back</p>
 
 <blockquote>
 <p>Now, you see, if counting didn&rsquo;t start from 0, then we could have assigned 0 to be false.<br />
-<em>BUT NOOOOO WE START AT ZERO</em></p>
+<em>BUT NOOOOO WE START AT ZERO</em><br />
+<strong>UPDATE</strong>: <code>size_t</code> changed to <code>ssize_t</code></p>
 </blockquote>
 
 <h2 id="textbuffer-replace">textbuffer_replace</h2>
 
-<p>Don&rsquo;t do a while loop to keep trying to replace.
+<p>Note to self, and to others: Don&rsquo;t do a while loop to keep trying to replace.
 Because what if I replaced <code>the</code> to <code>there</code>?</p>
 
 <p>| Hello the<br />
@@ -241,40 +209,11 @@ Because what if I replaced <code>the</code> to <code>there</code>?</p>
 &hellip;<br />
 | Hello therererererererererererererererere</p>
 
-<h2 id="textbuffer-undo-textbuffer-redo">textbuffer_undo / textbuffer_redo</h2>
-
-<p>The <code>textbuffer_redo</code> function required slightly more thinking&hellip;<br />
-I originally planned on storing both undos and redos (the content prior to a redo) in the same array.<br />
-But then I would run into overlapping, where continuous redos would eventually change the text back into an old state.<br />
-Sure I could have gotten it to work; but I decided that it was easier to just separate both.</p>
-
-<p>Also, oh boy look at this madness</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c">    <span class="c1">// Pointer to the pointer to the head of History-&gt;items
-</span><span class="c1"></span>    <span class="n">_HistoryKey</span> <span class="o">*</span><span class="n">item</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">History</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">;</span>
-
-    <span class="c1">// Search through the current history records
-</span><span class="c1"></span>    <span class="k">while</span> <span class="p">(</span><span class="o">*</span><span class="n">item</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">((</span><span class="o">*</span><span class="n">item</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">key</span> <span class="o">==</span> <span class="n">tb</span><span class="p">)</span> <span class="k">return</span> <span class="o">*</span><span class="n">item</span><span class="p">;</span>
-        <span class="n">item</span> <span class="o">=</span> <span class="o">&amp;</span><span class="p">((</span><span class="o">*</span><span class="n">item</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
-    <span class="p">}</span></code></pre></td></tr></table>
-</div>
-</div>
-<h1 id="strok-vs-strsep">strok vs strsep</h1>
+<h1 id="more-on-strok-vs-strsep">More on strok vs strsep</h1>
 
 <blockquote>
-<p>&ldquo;You would only use strtok() when someone threatens your life if you don&rsquo;t do so.&rdquo;  - <a href="https://stackoverflow.com/a/7219504"><em>StackOverflow</em></a></p>
+<p>&ldquo;You would only use strtok() when someone threatens your life if you don&rsquo;t do so.&rdquo;<br />
+- <em>source: <a href="https://stackoverflow.com/a/7219504">StackOverflow</a></em></p>
 </blockquote>
 
 <h1 id="til">TIL</h1>
