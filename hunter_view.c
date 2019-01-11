@@ -76,6 +76,7 @@ location_t *hv_get_dests (
 	round_t round = hv_get_round(hv);
 }
 
+
 location_t *hv_get_dests_player (
 	hunter_view *hv, size_t *n_locations, enum player player,
 	bool road, bool rail, bool sea)
@@ -89,7 +90,7 @@ location_t *hv_get_dests_player (
 	location_t location = hv_get_location(hv, player);
 
     // Get the available connections
-    return gv_get_connections(gv, n_locations, location, player, round, road, rail, sea);
+    return gv_get_connections(hv->gv, n_locations, location, player, round, road, rail, sea);
 }
 
 // Special Rules for Hunters
