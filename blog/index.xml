@@ -7,10 +7,37 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Andrew Wong (z5206677)</copyright>
-    <lastBuildDate>Thu, 03 Jan 2019 14:10:18 +1100</lastBuildDate>
+    <lastBuildDate>Thu, 10 Jan 2019 23:01:36 +1100</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Test01</title>
+      <link>/post/test01/</link>
+      <pubDate>Thu, 10 Jan 2019 23:01:36 +1100</pubDate>
+      
+      <guid>/post/test01/</guid>
+      <description> Check if an array is sorted (recursive) 1 2 3  bool search_p (int xs[], int l, int r) { }   Fibonacci list Relink dlist BST order check BST prune </description>
+    </item>
+    
+    <item>
+      <title>Tut05</title>
+      <link>/post/tut05/</link>
+      <pubDate>Tue, 08 Jan 2019 17:09:10 +1100</pubDate>
+      
+      <guid>/post/tut05/</guid>
+      <description>DFS - Stack</description>
+    </item>
+    
+    <item>
+      <title>Lecture 8 - Digraphs and Wgraphs</title>
+      <link>/post/lec08/</link>
+      <pubDate>Tue, 08 Jan 2019 14:00:00 +1100</pubDate>
+      
+      <guid>/post/lec08/</guid>
+      <description>Directed Graphs  Undirected Graphs - an edge relates two vertices equivalently Directed Graphs - only one direction | self loops!</description>
+    </item>
     
     <item>
       <title>Tutorial 4 - Heaps and Graphs</title>

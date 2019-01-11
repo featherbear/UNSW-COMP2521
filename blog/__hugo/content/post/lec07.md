@@ -1,6 +1,7 @@
 ---
-title: "Lecture 07 -"
+title: "Lecture 7 - "
 date: 2019-01-03T10:00:00+11:00
+categories: ["Lectures"]
 
 hiddenFromHomePage: false
 postMetaInFooter: false

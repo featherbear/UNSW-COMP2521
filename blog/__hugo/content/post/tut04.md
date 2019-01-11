@@ -1,6 +1,7 @@
 ---
 title: "Tutorial 4 - Heaps and Graphs"
 date: 2019-01-03T14:10:18+11:00
+categories: ["Tutorial / Labs"]
 
 hiddenFromHomePage: false
 postMetaInFooter: false
