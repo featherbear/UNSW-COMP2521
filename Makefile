@@ -1,3 +1,4 @@
+
 ########################################################################
 # COMP2521 19t0 // The Fury of Dracula // the View
 # view/Makefile: build tests for {Game,Hunter,Dracula}View

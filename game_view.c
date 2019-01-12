@@ -16,157 +16,52 @@
 
 #include "game.h"
 #include "game_view.h"
-#include "map.h" // ... if you decide to use the Map ADT
+#include "map.h" 
 
-#include "dlist.h"
+#include "__pretty.h"
+
+#include "_structures.h"
+#include "_dlist.h"
+#include "_queue.h"
+
+#include "_game_events.h"
+
+// Credits and many thanks to
+// https://stackoverflow.com/questions/10258305/how-to-implement-a-breadth-first-search-to-a-certain-depth
 
 #define max(a, b) a>b?a:b
-#define min(a, b) a<b?a:b // AAAAA Scary
-
-#define printf_red(...)    printf("\033[0;31m"); printf(__VA_ARGS__); printf("\033[0m");
-#define printf_green(...)  printf("\033[0;32m"); printf(__VA_ARGS__); printf("\033[0m");
-#define printf_blue(...)   printf("\033[0;36m"); printf(__VA_ARGS__); printf("\033[0m"); // cyan
-#define printf_yellow(...) printf("\033[1;33m"); printf(__VA_ARGS__); printf("\033[0m");
-
-typedef struct playerInfo playerInfo;
-struct playerInfo {
-    enum player type;
-    int health;
-    DList moves;
-};
-
-typedef int turn_t;
-typedef struct game_view {
-    turn_t currTurn;
-    round_t currRound;        // Current round number
-
-    playerInfo *currPlayer;
-//    enum player currPlayer;
-    playerInfo players[NUM_PLAYERS];
-    int score;
-
-    struct timers {
-        int doubleBack; // Preset to 0, set to 6 when done, -1 every round
-        int vampFlyTime;
-        int hide; //
-    } timers;
-
-    struct encounters {
-        location_t vamp_location;
-        size_t traps[NUM_MAP_LOCATIONS];
-    } encounters;
-
-} game_view;
+#define min(a, b) a<b?a:b
 
 
-void event_remove_vamp(game_view *gv) {
-    gv->timers.vampFlyTime = 0;
-    gv->encounters.vamp_location = NOWHERE;
-}
-
-void event_remove_trap(game_view *gv, location_t location) {
-    assert(gv->encounters.traps[location] > 0);
-
-    gv->encounters.traps[location]--;
-}
-
-/*
- * Player Hurt Event
- * Reduces player health by `damage`.
- * If the player is a hunter and their health drops to zero, send them to the hospital and decrease the game score
- */
-bool event_player_hurt(game_view *gv, enum player player, size_t damage) {
-    bool result = true;
-    // Pointer to the player's health
-    // ... a POINTER because I'm lazy to keep referencing the entire gv->players[player].health each time
-    // Ermm... I didn't mean that kinda comment.. but yay for laziness 
-    int *health = &gv->players[player].health;
-
-    *health -= damage;
-    printf_red("> Player %d took %d damage! (HP: %d)\n", player, damage, *health);
-
-    if (player != PLAYER_DRACULA) {
-        if (*health <= 0) {
-            result = false;
-            gv->score -= SCORE_LOSS_HUNTER_HOSPITAL;
-            printf_yellow("> Player %d dun guf. he ded. rip m9\n", player);
-
-//            dlist_push(gv->players[player].moves, HOSPITAL_LOCATION)
-
-            // TODO ?? while in the hospital, they have zero life points
-
-            // TODO Move to hospital -------
-            // what happens to the trail just adds hospital to trail I'm preee sure..
-
-        }
-    }
-
-    return result;
-}
-
-/*
- * Player Heal Event
- * Heals a given player - Hunters are capped at 9 health points
- */
-void event_player_heal(game_view *gv, enum player player, size_t amount) {
 
 
-    int *health = &gv->players[player].health;
-    *health += amount;
-    printf_green("Player %d recovered 3 health points (HP: %d)\n", player, amount);
-    if (*health > GAME_START_HUNTER_LIFE_POINTS) printf_green("Health capped at 9 HP\n");
-    // Cap health for Hunters
-    if (player != PLAYER_DRACULA) *health = min(GAME_START_HUNTER_LIFE_POINTS, *health);
-}
 
-
-/*
- * Trap Encounter Event
- * Damage the player by 2 health points, then remove trap
- */
-bool event_encounter_trap(game_view *gv, enum player player, location_t location) {
-
-    assert(player != PLAYER_DRACULA);
-    assert(gv->encounters.traps[location] > 0);
-
-    printf_yellow("> Player %d encountered a trap!\n", player);
-
-    event_remove_trap(gv, location);
-    return event_player_hurt(gv, player, LIFE_LOSS_TRAP_ENCOUNTER);
-}
-
-/*
- * Vampire Encounter Event
- * Reduce the game score by 13, then remove vampire
- */
-void event_encounter_vamp(game_view *gv) {
-    printf_red("> A vampire has matured. players dun guf again smh fake hunterzz!\n");
-
-    gv->score -= SCORE_LOSS_VAMPIRE_MATURES;
-    event_remove_vamp(gv);
-}
-
-/*
- * Dracula Encounter Event
- * Damage the player by 4, and Dracula by 10
- */
-bool event_encounter_dracula(game_view *gv, enum player player) {
+static bool playerRested(GameView gv, enum player player) {
     assert(player != PLAYER_DRACULA);
 
-    printf_yellow("> BAM! Player %d encountered Dracula at %s!\n", player,
-                  location_get_name(gv_get_location(gv, player)));
+    //
+    dNode currNode = gv->players[player].moves->tail;
 
-    event_player_hurt(gv, PLAYER_DRACULA, LIFE_LOSS_HUNTER_ENCOUNTER);
-    return event_player_hurt(gv, player, LIFE_LOSS_DRACULA_ENCOUNTER);
+    assert(currNode);
+
+    location_t currLocation = currNode->item;
+    dNode prevNode = currNode->prev;
+    if (!prevNode) return false; // Player has not moved yet
+
+    location_t prevLocation = currNode->prev->item;
+
+    return currLocation == prevLocation;
 }
 
 
-game_view *gv_new(char *past_plays, player_message messages[]) {
-    game_view *gv = malloc(sizeof *gv);
+
+
+GameView gv_new(char *past_plays, player_message messages[]) {
+    GameView gv = malloc(sizeof *gv);
     if (gv == NULL) err(EX_OSERR, "couldn't allocate GameView");
 
     // Initialise GameView
-    (*gv) = (game_view) {
+    (*gv) = (struct game_view) {
             .currTurn = 0,
             .currRound = 0,
             .score = GAME_START_SCORE,
@@ -184,11 +79,11 @@ game_view *gv_new(char *past_plays, player_message messages[]) {
     };
 
     for (size_t i = 0; i < NUM_PLAYERS; i++) {
-        gv->players[i] = (playerInfo) {
-                .type = (enum player) (i == PLAYER_DRACULA ? PLAYER_DRACULA : i),
-                .health = (i == PLAYER_DRACULA ? GAME_START_BLOOD_POINTS : GAME_START_HUNTER_LIFE_POINTS),
-                .moves = dlist_new()
-        };
+         gv->players[i] = (playerInfo) {
+                 .type = (enum player) (i == PLAYER_DRACULA ? PLAYER_DRACULA : i),
+                 .health = (i == PLAYER_DRACULA ? GAME_START_BLOOD_POINTS : GAME_START_HUNTER_LIFE_POINTS),
+                 .moves = dlist_new()
+         };
         dlist_push(gv->players[i].moves, UNKNOWN_LOCATION);
     }
 
@@ -211,7 +106,7 @@ game_view *gv_new(char *past_plays, player_message messages[]) {
 
         currPlayer_n = gv->currTurn % NUM_PLAYERS;
         gv->currPlayer = &gv->players[currPlayer_n];
-        location_t lastLocation = gv_get_location(gv, currPlayer_n);
+//        location_t lastLocation = gv_get_location(gv, currPlayer_n);
 
         // Resolve location
         char location[3] = {'\0'};
@@ -339,7 +234,7 @@ game_view *gv_new(char *past_plays, player_message messages[]) {
             if (gv->timers.doubleBack) --gv->timers.doubleBack;
 
             // Also end of dracula's turn, take 2 damage
-            DNode draculaLocationNode = gv->currPlayer->moves->tail;
+            dNode draculaLocationNode = gv->currPlayer->moves->tail;
             location_t draculaLocation = draculaLocationNode->item;
 
             if (DOUBLE_BACK_1 <= draculaLocation && draculaLocation <= DOUBLE_BACK_5) {
@@ -357,9 +252,33 @@ game_view *gv_new(char *past_plays, player_message messages[]) {
             gv->score -= SCORE_LOSS_DRACULA_TURN;
             gv->currRound++;
         } else {
-            if (lastLocation == lID) {
-                // TODO player rested, did research
+            // Player
+
+            // If the current player rested (stayed in the same city), then heal
+            if (playerRested(gv, currPlayer_n)) {
+                event_player_heal(gv, currPlayer_n, LIFE_GAIN_REST);
             }
+
+            // If at the end
+            if (currPlayer_n == PLAYER_MINA_HARKER) {
+                bool research = true;
+                for (int i = 0; i < NUM_PLAYERS-1; i++) {
+                    if (!playerRested(gv, i)) research = false;
+                }
+
+                if (research) {
+//                    If a Hunter rests, and each of the other Hunters rested in their most recent turn,
+//                    then we say they have been doing collaborative research,
+//                    and the 6th move in Dracula’s trail is immediately revealed.
+
+//                            nothing is revealed if there are not yet 6 moves in the trail
+                }
+
+            }// (currPlayer_n == PLAYER_DRACULA-1)
+//            if (lastLocation == lID) {
+
+                // TODO player rested, did research
+//            }
         }
 
         gv->currTurn++;
@@ -367,15 +286,13 @@ game_view *gv_new(char *past_plays, player_message messages[]) {
 
     // Game summary
     printf_blue("\n\n------------SUMMARY------------\n");
-    printf("    %d turns made. Now in round no %d\n    I am player: %d (%s)\n", gv->currTurn, gv->currRound,
-           currPlayer_n,
+    printf("    %d turns made. Now in round no %d\n    I am player: %d (%s)\n", gv->currTurn, gv->currRound, currPlayer_n,
            currPlayer_n == 4 ? "Dracula" : "Hunter");
 //    printf("    Player `%c` @ `%s` | HP: %d\n", player, location, lID, _event);
-    for (int i = 0; i < PLAYER_DRACULA - 1; i++) {
+    for(enum player i = 0; i < PLAYER_DRACULA-1; i++) {
         printf("    Hunter %d @ %-15s | HP: %d\n", i, location_get_name(gv_get_location(gv, i)), gv->players[i].health);
     }
-    printf("    Dracula  @ %-15s | HP: %d\n", location_get_name(gv_get_location(gv, PLAYER_DRACULA)),
-           gv->players[PLAYER_DRACULA].health);
+    printf("    Dracula  @ %-15s | HP: %d\n", location_get_name(gv_get_location(gv, PLAYER_DRACULA)), gv->players[PLAYER_DRACULA].health);
     printf_yellow("    SCORE: %d\n", gv_get_score(gv));
     printf_blue("------------SUMMARY------------\n\n\n");
 
@@ -384,37 +301,37 @@ game_view *gv_new(char *past_plays, player_message messages[]) {
     return gv;
 }
 
-void gv_drop(game_view *gv) {
+void gv_drop(GameView gv) {
     for (size_t i = 0; i < NUM_PLAYERS; i++) {
         dlist_destroy(gv->players[i].moves);
     }
     free(gv);
 }
 
-round_t gv_get_round(game_view *gv) {
+round_t gv_get_round(GameView gv) {
     return gv->currRound;
 }
 
-enum player gv_get_player(game_view *gv) {
+enum player gv_get_player(GameView gv) {
     return gv->currTurn % NUM_PLAYERS;
 }
 
-int gv_get_score(game_view *gv) {
+int gv_get_score(GameView gv) {
     return gv->score;
 }
 
-int gv_get_health(game_view *gv, enum player player) {
+int gv_get_health(GameView gv, enum player player) {
     return gv->players[player].health;
 }
 
-location_t gv_get_location(game_view *gv, enum player player) {
+location_t gv_get_location(GameView gv, enum player player) {
     return gv->players[player].moves->tail->item;
 }
 
-void gv_get_history(game_view *gv, enum player player, location_t trail[TRAIL_SIZE]) {
+void gv_get_history(GameView gv, enum player player, location_t trail[TRAIL_SIZE]) {
 
     // Get the current location of the player
-    DNode move = gv->players[player].moves->tail;
+    dNode move = gv->players[player].moves->tail;
 
     // Get the most recent 6 locations into the array
     for (int i = 0; i < TRAIL_SIZE; i++) {
@@ -435,118 +352,37 @@ void gv_get_history(game_view *gv, enum player player, location_t trail[TRAIL_SI
 }
 
 
-location_t *
-gv_get_connections(game_view *gv, size_t *n_locations, location_t from, enum player player, round_t round,
-                   bool road, bool rail, bool sea) {
+location_t *gv_get_connections(game_view *gv, size_t *n_locations, location_t from, enum player player, round_t round, bool road, bool rail, bool sea) {
 
-//
-    return NULL;
-}
-/*
-Draculas:
-    Cannot travel by rail
-    Cannot go to the hospital
-    Cannot go to a location currently in his trail // So can't back back to where he came from
+    location_t *validMoves = {};
+    n_locations = 0;
 
-    Doesn't need to account for 'instantly transporting to hospital'
-
-    Apart from going to a `location,` dracula can do a HIDE or DOUBLE_BACK
-      HIDE: Stay at the current location and not move
-      DOUBLE_BACK: To travel to any of the locations in the trail
-
-
-Hunters:
-    Moving by rail depends on sum = roundNo + hunterNo
-    switch (sum % 4)
-    {
-        case 0: Cannot move by rail
-        case 1: Can move to the adj location;
-        case 2: Can move two rails;
-        case 3: Can move up to three rails;
-
+    // Get all the connections
+    if (road) {
+        location_t *road = connections_get_roadways(gv, from, m);
+        connections_append_array(validMoves, road);
+        free(road);
     }
 
-For both:
-    For seas, you can moves from a boat to an ajacent sea or vice verse but not port to port..
+    if (rail) {
+        location_t *rail = connections_get_railways(gv, from, m);
+        connections_append_array(validMoves, rail);
+        free(rail);
+    }
 
+    if (sea) {
+        location_t *sea = connections_get_seaways(gv, from, m);
+        connections_append_array(validMoves, sea);
+        free(sea);
+    }
 
-// Find all the available moves from location
-// Get rid of rail for draculas
-//
-location_t *validMoves = connection_getLocations(game_view *gv, location_t from, size_t *n_locations, player p, Map m);
+    // Consider extra moves
+    location_t *extras = connections_get_extras(gv, from, m);
+    connections_append_array(validMoves, extras);
+    free(extras);
 
-// Check for extra moves: DOUBLE_BACK & HIDE
-if (player == PLAYER_DRACULA) {
-
-    if (gv->timers.doubleBack == 0)  n_locations = connection_array_insert(validMoves, n_locations, DOUBLE_BACK);
-    if (gv->timers.hide == 0)  n_locations = connection_array_insert(validMoves, n_locations, HIDE);
-
-// Add rest as a move for hunters
-} else n_locations = connection_array_insert(validMoves, n_locations, REST);
-
+    return validMoves;
 }
-
-// Given a value, add it to the given array, and its size, assuming that the array isn't big enough
-// returns the new size of the array
-size_t connection_array_insert(location_t *l, size_t size, location_t value)
-{
-size++;
-l = realloc(l, size);
-l[size] = value;
-return size;
-}
-
-
-
-// Get all the valid locations, considering the places that players cannot go
-location_t *connection_getLocation(game_view *gv, location_t from, size_t *n_locations, player p, Map m)
-{
-// `l` is an array which contains the locationID of all available places
-location_t *l = malloc(sizeof(*location_t));
-n_locations = 0;
-
-// Filter through all locations
-map_adj tmp = m->connections[from];  // Andrew: We don't have scope to map_adj!!!
-for (map_adj tmp = m->connections[from]; tmp != NULL; tmp = tmp->next) {
-
-    // Special cases for RAIL
-    if (tmp->type == RAIL) {
-
-        if (player != PLAYER_DRACULA) {
-
-          int sum = (int)gv_get_round(gv) + (int)gv_get_player(gv);
-          switch (sum % 4)
-             {
-                  case 0: continue;                           // CANNOT move by rail
-                  case 1: break;                              // Can only move one station
-                  case 2: Can move two rails; break;          // Can move up to two stations
-                  case 3: Can move up to three rails; break;  // Can move up to three stations
-             };
-
-        // Draculas cannot travel by rail
-        } else continue;
-
-
-
-    // Special cases for dracular: Can't visit the hospital and can't go back on trail (unless you call double_back)
-    } else if (tmp->location == HOSPITAL) continue;
-      else if (tmp->location == gv->players[PLAYER_DRACULA]->tail.location && player == PLAYER_DRACULA) continue;
-
-    // Add the location to the array
-    n_locations = connection_array_insert(l, n_locations, tmp->v);
-
-}
-}
-
-// function gets the locationIDs of those connection to given location by rail 
-connections_get_railways()
-
-
-
-
-
-*/
-
 
 
 

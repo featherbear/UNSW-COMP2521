@@ -18,6 +18,8 @@
 #include "game_view.h"
 #include "testing.h"
 
+//#define tTEST(x) printf("  assert [" #x); TEST(x); puts("] OK");
+
 int main(void) {
     do {////////////////////////////////////////////////////////////////
         T("Test basic empty initialisation");
@@ -118,10 +120,12 @@ int main(void) {
         GameView gv = gv_new(trail, messages);
 
         TEST(gv_get_player(gv) == 0);
-        TEST(gv_get_health(gv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS - (2 * LIFE_LOSS_SEA));
+        TEST(gv_get_health(gv, PLAYER_DRACULA) ==
+               GAME_START_BLOOD_POINTS - (2 * LIFE_LOSS_SEA));
         TEST(gv_get_location(gv, PLAYER_DRACULA) == DOUBLE_BACK_1);
 
         location_t history[TRAIL_SIZE];
+
         A("Check Dracula's move history");
         gv_get_history(gv, PLAYER_DRACULA, history);
         assert(history[0] == DOUBLE_BACK_1);
@@ -132,9 +136,11 @@ int main(void) {
         gv_drop(gv);
     } while (0);
 
+    return 0;
+
     do {////////////////////////////////////////////////////////////////
-        T("Test for Dracula doubling back at sea, "
-          "and losing blood points (Dracula View)");
+        puts("Test for Dracula doubling back at sea, "
+             "and losing blood points (Dracula View)");
 
         char *trail =
                 "GGE.... SGE.... HGE.... MGE.... DEC.... "
@@ -145,7 +151,8 @@ int main(void) {
         GameView gv = gv_new(trail, messages);
 
         TEST(gv_get_player(gv) == 0);
-        TEST(gv_get_health(gv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS - (2 * LIFE_LOSS_SEA));
+        TEST(gv_get_health(gv, PLAYER_DRACULA) ==
+               GAME_START_BLOOD_POINTS - (2 * LIFE_LOSS_SEA));
         TEST(gv_get_location(gv, PLAYER_DRACULA) == DOUBLE_BACK_1);
 
         location_t history[TRAIL_SIZE];
@@ -159,8 +166,6 @@ int main(void) {
         puts("passed");
         gv_drop(gv);
     } while (0);
-
-    return 0;
 
 
     do {////////////////////////////////////////////////////////////////
