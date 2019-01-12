@@ -15,7 +15,7 @@ struct playerInfo {
 typedef int turn_t;
 typedef struct game_view {
     turn_t currTurn;
-    round_t currRound;        // Current round number
+    round_t currRound;
 
     playerInfo *currPlayer;
     playerInfo players[NUM_PLAYERS];

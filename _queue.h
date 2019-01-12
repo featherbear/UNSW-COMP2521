@@ -74,20 +74,24 @@ int queue_de(Queue q)
 // Appends and drops
 void queue_append(Queue q, Queue p)
 {
-
+    for (int i = 0; i < p->size; i++) queue_en(q, queue_de(p));
+    queue_drop(p);
 }
 
 void queue_drop(Queue q)
 {
     if (q == NULL) return; 
-    qNode tmp = q->head;
-    for (size_t i = 0; i < q->size; i++)
-    {
-        qNode tmp_next = tmp->next; 
-        free(tmp); 
-        tmp = tmp_next; 
+    if (q->size > 0) {
+
+        qNode tmp = q->head;
+        for (size_t i = 0; i < q->size; i++)
+        {
+            qNode tmp_next = tmp->next;
+            free(tmp);
+            tmp = tmp_next;
+        }
     }
-    free(q); 
+    free(q);
 }
 
 #endif //ASS02_QUEUE_H

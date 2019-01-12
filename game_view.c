@@ -351,37 +351,37 @@ void gv_get_history(GameView gv, enum player player, location_t trail[TRAIL_SIZE
 
 }
 
-
+#include "_connections.h"
 location_t *gv_get_connections(game_view *gv, size_t *n_locations, location_t from, enum player player, round_t round, bool road, bool rail, bool sea) {
 
-    location_t *validMoves = {};
-    n_locations = 0;
+    Queue validMoves = queue_new();
 
     // Get all the connections
     if (road) {
-        location_t *road = connections_get_roadways(gv, from, m);
-        connections_append_array(validMoves, road);
-        free(road);
+        Queue *road = connections_get_roadways(gv, from, m);
+        queue_append(validMoves, road);
     }
 
     if (rail) {
-        location_t *rail = connections_get_railways(gv, from, m);
-        connections_append_array(validMoves, rail);
-        free(rail);
+        Queue *rail = connections_get_railways(gv, from, m);
+        queue_append(validMoves, rail);
     }
 
     if (sea) {
-        location_t *sea = connections_get_seaways(gv, from, m);
-        connections_append_array(validMoves, sea);
-        free(sea);
+        Queue *sea = connections_get_seaways(gv, from, m);
+        queue_append(validMoves, sea);
     }
 
     // Consider extra moves
-    location_t *extras = connections_get_extras(gv, from, m);
-    connections_append_array(validMoves, extras);
-    free(extras);
+    Queue *extras = connections_get_extras(gv, from, m);
+    queue_append(validMoves, extras);
 
-    return validMoves;
+    // Put everything from the queue into an array
+    location_t *loc = malloc(q->size * sizeof(location_t));
+    for (int i = 0; i < q->size; i++) loc[i] = (location_t)queue_de(q);
+    queue_drop(q);
+
+    return loc;
 }
 
 
