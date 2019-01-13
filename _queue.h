@@ -26,7 +26,7 @@ void queue_en(Queue q, int item);
 void queue_drop(Queue q);
 void queue_append(Queue q, Queue p);
 int queue_de(Queue q);
-
+size_t queue_size(Queue q);
 ///
 
 qNode node_new(int item) {
@@ -74,7 +74,7 @@ int queue_de(Queue q)
 // Appends and drops
 void queue_append(Queue q, Queue p)
 {
-    for (int i = 0; i < p->size; i++) queue_en(q, queue_de(p));
+    for (size_t i = 0; i < p->size; i++) queue_en(q, queue_de(p));
     queue_drop(p);
 }
 
@@ -92,6 +92,11 @@ void queue_drop(Queue q)
         }
     }
     free(q);
+}
+
+// Size of queue
+size_t queue_size(Queue q) {
+    return q->size;
 }
 
 #endif //ASS02_QUEUE_H

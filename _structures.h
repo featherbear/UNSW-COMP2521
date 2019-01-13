@@ -5,6 +5,8 @@
 #ifndef ASS02_STRUCTURES_H
 #define ASS02_STRUCTURES_H
 
+#include "_dlist.h"
+
 typedef struct playerInfo playerInfo;
 struct playerInfo {
     enum player type;
@@ -13,7 +15,7 @@ struct playerInfo {
 };
 
 typedef int turn_t;
-typedef struct game_view {
+struct game_view {
     turn_t currTurn;
     round_t currRound;
 

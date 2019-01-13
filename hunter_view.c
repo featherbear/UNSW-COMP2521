@@ -66,7 +66,7 @@ location_t hv_get_location (hunter_view *hv, enum player player)
 
 void hv_get_trail (hunter_view *hv, enum player player,	location_t trail[TRAIL_SIZE])
 {
-	/// @todo REPLACE THIS WITH YOUR OWN IMPLEMENTATION
+	return gv_get_history(hv->gv,  player, trail);
 }
 
 location_t *hv_get_dests (

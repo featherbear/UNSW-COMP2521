@@ -24,6 +24,8 @@
 #include "_dlist.h"
 #include "_queue.h"
 
+#include "_connections.h"
+
 #include "_game_events.h"
 
 // Credits and many thanks to
@@ -57,6 +59,8 @@ static bool playerRested(GameView gv, enum player player) {
 
 
 GameView gv_new(char *past_plays, player_message messages[]) {
+    // TODO what to do with messages
+
     GameView gv = malloc(sizeof *gv);
     if (gv == NULL) err(EX_OSERR, "couldn't allocate GameView");
 
@@ -262,7 +266,7 @@ GameView gv_new(char *past_plays, player_message messages[]) {
             // If at the end
             if (currPlayer_n == PLAYER_MINA_HARKER) {
                 bool research = true;
-                for (int i = 0; i < NUM_PLAYERS-1; i++) {
+                for (enum player i = 0; i < NUM_PLAYERS-1; i++) {
                     if (!playerRested(gv, i)) research = false;
                 }
 
@@ -351,35 +355,41 @@ void gv_get_history(GameView gv, enum player player, location_t trail[TRAIL_SIZE
 
 }
 
-#include "_connections.h"
-location_t *gv_get_connections(game_view *gv, size_t *n_locations, location_t from, enum player player, round_t round, bool road, bool rail, bool sea) {
+
+location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from, enum player player, round_t round, bool road, bool rail, bool sea) {
+
+    return NULL;
 
     Queue validMoves = queue_new();
 
+    // TODO Isolate
+    Map m = map_new();
+
     // Get all the connections
     if (road) {
-        Queue *road = connections_get_roadways(gv, from, m);
-        queue_append(validMoves, road);
+        Queue road_moves = connections_get_roadways(gv, from, player, m);
+        queue_append(validMoves, road_moves);
     }
 
     if (rail) {
-        Queue *rail = connections_get_railways(gv, from, m);
-        queue_append(validMoves, rail);
+        Queue rail_moves = connections_get_railways(gv, from, player, m);
+        queue_append(validMoves, rail_moves);
     }
 
     if (sea) {
-        Queue *sea = connections_get_seaways(gv, from, m);
-        queue_append(validMoves, sea);
+        Queue sea_moves = connections_get_seaways(gv, from, player, m);
+        queue_append(validMoves, sea_moves);
     }
 
     // Consider extra moves
-    Queue *extras = connections_get_extras(gv, from, m);
-    queue_append(validMoves, extras);
+    Queue extra_moves = connections_get_extras(gv, from, player);
+    queue_append(validMoves, extra_moves);
 
     // Put everything from the queue into an array
-    location_t *loc = malloc(q->size * sizeof(location_t));
-    for (int i = 0; i < q->size; i++) loc[i] = (location_t)queue_de(q);
-    queue_drop(q);
+    int queueSize = queue_size(validMoves);
+    location_t *loc = malloc(queueSize * sizeof(location_t));
+    for (int i = 0; i < queueSize; i++) loc[i] = (location_t)queue_de(validMoves);
+    queue_drop(validMoves);
 
     return loc;
 }
