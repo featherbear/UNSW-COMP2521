@@ -16,7 +16,7 @@
 #include <string.h>
 
 #include "game_view.h"
-#include "testing.h"
+#include "_testing.h"
 
 //#define tTEST(x) printf("  assert [" #x); TEST(x); puts("] OK");
 
@@ -108,7 +108,7 @@ int main(void) {
     // TODO  test for traps
 
     do {////////////////////////////////////////////////////////////////
-        puts("Test for Dracula doubling back at sea, "
+        T("Test for Dracula doubling back at sea, "
              "and losing blood points (Hunter View)");
 
         char *trail =
@@ -136,10 +136,8 @@ int main(void) {
         gv_drop(gv);
     } while (0);
 
-    return 0;
-
     do {////////////////////////////////////////////////////////////////
-        puts("Test for Dracula doubling back at sea, "
+        T("Test for Dracula doubling back at sea, "
              "and losing blood points (Dracula View)");
 
         char *trail =
@@ -167,6 +165,7 @@ int main(void) {
         gv_drop(gv);
     } while (0);
 
+return -1;
 
     do {////////////////////////////////////////////////////////////////
         puts("Test for connections");
