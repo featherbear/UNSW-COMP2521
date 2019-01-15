@@ -5,7 +5,7 @@
 
 #include "game.h"
 #include "game_view.h"
-#include "game_view.c"
+//#include "game_view.c"
 #include "map.h"
 #include "places.h"
 
@@ -14,10 +14,14 @@
 ///
 
 Queue connections_get_extras (GameView gv, location_t l, enum player player);
+
 Queue connections_get_roadways (GameView gv, location_t l, enum player p, Map m);
+bool connections_in_trail(GameView gv, enum player p, location_t l);
+
 Queue connections_get_railways (GameView gv, location_t l, enum player p, Map m);
 Queue connections_rail_bfs(location_t loc, Map m, int depth);
 int connections_bfs_process(Queue q, qNode n, bool *hasBeenVisited, Map m);
+
 Queue connections_get_seaways (GameView gv, location_t l, enum player p, Map m);
 
 ///
@@ -26,11 +30,13 @@ Queue connections_get_seaways (GameView gv, location_t l, enum player p, Map m);
 /* Adds the extra locations (HIDE, DOUBLE_BACK, REST) */
 Queue connections_get_extras (GameView gv, location_t l, enum player player)
 {
+
+    // TODO - doing anything with `l`?
     Queue q = queue_new();
 
     // Extra moves for dracula
     if (player == PLAYER_DRACULA) {
-        if (gv->currRound != 0) {
+        if (gv_get_round(gv) != 0) {
             if (gv->timers.doubleBack == 0)  {
                 queue_en(q, DOUBLE_BACK_1);
                 queue_en(q, DOUBLE_BACK_2);
@@ -39,12 +45,13 @@ Queue connections_get_extras (GameView gv, location_t l, enum player player)
                 queue_en(q, DOUBLE_BACK_5);
             }
 
-            if (gv->timers.hide == 0)  queue_en(q, HIDE);
+            if (gv->timers.hide == 0) queue_en(q, HIDE);
         }
 
         // Add rest as a move for hunters
-    } else  queue_en(q, REST);
+    } else queue_en(q, gv_get_location(gv, player));
 
+    return q;
 }
 
 
@@ -56,24 +63,29 @@ Queue connections_get_roadways (GameView gv, location_t l, enum player p, Map m)
     map_adj *tmp = m->connections[l];
     while (tmp != NULL)
     {
-        if (tmp->type = ROAD) {
+        if (tmp->type == ROAD) {
 
             if (p == PLAYER_DRACULA) {
 
                 // Can't visit the hospital and can't go back on trail (unless you call double_back)
-                if (tmp->location == HOSPITAL) continue;
+                if (tmp->v == HOSPITAL_LOCATION) continue;
 
-                // Make sure it's not round 0;
+                // Make sure it's not round 0
                 if (gv_get_round(gv) != 0)
-                    if  (tmp->location == gv->players[p]->tail.location) continue;
+                    if  (connections_in_trail(gv, p, tmp->v)) continue;
             }
-            queue_en(q, (int)tmp->location);
+            queue_en(q, (int)tmp->v);
         }
         tmp = tmp->next;
     }
     return q;
 }
 
+bool connections_in_trail(GameView gv, enum player p, location_t l)
+{
+    // TODO: Finish this function after finished debugging..
+    return true;
+}
 
 /* Finds all the rail connections possible
  * Returns an array of all possible rail connnections */
@@ -82,6 +94,7 @@ Queue connections_get_railways (GameView gv, location_t l, enum player p, Map m)
     assert(p != PLAYER_DRACULA);
 
     Queue q = queue_new();
+    Queue tmp;
 
     int sum = (int)gv_get_round(gv) + (int)gv_get_player(gv);
     map_adj *tmp = m->connections[l];
@@ -98,16 +111,16 @@ Queue connections_get_railways (GameView gv, location_t l, enum player p, Map m)
                     break;
 
                 case 2:  // Can move up to two stations
-                    Queue *exc1 = connections_rail_bfs(tmp->location, m, 1);
+                    tmp = connections_rail_bfs(tmp->v, m, 1);
                     queue_append(q, exc1);
                     break;
 
                 case 3: // Can move up to three stations
-                    Queue *exc2 = connections_rail_bfs(tmp->location, m, 2);
+                    tmp = connections_rail_bfs(tmp->v, m, 2);
                     queue_append(q, exc2);
                     break;
             };
-            queue_en(q, (int)tmp->location)
+            queue_en(q, (int)tmp->v)   // Andrew: What's this doing? // Only happens if rail..
         }
         tmp = tmp->next;
     }
@@ -184,7 +197,7 @@ Queue connections_get_seaways (GameView gv, location_t l, enum player p, Map m)
 
     map_adj *tmp = m->connections[n->item];
     while (tmp != NULL) {
-        if (tmp->type == BOAT) queue_en(q, (int)tmp->location)
+        if (tmp->type == BOAT) queue_en(q, (int)tmp->location);
     }
 }
 

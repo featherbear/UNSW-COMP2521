@@ -16,7 +16,7 @@
 
 #include "game.h"
 #include "game_view.h"
-#include "map.h" 
+#include "map.h"
 
 #include "__pretty.h"
 
