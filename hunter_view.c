@@ -15,84 +15,57 @@
 #include "game.h"
 #include "game_view.h"
 #include "hunter_view.h"
+
+#include "_structures.h"
 // #include "map.h" ... if you decide to use the Map ADT
 
 typedef struct hunter_view {
-	GameView gv;
+    GameView gv;
 } hunter_view;
 
-hunter_view *hv_new (char *past_plays, player_message messages[])
-{
-	/// @todo REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	hunter_view *new = malloc (sizeof *new);
-	if (new == NULL) err (EX_OSERR, "couldn't allocate HunterView");
+hunter_view *hv_new(char *past_plays, player_message messages[]) {
+    hunter_view *new = malloc(sizeof *new);
+    if (new == NULL) err(EX_OSERR, "couldn't allocate HunterView");
 
-	new->gv = gv_new(past_plays, messages);
+    new->gv = gv_new(past_plays, messages);
 
-	return new;
+    return new;
 }
 
-void hv_drop (hunter_view *hv)
-{
+void hv_drop(hunter_view *hv) {
     gv_drop(hv->gv);
-	/// @todo REPLACE THIS WITH YOUR OWN IMPLEMENTATION
-	free (hv);
+    free(hv);
 }
 
-round_t hv_get_round (hunter_view *hv)
-{
+round_t hv_get_round(hunter_view *hv) {
     return gv_get_round(hv->gv);
 }
 
-enum player hv_get_player (hunter_view *hv)
-{
+enum player hv_get_player(hunter_view *hv) {
     return gv_get_player(hv->gv);
 }
 
-int hv_get_score (hunter_view *hv)
-{
+int hv_get_score(hunter_view *hv) {
     return gv_get_score(hv->gv);
 }
 
-int hv_get_health (hunter_view *hv, enum player player)
-{
+int hv_get_health(hunter_view *hv, enum player player) {
     return gv_get_health(hv->gv, player);
 }
 
-location_t hv_get_location (hunter_view *hv, enum player player)
-{
+location_t hv_get_location(hunter_view *hv, enum player player) {
     return gv_get_location(hv->gv, player);
 }
 
-void hv_get_trail (hunter_view *hv, enum player player,	location_t trail[TRAIL_SIZE])
-{
-	return gv_get_history(hv->gv,  player, trail);
+void hv_get_trail(hunter_view *hv, enum player player, location_t trail[TRAIL_SIZE]) {
+    return gv_get_history(hv->gv, player, trail);
 }
 
-location_t *hv_get_dests (
-	hunter_view *hv, size_t *n_locations,
-	bool road, bool rail, bool sea)
-{
-	round_t round = hv_get_round(hv);
+location_t *hv_get_dests(hunter_view *hv, size_t *n_locations, bool road, bool rail, bool sea) {
+    return hv_get_dests_player(hv, n_locations, hv_get_player(hv), road, rail, sea);
 }
 
-
-location_t *hv_get_dests_player (
-	hunter_view *hv, size_t *n_locations, enum player player,
-	bool road, bool rail, bool sea)
-{
-    assert(hv);
-
-    // Get the current round
-    round_t round = hv_get_round(hv);
-
-    // Get the current location
-	location_t location = hv_get_location(hv, player);
-
-    // Get the available connections
-    return gv_get_connections(hv->gv, n_locations, location, player, round, road, rail, sea);
+location_t *hv_get_dests_player(hunter_view *hv, size_t *n_locations, enum player player,
+                                bool road, bool rail, bool sea) {
+    return gv_get_connections(hv->gv, n_locations, hv_get_location(hv, player), player, hv->gv->currRound, road, rail, sea);
 }
-
-// Special Rules for Hunters
-
-// if (all 6 hunters have rested in this turn) reveal the 6th move of the dracula's trail is revealed

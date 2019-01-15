@@ -54,13 +54,8 @@ bool event_player_hurt(GameView gv, enum player player, int damage) {
             gv->score -= SCORE_LOSS_HUNTER_HOSPITAL;
             printf_yellow("> Player %d dun guf. he ded. rip m9\n", player);
 
-//            dlist_push(gv->players[player].moves, HOSPITAL_LOCATION)
-
-            // TODO ?? while in the hospital, they have zero life points
-
-            // TODO Move to hospital -------
-            // what happens to the trail just adds hospital to trail I'm preee sure..
-
+            // "the magical teleportation to the hospital does not show up in the game history"
+            // //  dlist_push(gv->players[player].moves, HOSPITAL_LOCATION)
         }
     }
 

@@ -18,8 +18,20 @@ typedef struct edge {
     transport_t type;
 } edge;
 
-// graph representation is hidden
+// <s>graph representation is hidden</s>
 typedef struct map *Map;
+
+typedef struct map_adj map_adj;
+typedef struct map {
+    size_t n_vertices, n_edges;
+
+    struct map_adj {
+        location_t v;  // ALICANTE, etc
+        transport_t type; // ROAD, RAIL, BOAT
+        struct map_adj *next; // link to next node
+    } *connections[NUM_MAP_LOCATIONS]; // array of lists
+} map;
+
 
 /** Create a new Map. */
 Map map_new (void);

@@ -16,16 +16,18 @@
 #include "map.h"
 #include "places.h"
 
-typedef struct map_adj map_adj;
-typedef struct map {
-	size_t n_vertices, n_edges;
-
-	struct map_adj {
-		location_t v;  // ALICANTE, etc
-		transport_t type; // ROAD, RAIL, BOAT
-		struct map_adj *next; // link to next node
-	} *connections[NUM_MAP_LOCATIONS]; // array of lists
-} map;
+// Copy this into map.h //
+//typedef struct map_adj map_adj;
+//typedef struct map {
+//	size_t n_vertices, n_edges;
+//
+//	struct map_adj {
+//		location_t v;  // ALICANTE, etc
+//		transport_t type; // ROAD, RAIL, BOAT
+//		struct map_adj *next; // link to next node
+//	} *connections[NUM_MAP_LOCATIONS]; // array of lists
+//} map;
+//
 
 static void add_connections (map *);
 static void add_connection (map *, location_t, location_t, transport_t);

@@ -386,7 +386,7 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
     queue_append(validMoves, extra_moves);
 
     // Put everything from the queue into an array
-    int queueSize = queue_size(validMoves);
+    int queueSize = (int)queue_size(validMoves);
     location_t *loc = malloc(queueSize * sizeof(location_t));
     for (int i = 0; i < queueSize; i++) loc[i] = (location_t)queue_de(validMoves);
     queue_drop(validMoves);

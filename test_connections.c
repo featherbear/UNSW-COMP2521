@@ -1,4 +1,4 @@
- //
+//
 // Written by Jennifer 12/01/19
 //
 
@@ -14,32 +14,32 @@
 #include "game_view.h"
 #include "map.c"
 #include "game_view.h"
+#include "places.h"
 
-#include "_dlist.h"
 #include "_queue.h"
-
 
 #include "__pretty.h"
 
-// Testing Functions 
-bool connections_has_location(location_t *l, location_t place);
-char *connections_find_all(Map m, location_t loc);
-void connections_print_array(location_t);
-void main_test(game_view gv, size_t round_t round, location_t place, enum player player);
+#define BIG_SIZE 20
+
+
+print_summary(GameView gv, location_t *l, size_t size);
+char *get_connections_str(location_t *l, size_t size);
+char *get_playerName(enum player p);
 
   /*
     Draculas:
         Cannot travel by rail
         Cannot go to the hospital
         Cannot go to a location currently in his trail // So can't back back to where he came from
-    
+
         Doesn't need to account for 'instantly transporting to hospital'
-    
+
         Apart from going to a `location,` dracula can do a HIDE or DOUBLE_BACK
           HIDE: Stay at the current location and not move
           DOUBLE_BACK: To travel to any of the locations in the trail
-    
-    
+
+
     Hunters:
         Moving by rail depends on sum = roundNo + hunterNo
         switch (sum % 4)
@@ -48,150 +48,88 @@ void main_test(game_view gv, size_t round_t round, location_t place, enum player
             case 1: Can move to the adj location;
             case 2: Can move two rails;
             case 3: Can move up to three rails;
-    
+
         }
-    
+
     For both:
         For seas, you can moves from a boat to an ajacent sea or vice verse but not port to port..
-    
+
     */
 
-// Function returns a string off all places connected to a given place
-// TODO: Test that this function works
-char *connections_find_all(Map m, location_t loc)
-{
-    char *comp_str = "";
-    map_adj tmp = m->connections[loc];
-    while (tmp != NULL)
-    {
-        location_t l = tmp->v;
-        const char *str = location_get_name (l);
-        strcat(comp_str, str);
-        tmp = tmp->next;
-    }
-    return comp_str;
-}
-
-// Function tests whether a location is located within an array
-bool connections_has_location(location_t *l, location_t place)
-{
-    if (l == NULL) return false;
-    size_t size = connections_sizeof_array(l);
-    for (size_t i = 0; i < size; i++) if (l[i] == place) return true;
-    return false;
-
-}
-
-// Function prints out all the locations
-void connections_print_array(location_t *l)
-{
-    size_t size = connections_sizeof_array(l);
-    for (size_t i = 0; i < size; i++)
-        if (l[i] < MAX_NUM_LOCATIONS) printf("%s, " location_get_name(l[i]));
-        // So it can't print HIDE and DOUBLE_BACK
-}
-
-location_t *main_test(game_view gv, round_t round, location_t place, enum player player)
-{
-    size_t n_locations = 0;
-    location_t *l = gv_get_connections(gv, n_locations, place, player, round, true, false, true);
-    printf_yellow("%s is connected to: " location_get_name(location));
-    printf("%s.\n", connections_find_all(m, SZEGET));
-    printf_yellow("Dracula can get to:")
-    connections_print_array(l);
-    return l;
-}
-
-
-void main_test(game_view gv, round_t round, location_t place, enum player player)
-{
-    size_t n_locations = 0;
-    l = gv_get_connections(gv, n_locations, place, player, round, true, false, true);
-    {
 
 
 
-    }
-}
 
-void alter_history(game_view gv, int doubleBackTimer, int hideTimer, location_t lastPlaceVisited)
-{
-    gv->timers.doubleBack = doubleBackTimer;
-    gv->timers.hide = hideTimer;
-
-    dList new = dlist_new(); 
-    dlist_push(new, (int)lastPlaceVisited); 
-
-}
 
 ///////
 
 int main()
 {
+    //test_get_extras();
+    //test_get_roadways();
+    //test_get_railways();
+
+    printf_blue("===== Testing Connections w/ Samples from Game #0 =====");
+
+    ////////////////////////////////////////////////////////////////
+    char *plays;
+    player_message messages[BIG_SIZE];
+    GameView gv;
+    enum player p;
+    size_t n_loc;
+    location_t from;
     location_t *l;
+
+    ////////////////////////////////////////////////////////////////
+    printf_yellow("Game 0, Test 1");
+    plays =  "GMN.... SPL.... HAM.... MPA.... DC?.V..";
+    messages["H", "E", "L", "L", "O"];
     {
-    printf_blue("===== Testing for Dracula's Connections =====");
+        gv = gv_new(plays, messages);
+        n_loc = 0;
+        p = gv_get_player(gv);
+        from = location_find_by_abbrev("MN");
+        gv_get_connections(gv, n_loc, from, p, gv_get_round(gv), true, true, true)
+        print_summary(gv, l);
 
-    printf_red("Test 1: Rail and Hospital");
-    l = main_test(gv, 0, SZEGET, PLAYER_DRACULA);
-
-        {
-            assert(!connections_has_location(l, HOSPITAL));
-            assert(!connections_has_location(l, BUCHAREST));
-
-            assert(connections_has_location(l, ZAGREB));
-            assert(connections_has_location(l, BUDAPEST));
-            assert(connections_has_location(l, KLAUSENBURG));
-            assert(connections_has_location(l, BELGRADE));
-            assert(connections_has_location(l, HIDE));
-
-            assert(n_locations == 5);
-            free(l);
-
-        }
-
-    printf_red("Test 2: Rail and Road");
-    l = main_test(gv, 0, VARNA,  PLAYER_DRACULA);
-        {
-            assert(connections_has_location(l, CONSTANTA));
-            assert(connections_has_location(l, SOFIA));
-            assert(connections_has_location(l, BLACK_SEA));
-            assert(connections_has_location(l, HIDE));
-
-            assert(n_locations == 4);
-            free(l);
-        }
-
-    printf_red("Test 3: Sea");
-    l = main_test(gv, 0, MEDITERRANEAN_SEA, PLAYER_DRACULA);
-        {
-            assert(connections_has_location(l, ALICANTE));
-    		assert(connections_has_location(l, BARCELONA));
-    		assert(connections_has_location(l, MARSEILLES));
-    		assert(connections_has_location(l, CAGLIARI));
-    		assert(connections_has_location(l, HIDE));
-
-    		asssert(n_locations == 5);
-    		free(l);
-        }
-
-    printf_red("Test 4: Check for HIDE")
-    alter_history(1, 2, GRANADA);
-    l = main_test(gv, 12, MADRID, PLAYER_DRACULA);
-        {
-            
-        }
-
-	{
-
-    printf_blue("===== Testing for Hunter's Connections =====");
-    
-    {
-    	
     }
+
 }
 
 
+print_summary(GameView gv, location_t *l, size_t size)
+{
+    // Get info about the player
+    enum player p = gv_get_player(gv);
+    char *player = get_playerNmae(p);
+
+    // Get info about the place
+    location_t enumLocation = gv_get_location(gv, p);
+    char *location = location_get_name(enumPlace);
+
+    // Get info about the places we can get to
+    char *connections = get_connections_str(l, size);
+
+    printf("Player %s is at %s and can get to :\n%s", player, location, connections);
+}
+
+char *get_connections_str(location_t *l, size_t size)
+{
+    for (size_t i = 0; i < size; i++) printf("%s\n", location_get_name(l[i]));
+}
+
+char *get_playerName(enum player p)
+{
+    assert(p >= 0, p < NUM_PLAYERS);
+    switch (p)
+    {
+        case PLAYER_LORD_GODALMING: return "Lord Godalming (0)"; break;
+        case PLAYER_DR_SEWARD: return "Dr Seward (1)"; break;
+        case PLAYER_VAN_HELSING: return "Van Helsing (2)"; break;
+        case PLAYER_MINA_HARKER: return "Mina Harker (3)"; break;
+        case PLAYER_DRACULA: return "Dracula (4)"; break;
+    };
+}
 
 
 
