@@ -549,7 +549,7 @@ int main(void) {
         location_t connections[] = {STRASBOURG, GENEVA, MILAN, MUNICH};
         testFramework("Round 1 Turn 4", "GMN.... SPL.... HAM.... MPA.... DZU.V.. "
                                         "GLV.... SLO.... HNS.... MST....", (struct expectedData) {
-                .player = PLAYER_DRACULA,
+                .player =PLAYER_DRACULA,
                 .score = 365,
                 .round = 1,
 

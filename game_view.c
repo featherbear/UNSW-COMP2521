@@ -358,8 +358,6 @@ void gv_get_history(GameView gv, enum player player, location_t trail[TRAIL_SIZE
 
 location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from, enum player player, round_t round, bool road, bool rail, bool sea) {
 
-    return NULL;
-
     Queue validMoves = queue_new();
     location_t *loc;
 
@@ -373,7 +371,8 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
     }
 
     if (rail) {
-        Queue rail_moves = connections_get_railways(gv, from, player, m, round);
+        assert(player != PLAYER_DRACULA);
+        Queue rail_moves = connections_get_railways(from, player, m, round);
         queue_append(validMoves, rail_moves);
     }
 
@@ -387,7 +386,7 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
     queue_append(validMoves, extra_moves);
 
     // Consider the situtaion after piecing together informtation
-    int queueSize = (int)queue_size(validMoves);
+    size_t queueSize = queue_size(validMoves);
 
     // If dracula doesn't have moves, it must teleport back to Castle Dracula
     if (player == PLAYER_DRACULA && queueSize == 0) {
@@ -399,7 +398,7 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
 
         // Put everything in the queue into the array
         loc = malloc(queueSize * sizeof(location_t));
-        for (int i = 0; i < queueSize; i++) loc[i] = (location_t)queue_de(validMoves);
+        for (size_t i = 0; i < queueSize; i++) loc[i] = (location_t)queue_de(validMoves);
         queue_drop(validMoves);
     }
 

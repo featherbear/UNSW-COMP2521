@@ -16,11 +16,11 @@
 
 Queue connections_get_extras(GameView gv, location_t l, enum player player);
 Queue connections_get_roadways(GameView gv, location_t l, enum player p, Map m);
-Queue connections_get_railways(GameView gv, location_t l, enum player p, Map m, round_t round);
+Queue connections_get_railways(location_t l, enum player p, Map m, round_t round);
 Queue connections_rail_bfs(location_t loc, Map m, int depth);
 int connections_bfs_process(Queue q, int item, bool *hasBeenVisited, Map m);
 Queue connections_get_seaways(GameView gv, location_t l, enum player p, Map m);
-bool connections_in_trail(GameView, enum player p, location_t l);
+bool connections_in_trail(GameView gv, enum player p, location_t l);
 ///
 
 
@@ -72,17 +72,17 @@ Queue connections_get_roadways(GameView gv, location_t l, enum player p, Map m) 
     return q;
 }
 
-bool connections_in_trail(GameView, enum player p, location_t l)
+bool connections_in_trail(GameView gv, enum player p, location_t l)
 {
     location_t trail[TRAIL_SIZE];
-    gv_get_history(gv, p, &trail);
-    for (int i = 0; i < TRAIL_SIZE; i++) if (ltrail[i] == l) return true;
+    gv_get_history(gv, p, trail);
+    for (int i = 0; i < TRAIL_SIZE; i++) if (trail[i] == l) return true;
     return false;
 }
 
 /* Finds all the rail connections possible
  * Returns an array of all possible rail connnections */
-Queue connections_get_railways(GameView gv, location_t l, enum player p, Map m, round_t round) {
+Queue connections_get_railways(location_t l, enum player p, Map m, round_t round) {
     assert(p != PLAYER_DRACULA);
 
     Queue q = queue_new();
@@ -165,7 +165,7 @@ int connections_bfs_process(Queue q, int item, bool *hasBeenVisited, Map m) {
     map_adj *tmp = m->connections[item];
     while (tmp != NULL) {
 
-        if (tmp->type == RAIL && hasBeenVisited[(int) tmp->v] == false) {
+        if (tmp->type == RAIL && !hasBeenVisited[tmp->v]) {
 
             queue_en(q, (int) tmp->v);
 
@@ -184,9 +184,12 @@ int connections_bfs_process(Queue q, int item, bool *hasBeenVisited, Map m) {
 Queue connections_get_seaways(GameView gv, location_t l, enum player p, Map m) {
     Queue q = queue_new();
 
-    map_adj *tmp = m->connections[l];
-    while (tmp != NULL) {
-        if (tmp->type == BOAT) queue_en(q, (int) tmp->v);
+    map_adj *tmp;
+    for (tmp = m->connections[l]; tmp; tmp=tmp->v) {
+        if (tmp->type == BOAT) {
+            if  (p != PLAYER_DRACULA && connections_in_trail(gv, p, tmp->v)) continue;
+            queue_en(q, (int) tmp->v);
+        }
     }
     return q;
 }
