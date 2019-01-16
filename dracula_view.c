@@ -19,13 +19,13 @@
 #include "_structures.h"
 // #include "map.h" ... if you decide to use the Map ADT
 
-typedef struct dracula_view {
+struct dracula_view {
     GameView gv;
 
-    struct spawnCount {
+   /* struct spawnCount {
         int n_vamps;
         int n_traps;
-    } *nSpawns[NUM_MAP_LOCATIONS];
+    } *nSpawns[NUM_MAP_LOCATIONS]; */
 
 } dracula_view;
 

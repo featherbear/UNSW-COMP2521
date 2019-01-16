@@ -98,7 +98,7 @@ void queue_drop(Queue q)
 
 void queue_del(Queue q, qNode node)
 {
-
+    return; //TODO: IF use, need write
 }
 
 // Size of queue

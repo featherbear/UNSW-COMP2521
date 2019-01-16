@@ -69,11 +69,24 @@ int main()
     //test_get_roadways();
     //test_get_railways();
 
+    /*
+        Functions to test
+
+Queue connections_get_extras (GameView gv, location_t l, enum player player);
+Queue connections_get_roadways (GameView gv, location_t l, enum player p, Map m);
+bool connections_in_trail(GameView gv, enum player p, location_t l);
+Queue connections_get_railways (GameView gv, location_t l, enum player p, Map m);
+Queue connections_rail_bfs(location_t loc, Map m, int depth);
+int connections_bfs_process(Queue q, int item, bool *hasBeenVisited, Map m);
+Queue connections_get_seaways (GameView gv, location_t l, enum player p, Map m);
+
+    */
+
     printf_blue("===== Testing Connections w/ Samples from Game #0 =====");
 
     ////////////////////////////////////////////////////////////////
     char *plays;
-    player_message messages[BIG_SIZE];
+    player_message messages[BIG_SIZE] = {};
     GameView gv;
     enum player p;
     size_t n_loc;
@@ -83,19 +96,54 @@ int main()
     ////////////////////////////////////////////////////////////////
     printf_yellow("Game 0, Test 1");
     plays =  "GMN.... SPL.... HAM.... MPA.... DC?.V..";
-    messages["H", "E", "L", "L", "O"];
     {
         gv = gv_new(plays, messages);
         n_loc = 0;
         p = gv_get_player(gv);
         from = location_find_by_abbrev("MN");
+        loc = gv_get_connections(gv, n_loc, from, p, gv_get_round(gv), true, true, true)
+        print_summary(gv, loc);
+}
+
+        // TODO: Write asserts
+        gv_drop(gv);
+    }
+
+    ////////////////////////////////////////////////////////////////
+    printf_yellow("Game 0, Test 2: Hunter");
+    plays =  "GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV....";
+    {
+        gv = gv_new(plays, messages);
+        n_loc = 0;
+        p = gv_get_player(gv);
+        from = location_find_by_abbrev("PL");
         gv_get_connections(gv, n_loc, from, p, gv_get_round(gv), true, true, true)
         print_summary(gv, l);
+        // TODO: Write asserts
 
+        gv_drop(gv);
+
+    }
+
+    ////////////////////////////////////////////////////////////////
+    printf_yellow("Game 0, Test 3: Dracula");
+    plays =  "MN.... SPL.... HAM.... MPA.... DZU.V.. GLV.... SLO.... HNS.... MST....";
+    {
+        gv = gv_new(plays, messages);
+        n_loc = 0;
+        p = gv_get_player(gv);
+        from = location_find_by_abbrev("PL");
+        gv_get_connections(gv, n_loc, from, p, gv_get_round(gv), true, true, true)
+        print_summary(gv, l);
+        // TODO: Write asserts
+                gv_drop(gv);
     }
 
 }
 
+
+
+// TODO: Write a location to find where a player was last at..
 
 print_summary(GameView gv, location_t *l, size_t size)
 {
@@ -120,7 +168,8 @@ char *get_connections_str(location_t *l, size_t size)
 
 char *get_playerName(enum player p)
 {
-    assert(p >= 0, p < NUM_PLAYERS);
+    assert(p >= 0);
+    assert(p < NUM_PLAYERS);
     switch (p)
     {
         case PLAYER_LORD_GODALMING: return "Lord Godalming (0)"; break;

@@ -361,6 +361,7 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
     return NULL;
 
     Queue validMoves = queue_new();
+    location_t *loc;
 
     // TODO Isolate
     Map m = map_new();
@@ -385,11 +386,22 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
     Queue extra_moves = connections_get_extras(gv, from, player);
     queue_append(validMoves, extra_moves);
 
-    // Put everything from the queue into an array
+    // Consider the situtaion after piecing together informtation
     int queueSize = (int)queue_size(validMoves);
-    location_t *loc = malloc(queueSize * sizeof(location_t));
-    for (int i = 0; i < queueSize; i++) loc[i] = (location_t)queue_de(validMoves);
-    queue_drop(validMoves);
+
+    // If dracula doesn't have moves, it must teleport back to Castle Dracula
+    if (player == PLAYER_DRACULA && queueSize == 0) {
+
+        loc = malloc (1 * sizeof(location_t));
+        loc[0] = TELEPORT;
+
+    } else {
+
+        // Put everything in the queue into the array
+        loc = malloc(queueSize * sizeof(location_t));
+        for (int i = 0; i < queueSize; i++) loc[i] = (location_t)queue_de(validMoves);
+        queue_drop(validMoves);
+    }
 
     return loc;
 }
