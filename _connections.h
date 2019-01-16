@@ -62,7 +62,7 @@ Queue connections_get_roadways(GameView gv, location_t l, enum player p, Map m) 
                 // Can't visit the hospital
                 if (tmp->v == HOSPITAL_LOCATION) continue;
 
-                // ..and can't go back on trail (unless you call double_back
+                // ..and can't go back on trail (unless you call double_back)
                 if  (connections_in_trail(gv, p, tmp->v)) continue;
             }
             queue_en(q, (int) tmp->v);
@@ -158,7 +158,6 @@ Queue connections_rail_bfs(location_t loc, Map m, int depth) {
 
 /* Helper function for BFS to enqueue items
  * Returns the number of nodes added to the queue */
-// TODO Check that this actually updates the value
 int connections_bfs_process(Queue q, int item, bool *hasBeenVisited, Map m) {
     int counter = 0;
 
@@ -185,7 +184,7 @@ Queue connections_get_seaways(GameView gv, location_t l, enum player p, Map m) {
     Queue q = queue_new();
 
     map_adj *tmp;
-    for (tmp = m->connections[l]; tmp; tmp=tmp->v) {
+    for (tmp = m->connections[l]; tmp; tmp=tmp->next) {
         if (tmp->type == BOAT) {
             if  (p != PLAYER_DRACULA && connections_in_trail(gv, p, tmp->v)) continue;
             queue_en(q, (int) tmp->v);

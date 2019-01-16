@@ -79,8 +79,8 @@ void dv_get_locale_info(dracula_view *dv, location_t where, int *n_traps, int *n
  * If `where` is not a place where minions can be left
  * (e.g. at sea, or NOWHERE), then set both counts to zero.
  */
-    *n_traps = dv->gv->encounters.traps[where];
-    *n_vamps = dv->gv->encounters.vamp_location == where;
+    *n_traps = (int)dv->gv->encounters.traps[where];
+    *n_vamps = (int)dv->gv->encounters.vamp_location == where;
 }
 
 void dv_get_trail(dracula_view *dv, enum player player, location_t trail[TRAIL_SIZE]) {

@@ -1,74 +1,55 @@
+////////////////////////////////////////////////////////////////
 Samples from Game #0:
 
 GMN.... SPL.... HAM.... MPA.... DC?.V..
 Round 1: PLAYER_GODALMING (0) @ MANCHESTER; 4 locations: {MANCHESTER, EDINBURGH, LIVERPOOL, LONDON}
 
 
-pastPlays string given to Seward:
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV....
 Round 1: PLAYER_SEWARD (1) @ PLYMOUTH; 3 locations: {PLYMOUTH, LONDON, ENGLISH_CHANNEL}
 
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO....
 Round 1: PLAYER_VAN_HELSING (2) @ AMSTERDAM; 4 locations: {AMSTERDAM, NORTRTH_SEA, BRUSSELS, COLOGNE}
 
-
-pastPlays string given to Mina Harker:
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO.... HNS....
-Round 1: PLAYER_MINA_HARKER (3) @ CLERMONT_FERRANT; 6 locations: {CLERMONT_FERRAND, NANTES, LE_HAVRE, STRAUSBOURG, GENEVA, PARIS}
+Round 1: PLAYER_MINA_HARKER (3) @ PARIS; 8 locations: {PARIS, GENEVA, CLERMONT_FERRAND, BORDEAUX, NANTES, LE_HAVRE, BRUSSELS, STRASBOURG}
 
-pastPlays string given to Dracula:
 MN.... SPL.... HAM.... MPA.... DZU.V.. GLV.... SLO.... HNS.... MST....
 Round 1: PLAYER_DRACULA (4) @ ZURICH; 4 locations: {STRASBOURG, GENEVA, MILAN, MUNICH}
 
-pastPlays string given to Godalming:
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO.... HNS.... MST.... DC?T...
-Round 2: PLAYER_GODALMING (0) @ LIVERPOOL;
+Round 2: PLAYER_GODALMING (0) @ LIVERPOOL; 4 locations: {LIVERPOOL, SWANSEA, MANCHESTER, IRISH_SEA}
 
-sum = 0 + 2 % 4 = 2 (Hop 2 stations)
-[Liverpool]
-[LIVERPOOL, SWANSEA, MANCHESTER, IRISH_SEA]
-size = 4
 
 pastPlays string given to Seward:
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO.... HNS.... MST.... DC?T... GIR....
-sum = 1 + 2 % 4 = 3 (Hop 3 stations)
-[London]
-[LONDON, MANCHESTER, EDINBURGH, LIVERPOOL, SWANSEA, ENGLISH_CHANNEL, PLYMOUTH]
-size = 7
+Round 2: PLAYER_SEWARD (1) @ LONDON; 7 locations: {LONDON, MANCHESTER, EDINBURGH, LIVERPOOL, SWANSEA, ENGLISH_CHANNEL, PLYMOUTH}
 
 ////////////////////////////////////////////////////////////////
 Samples from Game #1:
 
-pastPlays string given to Mina Harker after several rounds:
-
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO.... HNS.... MST.... DC?T... GIR.... SPL.... HAO.... MZU.... DCDT... GSW.... SLO.... HNS.... MFR.... DC?T... GLV.... SPL.... HAO.... MZU.... DC?T... GSW.... SLO.... HNS....
+Round 6: PLAYER_MINA_HARKER (3) @ ZURICH; 6 locations: {STRASBOURG, MUNICH, MILAN, MARSEILLES, GENEVA, ZURICH}
 
-pastPlays string given to Dracula after Mina's move:
 
 GMN.... SPL.... HAM.... MPA.... DGA.V.. GLV.... SLO.... HNS.... MST.... DHIT... GIR.... SPL.... HAO.... MZU.... DCDT... GSW.... SLO.... HNS.... MFR.... DKLT... GLV.... SPL.... HAO.... MZU.... DBCT... GSW.... SLO.... HNS.... MMR....
+Round 6: PLAYER_DRACULA (4) @ BUCHAREST; locations: {...}
+trail = {BUCHAREST, KLAUSENBUG, CASTLE_DRACULA, }
 
-
+# There's a big problem because HI doesn't
 ////////////////////////////////////////////////////////////////
 Samples from Game #2:
 
-
-pastPlays string given to Godalming after several rounds:
-
 GED.... SGE.... HZU.... MCA.... DCF.V.. GMN.... SCFVD.. HGE.... MLS.... DBOT... GLO.... SMR.... HCF.... MMA.... DC?T... GPL.... SMS.... HMR.... MGR.... DBAT... GLO.... SBATD.. HMS.... MMA.... DC?T... GPL.... SSJ.... HBA.... MGR.... DC?T... GPL.... SSJ.... HBA.... MGR.... DC?T...
-
-round 7: PLAYER_GOLDALMING (0) @ PLYMOUTH
-Available Locations: {PLYMOUTH, ENGLISH_CHANNEL, LONDON}
-n_locations = 3
+round 7: PLAYER_GOLDALMING (0) @ PLYMOUTH; 3 locations: {PLYMOUTH, ENGLISH_CHANNEL, LONDON}
 
 
 pastPlays string given to Dracula after other hunters have moved:
 
 GED.... SGE.... HZU.... MCA.... DCF.V.. GMN.... SCFVD.. HGE.... MLS.... DBOT... GLO.... SMR.... HCF.... MMA.... DTOT... GPL.... SMS.... HMR.... MGR.... DBAT... GLO.... SBATD.. HMS.... MMA.... DSRT... GPL.... SSJ.... HBA.... MGR.... DALT... GPL.... SSJ.... HBA.... MGR.... DMAT... GLO.... SBE.... HMS.... MMATD..
 
-rount 7: PLAYER_DRACULA (4) @ MADRID
+rount 7: PLAYER_DRACULA (4) @ MADRID; 11 locations: {DOUBLE_BACK_0, DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3, DOUBLE_BACK_4, DOUBLE_BACK_5, HIDE, NANTES, PARIS, GENEVA, MARSEILLES}
 Past Trail: {MADRID, ALICANTE, SARAGOSSA, BARCELONA, TOULOUSE, BORDEAUX, CLERMONT_FERRAND}
-Available Locations: {DOUBLE_BACK_0, DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3, DOUBLE_BACK_4, DOUBLE_BACK_5, HIDE,
-                      NANTES, PARIS, GENEVA, MARSEILLES}
-n_locations = 11
+
 
 

@@ -2,8 +2,8 @@
 //
 //
 
-#ifndef ASS02_DLIST_H
-#define ASS02_DLIST_H
+//#ifndef ASS02_DLIST_H
+//#define ASS02_DLIST_H
 
 typedef struct dlist_node *dNode;
 typedef struct dlist_container *dList;
@@ -77,4 +77,4 @@ void dlist_destroy(dList list) {
     free(list);
 }
 
-#endif //ASS02_DLIST_H
+//#endif //ASS02_DLIST_H

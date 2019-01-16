@@ -344,15 +344,6 @@ void gv_get_history(GameView gv, enum player player, location_t trail[TRAIL_SIZE
         trail[i] = move ? move->item : -1;
         if (move) move = move->prev;
     }
-
-    // Also needs consider if ther person asking is a dracula or hunter
-    // Hunter sees different information to draculas
-    // Hunters know if dracula is at sea
-    // If the hunter enters the city where the dracula did a HIDE or DOUBLE_BACK, they know the Dracula did it
-    // If the hunter treads on the Dracula's tail:
-    // All the hunters can see from the 6th trail to the current trail.. NOT 100% ABOUT TRANSLATION
-    //
-
 }
 
 
