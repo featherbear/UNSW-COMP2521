@@ -12,77 +12,25 @@
 
 #include "game.h"
 #include "game_view.h"
-#include "map.c"
+//#include "map.c"
+#include "map.h"
 #include "game_view.h"
 #include "places.h"
-
 #include "_queue.h"
-
-#include "__pretty.h"
 
 #define BIG_SIZE 20
 
-
-print_summary(GameView gv, location_t *l, size_t size);
+void print_summary(GameView gv, location_t *l, size_t size);
 char *get_connections_str(location_t *l, size_t size);
 char *get_playerName(enum player p);
-
-  /*
-    Draculas:
-        Cannot travel by rail
-        Cannot go to the hospital
-        Cannot go to a location currently in his trail // So can't back back to where he came from
-
-        Doesn't need to account for 'instantly transporting to hospital'
-
-        Apart from going to a `location,` dracula can do a HIDE or DOUBLE_BACK
-          HIDE: Stay at the current location and not move
-          DOUBLE_BACK: To travel to any of the locations in the trail
-
-
-    Hunters:
-        Moving by rail depends on sum = roundNo + hunterNo
-        switch (sum % 4)
-        {
-            case 0: Cannot move by rail
-            case 1: Can move to the adj location;
-            case 2: Can move two rails;
-            case 3: Can move up to three rails;
-
-        }
-
-    For both:
-        For seas, you can moves from a boat to an ajacent sea or vice verse but not port to port..
-
-    */
-
-
-
 
 
 
 ///////
 
-int main()
-{
-    //test_get_extras();
-    //test_get_roadways();
-    //test_get_railways();
+int main() {
 
-    /*
-        Functions to test
-
-Queue connections_get_extras (GameView gv, location_t l, enum player player);
-Queue connections_get_roadways (GameView gv, location_t l, enum player p, Map m);
-bool connections_in_trail(GameView gv, enum player p, location_t l);
-Queue connections_get_railways (GameView gv, location_t l, enum player p, Map m);
-Queue connections_rail_bfs(location_t loc, Map m, int depth);
-int connections_bfs_process(Queue q, int item, bool *hasBeenVisited, Map m);
-Queue connections_get_seaways (GameView gv, location_t l, enum player p, Map m);
-
-    */
-
-    printf_blue("===== Testing Connections w/ Samples from Game #0 =====");
+    puts("===== Testing Connections w/ Samples from Game #0 =====");
 
     ////////////////////////////////////////////////////////////////
     char *plays;
@@ -94,31 +42,31 @@ Queue connections_get_seaways (GameView gv, location_t l, enum player p, Map m);
     location_t *l;
 
     ////////////////////////////////////////////////////////////////
-    printf_yellow("Game 0, Test 1");
-    plays =  "GMN.... SPL.... HAM.... MPA.... DC?.V..";
+    puts("Game 0, Test 1");
+    plays = "GMN.... SPL.... HAM.... MPA.... DC?.V..";
     {
         gv = gv_new(plays, messages);
         n_loc = 0;
         p = gv_get_player(gv);
         from = location_find_by_abbrev("MN");
-        loc = gv_get_connections(gv, n_loc, from, p, gv_get_round(gv), true, true, true)
-        print_summary(gv, loc);
-}
-
-        // TODO: Write asserts
-        gv_drop(gv);
+        l = gv_get_connections(gv, &n_loc, from, p, gv_get_round(gv), true, true, true);
+        print_summary(gv, l, n_loc);
     }
 
+    // TODO: Write asserts
+    gv_drop(gv);
+}
+/*
     ////////////////////////////////////////////////////////////////
-    printf_yellow("Game 0, Test 2: Hunter");
+    puts("Game 0, Test 2: Hunter");
     plays =  "GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV....";
     {
         gv = gv_new(plays, messages);
         n_loc = 0;
         p = gv_get_player(gv);
         from = location_find_by_abbrev("PL");
-        gv_get_connections(gv, n_loc, from, p, gv_get_round(gv), true, true, true)
-        print_summary(gv, l);
+        gv_get_connections(gv, *n_loc, from, p, gv_get_round(gv), true, true, true);
+        print_summary(gv, l, n_loc);
         // TODO: Write asserts
 
         gv_drop(gv);
@@ -126,34 +74,32 @@ Queue connections_get_seaways (GameView gv, location_t l, enum player p, Map m);
     }
 
     ////////////////////////////////////////////////////////////////
-    printf_yellow("Game 0, Test 3: Dracula");
+    puts("Game 0, Test 3: Dracula");
     plays =  "MN.... SPL.... HAM.... MPA.... DZU.V.. GLV.... SLO.... HNS.... MST....";
     {
         gv = gv_new(plays, messages);
         n_loc = 0;
         p = gv_get_player(gv);
         from = location_find_by_abbrev("PL");
-        gv_get_connections(gv, n_loc, from, p, gv_get_round(gv), true, true, true)
-        print_summary(gv, l);
+        gv_get_connections(gv, *n_loc, from, p, gv_get_round(gv), true, true, true);
+        print_summary(gv, l, n_loc);
         // TODO: Write asserts
                 gv_drop(gv);
     }
-
-}
+*/
 
 
 
 // TODO: Write a location to find where a player was last at..
 
-print_summary(GameView gv, location_t *l, size_t size)
-{
+void print_summary(GameView gv, location_t *l, size_t size) {
     // Get info about the player
     enum player p = gv_get_player(gv);
-    char *player = get_playerNmae(p);
+    char *player = get_playerName(p);
 
     // Get info about the place
     location_t enumLocation = gv_get_location(gv, p);
-    char *location = location_get_name(enumPlace);
+    char *location = location_get_name(enumLocation);
 
     // Get info about the places we can get to
     char *connections = get_connections_str(l, size);
@@ -161,22 +107,29 @@ print_summary(GameView gv, location_t *l, size_t size)
     printf("Player %s is at %s and can get to :\n%s", player, location, connections);
 }
 
-char *get_connections_str(location_t *l, size_t size)
-{
+char *get_connections_str(location_t *l, size_t size) {
     for (size_t i = 0; i < size; i++) printf("%s\n", location_get_name(l[i]));
 }
 
-char *get_playerName(enum player p)
-{
+char *get_playerName(enum player p) {
     assert(p >= 0);
     assert(p < NUM_PLAYERS);
-    switch (p)
-    {
-        case PLAYER_LORD_GODALMING: return "Lord Godalming (0)"; break;
-        case PLAYER_DR_SEWARD: return "Dr Seward (1)"; break;
-        case PLAYER_VAN_HELSING: return "Van Helsing (2)"; break;
-        case PLAYER_MINA_HARKER: return "Mina Harker (3)"; break;
-        case PLAYER_DRACULA: return "Dracula (4)"; break;
+    switch (p) {
+        case PLAYER_LORD_GODALMING:
+            return "Lord Godalming (0)";
+            break;
+        case PLAYER_DR_SEWARD:
+            return "Dr Seward (1)";
+            break;
+        case PLAYER_VAN_HELSING:
+            return "Van Helsing (2)";
+            break;
+        case PLAYER_MINA_HARKER:
+            return "Mina Harker (3)";
+            break;
+        case PLAYER_DRACULA:
+            return "Dracula (4)";
+            break;
     };
 }
 

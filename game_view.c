@@ -2,9 +2,9 @@
 // COMP2521 19t0 ... the Fury of Dracula
 // game_view.c: GameView ADT implementation
 //
-// 2014-07-01	v1.0	Team Dracula <cs2521@cse.unsw.edu.au>
-// 2017-12-01	v1.1	Team Dracula <cs2521@cse.unsw.edu.au>
-// 2018-12-31	v2.0	Team Dracula <cs2521@cse.unsw.edu.au>
+// 2014-07-01   v1.0    Team Dracula <cs2521@cse.unsw.edu.au>
+// 2017-12-01   v1.1    Team Dracula <cs2521@cse.unsw.edu.au>
+// 2018-12-31   v2.0    Team Dracula <cs2521@cse.unsw.edu.au>
 
 #include <assert.h>
 #include <err.h>
@@ -83,11 +83,11 @@ GameView gv_new(char *past_plays, player_message messages[]) {
     };
 
     for (size_t i = 0; i < NUM_PLAYERS; i++) {
-         gv->players[i] = (playerInfo) {
-                 .type = (enum player) (i == PLAYER_DRACULA ? PLAYER_DRACULA : i),
-                 .health = (i == PLAYER_DRACULA ? GAME_START_BLOOD_POINTS : GAME_START_HUNTER_LIFE_POINTS),
-                 .moves = dlist_new()
-         };
+        gv->players[i] = (playerInfo) {
+                .type = (enum player) (i == PLAYER_DRACULA ? PLAYER_DRACULA : i),
+                .health = (i == PLAYER_DRACULA ? GAME_START_BLOOD_POINTS : GAME_START_HUNTER_LIFE_POINTS),
+                .moves = dlist_new()
+        };
         dlist_push(gv->players[i].moves, UNKNOWN_LOCATION);
     }
 
@@ -281,7 +281,7 @@ GameView gv_new(char *past_plays, player_message messages[]) {
             }// (currPlayer_n == PLAYER_DRACULA-1)
 //            if (lastLocation == lID) {
 
-                // TODO player rested, did research
+            // TODO player rested, did research
 //            }
         }
 
@@ -373,7 +373,7 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
     }
 
     if (rail) {
-        Queue rail_moves = connections_get_railways(gv, from, player, m);
+        Queue rail_moves = connections_get_railways(gv, from, player, m, round);
         queue_append(validMoves, rail_moves);
     }
 

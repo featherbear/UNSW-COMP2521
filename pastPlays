@@ -1,48 +1,30 @@
 Samples from Game #0:
 
-pastPlays string at end of round 0, start of round 1, given to Godalming:
-
 GMN.... SPL.... HAM.... MPA.... DC?.V..
-sum = 0 + 1, % 4, 1 (Hop one station)
-[Manchester]
-[MANCHESTER, EDINBURGH, LIVERPOOL, LONGDON]
-size = 4
+Round 1: PLAYER_GODALMING (0) @ MANCHESTER; 4 locations: {MANCHESTER, EDINBURGH, LIVERPOOL, LONDON}
 
-
-Following pastPlays strings come from subsequent moves:
 
 pastPlays string given to Seward:
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV....
-sum = 1 + 1 % 4 = 2 (Hop two stations)
-[Plymouth]
-[PLYMOUTH, LONGDON, ENGLISH_CHANNEL]
-size = 4
+Round 1: PLAYER_SEWARD (1) @ PLYMOUTH; 3 locations: {PLYMOUTH, LONDON, ENGLISH_CHANNEL}
 
-pastPlasy string given to Van Helsing:
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO....
-sum = 2 + 1 % 4 = 3 (Hop 3 stations)
-[Amsterdam]
-[AMSTERDAM, NORTRTH_SEA, RUSSELS, COLOGNE]
-size = 4
+Round 1: PLAYER_VAN_HELSING (2) @ AMSTERDAM; 4 locations: {AMSTERDAM, NORTRTH_SEA, BRUSSELS, COLOGNE}
+
 
 pastPlays string given to Mina Harker:
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO.... HNS....
-sum = 0 (Hop 0 stations)
-[North Sea]
-[NORTH_SEA, EDINBURGH, AMSTERDAM, HAMBURG]
-size = 5
+Round 1: PLAYER_MINA_HARKER (3) @ CLERMONT_FERRANT; 6 locations: {CLERMONT_FERRAND, NANTES, LE_HAVRE, STRAUSBOURG, GENEVA, PARIS}
 
 pastPlays string given to Dracula:
 MN.... SPL.... HAM.... MPA.... DZU.V.. GLV.... SLO.... HNS.... MST....
-sum = 1 + 4
-[Zurich, -1, -1, -1, -1, -1]
-[STRASBOURG, GENEVA, MILAN, MUNICH]
-size = 4
-
+Round 1: PLAYER_DRACULA (4) @ ZURICH; 4 locations: {STRASBOURG, GENEVA, MILAN, MUNICH}
 
 pastPlays string given to Godalming:
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO.... HNS.... MST.... DC?T...
-sum = 0 + 2 % 2 = 2 (Hop 2 stations)
+Round 2: PLAYER_GODALMING (0) @ LIVERPOOL;
+
+sum = 0 + 2 % 4 = 2 (Hop 2 stations)
 [Liverpool]
 [LIVERPOOL, SWANSEA, MANCHESTER, IRISH_SEA]
 size = 4
@@ -54,7 +36,7 @@ sum = 1 + 2 % 4 = 3 (Hop 3 stations)
 [LONDON, MANCHESTER, EDINBURGH, LIVERPOOL, SWANSEA, ENGLISH_CHANNEL, PLYMOUTH]
 size = 7
 
-
+////////////////////////////////////////////////////////////////
 Samples from Game #1:
 
 pastPlays string given to Mina Harker after several rounds:
@@ -66,13 +48,27 @@ pastPlays string given to Dracula after Mina's move:
 GMN.... SPL.... HAM.... MPA.... DGA.V.. GLV.... SLO.... HNS.... MST.... DHIT... GIR.... SPL.... HAO.... MZU.... DCDT... GSW.... SLO.... HNS.... MFR.... DKLT... GLV.... SPL.... HAO.... MZU.... DBCT... GSW.... SLO.... HNS.... MMR....
 
 
+////////////////////////////////////////////////////////////////
 Samples from Game #2:
+
 
 pastPlays string given to Godalming after several rounds:
 
 GED.... SGE.... HZU.... MCA.... DCF.V.. GMN.... SCFVD.. HGE.... MLS.... DBOT... GLO.... SMR.... HCF.... MMA.... DC?T... GPL.... SMS.... HMR.... MGR.... DBAT... GLO.... SBATD.. HMS.... MMA.... DC?T... GPL.... SSJ.... HBA.... MGR.... DC?T... GPL.... SSJ.... HBA.... MGR.... DC?T...
 
+round 7: PLAYER_GOLDALMING (0) @ PLYMOUTH
+Available Locations: {PLYMOUTH, ENGLISH_CHANNEL, LONDON}
+n_locations = 3
+
+
 pastPlays string given to Dracula after other hunters have moved:
 
 GED.... SGE.... HZU.... MCA.... DCF.V.. GMN.... SCFVD.. HGE.... MLS.... DBOT... GLO.... SMR.... HCF.... MMA.... DTOT... GPL.... SMS.... HMR.... MGR.... DBAT... GLO.... SBATD.. HMS.... MMA.... DSRT... GPL.... SSJ.... HBA.... MGR.... DALT... GPL.... SSJ.... HBA.... MGR.... DMAT... GLO.... SBE.... HMS.... MMATD..
+
+rount 7: PLAYER_DRACULA (4) @ MADRID
+Past Trail: {MADRID, ALICANTE, SARAGOSSA, BARCELONA, TOULOUSE, BORDEAUX, CLERMONT_FERRAND}
+Available Locations: {DOUBLE_BACK_0, DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3, DOUBLE_BACK_4, DOUBLE_BACK_5, HIDE,
+                      NANTES, PARIS, GENEVA, MARSEILLES}
+n_locations = 11
+
 

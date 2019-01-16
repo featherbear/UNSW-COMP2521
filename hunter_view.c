@@ -16,7 +16,6 @@
 #include "game_view.h"
 #include "hunter_view.h"
 
-#include "_structures.h"
 // #include "map.h" ... if you decide to use the Map ADT
 
 typedef struct hunter_view {
@@ -24,7 +23,8 @@ typedef struct hunter_view {
 } hunter_view;
 
 hunter_view *hv_new(char *past_plays, player_message messages[]) {
-    hunter_view *new = malloc(sizeof *new);
+    hunter_view *
+    new = malloc(sizeof *new);
     if (new == NULL) err(EX_OSERR, "couldn't allocate HunterView");
 
     new->gv = gv_new(past_plays, messages);
@@ -58,7 +58,7 @@ location_t hv_get_location(hunter_view *hv, enum player player) {
 }
 
 void hv_get_trail(hunter_view *hv, enum player player, location_t trail[TRAIL_SIZE]) {
-    return gv_get_history(hv->gv, player, trail);
+    gv_get_history(hv->gv, player, trail);
 }
 
 location_t *hv_get_dests(hunter_view *hv, size_t *n_locations, bool road, bool rail, bool sea) {
@@ -67,5 +67,6 @@ location_t *hv_get_dests(hunter_view *hv, size_t *n_locations, bool road, bool r
 
 location_t *hv_get_dests_player(hunter_view *hv, size_t *n_locations, enum player player,
                                 bool road, bool rail, bool sea) {
-    return gv_get_connections(hv->gv, n_locations, hv_get_location(hv, player), player, hv->gv->currRound, road, rail, sea);
+    return gv_get_connections(hv->gv, n_locations, hv_get_location(hv, player), player, hv_get_round(hv), road, rail,
+                              sea);
 }

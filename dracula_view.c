@@ -19,18 +19,19 @@
 #include "_structures.h"
 // #include "map.h" ... if you decide to use the Map ADT
 
-struct dracula_view {
+typedef struct dracula_view {
     GameView gv;
 
-   /* struct spawnCount {
-        int n_vamps;
-        int n_traps;
-    } *nSpawns[NUM_MAP_LOCATIONS]; */
+    /* struct spawnCount {
+         int n_vamps;
+         int n_traps;
+     } *nSpawns[NUM_MAP_LOCATIONS]; */
 
 } dracula_view;
 
 dracula_view *dv_new(char *past_plays, player_message messages[]) {
-    dracula_view *new = malloc(sizeof *new);
+    dracula_view *
+    new = malloc(sizeof *new);
     if (new == NULL) err(EX_OSERR, "couldn't allocate DraculaView");
 
     (*new) = (dracula_view) {
@@ -91,7 +92,7 @@ location_t *dv_get_dests(dracula_view *dv, size_t *n_locations, bool road, bool 
 
     bool rail = false;
     return gv_get_connections(dv->gv, n_locations, dv_get_location(dv, PLAYER_DRACULA),
-                              PLAYER_DRACULA, dv->gv->currRound, road, rail, sea);
+                              PLAYER_DRACULA, dv_get_round(dv), road, rail, sea);
 }
 
 location_t *dv_get_dests_player(dracula_view *dv, size_t *n_locations, enum player player,
@@ -99,5 +100,6 @@ location_t *dv_get_dests_player(dracula_view *dv, size_t *n_locations, enum play
     assert(dv);
 
     if (player == PLAYER_DRACULA) return dv_get_dests(dv, n_locations, road, sea);
-    return gv_get_connections(dv->gv, n_locations, dv_get_location(dv, player), player, dv->gv->currRound, road, rail, sea);
+    return gv_get_connections(dv->gv, n_locations, dv_get_location(dv, player), player, dv_get_round(dv), road, rail,
+                              sea);
 }

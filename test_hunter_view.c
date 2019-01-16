@@ -18,190 +18,189 @@
 #include "hunter_view.h"
 #include "_testing.h"
 
-int main (void)
-{
-	do {////////////////////////////////////////////////////////////////
-		puts ("Test basic empty initialisation");
-		char *trail = "";
-		player_message messages[] = {};
-		HunterView hv = hv_new (trail, messages);
+int main(void) {
+    do {////////////////////////////////////////////////////////////////
+        puts("Test basic empty initialisation");
+        char *trail = "";
+        player_message messages[] = {};
+        HunterView hv = hv_new(trail, messages);
 
-		TEST(hv_get_player (hv) == PLAYER_LORD_GODALMING);
-		TEST(hv_get_round (hv) == 0);
-		TEST(hv_get_health (hv, PLAYER_DR_SEWARD) == GAME_START_HUNTER_LIFE_POINTS);
-		TEST(hv_get_health (hv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
-		TEST(hv_get_score (hv) == GAME_START_SCORE);
-		TEST(hv_get_location (hv, PLAYER_LORD_GODALMING) == UNKNOWN_LOCATION);
+        TEST(hv_get_player(hv) == PLAYER_LORD_GODALMING);
+        TEST(hv_get_round(hv) == 0);
+        TEST(hv_get_health(hv, PLAYER_DR_SEWARD) == GAME_START_HUNTER_LIFE_POINTS);
+        TEST(hv_get_health(hv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
+        TEST(hv_get_score(hv) == GAME_START_SCORE);
+        TEST(hv_get_location(hv, PLAYER_LORD_GODALMING) == UNKNOWN_LOCATION);
 
-		puts ("passed");
-		hv_drop (hv);
-	} while (0);
-
-
-	do {////////////////////////////////////////////////////////////////
-		puts ("Test for Dracula trail and basic functions");
-
-		char *trail =
-			"GST.... SAO.... HZU.... MBB.... DC?....";
-		player_message messages[] = {
-			"Hello", "Rubbish", "Stuff", "", "Mwahahah" };
-		HunterView hv = hv_new (trail, messages);
-
-		TEST(hv_get_player (hv) == PLAYER_LORD_GODALMING);
-		TEST(hv_get_round (hv) == 1);
-		TEST(hv_get_location (hv, PLAYER_LORD_GODALMING) == STRASBOURG);
-		TEST(hv_get_location (hv, PLAYER_DR_SEWARD) == ATLANTIC_OCEAN);
-		TEST(hv_get_location (hv, PLAYER_VAN_HELSING) == ZURICH);
-		TEST(hv_get_location (hv, PLAYER_MINA_HARKER) == BAY_OF_BISCAY);
-		TEST(hv_get_location (hv, PLAYER_DRACULA) == CITY_UNKNOWN);
-		TEST(hv_get_health (hv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
-
-		puts ("passed");
-		hv_drop (hv);
-	} while (0);
+        puts("passed");
+        hv_drop(hv);
+    } while (0);
 
 
-	do {////////////////////////////////////////////////////////////////
-		puts ("Test for encountering Dracula and hunter history");
-		char *trail =
-			"GST.... SAO.... HCD.... MAO.... DGE.... "
-			"GGED...";
-		player_message messages[] = {
-			"Hello", "Rubbish", "Stuff", "", "Mwahahah",
-			"Aha!" };
-		HunterView hv = hv_new (trail, messages);
+    do {////////////////////////////////////////////////////////////////
+        puts("Test for Dracula trail and basic functions");
 
-		TEST(hv_get_location (hv, PLAYER_DRACULA) == GENEVA);
-		TEST(hv_get_health (hv, PLAYER_LORD_GODALMING) == 5);
-		TEST(hv_get_health (hv, PLAYER_DRACULA) == 30);
-		TEST(hv_get_location (hv, PLAYER_LORD_GODALMING) == GENEVA);
+        char *trail =
+                "GST.... SAO.... HZU.... MBB.... DC?....";
+        player_message messages[] = {
+                "Hello", "Rubbish", "Stuff", "", "Mwahahah"};
+        HunterView hv = hv_new(trail, messages);
 
-		location_t history[TRAIL_SIZE];
+        TEST(hv_get_player(hv) == PLAYER_LORD_GODALMING);
+        TEST(hv_get_round(hv) == 1);
+        TEST(hv_get_location(hv, PLAYER_LORD_GODALMING) == STRASBOURG);
+        TEST(hv_get_location(hv, PLAYER_DR_SEWARD) == ATLANTIC_OCEAN);
+        TEST(hv_get_location(hv, PLAYER_VAN_HELSING) == ZURICH);
+        TEST(hv_get_location(hv, PLAYER_MINA_HARKER) == BAY_OF_BISCAY);
+        TEST(hv_get_location(hv, PLAYER_DRACULA) == CITY_UNKNOWN);
+        TEST(hv_get_health(hv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
+
+        puts("passed");
+        hv_drop(hv);
+    } while (0);
+
+
+    do {////////////////////////////////////////////////////////////////
+        puts("Test for encountering Dracula and hunter history");
+        char *trail =
+                "GST.... SAO.... HCD.... MAO.... DGE.... "
+                "GGED...";
+        player_message messages[] = {
+                "Hello", "Rubbish", "Stuff", "", "Mwahahah",
+                "Aha!"};
+        HunterView hv = hv_new(trail, messages);
+
+        TEST(hv_get_location(hv, PLAYER_DRACULA) == GENEVA);
+        TEST(hv_get_health(hv, PLAYER_LORD_GODALMING) == 5);
+        TEST(hv_get_health(hv, PLAYER_DRACULA) == 30);
+        TEST(hv_get_location(hv, PLAYER_LORD_GODALMING) == GENEVA);
+
+        location_t history[TRAIL_SIZE];
 
         A("Check Dracula's move history");
-        hv_get_trail (hv, PLAYER_DRACULA, history);
-		assert(history[0] == GENEVA);
-		assert(history[1] == UNKNOWN_LOCATION);
+        hv_get_trail(hv, PLAYER_DRACULA, history);
+        assert(history[0] == GENEVA);
+        assert(history[1] == UNKNOWN_LOCATION);
         O();
 
         A("Check Lord Godalming's move history");
-        hv_get_trail (hv, PLAYER_LORD_GODALMING, history);
-		assert(history[0] == GENEVA);
+        hv_get_trail(hv, PLAYER_LORD_GODALMING, history);
+        assert(history[0] == GENEVA);
         assert(history[1] == STRASBOURG);
         assert(history[2] == UNKNOWN_LOCATION);
-		O();
+        O();
 
         A("Check Dr Seward's move history");
-        hv_get_trail (hv, PLAYER_DR_SEWARD, history);
+        hv_get_trail(hv, PLAYER_DR_SEWARD, history);
         assert(history[0] == ATLANTIC_OCEAN);
         assert(history[1] == UNKNOWN_LOCATION);
 
-		puts ("passed");
-		hv_drop (hv);
-	} while (0);
+        puts("passed");
+        hv_drop(hv);
+    } while (0);
 
 
-	do {////////////////////////////////////////////////////////////////
-		puts ("Test for Dracula doubling back at sea, "
-			  "and losing blood points (Hunter View)");
-		char *trail =
-			"GGE.... SGE.... HGE.... MGE.... DS?.... "
-			"GST.... SST.... HST.... MST.... DD1....";
-		player_message messages[] = {
-			"Hello", "Rubbish", "Stuff", "", "Mwahahah",
-			"Aha!", "", "", "", "Back I go" };
-		HunterView hv = hv_new (trail, messages);
+    do {////////////////////////////////////////////////////////////////
+        puts("Test for Dracula doubling back at sea, "
+             "and losing blood points (Hunter View)");
+        char *trail =
+                "GGE.... SGE.... HGE.... MGE.... DS?.... "
+                "GST.... SST.... HST.... MST.... DD1....";
+        player_message messages[] = {
+                "Hello", "Rubbish", "Stuff", "", "Mwahahah",
+                "Aha!", "", "", "", "Back I go"};
+        HunterView hv = hv_new(trail, messages);
 
-		TEST(hv_get_player (hv) == 0);
-		TEST(hv_get_location (hv, PLAYER_DRACULA) == DOUBLE_BACK_1);
-		TEST(hv_get_health (hv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS - 4);
+        TEST(hv_get_player(hv) == 0);
+        TEST(hv_get_location(hv, PLAYER_DRACULA) == DOUBLE_BACK_1);
+        TEST(hv_get_health(hv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS - 4);
 
-		location_t history[TRAIL_SIZE];
+        location_t history[TRAIL_SIZE];
 
         A("Check Dracula's move history");
-        hv_get_trail (hv, PLAYER_DRACULA, history);
-		assert(history[0] == DOUBLE_BACK_1);
-		assert(history[1] == SEA_UNKNOWN);
-		O();
+        hv_get_trail(hv, PLAYER_DRACULA, history);
+        assert(history[0] == DOUBLE_BACK_1);
+        assert(history[1] == SEA_UNKNOWN);
+        O();
 
-		puts ("passed");
-		hv_drop (hv);
-	} while (0);
+        puts("passed");
+        hv_drop(hv);
+    } while (0);
 
-	return -1;
+    return -1;
 
-	do {////////////////////////////////////////////////////////////////
-		puts ("Checking Galatz road connections");
-		char *trail = "GGA....";
-		player_message messages[] = {"Gone to Galatz"};
-		HunterView hv = hv_new (trail, messages);
+    do {////////////////////////////////////////////////////////////////
+        puts("Checking Galatz road connections");
+        char *trail = "GGA....";
+        player_message messages[] = {"Gone to Galatz"};
+        HunterView hv = hv_new(trail, messages);
 
-		size_t n_edges;
-		location_t *edges = hv_get_dests_player (
-			hv, &n_edges, PLAYER_LORD_GODALMING, true, false, false);
-		bool seen[NUM_MAP_LOCATIONS] = {false};
-		for (size_t i = 0; i < n_edges; i++)
-			seen[edges[i]] = true;
+        size_t n_edges;
+        location_t *edges = hv_get_dests_player(
+                hv, &n_edges, PLAYER_LORD_GODALMING, true, false, false);
+        bool seen[NUM_MAP_LOCATIONS] = {false};
+        for (size_t i = 0; i < n_edges; i++)
+            seen[edges[i]] = true;
 
-		TEST(n_edges == 5);
-		TEST(seen[GALATZ]);
-		TEST(seen[CONSTANTA]);
-		TEST(seen[BUCHAREST]);
-		TEST(seen[KLAUSENBURG]);
-		TEST(seen[CASTLE_DRACULA]);
+        TEST(n_edges == 5);
+        TEST(seen[GALATZ]);
+        TEST(seen[CONSTANTA]);
+        TEST(seen[BUCHAREST]);
+        TEST(seen[KLAUSENBURG]);
+        TEST(seen[CASTLE_DRACULA]);
 
-		puts ("passed");
-		free (edges);
-		hv_drop (hv);
-	} while (0);
-
-
-	do {////////////////////////////////////////////////////////////////
-		puts ("Checking Ionian Sea sea connections");
-		char *trail = "GIO....";
-		player_message messages[] = {"Sailing the Ionian"};
-		HunterView hv = hv_new (trail, messages);
-
-		size_t n_edges;
-		location_t *edges = hv_get_dests_player (
-			hv, &n_edges, PLAYER_LORD_GODALMING, false, false, true);
-		bool seen[NUM_MAP_LOCATIONS] = {false};
-		for (size_t i = 0; i < n_edges; i++)
-			seen[edges[i]] = true;
-
-		TEST(n_edges == 7);
-		TEST(seen[IONIAN_SEA]);
-		TEST(seen[BLACK_SEA]);
-		TEST(seen[ADRIATIC_SEA]);
-		TEST(seen[TYRRHENIAN_SEA]);
-		TEST(seen[ATHENS]);
-		TEST(seen[VALONA]);
-		TEST(seen[SALONICA]);
-
-		puts ("passed");
-		free (edges);
-		hv_drop (hv);
-	} while (0);
+        puts("passed");
+        free(edges);
+        hv_drop(hv);
+    } while (0);
 
 
-	do {////////////////////////////////////////////////////////////////
-		puts ("Checking Athens rail connections (none)");
+    do {////////////////////////////////////////////////////////////////
+        puts("Checking Ionian Sea sea connections");
+        char *trail = "GIO....";
+        player_message messages[] = {"Sailing the Ionian"};
+        HunterView hv = hv_new(trail, messages);
 
-		char *trail = "GAT....";
-		player_message messages[] = {"Leaving Athens by train"};
-		HunterView hv = hv_new (trail, messages);
+        size_t n_edges;
+        location_t *edges = hv_get_dests_player(
+                hv, &n_edges, PLAYER_LORD_GODALMING, false, false, true);
+        bool seen[NUM_MAP_LOCATIONS] = {false};
+        for (size_t i = 0; i < n_edges; i++)
+            seen[edges[i]] = true;
 
-		size_t n_edges;
-		location_t *edges = hv_get_dests_player (
-			hv, &n_edges, PLAYER_LORD_GODALMING, false, true, false);
+        TEST(n_edges == 7);
+        TEST(seen[IONIAN_SEA]);
+        TEST(seen[BLACK_SEA]);
+        TEST(seen[ADRIATIC_SEA]);
+        TEST(seen[TYRRHENIAN_SEA]);
+        TEST(seen[ATHENS]);
+        TEST(seen[VALONA]);
+        TEST(seen[SALONICA]);
 
-		TEST(n_edges == 1);
-		TEST(edges[0] == ATHENS);
+        puts("passed");
+        free(edges);
+        hv_drop(hv);
+    } while (0);
 
-		puts ("passed");
-		free (edges);
-		hv_drop (hv);
-	} while (0);
 
-	return EXIT_SUCCESS;
+    do {////////////////////////////////////////////////////////////////
+        puts("Checking Athens rail connections (none)");
+
+        char *trail = "GAT....";
+        player_message messages[] = {"Leaving Athens by train"};
+        HunterView hv = hv_new(trail, messages);
+
+        size_t n_edges;
+        location_t *edges = hv_get_dests_player(
+                hv, &n_edges, PLAYER_LORD_GODALMING, false, true, false);
+
+        TEST(n_edges == 1);
+        TEST(edges[0] == ATHENS);
+
+        puts("passed");
+        free(edges);
+        hv_drop(hv);
+    } while (0);
+
+    return EXIT_SUCCESS;
 }

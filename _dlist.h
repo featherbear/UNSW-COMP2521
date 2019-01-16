@@ -30,7 +30,8 @@ void dlist_destroy(dList list);
 ///
 
 dNode dlist_node_new(int item) {
-    dNode new = malloc(sizeof(*new));
+    dNode
+    new = malloc(sizeof(*new));
     assert(new != NULL);
     (*new) = (struct dlist_node) {
             .prev = NULL,
@@ -44,7 +45,8 @@ void dlist_push(dList list, int item) {
     dNode *headPtr = &(list->head);
     dNode *tailPtr = &(list->tail);
 
-    dNode new = dlist_node_new(item);
+    dNode
+    new = dlist_node_new(item);
 
     if (!*headPtr) *headPtr = new;
 
@@ -56,7 +58,8 @@ void dlist_push(dList list, int item) {
 }
 
 dList dlist_new(void) {
-    dList new = malloc(sizeof(*new));
+    dList
+    new = malloc(sizeof(*new));
     (*new) = (struct dlist_container) {
             .size = 0,
             .head = NULL,

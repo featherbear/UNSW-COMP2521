@@ -32,7 +32,8 @@ size_t queue_size(Queue q);
 ///
 
 qNode node_new(int item) {
-    qNode new = malloc(sizeof(*new));
+    qNode
+    new = malloc(sizeof(*new));
     assert(new != NULL);
     (*new) = (struct queue_node) {
             .next = NULL,
@@ -42,7 +43,8 @@ qNode node_new(int item) {
 }
 
 Queue queue_new(void) {
-    Queue new = malloc(sizeof(*new));
+    Queue
+    new = malloc(sizeof(*new));
     (*new) = (struct queue_container) {
             .size = 0,
             .head = NULL,
@@ -50,8 +52,8 @@ Queue queue_new(void) {
     };
     return new;
 }
-void queue_en(Queue q, int item)
-{
+
+void queue_en(Queue q, int item) {
     assert(q != NULL);
     qNode tail = q->tail;
     tail->next = node_new(item);
@@ -60,8 +62,7 @@ void queue_en(Queue q, int item)
 }
 
 // Returns the value and then frees the node
-int queue_de(Queue q)
-{
+int queue_de(Queue q) {
     assert(q != NULL);
 
     qNode old_head = q->head;
@@ -74,20 +75,17 @@ int queue_de(Queue q)
 }
 
 // Appends and drops
-void queue_append(Queue q, Queue p)
-{
+void queue_append(Queue q, Queue p) {
     for (size_t i = 0; i < p->size; i++) queue_en(q, queue_de(p));
     queue_drop(p);
 }
 
-void queue_drop(Queue q)
-{
+void queue_drop(Queue q) {
     if (q == NULL) return;
     if (q->size > 0) {
 
         qNode tmp = q->head;
-        for (size_t i = 0; i < q->size; i++)
-        {
+        for (size_t i = 0; i < q->size; i++) {
             qNode tmp_next = tmp->next;
             free(tmp);
             tmp = tmp_next;
@@ -96,10 +94,6 @@ void queue_drop(Queue q)
     free(q);
 }
 
-void queue_del(Queue q, qNode node)
-{
-    return; //TODO: IF use, need write
-}
 
 // Size of queue
 size_t queue_size(Queue q) {
