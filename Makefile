@@ -6,7 +6,7 @@
 # 2018-12-31	v1.0	Team Dracula <cs2521@cse.unsw.edu.au>
 
 CC	 = 3c
-BINS	 = test_game_view test_hunter_view test_dracula_view
+BINS	 = test_game_view test_hunter_view test_dracula_view test_connections
 
 all: ${BINS}
 
@@ -19,11 +19,14 @@ test_hunter_view.o:	test_hunter_view.c hunter_view.h game_view.h map.h places.h 
 test_dracula_view:	test_dracula_view.o dracula_view.o game_view.o map.o places.o
 test_dracula_view.o:	test_dracula_view.c dracula_view.h game_view.h map.h places.h game.h
 
-places.o:	places.c places.h game.h
-map.o:		map.c map.h places.h game.h
-game_view.o:	game_view.c game_view.h game.h
-hunter_view.o:	hunter_view.c hunter_view.h game.h
-dracula_view.o:	dracula_view.c dracula_view.h game.h
+test_connections:      test_connections.o game_view.o map.o places.o
+test_connections.o:    test_connections.c game_view.h map.h places.h game.h
+
+places.o:	places.c places.h game.h _connections.h _dlist.h _queue.h
+map.o:		map.c map.h places.h game.h _connections.h _dlist.h _queue.h
+game_view.o:	game_view.c game_view.h game.h _connections.h _dlist.h _queue.h
+hunter_view.o:	hunter_view.c hunter_view.h game.h _connections.h _dlist.h _queue.h
+dracula_view.o:	dracula_view.c dracula_view.h game.h _connections.h _dlist.h _queue.h
 
 .PHONY: clean
 clean:

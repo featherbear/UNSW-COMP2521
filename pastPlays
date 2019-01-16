@@ -32,11 +32,11 @@ GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO.... HNS.... MST.... DC?T... 
 Round 6: PLAYER_MINA_HARKER (3) @ ZURICH; 6 locations: {STRASBOURG, MUNICH, MILAN, MARSEILLES, GENEVA, ZURICH}
 
 
-GMN.... SPL.... HAM.... MPA.... DGA.V.. GLV.... SLO.... HNS.... MST.... DHIT... GIR.... SPL.... HAO.... MZU.... DCDT... GSW.... SLO.... HNS.... MFR.... DKLT... GLV.... SPL.... HAO.... MZU.... DBCT... GSW.... SLO.... HNS.... MMR....
+GMN.... SPL.... HAM.... MPA.... DGA.V.. GLV.... SLO.... HNS.... MST.... DHIT... GIR.... SPL.... HAO.... MZU.... DCDT... GSW.... SLO....HNS.... MFR.... DKLT... GLV.... SPL.... HAO.... MZU.... DBCT... GSW.... SLO.... HNS.... MMR....
 Round 6: PLAYER_DRACULA (4) @ BUCHAREST; locations: {...}
-trail = {BUCHAREST, KLAUSENBUG, CASTLE_DRACULA, }
+trail = {BUCHAREST, KLAUSENBUG, CASTLE_DRACULA,  }
 
-# There's a big problem because HI doesn't
+
 ////////////////////////////////////////////////////////////////
 Samples from Game #2:
 
@@ -48,8 +48,22 @@ pastPlays string given to Dracula after other hunters have moved:
 
 GED.... SGE.... HZU.... MCA.... DCF.V.. GMN.... SCFVD.. HGE.... MLS.... DBOT... GLO.... SMR.... HCF.... MMA.... DTOT... GPL.... SMS.... HMR.... MGR.... DBAT... GLO.... SBATD.. HMS.... MMA.... DSRT... GPL.... SSJ.... HBA.... MGR.... DALT... GPL.... SSJ.... HBA.... MGR.... DMAT... GLO.... SBE.... HMS.... MMATD..
 
-rount 7: PLAYER_DRACULA (4) @ MADRID; 11 locations: {DOUBLE_BACK_0, DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3, DOUBLE_BACK_4, DOUBLE_BACK_5, HIDE, NANTES, PARIS, GENEVA, MARSEILLES}
+Round 7: PLAYER_DRACULA (4) @ MADRID; 11 locations: {DOUBLE_BACK_0, DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3, DOUBLE_BACK_4, DOUBLE_BACK_5, HIDE, NANTES, PARIS, GENEVA, MARSEILLES}
+
 Past Trail: {MADRID, ALICANTE, SARAGOSSA, BARCELONA, TOULOUSE, BORDEAUX, CLERMONT_FERRAND}
 
+////////////////////////////////////////////////////////////////
 
+Test case for getting stuck anywhere: // If it's not a dead end rip.. 
+GED.... SGE.... HZU.... MCA.... DLE.V.. 
+GMN.... SCFVD.. HGE.... MLS.... DECT... 
+GLO.... SMR.... HCF.... MMA.... DLOT... 
+GPL.... SMS.... HMR.... MGR.... DMNT... 
+GLO.... SBATD.. HMS.... MMA.... DLVT... 
+GPL.... SSJ.... HBA.... MGR.... DSWT... 
+GPL.... SSJ.... HBA.... MGR.... 
+
+Round 6: PLAYER_DRACULA (4) @ SWANSEA; 1 Locations; {TELEPORT}
+
+Past Trail: {SWANSEA, LIVERPOOL, MANCHESTER, LONDON, ENGLISH_CHANNEL, LE_HAVRE}
 

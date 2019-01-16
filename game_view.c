@@ -34,10 +34,6 @@
 #define max(a, b) a>b?a:b
 #define min(a, b) a<b?a:b
 
-
-
-
-
 static bool playerRested(GameView gv, enum player player) {
     assert(player != PLAYER_DRACULA);
 
