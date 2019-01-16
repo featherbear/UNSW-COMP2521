@@ -394,12 +394,15 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
         loc = malloc (1 * sizeof(location_t));
         loc[0] = TELEPORT;
 
-    } else {
+        *n_locations = 1;
 
+    } else {
         // Put everything in the queue into the array
         loc = malloc(queueSize * sizeof(location_t));
-        for (size_t i = 0; i < queueSize; i++) loc[i] = (location_t)queue_de(validMoves);
+        for (size_t i = 0; i < queueSize; i++) loc[i] = (location_t)(size_t)queue_de(validMoves);
         queue_drop(validMoves);
+
+        *n_locations = queueSize;
     }
 
     return loc;
