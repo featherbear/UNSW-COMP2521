@@ -4,6 +4,7 @@
 
 #include "_dlist.h"
 #include <assert.h>
+#include <stdlib.h>
 
 dNode dlist_node_new(int item) {
     dNode

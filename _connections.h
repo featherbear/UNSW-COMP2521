@@ -16,6 +16,6 @@ Queue connections_get_railways(location_t l, enum player p, Map m, round_t round
 Queue connections_rail_bfs(location_t loc, Map m, int depth);
 int connections_bfs_process(Queue q, int item, bool *hasBeenVisited, Map m);
 Queue connections_get_seaways(GameView gv, location_t l, enum player p, Map m);
-bool connections_in_trail(GameView gv, enum player p, location_t l);
+bool location_in_trail(GameView gv, enum player p, location_t l);
 
 #endif //ASS02_CONNECTIONS_H

@@ -38,6 +38,13 @@ Queue connections_get_extras (GameView gv, location_t l, enum player player)
     return q;
 }
 
+bool location_in_trail(GameView gv, enum player player, location_t loc) {
+    location_t trail[TRAIL_SIZE];
+    gv_get_history(gv, player, trail);
+    for (size_t i = 0; i < TRAIL_SIZE; i++) if (trail[i] == loc) return true;
+    return false;
+}
+
 /* Finds all locations accessible by road */
 Queue connections_get_roadways (GameView gv, location_t l, enum player p, Map m)
 {
@@ -55,7 +62,7 @@ Queue connections_get_roadways (GameView gv, location_t l, enum player p, Map m)
 
                 // Make sure it's not round 0
                 if (gv_get_round(gv) != 0)
-                    if  (connections_in_trail(gv, p, tmp->v)) continue;
+                    if  (location_in_trail(gv, p, tmp->v)) continue;
             }
             queue_en(q, (int)tmp->v);
         }
@@ -67,7 +74,7 @@ Queue connections_get_roadways (GameView gv, location_t l, enum player p, Map m)
 
 /* Finds all the rail connections possible
  * Returns an array of all possible rail connnections */
-Queue connections_get_railways (GameView gv, location_t l, enum player p, Map m, round_t round)
+Queue connections_get_railways (location_t l, enum player p, Map m, round_t round)
 {
     assert(p != PLAYER_DRACULA);
 
@@ -120,7 +127,8 @@ Queue connections_rail_bfs(location_t loc, Map m, int depth)
     int countDownNext = 0; //Counts down number of elements (doesn't include curr)
 
     queue_en(q, loc);
-    while (q->size != 0)
+
+    while (queue_size(q) != 0)
     {
         int value = queue_de(q);
         int nChildren = connections_bfs_process(q, value, hasBeenVisited, m);
@@ -171,7 +179,7 @@ int connections_bfs_process(Queue q, int item, bool *hasBeenVisited, Map m)
 
 /* Finds all sea connections available
  * Returns array of all possible sea/boat connections */
-Queue connections_get_seaways (location_t l, enum player p, Map m)
+Queue connections_get_seaways (GameView gv, location_t l, enum player p, Map m)
 {
     Queue q = queue_new();
 

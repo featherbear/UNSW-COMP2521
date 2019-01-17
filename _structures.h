@@ -6,6 +6,8 @@
 #define ASS02_STRUCTURES_H
 
 #include "_dlist.h"
+#include "game.h"
+#include "places.h"
 
 typedef struct playerInfo playerInfo;
 struct playerInfo {
