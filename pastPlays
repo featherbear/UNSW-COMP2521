@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
 Samples from Game #0:
 
 GMN.... SPL.... HAM.... MPA.... DC?.V..
@@ -33,9 +33,9 @@ Round 6: PLAYER_MINA_HARKER (3) @ ZURICH; 6 locations: {STRASBOURG, MUNICH, MILA
 
 
 GMN.... SPL.... HAM.... MPA.... DGA.V.. GLV.... SLO.... HNS.... MST.... DHIT... GIR.... SPL.... HAO.... MZU.... DCDT... GSW.... SLO....HNS.... MFR.... DKLT... GLV.... SPL.... HAO.... MZU.... DBCT... GSW.... SLO.... HNS.... MMR....
-Round 6: PLAYER_DRACULA (4) @ BUCHAREST; locations: {...}
-trail = {BUCHAREST, KLAUSENBUG, CASTLE_DRACULA,  }
-
+Round 6: PLAYER_DRACULA (4) @ BUCHAREST; 4 locations: {CONSTANTA, KLAUSENBURG, BELGRADE, SOFIA}
+trail = {BUCHAREST, KLAUSENBURG, CASTLE_DRACULA, GALATZ, GALATZ, UNKNOWN_LOCATION}
+ 
 
 ////////////////////////////////////////////////////////////////
 Samples from Game #2:
@@ -44,7 +44,6 @@ GED.... SGE.... HZU.... MCA.... DCF.V.. GMN.... SCFVD.. HGE.... MLS.... DBOT... 
 round 7: PLAYER_GOLDALMING (0) @ PLYMOUTH; 3 locations: {PLYMOUTH, ENGLISH_CHANNEL, LONDON}
 
 
-pastPlays string given to Dracula after other hunters have moved:
 
 GED.... SGE.... HZU.... MCA.... DCF.V.. GMN.... SCFVD.. HGE.... MLS.... DBOT... GLO.... SMR.... HCF.... MMA.... DTOT... GPL.... SMS.... HMR.... MGR.... DBAT... GLO.... SBATD.. HMS.... MMA.... DSRT... GPL.... SSJ.... HBA.... MGR.... DALT... GPL.... SSJ.... HBA.... MGR.... DMAT... GLO.... SBE.... HMS.... MMATD..
 
@@ -53,6 +52,12 @@ Round 7: PLAYER_DRACULA (4) @ MADRID; 11 locations: {DOUBLE_BACK_0, DOUBLE_BACK_
 Past Trail: {MADRID, ALICANTE, SARAGOSSA, BARCELONA, TOULOUSE, BORDEAUX, CLERMONT_FERRAND}
 
 ////////////////////////////////////////////////////////////////
+// Extra Cases:
+// Created by Jennifer 17/8/19
+//
+
+////////////////////////////////////////////////////////////////
+/*If there is no legal move possible for Dracula he automagically Teleports to Castle Dracula as his MOVE*/
 
 Test case for getting stuck anywhere: // If it's not a dead end rip.. 
 GED.... SGE.... HZU.... MCA.... DLE.V.. 
@@ -64,6 +69,66 @@ GPL.... SSJ.... HBA.... MGR.... DSWT...
 GPL.... SSJ.... HBA.... MGR.... 
 
 Round 6: PLAYER_DRACULA (4) @ SWANSEA; 1 Locations; {TELEPORT}
-
 Past Trail: {SWANSEA, LIVERPOOL, MANCHESTER, LONDON, ENGLISH_CHANNEL, LE_HAVRE}
+
+////////////////////////////////////////////////////////////////
+/* Dracula cannot make a DOUBLE_BACK move of 'n' if he hasn't had 'n' moves */ 
+GVA.... SVR.... HAT.... MSA.... DLE.V.. 
+GVA.... SVR.... HAT.... MSA.... D(PARIS)T... 
+GVA.... SVR.... HAT.... MSA.... D(NANTES)T... 
+GVA.... SVR.... HAT.... MSA.... 
+
+Round 3: PLAYER_DRACULA (4) @ NANTES; 7 locations: {HIDE, DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3, BORDEAUX, CLERMONT_FERRAND, BAY_OF_BISCAY}
+Past Trail: {NANTES, PARIS, LE_HAVRE, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}
+
+////////////////////////////////////////////////////////////////
+/* Dracula cannot HIDE at sea */ 
+GVA.... SVR.... HAT.... MSA.... DLE.V.. 
+GVA.... SVR.... HAT.... MSA.... D(PARIS)T... 
+GVA.... SVR.... HAT.... MSA.... D(NANTES)T... 
+GVA.... SVR.... HAT.... MSA.... D(BAY_OF_BISCAY)T...
+GVA.... SVR.... HAT.... MSA....
+
+Round 4: PLAYER_DRACULA (4) @ BAY_OF_BISCAY; locations: {DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3, BORDEAUX, SANTANDER}
+Past Trail: {BAY_OF_BISCAY, NANTES, PARIS, LE_HAVRE, UNKNOWN_LOCATION, UNKNOWN_LOCATION}
+
+////////////////////////////////////////////////////////////////
+/* Dracula cannot make a DOUBLE_BACK move if he already has a DOUBLE_BACK move in his trail */
+GVA.... SVR.... HAT.... MSA.... DLE.V.. 
+GVA.... SVR.... HAT.... MSA.... D(PARIS)T... 
+GVA.... SVR.... HAT.... MSA.... D(CLERMONT_FERRAND)T... 
+GVA.... SVR.... HAT.... MSA.... D(MARSEILLES)T... 
+GVA.... SVR.... HAT.... MSA.... D(GENOA)T... 
+GVA.... SVR.... HAT.... MSA.... D(MILAN)T... 
+GVA.... SVR.... HAT.... MSA.... D(ZURICH)T...  // Does DOUBLE_BACK_2
+GVA.... SVR.... HAT.... MSA.... D(GENOA)T...
+GVA.... SVR.... HAT.... MSA....
+
+Round 9: PLAYER_DRACULA (4) @ GENOA; 3 locations: {FLORENCE, VENICE, TYRRHENIAN_SEA}
+Past Trail: {GENOA, ZURICH, MILAN, GENOA, MARSEILLES, CLERMONT_FERRANT, PARIS}
+
+////////////////////////////////////////////////////////////////
+/* Dracula can never move to the hospital of St Joseph and St Mary */
+GVA.... SVR.... HAT.... MSA.... D(SZEGED).V.. 
+GVA.... SVR.... HAT.... MSA.... 
+
+Round 2: PLAYER_DRACULA (4) @ SZEGED; 4 locations: {BUDAPEST, KLAUSENBURG, BELGRADE, ZAGREB} 
+Past Trail: {SZEGED, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}
+
+////////////////////////////////////////////////////////////////
+// TODO: Check if that's correct... 
+/* Whenever a Hunter is reduced to 0 or less life points they are instantly automagically teleported to the Hospital of St Joseph and St Mary */
+
+Poor MINA keeps following Dracula losing health 
+GVA.... SVR.... HAT.... M(SANTANDER).... D(SARAGOSSA).V.. 
+GVA.... SVR.... HAT.... M(SARAGOSSA).... D(ALICANTE)T... // -4 health
+GVA.... SVR.... HAT.... M(ALICANTE).... D(GRANADA)T... // -4 health
+GVA.... SVR.... HAT.... M(GRANADA).... D(MADRID)T... // -4 health
+GVA.... SVR.... HAT.... å
+
+Round 5: PLAYER_MINA_HARKER (3) @ HOSPITAL; 5 locations: {ZAGREB, SZEGED, BELGRADE, SARAJEVO, HOSPITAL}
+
+////////////////////////////////////////////////////////////////
+
+
 
