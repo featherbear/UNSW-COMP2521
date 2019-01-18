@@ -23,8 +23,7 @@ static qNode node_new(int item);
 
 
 static qNode node_new(int item) {
-    qNode
-    new = malloc(sizeof(*new));
+    qNode new = malloc(sizeof(*new));
     assert(new != NULL);
     (*new) = (struct queue_node) {
             .next = NULL,
@@ -46,23 +45,32 @@ Queue queue_new(void) {
 
 void queue_en(Queue q, int item) {
     assert(q != NULL);
-    qNode tail = q->tail;
-    tail->next = node_new(item);
-    q->tail = tail;
+    // Check that the queue isn't empty
+    if (q->size == 0) {
+        q->head = node_new(item);
+        q->tail = q->head;
+    } else {
+        qNode new_tail = node_new(item);
+        q->tail->next = new_tail;
+        q->tail = new_tail;
+    }
     q->size++;
+
 }
 
 // Returns the value and then frees the node
 int queue_de(Queue q) {
     assert(q != NULL);
+    assert(q->size != 0);
 
-    qNode old_head = q->head;
-    q->head = old_head->next;
+    int tmp_value;
+    qNode tmp;
+    tmp_value = q->head->item;
+    tmp = q->head;
+    q->head = q->head->next;
+    free(tmp);
     q->size--;
-
-    int tmp = old_head->item;
-    free(old_head);
-    return tmp;
+    return tmp_value;
 }
 
 // Appends and drops
@@ -73,14 +81,15 @@ void queue_append(Queue q, Queue p) {
 
 void queue_drop(Queue q) {
     if (q == NULL) return;
-    if (q->size > 0) {
-
-        qNode tmp = q->head;
-        for (size_t i = 0; i < q->size; i++) {
-            qNode tmp_next = tmp->next;
-            free(tmp);
-            tmp = tmp_next;
-        }
+    if (q->size == 0) {
+        free(q);
+        return;
+    }
+    qNode tmp = q->head;
+    while (tmp != NULL) {
+        qNode tmp_next = tmp->next;
+        free(tmp);
+        tmp = tmp_next;
     }
     free(q);
 }

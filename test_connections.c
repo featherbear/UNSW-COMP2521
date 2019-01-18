@@ -24,7 +24,6 @@ void get_connections_str(location_t *l, size_t size);
 char *get_playerName(enum player p);
 
 
-
 ///////
 
 int main() {
@@ -47,9 +46,9 @@ int main() {
         n_loc = 0;
         p = gv_get_player(gv);
         from = location_find_by_abbrev("MN");
-        l = gv_get_connections(gv, &n_loc, from, p, gv_get_round(gv), true, true, true);
-        printf("Round 1: PLAYER_GODALMING (0) @ MANCHESTER; 4 locations: {MANCHESTER, EDINBURGH, LIVERPOOL, LONDON}");
-        get_connections_str(l, n_loc);
+//        l = gv_get_connections(gv, &n_loc, from, p, gv_get_round(gv), true, true, true);
+//        printf("Round 1: PLAYER_GODALMING (0) @ MANCHESTER; 4 locations: {MANCHESTER, EDINBURGH, LIVERPOOL, LONDON}");
+//        get_connections_str(l, n_loc);
     }
     gv_drop(gv);
 }

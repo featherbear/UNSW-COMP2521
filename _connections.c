@@ -20,19 +20,40 @@ Queue connections_get_extras (GameView gv, location_t l, enum player player)
 
     // Extra moves for dracula
     if (player == PLAYER_DRACULA) {
-        if (gv_get_round(gv) != 0) {
-            if (gv->timers.doubleBack == 0)  {
+        switch (gv_get_round(gv))
+        {
+            case 0: break;
+            case 1: break;
+            case 2:
+                queue_en(q, DOUBLE_BACK_1);
+                break;
+            case 3:
+                queue_en(q, DOUBLE_BACK_1);
+                queue_en(q, DOUBLE_BACK_2);
+                break;
+            case 4:
+                queue_en(q, DOUBLE_BACK_1);
+                queue_en(q, DOUBLE_BACK_2);
+                queue_en(q, DOUBLE_BACK_3);
+                break;
+            case 5:
+                queue_en(q, DOUBLE_BACK_1);
+                queue_en(q, DOUBLE_BACK_2);
+                queue_en(q, DOUBLE_BACK_3);
+                queue_en(q, DOUBLE_BACK_4);
+                break;
+            default:
                 queue_en(q, DOUBLE_BACK_1);
                 queue_en(q, DOUBLE_BACK_2);
                 queue_en(q, DOUBLE_BACK_3);
                 queue_en(q, DOUBLE_BACK_4);
                 queue_en(q, DOUBLE_BACK_5);
-            }
+                break;
+        };
 
-            if (gv->timers.hide == 0) queue_en(q, HIDE);
-        }
+        if (gv->timers.hide == 0 && gv_get_round(gv) != 0) queue_en(q, HIDE);
 
-        // Add rest as a move for hunters
+    // Add rest as a move for hunters
     } else queue_en(q, l);
 
     return q;
