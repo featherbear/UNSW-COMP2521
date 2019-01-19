@@ -284,17 +284,17 @@ GameView gv_new(char *past_plays, player_message messages[]) {
         gv->currTurn++;
     }
 
-    // Game summary
-    printf_blue("\n\n------------SUMMARY------------\n");
-    printf("    %d turns made. Now in round no %d\n    I am player: %d (%s)\n", gv->currTurn, gv->currRound, currPlayer_n,
-           currPlayer_n == 4 ? "Dracula" : "Hunter");
-//    printf("    Player `%c` @ `%s` | HP: %d\n", player, location, lID, _event);
-    for(enum player i = 0; i < PLAYER_DRACULA-1; i++) {
-        printf("    Hunter %d @ %-15s | HP: %d\n", i, location_get_name(gv_get_location(gv, i)), gv->players[i].health);
-    }
-    printf("    Dracula  @ %-15s | HP: %d\n", location_get_name(gv_get_location(gv, PLAYER_DRACULA)), gv->players[PLAYER_DRACULA].health);
-    printf_yellow("    SCORE: %d\n", gv_get_score(gv));
-    printf_blue("------------SUMMARY------------\n\n\n");
+//    // Game summary
+//    printf_blue("\n\n------------SUMMARY------------\n");
+//    printf("    %d turns made. Now in round no %d\n    I am player: %d (%s)\n", gv->currTurn, gv->currRound, currPlayer_n,
+//           currPlayer_n == 4 ? "Dracula" : "Hunter");
+////    printf("    Player `%c` @ `%s` | HP: %d\n", player, location, lID, _event);
+//    for(enum player i = 0; i < PLAYER_DRACULA-1; i++) {
+//        printf("    Hunter %d @ %-15s | HP: %d\n", i, location_get_name(gv_get_location(gv, i)), gv->players[i].health);
+//    }
+//    printf("    Dracula  @ %-15s | HP: %d\n", location_get_name(gv_get_location(gv, PLAYER_DRACULA)), gv->players[PLAYER_DRACULA].health);
+//    printf_yellow("    SCORE: %d\n", gv_get_score(gv));
+//    printf_blue("------------SUMMARY------------\n\n\n");
 
     free(tmp_pastPlays);
 
@@ -349,8 +349,6 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
     // TODO Isolate
     Map m = map_new();
 
-    printf("MADE MAP\n");
-
     // Get all the connections
     if (road) {
         puts("GETTING ROADS");
@@ -371,12 +369,10 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
         queue_append(validMoves, sea_moves);
     }
 
-    puts("GETTING EXTRA");
     // Consider extra moves
     Queue extra_moves = connections_get_extras(gv, from, player);
     queue_append(validMoves, extra_moves);
 
-    puts("GETTING SIZE");
     // Consider the situtaion after piecing together informtation
     size_t queueSize = queue_size(validMoves);
 
@@ -396,6 +392,9 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
 
         *n_locations = queueSize;
     }
+
+    map_drop(m);
+
 
     return loc;
 }

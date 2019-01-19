@@ -71,9 +71,7 @@ Queue connections_get_roadways (GameView gv, location_t l, enum player p, Map m)
 {
     Queue q = queue_new();
 
-    map_adj *tmp = m->connections[l];
-    while (tmp != NULL)
-    {
+    for (map_adj *tmp = m->connections[l]; tmp != NULL; tmp = tmp->next) {
         if (tmp->type == ROAD) {
 
             if (p == PLAYER_DRACULA) {
@@ -85,9 +83,9 @@ Queue connections_get_roadways (GameView gv, location_t l, enum player p, Map m)
                 if (gv_get_round(gv) != 0)
                     if  (location_in_trail(gv, p, tmp->v)) continue;
             }
-            queue_en(q, (int)tmp->v);
         }
-        tmp = tmp->next;
+        queue_en(q, (int)tmp->v);
+        printf("Added Road location: %zu\n", tmp->v);
     }
     return q;
 }
@@ -143,7 +141,7 @@ Queue connections_rail_bfs(location_t loc, Map m, int depth)
     hasBeenVisited[loc] = true;
 
     Queue q = queue_new();
-    int currDepth = 0; // Keeps track of how many stations we can hop
+    int currDepth = 0; // Keeps track of how many stations we have hopped
     int countDown = 1; // Counts down the number of elements until we increase the depth
     int countDownNext = 0; //Counts down number of elements (doesn't include curr)
 
@@ -203,7 +201,7 @@ int connections_bfs_process(Queue q, int item, bool *hasBeenVisited, Map m)
 Queue connections_get_seaways (GameView gv, location_t l, enum player p, Map m)
 {
     Queue q = queue_new();
-    
+
     for (map_adj *tmp = m->connections[l]; tmp; tmp = tmp->next) {
         if (tmp->type == BOAT) queue_en(q, (int)tmp->v);
     }

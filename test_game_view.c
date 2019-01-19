@@ -550,7 +550,7 @@ int main(void) {
         location_t connections[] = {STRASBOURG, GENEVA, MILAN, MUNICH};
         testFramework("Round 1 Turn 4", "GMN.... SPL.... HAM.... MPA.... DZU.V.. "
                                         "GLV.... SLO.... HNS.... MST....", (struct expectedData) {
-                .player =PLAYER_DRACULA,
+                .player = PLAYER_DRACULA,
                 .score = 365,
                 .round = 1,
 
@@ -569,12 +569,244 @@ int main(void) {
                 .connections = connections,
                 .nConnections = 4,
         });
-
-        // Next round
-
     }
 
+    // Next round
 
-    return
-            EXIT_SUCCESS;
+    {
+        location_t connections[] = {LIVERPOOL, SWANSEA, MANCHESTER, IRISH_SEA};
+        testFramework("Round 2 Turn 0", "GMN.... SPL.... HAM.... MPA.... DC?.V.. "
+                                        "GLV.... SLO.... HNS.... MST.... DC?T...", (struct expectedData) {
+                .player = PLAYER_LORD_GODALMING,
+                .score = 364,
+                .round = 2,
+
+                .location = {LIVERPOOL, LONDON, NORTH_SEA, STRASBOURG, CITY_UNKNOWN},
+                .history = {{LIVERPOOL,    MANCHESTER,       UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {LONDON,       PLYMOUTH,         UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {AMSTERDAM,    UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {STRASBOURG,   PARIS,            UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {CITY_UNKNOWN, CITY_UNKNOWN,     UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}},
+                .health = {GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_BLOOD_POINTS},
+
+                .connections = connections,
+                .nConnections = 4,
+        });
+    }
+    {
+        location_t connections[] = {LONDON, MANCHESTER, EDINBURGH, LIVERPOOL, SWANSEA, ENGLISH_CHANNEL, PLYMOUTH};
+        testFramework("Round 2 Turn 1", "GMN.... SPL.... HAM.... MPA.... DC?.V.. "
+                                        "GLV.... SLO.... HNS.... MST.... DC?T... "
+                                        "GIR", (struct expectedData) {
+                .player = PLAYER_DR_SEWARD,
+                .score = 364,
+                .round = 2,
+
+                .location = {IRISH_SEA, LONDON, NORTH_SEA, STRASBOURG, CITY_UNKNOWN},
+                .history = {{IRISH_SEA,    LIVERPOOL,        MANCHESTER,       UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {LONDON,       PLYMOUTH,         UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {AMSTERDAM,    UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {STRASBOURG,   PARIS,            UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {CITY_UNKNOWN, CITY_UNKNOWN,     UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}},
+                .health = {GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_BLOOD_POINTS},
+
+                .connections = connections,
+                .nConnections = 7,
+        });
+    }
+
+    /* */
+
+    {
+        location_t connections[] = {STRASBOURG, MUNICH, MILAN, MARSEILLES, GENEVA, ZURICH};
+        testFramework("Round 5 Turn 3", "GMN.... SPL.... HAM.... MPA.... DC?.V.. "
+                                        "GLV.... SLO.... HNS.... MST.... DC?T... "
+                                        "GIR.... SPL.... HAO.... MZU.... DCDT... "
+                                        "GSW.... SLO.... HNS.... MFR.... DC?T... "
+                                        "GLV.... SPL.... HAO.... MZU.... DC?T... "
+                                        "GSW.... SLO.... HNS....", (struct expectedData) {
+                .player = PLAYER_MINA_HARKER,
+                .score = 361,
+                .round = 5,
+
+                .location = {SWANSEA, LONDON, NORTH_SEA, ZURICH, CITY_UNKNOWN},
+                .history = {{SWANSEA,      LIVERPOOL,      SWANSEA,        IRISH_SEA,      LIVERPOOL,    MANCHESTER},
+                            {LONDON,       PLYMOUTH,       LONDON,         PLYMOUTH,       LONDON,       PLYMOUTH},
+                            {NORTH_SEA,    ATLANTIC_OCEAN, NORTH_SEA,      ATLANTIC_OCEAN, NORTH_SEA,    AMSTERDAM},
+                            {ZURICH,       FRANKFURT,      ZURICH,         STRASBOURG,     PARIS,        UNKNOWN_LOCATION},
+                            {CITY_UNKNOWN, CITY_UNKNOWN,   CASTLE_DRACULA, CITY_UNKNOWN,   CITY_UNKNOWN, UNKNOWN_LOCATION}},
+                .health = {GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_BLOOD_POINTS + LIFE_GAIN_CASTLE_DRACULA},
+
+                .connections = connections,
+                .nConnections = 6,
+        });
+    }
+    {
+        location_t connections[] = {CONSTANTA, KLAUSENBURG, BELGRADE, SOFIA};
+        testFramework("Round 5 Turn 4", "GMN.... SPL.... HAM.... MPA.... DGA.V.. "
+                                        "GLV.... SLO.... HNS.... MST.... DHIT... "
+                                        "GIR.... SPL.... HAO.... MZU.... DCDT... "
+                                        "GSW.... SLO.... HNS.... MFR.... DKLT... "
+                                        "GLV.... SPL.... HAO.... MZU.... DBCT... "
+                                        "GSW.... SLO.... HNS.... MMR....", (struct expectedData) {
+                .player = PLAYER_DRACULA,
+                .score = 361,
+                .round = 5,
+
+                .location = {SWANSEA, LONDON, NORTH_SEA, MARSEILLES, CITY_UNKNOWN},
+                .history = {{SWANSEA,    LIVERPOOL,      SWANSEA,        IRISH_SEA,      LIVERPOOL,  MANCHESTER},
+                            {LONDON,     PLYMOUTH,       LONDON,         PLYMOUTH,       LONDON,     PLYMOUTH},
+                            {NORTH_SEA,  ATLANTIC_OCEAN, NORTH_SEA,      ATLANTIC_OCEAN, NORTH_SEA,  AMSTERDAM},
+                            {MARSEILLES, ZURICH,         FRANKFURT,      ZURICH,         STRASBOURG, PARIS},
+                            {BUCHAREST,  KLAUSENBURG,    CASTLE_DRACULA, HIDE,           GALATZ,     UNKNOWN_LOCATION}},
+                .health = {GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_BLOOD_POINTS + LIFE_GAIN_CASTLE_DRACULA},
+
+                .connections = connections,
+                .nConnections = 4,
+        });
+    }
+
+    /* */
+
+    {
+        location_t connections[] = {PLYMOUTH, ENGLISH_CHANNEL, LONDON};
+        testFramework("Round 7 Turn 0", "GED.... SGE.... HZU.... MCA.... DCF.V.. "
+                                        "GMN.... SCFVD.. HGE.... MLS.... DBOT... " // S - 4; D - 10
+                                        "GLO.... SMR.... HCF.... MMA.... DC?T... "
+                                        "GPL.... SMS.... HMR.... MGR.... DBAT... " // S - 4 - 2 - 4 DEAD // D - 10
+                                        "GLO.... SBATD.. HMS.... MMA.... DC?T... "
+                                        "GPL.... SSJ.... HBA.... MGR.... DC?T... "
+                                        "GPL.... SSJ.... HBA.... MGR.... DC?T...", (struct expectedData) {
+                .player = PLAYER_LORD_GODALMING,
+                .score = 349,
+                .round = 7,
+
+                .location = {PLYMOUTH, ST_JOSEPH_AND_ST_MARYS, BARCELONA, GRANADA, CITY_UNKNOWN},
+                .history = {{PLYMOUTH,               PLYMOUTH,               LONDON,            PLYMOUTH,          LONDON,           MANCHESTER},
+                            {ST_JOSEPH_AND_ST_MARYS, ST_JOSEPH_AND_ST_MARYS, BARCELONA,         MEDITERRANEAN_SEA, MARSEILLES,       CLERMONT_FERRAND},
+                            {BARCELONA,              BARCELONA,              MEDITERRANEAN_SEA, MARSEILLES,        CLERMONT_FERRAND, GENEVA},
+                            {GRANADA,                GRANADA,                MANCHESTER,        GRANADA,           MANCHESTER,       LISBON},
+                            {CITY_UNKNOWN,           CITY_UNKNOWN,           CITY_UNKNOWN,      BARCELONA,         CITY_UNKNOWN,     BORDEAUX}},
+                .health = {GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_DRACULA_ENCOUNTER - LIFE_LOSS_TRAP_ENCOUNTER -
+                           LIFE_LOSS_DRACULA_ENCOUNTER,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_BLOOD_POINTS - LIFE_LOSS_HUNTER_ENCOUNTER - LIFE_LOSS_HUNTER_ENCOUNTER},
+
+                .connections = connections,
+                .nConnections = 3,
+        });
+    }
+    {
+        location_t connections[] = {PLYMOUTH, ENGLISH_CHANNEL, LONDON};
+        testFramework("Round 7 Turn 4", "GED.... SGE.... HZU.... MCA.... DCF.V.. "
+                                        "GMN.... SCFVD.. HGE.... MLS.... DBOT... "
+                                        "GLO.... SMR.... HCF.... MMA.... DTOT... "
+                                        "GPL.... SMS.... HMR.... MGR.... DBAT... "
+                                        "GLO.... SBATD.. HMS.... MMA.... DSRT... "
+                                        "GPL.... SSJ.... HBA.... MGR.... DALT... "
+                                        "GPL.... SSJ.... HBA.... MGR.... DMAT... "
+                                        "GLO.... SBE.... HMS.... MMATD..", (struct expectedData) {
+                .player = PLAYER_DRACULA,
+                .score = 349,
+                .round = 7,
+
+                .location = {PLYMOUTH, ST_JOSEPH_AND_ST_MARYS, BARCELONA, GRANADA, CITY_UNKNOWN},
+                .history = {{PLYMOUTH,               PLYMOUTH,               LONDON,            PLYMOUTH,          LONDON,           MANCHESTER},
+                            {ST_JOSEPH_AND_ST_MARYS, ST_JOSEPH_AND_ST_MARYS, BARCELONA,         MEDITERRANEAN_SEA, MARSEILLES,       CLERMONT_FERRAND},
+                            {BARCELONA,              BARCELONA,              MEDITERRANEAN_SEA, MARSEILLES,        CLERMONT_FERRAND, GENEVA},
+                            {GRANADA,                GRANADA,                MANCHESTER,        GRANADA,           MANCHESTER,       LISBON},
+                            {MANCHESTER,             ALICANTE,               STRASBOURG,        BARCELONA,         TOULOUSE,         BORDEAUX}},
+                .health = {GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_DRACULA_ENCOUNTER - LIFE_LOSS_TRAP_ENCOUNTER -
+                           LIFE_LOSS_DRACULA_ENCOUNTER,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_TRAP_ENCOUNTER - LIFE_LOSS_DRACULA_ENCOUNTER,
+                           GAME_START_BLOOD_POINTS - LIFE_LOSS_HUNTER_ENCOUNTER - LIFE_LOSS_HUNTER_ENCOUNTER},
+
+                .connections = connections,
+                .nConnections = 3,
+        });
+    }
+
+    ////////////////////////////////////////////////////////////////
+    // Extra Cases by Jennifer - 17/8/19
+    ////////////////////////////////////////////////////////////////
+
+    /*If there is no legal move possible for Dracula he automagically Teleports to Castle Dracula as his MOVE*/
+
+    {
+        location_t connections[] = {TELEPORT};
+        testFramework("Test teleport case", "GED.... SGE.... HZU.... MCA.... DLE.V.. "
+                                            "GMN.... SCFVD.. HGE.... MLS.... DECT... "
+                                            "GLO.... SMR.... HCF.... MMA.... DLOT... "
+                                            "GPL.... SMS.... HMR.... MGR.... DMNT... "
+                                            "GLO.... SBATD.. HMS.... MMA.... DLVT... "
+                                            "GPL.... SSJ.... HBA.... MGR.... DSWT... "
+                                            "GPL.... SSJ.... HBA.... MGR....", (struct expectedData) {
+                .player = PLAYER_DRACULA,
+                .score = 342,
+                .round = 6,
+
+                .location = {PLYMOUTH, ST_JOSEPH_AND_ST_MARYS, BARCELONA, GRANADA, SWANSEA},
+                .history = {{PLYMOUTH,               PLYMOUTH,               LONDON,            PLYMOUTH,          LONDON,           MANCHESTER},
+                            {ST_JOSEPH_AND_ST_MARYS, ST_JOSEPH_AND_ST_MARYS, BARCELONA,         MEDITERRANEAN_SEA, MARSEILLES,       CLERMONT_FERRAND},
+                            {BARCELONA,              BARCELONA,              MEDITERRANEAN_SEA, MARSEILLES,        CLERMONT_FERRAND, GENEVA},
+                            {GRANADA,                GRANADA,                MARSEILLES,        GRANADA,           MARSEILLES,       LISBON},
+                            {SWANSEA,                LIVERPOOL,              MANCHESTER,        LONDON,            ENGLISH_CHANNEL,  LE_HAVRE}},
+                .health = {GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_BLOOD_POINTS},
+
+                .connections = connections,
+                .nConnections = 1,
+        });
+    }
+
+    return EXIT_SUCCESS;
+
+/*
+ {
+        location_t connections[] = {PLYMOUTH, ENGLISH_CHANNEL, LONDON};
+        testFramework("????????", "", (struct expectedData) {
+                .player = ???,
+                .score = ???,
+                .round = ???,
+
+                .location = {, , , , },
+                .history = {{,               ,               ,            ,          ,           },
+                            {, , ,         , ,       },
+                            {,              ,              , ,        , },
+                            {,                ,                ,        ,           ,       },
+                            {,             ,               ,        ,         ,         }},
+                .health = {GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS ,
+                           GAME_START_BLOOD_POINTS },
+
+                .connections = connections,
+                .nConnections = ???,
+        });
+    }
+*/
 }

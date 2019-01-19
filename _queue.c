@@ -55,6 +55,7 @@ void queue_en(Queue q, int item) {
         q->tail = new_tail;
     }
     q->size++;
+    printf("    Added location %d\n", item);
 
 }
 
@@ -75,7 +76,16 @@ int queue_de(Queue q) {
 
 // Appends and drops
 void queue_append(Queue q, Queue p) {
-    for (size_t i = 0; i < p->size; i++) queue_en(q, queue_de(p));
+    for (size_t i = 0; i < p->size; i++) {
+        int value = queue_de(p);
+
+        if (queue_contains(q, value)) {
+            printf("Location: %d is aready seen");
+            continue;
+        }
+        queue_en(q, value);
+
+    }
     queue_drop(p);
 }
 
@@ -99,3 +109,11 @@ void queue_drop(Queue q) {
 size_t queue_size(Queue q) {
     return q->size;
 }
+
+//
+
+bool queue_contains(Queue q, int value) {
+    for (qNode tmp = q->head; tmp != NULL; tmp = tmp->next) if (tmp->item == value) return true;
+    return false;
+}
+
