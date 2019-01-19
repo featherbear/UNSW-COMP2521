@@ -95,8 +95,8 @@ location_t dv_get_location(dracula_view *dv, enum player player) {
 void dv_get_player_move(dracula_view *dv, enum player player, location_t *start, location_t *end) {
     location_t *trail = malloc(sizeof(location_t) * TRAIL_SIZE);
     gv_get_history(dv->gv, player, trail);
-    *start = trail[0];
-    *end = trail[1];
+    *start = trail[1];
+    *end = trail[0];
     free(trail);
 }
 
@@ -114,7 +114,20 @@ void dv_get_locale_info(dracula_view *dv, location_t where, int *n_traps, int *n
 }
 
 void dv_get_trail(dracula_view *dv, enum player player, location_t trail[TRAIL_SIZE]) {
-    gv_get_history(dv->gv, player, trail);
+    if (player != PLAYER_DRACULA) {
+        gv_get_history(dv->gv, player, trail);
+        return;
+    }
+
+    // Get the current location of the player
+    dNode move = dv->gv->players[player].moves->tail;
+
+    // Get the most recent 6 locations into the array
+    for (int i = 0; i < TRAIL_SIZE; i++) {
+        // Need to check if the node exists (May be less than 6 moves played)
+        trail[i] = move ? resolveDraculaExtras(move) : -1;
+        if (move) move = move->prev;
+    }
 }
 
 location_t *dv_get_dests(dracula_view *dv, size_t *n_locations, bool road, bool sea) {
