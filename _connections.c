@@ -47,7 +47,6 @@ Queue connections_get_extras(GameView gv, location_t l, enum player player) {
 
         if (!location_in_trail(gv, player, HIDE) && gv_get_round(gv) != 0 && location_get_type(l) != SEA)
             queue_en(q, HIDE);
-//        if (gv->timers.hide == 0 && gv_get_round(gv) != 0 && location_get_type(l) != SEA) queue_en(q, HIDE);
 
         // Add rest as a move for hunters
     } else queue_en(q, l);
@@ -58,10 +57,9 @@ Queue connections_get_extras(GameView gv, location_t l, enum player player) {
 bool location_in_trail(GameView gv, enum player player, location_t loc) {
     location_t trail[TRAIL_SIZE];
     gv_get_history(gv, player, trail);
-    for (size_t i = 0; i < TRAIL_SIZE; i++) {
-//        printf("Checking if %d is in trail (%d)\n", loc, trail[i]);
+    for (size_t i = 0; i < TRAIL_SIZE; i++)
         if (trail[i] == loc) return true;
-    }
+
     return false;
 }
 
@@ -71,9 +69,9 @@ Queue connections_get_roadways(GameView gv, location_t l, enum player p, Map m) 
 
     for (map_adj *tmp = m->connections[l]; tmp != NULL; tmp = tmp->next) {
         if (tmp->type == ROAD) {
-            printf("road | Looking at %zu\n", tmp->v);
+            printf("Road | Looking at %zu\n", tmp->v);
             if (p == PLAYER_DRACULA) {
-                printf("  player is dracula\n");
+
                 // Can't visit the hospital and can't go back on trail (unless you call double_back)
                 if (tmp->v == HOSPITAL_LOCATION) continue;
 
@@ -83,7 +81,6 @@ Queue connections_get_roadways(GameView gv, location_t l, enum player p, Map m) 
             }
             queue_en(q, (int) tmp->v);
         }
-
     }
 
     return q;

@@ -150,7 +150,7 @@ GameView gv_new(char *past_plays, player_message messages[]) {
             } else if (strncmp(_locationStr, "HI", 2) == 0) {
                 lID = HIDE;
             } else if (strncmp(_locationStr, "TP", 2) == 0) {
-                lID = CASTLE_DRACULA;
+                lID = TELEPORT;
             } else if (_locationStr[0] == 'D') {
                 int doubleBack_distance = _locationStr[1] - '0';
                 assert(1 <= doubleBack_distance && doubleBack_distance <= 5);
@@ -313,6 +313,7 @@ int gv_get_health(GameView gv, enum player player) {
 }
 
 location_t gv_get_location(GameView gv, enum player player) {
+    if (gv->players[player].health <= 0) return HOSPITAL_LOCATION;
     return gv->players[player].moves->tail->item;
 }
 
