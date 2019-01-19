@@ -55,8 +55,6 @@ void queue_en(Queue q, int item) {
         q->tail = new_tail;
     }
     q->size++;
-    printf("    Added location %d\n", item);
-
 }
 
 // Returns the value and then frees the node
@@ -74,20 +72,30 @@ int queue_de(Queue q) {
     return tmp_value;
 }
 
-// Appends and drops
+// Appends, drops and also gets rid of repetitions
 void queue_append(Queue q, Queue p) {
-    for (size_t i = 0; i < p->size; i++) {
-        int value = queue_de(p);
-
-        if (queue_contains(q, value)) {
-            printf("Location: %d is aready seen");
+    for (qNode tmp = p->head; tmp != NULL; tmp = tmp->next) {
+        
+        if (queue_contains(q, tmp->item)) {
+            // printf("Location: %d is aready seen\n", tmp->item);
             continue;
         }
-        queue_en(q, value);
+        queue_en(q, tmp->item);
 
     }
     queue_drop(p);
 }
+
+
+// void queue_append_unique(Queue q, Queue p) {
+//     for (qNode tmp = p->head; tmp; tmp = tmp->next) {
+//         int value = queue_de(p);
+//         if (queue_contains(q, tmp->item)) continue;
+//         queue_en(q, value);
+//     }
+//     queue_drop(p);
+// }
+
 
 void queue_drop(Queue q) {
     if (q == NULL) return;

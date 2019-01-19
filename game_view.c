@@ -373,7 +373,7 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
     Queue extra_moves = connections_get_extras(gv, from, player);
     queue_append(validMoves, extra_moves);
 
-    // Consider the situtaion after piecing together informtation
+    // Consider the situation after piecing together information
     size_t queueSize = queue_size(validMoves);
 
     // If dracula doesn't have moves, it must teleport back to Castle Dracula
