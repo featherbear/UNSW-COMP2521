@@ -72,29 +72,20 @@ int queue_de(Queue q) {
     return tmp_value;
 }
 
-// Appends, drops and also gets rid of repetitions
+// Appends a queue to another
 void queue_append(Queue q, Queue p) {
-    for (qNode tmp = p->head; tmp != NULL; tmp = tmp->next) {
-        
-        if (queue_contains(q, tmp->item)) {
-            // printf("Location: %d is aready seen\n", tmp->item);
-            continue;
-        }
-        queue_en(q, tmp->item);
-
-    }
+    for (qNode tmp = p->head; tmp != NULL; tmp = tmp->next) queue_en(q, tmp->item);
     queue_drop(p);
 }
 
-
-// void queue_append_unique(Queue q, Queue p) {
-//     for (qNode tmp = p->head; tmp; tmp = tmp->next) {
-//         int value = queue_de(p);
-//         if (queue_contains(q, tmp->item)) continue;
-//         queue_en(q, value);
-//     }
-//     queue_drop(p);
-// }
+// Appends, drops and also gets rid of repetitions
+void queue_append_unique(Queue q, Queue p) {
+    for (qNode tmp = p->head; tmp != NULL; tmp = tmp->next) {
+        if (queue_contains(q, tmp->item)) continue;
+        queue_en(q, tmp->item);
+    }
+    queue_drop(p);
+}
 
 
 void queue_drop(Queue q) {

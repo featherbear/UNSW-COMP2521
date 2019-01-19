@@ -353,25 +353,25 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
     if (road) {
         puts("GETTING ROADS");
         Queue road_moves = connections_get_roadways(gv, from, player, m);
-        queue_append(validMoves, road_moves);
+        queue_append_unique(validMoves, road_moves);
     }
 
     if (rail) {
         puts("GETTING RAILS");
         assert(player != PLAYER_DRACULA);
         Queue rail_moves = connections_get_railways(from, player, m, round);
-        queue_append(validMoves, rail_moves);
+        queue_append_unique(validMoves, rail_moves);
     }
 
     if (sea) {
         puts("GETTING SEA");
         Queue sea_moves = connections_get_seaways(gv, from, player, m);
-        queue_append(validMoves, sea_moves);
+        queue_append_unique(validMoves, sea_moves);
     }
 
     // Consider extra moves
     Queue extra_moves = connections_get_extras(gv, from, player);
-    queue_append(validMoves, extra_moves);
+    queue_append_unique(validMoves, extra_moves);
 
     // Consider the situation after piecing together information
     size_t queueSize = queue_size(validMoves);
