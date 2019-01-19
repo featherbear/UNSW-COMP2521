@@ -765,30 +765,29 @@ int main(void) {
 
     {
         location_t connections[] = {TELEPORT};
-        testFramework("Test teleport case", "GVA.... SVR.... HAT.... MSA.... DLE.V.. "
-                                            "GVA.... SVR.... HAT.... MSA.... DECT... "
-                                            "GVA.... SVR.... HAT.... MSA.... DLOT... "
-                                            "GVA.... SVR.... HAT.... MSA.... DMNT... "
-                                            "GVA.... SVR.... HAT.... MSA.... DHILT.. "
-                                            "GVA.... SVR.... HAT.... MSA.... DLVT... "
-                                            "GVA.... SVR.... HAT.... MSA.... DSWT... "
-                                            "GVA.... SVR.... HAT.... MSA.... DD1T... "
+        testFramework("Test teleport case", "GVA.... SVR.... HAT.... MSA.... DBD.V.. "
+                                            "GVA.... SVR.... HAT.... MSA.... DKL.... "
+                                            "GVA.... SVR.... HAT.... MSA.... DGA.... "
+                                            "GVA.... SVR.... HAT.... MSA.... DBC.... "
+                                            "GVA.... SVR.... HAT.... MSA.... DD2.... "
+                                            "GVA.... SVR.... HAT.... MSA.... DCD.... "
+                                            "GVA.... SVR.... HAT.... MSA.... DHIT... "
                                             "GVA.... SVR.... HAT.... MSA....", (struct expectedData) {
                 .player = PLAYER_DRACULA,
-                .score = 345,
-                .round = 8,
+                .score = 346,
+                .round = 7,
 
-                .location = {VALONA, VARNA, ATHENS, SALONICA, DOUBLE_BACK_1},
-                .history = {{VALONA,        VALONA,   VALONA,    VALONA,   VALONA,     VALONA},
-                            {VARNA,         VARNA,    VARNA,     VARNA,    VARNA,      VARNA},
-                            {ATHENS,        ATHENS,   ATHENS,    ATHENS,   ATHENS,     ATHENS},
-                            {SALONICA,      SALONICA, SALONICA,  SALONICA, SALONICA,   SALONICA},
-                            {DOUBLE_BACK_1, SWANSEA,  LIVERPOOL, HIDE,     MANCHESTER, LONDON}},
+                .location = {VALONA, VARNA, ATHENS, SALONICA, HIDE},
+                .history = {{VALONA,   VALONA,         VALONA,        VALONA,    VALONA,   VALONA},
+                            {VARNA,    VARNA,          VARNA,         VARNA,     VARNA,    VARNA},
+                            {ATHENS,   ATHENS,         ATHENS,        ATHENS,    ATHENS,   ATHENS},
+                            {SALONICA, SALONICA,       SALONICA,      SALONICA,  SALONICA, SALONICA},
+                            {HIDE,     CASTLE_DRACULA, DOUBLE_BACK_2, BUCHAREST, GALATZ,   KLAUSENBURG}},
                 .health = {GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_BLOOD_POINTS - LIFE_LOSS_SEA},
+                           GAME_START_BLOOD_POINTS + 2 * LIFE_GAIN_CASTLE_DRACULA},
 
                 .connections = connections,
                 .nConnections = 1,

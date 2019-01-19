@@ -334,6 +334,10 @@ location_t *
 gv_get_connections(GameView gv, size_t *n_locations, location_t from, enum player player, round_t round, bool road,
                    bool rail, bool sea) {
 
+    if (round == gv->currRound && player == PLAYER_DRACULA) {
+        from = resolveDraculaExtras(gv->players[PLAYER_DRACULA].moves->tail);
+    }
+
     assert(valid_location_p(from));
     Queue validMoves = queue_new();
     location_t *loc;
