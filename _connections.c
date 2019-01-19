@@ -1,6 +1,7 @@
 // Created by Jennifer on 12/01/2019
 
 #include <assert.h>
+#include <stdio.h>
 
 // #include "game.h"
 // #include "game_view.h"
@@ -12,7 +13,7 @@
 #include "_connections.h"
 
 
-/* Adds the extra locations (HIDE, DOUBLE_BACK, REST) */
+/* Adds the extra locations (HIDE, DOUBLE_BACK, "rest" ) */
 Queue connections_get_extras (GameView gv, location_t l, enum player player)
 {
 
@@ -20,49 +21,40 @@ Queue connections_get_extras (GameView gv, location_t l, enum player player)
 
     // Extra moves for dracula
     if (player == PLAYER_DRACULA) {
-        switch (gv_get_round(gv))
-        {
-            case 0: break;
-            case 1: break;
+        switch (gv_get_round(gv)) {
+            default:
+                queue_en(q, DOUBLE_BACK_5);
+            case 5:
+                queue_en(q, DOUBLE_BACK_4);
+            case 4:
+                queue_en(q, DOUBLE_BACK_3);
+            case 3:
+                queue_en(q, DOUBLE_BACK_2);
             case 2:
                 queue_en(q, DOUBLE_BACK_1);
+            case 1:
+            case 0:
                 break;
-            case 3:
-                queue_en(q, DOUBLE_BACK_1);
-                queue_en(q, DOUBLE_BACK_2);
-                break;
-            case 4:
-                queue_en(q, DOUBLE_BACK_1);
-                queue_en(q, DOUBLE_BACK_2);
-                queue_en(q, DOUBLE_BACK_3);
-                break;
-            case 5:
-                queue_en(q, DOUBLE_BACK_1);
-                queue_en(q, DOUBLE_BACK_2);
-                queue_en(q, DOUBLE_BACK_3);
-                queue_en(q, DOUBLE_BACK_4);
-                break;
-            default:
-                queue_en(q, DOUBLE_BACK_1);
-                queue_en(q, DOUBLE_BACK_2);
-                queue_en(q, DOUBLE_BACK_3);
-                queue_en(q, DOUBLE_BACK_4);
-                queue_en(q, DOUBLE_BACK_5);
-                break;
-        };
+        }
 
-        if (gv->timers.hide == 0 && gv_get_round(gv) != 0) queue_en(q, HIDE);
+
+        if (!location_in_trail(gv, player, HIDE) && gv_get_round(gv) != 0 && location_get_type(l) != SEA) queue_en(q, HIDE);
+//        if (gv->timers.hide == 0 && gv_get_round(gv) != 0 && location_get_type(l) != SEA) queue_en(q, HIDE);
 
     // Add rest as a move for hunters
     } else queue_en(q, l);
 
+    printf("EXTRAS GAVE %d items\n", queue_size(q));
     return q;
 }
 
 bool location_in_trail(GameView gv, enum player player, location_t loc) {
     location_t trail[TRAIL_SIZE];
     gv_get_history(gv, player, trail);
-    for (size_t i = 0; i < TRAIL_SIZE; i++) if (trail[i] == loc) return true;
+    for (size_t i = 0; i < TRAIL_SIZE; i++) {
+        printf("Checking if %d is in trail (%d)\n", loc, trail[i]);
+        if (trail[i] == loc) return true;
+    }
     return false;
 }
 
@@ -73,20 +65,22 @@ Queue connections_get_roadways (GameView gv, location_t l, enum player p, Map m)
 
     for (map_adj *tmp = m->connections[l]; tmp != NULL; tmp = tmp->next) {
         if (tmp->type == ROAD) {
-
+            printf("road | Looking at %zu\n", tmp->v);
             if (p == PLAYER_DRACULA) {
-
+                printf("  player is dracula\n");
                 // Can't visit the hospital and can't go back on trail (unless you call double_back)
                 if (tmp->v == HOSPITAL_LOCATION) continue;
 
-                // Make sure it's not round 0
-                if (gv_get_round(gv) != 0)
-                    if  (location_in_trail(gv, p, tmp->v)) continue;
+                // Dracula can't stay in his trail
+                if (location_in_trail(gv, p, tmp->v)) continue;
+
             }
+            queue_en(q, (int)tmp->v);
         }
-        queue_en(q, (int)tmp->v);
-        printf("Added Road location: %zu\n", tmp->v);
+
     }
+
+    printf("ROAD GAVE %d items\n", queue_size(q));
     return q;
 }
 
@@ -101,15 +95,14 @@ Queue connections_get_railways (location_t l, enum player p, Map m, round_t roun
     Queue k;
 
     int sum = (int)round + (int)p;
-    map_adj *tmp = m->connections[l];
-    while (tmp != NULL)
-    {
+
+    for (map_adj *tmp = m->connections[l]; tmp; tmp= tmp->next) {
         if (tmp->type == RAIL) {
 
             switch (sum % 4)
             {
                 case 0: // CANNOT move by rail
-                    continue;
+                    return q; // continue;
 
                 case 1: // Can only move one station
                     break;
@@ -126,10 +119,10 @@ Queue connections_get_railways (location_t l, enum player p, Map m, round_t roun
             };
             queue_en(q, (int)tmp->v);
         }
-        tmp = tmp->next;
     }
 
     // Note: queue_append handles the queue dropping
+    printf("RAIL GAVE %d items\n", queue_size(q));
     return q;
 }
 
@@ -172,17 +165,16 @@ Queue connections_rail_bfs(location_t loc, Map m, int depth)
 
     return q;
 }
-
+//
 /* Helper function for BFS to enqueue items
  * Returns the number of nodes added to the queue */
 int connections_bfs_process(Queue q, int item, bool *hasBeenVisited, Map m)
 {
     int counter = 0;
 
-    map_adj *tmp = m->connections[item];
-    while (tmp != NULL) {
+    for (map_adj *tmp = m->connections[item]; tmp; tmp=tmp->next) {
 
-        if (tmp->type == RAIL && hasBeenVisited[(int)tmp->v] == false) {
+        if (tmp->type == RAIL && !hasBeenVisited[(int)tmp->v]) {
 
             queue_en(q, (int)tmp->v);
 
@@ -191,7 +183,6 @@ int connections_bfs_process(Queue q, int item, bool *hasBeenVisited, Map m)
             counter++;
 
         }
-        tmp = tmp->next;
     }
     return counter;
 }
@@ -201,11 +192,14 @@ int connections_bfs_process(Queue q, int item, bool *hasBeenVisited, Map m)
 Queue connections_get_seaways (GameView gv, location_t l, enum player p, Map m)
 {
     Queue q = queue_new();
-
     for (map_adj *tmp = m->connections[l]; tmp; tmp = tmp->next) {
-        if (tmp->type == BOAT) queue_en(q, (int)tmp->v);
+        if (tmp->type == BOAT) {
+            if (p == PLAYER_DRACULA && location_in_trail(gv, p, tmp->v)) continue;
+            queue_en(q, (int)tmp->v);
+        }
     }
 
+    printf("SEA GAVE %d items\n", queue_size(q));
     return q;
 }
 

@@ -52,8 +52,6 @@ static bool playerRested(GameView gv, enum player player) {
 }
 
 
-
-
 GameView gv_new(char *past_plays, player_message messages[]) {
     // TODO what to do with messages
 
@@ -68,7 +66,7 @@ GameView gv_new(char *past_plays, player_message messages[]) {
 
             .timers = {
                     .doubleBack = 0,
-                    .hide = 0,
+//                    .hide = 0,
                     .vampFlyTime = 0
             },
 
@@ -106,7 +104,6 @@ GameView gv_new(char *past_plays, player_message messages[]) {
 
         currPlayer_n = gv->currTurn % NUM_PLAYERS;
         gv->currPlayer = &gv->players[currPlayer_n];
-//        location_t lastLocation = gv_get_location(gv, currPlayer_n);
 
         // Resolve location
         char location[3] = {'\0'};
@@ -116,52 +113,41 @@ GameView gv_new(char *past_plays, player_message messages[]) {
 
         /* Location */
         if (lID == -1) {
-            if (player != 'D') {
-                puts("WHAT"); // uh what happened here...
-            } else {
-                if (strncmp(_locationStr, "C?", 2) == 0) {
-                    dlist_push(gv->currPlayer->moves, CITY_UNKNOWN);
-                } else if (strncmp(_locationStr, "S?", 2) == 0) {
-                    dlist_push(gv->currPlayer->moves, SEA_UNKNOWN);
-                } else if (strncmp(_locationStr, "HI", 2) == 0) {
-                    // TODO HIDE
-                    // dlist_push(gv->players[currPlayer_n].moves, CITY_UNKNOWN);
-                } else if (strncmp(_locationStr, "TP", 2) == 0) {
-                    dlist_push(gv->currPlayer->moves, CASTLE_DRACULA);
-                } else if (_locationStr[0] == 'D') {
-                    int doubleBack_distance = _locationStr[1] - '0';
-                    assert(1 <= doubleBack_distance && doubleBack_distance <= 5);
-                    // register move: HIDE + doubleBack_distance
-                    location_t move = 0;
-                    switch (doubleBack_distance) {
-                        case 1:
-                            move = DOUBLE_BACK_1;
-                            break;
-                        case 2:
-                            move = DOUBLE_BACK_2;
-                            break;
-                        case 3:
-                            move = DOUBLE_BACK_3;
-                            break;
-                        case 4:
-                            move = DOUBLE_BACK_4;
-                            break;
-                        case 5:
-                            move = DOUBLE_BACK_5;
-                            break;
-                    }
-
-                    dlist_push(gv->currPlayer->moves, move);
-
+            assert(currPlayer_n == PLAYER_DRACULA);
+            if (strncmp(_locationStr, "C?", 2) == 0) {
+                dlist_push(gv->currPlayer->moves, CITY_UNKNOWN);
+            } else if (strncmp(_locationStr, "S?", 2) == 0) {
+                dlist_push(gv->currPlayer->moves, SEA_UNKNOWN);
+            } else if (strncmp(_locationStr, "HI", 2) == 0) {
+                dlist_push(gv->players[currPlayer_n].moves, HIDE);
+            } else if (strncmp(_locationStr, "TP", 2) == 0) {
+                dlist_push(gv->currPlayer->moves, CASTLE_DRACULA);
+            } else if (_locationStr[0] == 'D') {
+                int doubleBack_distance = _locationStr[1] - '0';
+                assert(1 <= doubleBack_distance && doubleBack_distance <= 5);
+                // register move: HIDE + doubleBack_distance
+                location_t move = 0;
+                switch (doubleBack_distance) {
+                    case 1:
+                        move = DOUBLE_BACK_1;
+                        break;
+                    case 2:
+                        move = DOUBLE_BACK_2;
+                        break;
+                    case 3:
+                        move = DOUBLE_BACK_3;
+                        break;
+                    case 4:
+                        move = DOUBLE_BACK_4;
+                        break;
+                    case 5:
+                        move = DOUBLE_BACK_5;
+                        break;
                 }
+                dlist_push(gv->currPlayer->moves, move);
             }
-        } else {
-            // TODO If a player rests, does this get added to the trail
-            // A B C -> A B C C
-            // or
-            // A B C -> A B C
-            dlist_push(gv->currPlayer->moves, lID);
-        }
+        } else dlist_push(gv->currPlayer->moves, lID);
+
 
         printf("    Player `%c` @ `%s` (ID: %2d) | %s\n", player, location, lID, _event);
 
@@ -177,6 +163,7 @@ GameView gv_new(char *past_plays, player_message messages[]) {
 //                assert(gv->encounters.traps[lID] < 3);
                 // TODO Hunters might not know where the trap was placed
                 // g->encounters->unknown_traps++; ??
+                printf("Drac is at: %s\n", location);
                 gv->encounters.traps[lID]++;
             }
             if (_event[1] == 'V') {
@@ -262,7 +249,7 @@ GameView gv_new(char *past_plays, player_message messages[]) {
             // If at the end
             if (currPlayer_n == PLAYER_MINA_HARKER) {
                 bool research = true;
-                for (enum player i = 0; i < NUM_PLAYERS-1; i++) {
+                for (enum player i = 0; i < NUM_PLAYERS - 1; i++) {
                     if (!playerRested(gv, i)) research = false;
                 }
 
@@ -340,8 +327,9 @@ void gv_get_history(GameView gv, enum player player, location_t trail[TRAIL_SIZE
     }
 }
 
-
-location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from, enum player player, round_t round, bool road, bool rail, bool sea) {
+location_t *
+gv_get_connections(GameView gv, size_t *n_locations, location_t from, enum player player, round_t round, bool road,
+                   bool rail, bool sea) {
 
     Queue validMoves = queue_new();
     location_t *loc;
@@ -351,20 +339,17 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
 
     // Get all the connections
     if (road) {
-        puts("GETTING ROADS");
         Queue road_moves = connections_get_roadways(gv, from, player, m);
         queue_append_unique(validMoves, road_moves);
     }
 
     if (rail) {
-        puts("GETTING RAILS");
         assert(player != PLAYER_DRACULA);
         Queue rail_moves = connections_get_railways(from, player, m, round);
         queue_append_unique(validMoves, rail_moves);
     }
 
     if (sea) {
-        puts("GETTING SEA");
         Queue sea_moves = connections_get_seaways(gv, from, player, m);
         queue_append_unique(validMoves, sea_moves);
     }
@@ -379,7 +364,7 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
     // If dracula doesn't have moves, it must teleport back to Castle Dracula
     if (player == PLAYER_DRACULA && queueSize == 0) {
 
-        loc = malloc (1 * sizeof(location_t));
+        loc = malloc(1 * sizeof(location_t));
         loc[0] = TELEPORT;
 
         *n_locations = 1;
@@ -387,7 +372,7 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
     } else {
         // Put everything in the queue into the array
         loc = malloc(queueSize * sizeof(location_t));
-        for (size_t i = 0; i < queueSize; i++) loc[i] = (location_t)(size_t)queue_de(validMoves);
+        for (size_t i = 0; i < queueSize; i++) loc[i] = (location_t) (size_t) queue_de(validMoves);
         queue_drop(validMoves);
 
         *n_locations = queueSize;

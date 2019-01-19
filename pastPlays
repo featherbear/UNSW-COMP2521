@@ -1,23 +1,27 @@
 //////////////////////////////////////////////////////////////
 Samples from Game #0:
 
+// Tested
 GMN.... SPL.... HAM.... MPA.... DC?.V..
 Round 1: PLAYER_GODALMING (0) @ MANCHESTER; 4 locations: {MANCHESTER, EDINBURGH, LIVERPOOL, LONDON}
 
+// Tested
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV....
 Round 1: PLAYER_SEWARD (1) @ PLYMOUTH; 3 locations: {PLYMOUTH, LONDON, ENGLISH_CHANNEL}
 
+// Tested
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO....
 Round 1: PLAYER_VAN_HELSING (2) @ AMSTERDAM; 4 locations: {AMSTERDAM, NORTRTH_SEA, BRUSSELS, COLOGNE}
 
+// Tested
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO.... HNS....
-Round 1: PLAYER_MINA_HARKER (3) @ PARIS; 8 locations: {PARIS, GENEVA, CLERMONT_FERRAND, BORDEAUX, NANTES, LE_HAVRE, BRUSSELS, STRASBOURG}
+Round 1: PLAYER_MINA_HARKER (3) @ PARIS; 7 locations: {PARIS, GENEVA, CLERMONT_FERRAND, NANTES, LE_HAVRE, BRUSSELS, STRASBOURG}
 
 MN.... SPL.... HAM.... MPA.... DZU.V.. GLV.... SLO.... HNS.... MST....
-Round 1: PLAYER_DRACULA (4) @ ZURICH; 4 locations: {STRASBOURG, GENEVA, MILAN, MUNICH}
+Round 1: PLAYER_DRACULA (4) @ ZURICH; 5 locations: {STRASBOURG, GENEVA, MARCEILLES,  MILAN, MUNICH, HIDE}
 
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO.... HNS.... MST.... DC?T...
-Round 2: PLAYER_GODALMING (0) @ LIVERPOOL; 4 locations: {LIVERPOOL, SWANSEA, MANCHESTER, IRISH_SEA}
+Round 2: PLAYER_GODALMING (0) @ LIVERPOOL; 6 locations: {LIVERPOOL, SWANSEA, MANCHESTER, IRISH_SEA, EDINBURGH, LONDON}
 
 
 pastPlays string given to Seward:
@@ -27,6 +31,7 @@ Round 2: PLAYER_SEWARD (1) @ LONDON; 7 locations: {LONDON, MANCHESTER, EDINBURGH
 ////////////////////////////////////////////////////////////////
 Samples from Game #1:
 
+// Tested and works
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO.... HNS.... MST.... DC?T... GIR.... SPL.... HAO.... MZU.... DCDT... GSW.... SLO.... HNS.... MFR.... DC?T... GLV.... SPL.... HAO.... MZU.... DC?T... GSW.... SLO.... HNS....
 Round 5: PLAYER_MINA_HARKER (3) @ ZURICH; 6 locations: {STRASBOURG, MUNICH, MILAN, MARSEILLES, GENEVA, ZURICH}
 
@@ -55,17 +60,18 @@ Past Trail: {MADRID, ALICANTE, SARAGOSSA, BARCELONA, TOULOUSE, BORDEAUX, CLERMON
 
 ////////////////////////////////////////////////////////////////
 /*If there is no legal move possible for Dracula he automagically Teleports to Castle Dracula as his MOVE*/
+GVA.... SVR.... HAT.... MSA.... DLO.V..
+GVA.... SVR.... HAT.... MSA.... D(MANCHESTER)T...
+GVA.... SVR.... HAT.... MSA.... D(EDINBUR)T...
+GVA.... SVR.... HAT.... MSA.... D(MANCHESTER)T...
+GVA.... SVR.... HAT.... MSA.... D(HIDE)LT... // Does a HIDE
+GVA.... SVR.... HAT.... MSA.... D(LIVERPOOL)T...
+GVA.... SVR.... HAT.... MSA.... D(SWANSEA)T...
+GVA.... SVR.... HAT.... MSA.... D(LIVERPOOL)T... // Does a DOUBLE_BACK_2
+GVA.... SVR.... HAT.... MSA....
 
-Test case for getting stuck anywhere: // If it's not a dead end rip.. 
-GED.... SGE.... HZU.... MCA.... DLE.V..
-GMN.... SCFVD.. HGE.... MLS.... D(ENGLISH_CHANNEL)T...
-GLO.... SMR.... HCF.... MMA.... D(LONDON)T...
-GPL.... SMS.... HMR.... MGR.... D(MANCHESTER)T...
-GLO.... SBATD.. HMS.... MMA.... D(HIDE)LT... // Does a HIDE
-GPL.... SSJ.... HBA.... MGR.... D(LIVERPOOL)T...
-GPL.... SSJ.... HBA.... MGR.... D(SWANSEA)T...
-GPL.... SSJ.... HBA.... MGR.... D(LIVERPOOL)T... // Does a DOUBLE_BACK_2
-GPL.... SSJ.... HBA.... MGR....
+// String to use 
+"GVA.... SVR.... HAT.... MSA.... DLE.V.. GVA.... SVR.... HAT.... MSA.... DECT... GVA.... SVR.... HAT.... MSA.... DLOT... GVA.... SVR.... HAT.... MSA.... DMNT... GVA.... SVR.... HAT.... MSA.... DHILT... GVA.... SVR.... HAT.... MSA.... DLVT... GVA.... SVR.... HAT.... MSA.... DSWT... GVA.... SVR.... HAT.... MSA.... DD1T... GVA.... SVR.... HAT.... MSA...."
 
 Round 9: PLAYER_DRACULA (4) @ LIVERPOOL; 1 Locations; {TELEPORT}
 Past Trail: {LIVERPOOL, SWANSEA, LIVERPOOL, MANCHESTER, MANCHESTER, LONDON}
@@ -77,6 +83,9 @@ GVA.... SVR.... HAT.... MSA.... D(PARIS)T...
 GVA.... SVR.... HAT.... MSA.... D(NANTES)T... 
 GVA.... SVR.... HAT.... MSA.... 
 
+// String to use
+"GVA.... SVR.... HAT.... MSA.... DLE.V.. GVA.... SVR.... HAT.... MSA.... DPAT... GVA.... SVR.... HAT.... MSA.... DNAT... GVA.... SVR.... HAT.... MSA...."
+
 Round 3: PLAYER_DRACULA (4) @ NANTES; 7 locations: {HIDE, DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3, BORDEAUX, CLERMONT_FERRAND, BAY_OF_BISCAY}
 Past Trail: {NANTES, PARIS, LE_HAVRE, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}
 
@@ -87,6 +96,9 @@ GVA.... SVR.... HAT.... MSA.... D(PARIS)T...
 GVA.... SVR.... HAT.... MSA.... D(NANTES)T... 
 GVA.... SVR.... HAT.... MSA.... D(BAY_OF_BISCAY)T...
 GVA.... SVR.... HAT.... MSA....
+
+// String to use
+"GVA.... SVR.... HAT.... MSA.... DLE.V.. GVA.... SVR.... HAT.... MSA.... DPAT... GVA.... SVR.... HAT.... MSA.... DNAT... GVA.... SVR.... HAT.... MSA.... DBBT... GVA.... SVR.... HAT.... MSA...."
 
 Round 4: PLAYER_DRACULA (4) @ BAY_OF_BISCAY; locations: {DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3, BORDEAUX, SANTANDER}
 Past Trail: {BAY_OF_BISCAY, NANTES, PARIS, LE_HAVRE, UNKNOWN_LOCATION, UNKNOWN_LOCATION}
