@@ -34,35 +34,45 @@
 #define max(a, b) a>b?a:b
 #define min(a, b) a<b?a:b
 
-static bool playerRested(GameView gv, enum player player) {
-    assert(player != PLAYER_DRACULA);
+/* Checks whether a player (HUNTER) has rested */
+static bool playerRested(GameView gv, enum player p) {
 
-    //
-    dNode currNode = gv->players[player].moves->tail;
+    assert(p != PLAYER_DRACULA);
 
+    // Current location of Hunter (must exist so assert)
+    dNode currNode = gv->players[p].moves->tail;
     assert(currNode);
-
     location_t currLocation = currNode->item;
-    dNode prevNode = currNode->prev;
-    if (!prevNode) return false; // Player has not moved yet
 
+    // Previous location of Hunter (if it exists)
+    dNode prevNode = currNode->prev;
+    if (!prevNode) return false;
     location_t prevLocation = currNode->prev->item;
 
     return currLocation == prevLocation;
 }
 
+/* Takes in 'non-exact' moves and returns exactly where Dracula is*/
 static location_t resolveDraculaExtras(dNode draculaLocationNode) {
-    location_t draculaLocation = draculaLocationNode->item;
 
+
+    location_t draculaLocation = draculaLocationNode->item;
     while (!valid_location_p(draculaLocation)) {
+
+        // Find the exact location for DOUBLE_BACK_N
         if (DOUBLE_BACK_1 <= draculaLocation && draculaLocation <= DOUBLE_BACK_5) {
             for (int i = 0; i <= draculaLocationNode->item - DOUBLE_BACK_1; i++)
                 draculaLocationNode = draculaLocationNode->prev;
+
+        // Find the exact location for HIDE
         } else if (draculaLocation == HIDE) {
             draculaLocationNode = draculaLocationNode->prev;
         }
+
+        // J: Why is this written twice..? Does it need to be updated
         draculaLocation = draculaLocationNode->item;
 
+        // Find the exact location of UKNOWN and TELEs
         switch (draculaLocation) {
             case TELEPORT:
                 return CASTLE_DRACULA;
@@ -76,13 +86,17 @@ static location_t resolveDraculaExtras(dNode draculaLocationNode) {
     return draculaLocation;
 }
 
+/**
+ * Creates a new view to summarise the current state of the game.
+ * Plays start at index 0
+ * Not doing anything with msgs for now
+ */
 GameView gv_new(char *past_plays, player_message messages[]) {
-    // TODO what to do with messages
 
     GameView gv = malloc(sizeof *gv);
     if (gv == NULL) err(EX_OSERR, "couldn't allocate GameView");
 
-    // Initialise GameView
+    // Initialise GameView STRUCT
     (*gv) = (struct game_view) {
             .currTurn = 0,
             .currRound = 0,
@@ -100,6 +114,7 @@ GameView gv_new(char *past_plays, player_message messages[]) {
             }
     };
 
+    // Initialise PlayerInfo STRUCT
     for (size_t i = 0; i < NUM_PLAYERS; i++) {
         gv->players[i] = (playerInfo) {
                 .type = (enum player) (i == PLAYER_DRACULA ? PLAYER_DRACULA : i),
@@ -109,10 +124,8 @@ GameView gv_new(char *past_plays, player_message messages[]) {
         dlist_push(gv->players[i].moves, UNKNOWN_LOCATION);
     }
 
-
-    /*
-     * Parse past_plays
-     */
+    ////////////////////////////////////////////////////////////////
+    /* Parse past_plays */
     char *tmp_pastPlays, *cursor;
     char *moveStr;
 
@@ -129,7 +142,6 @@ GameView gv_new(char *past_plays, player_message messages[]) {
         char *_event = moveStr + 1 + 2;   // 3-6
 
 
-
         if (currPlayer_n != PLAYER_DRACULA && gv->currPlayer->health <= 0) {
             gv->currPlayer->health = GAME_START_HUNTER_LIFE_POINTS;
         }
@@ -140,8 +152,11 @@ GameView gv_new(char *past_plays, player_message messages[]) {
 
         location_t lID = location_find_by_abbrev(location);
 
+        ////////////////////////////////////////////////////////////////
         /* Location */
         if (lID == -1) {
+
+            // Possible moves for DRACULA:{UNKNUNKNOWN_CITY, UNKNOWN_SEA, HIDE, TELEPORT, DOUBLE_BACK_N}
             assert(currPlayer_n == PLAYER_DRACULA);
             if (strncmp(_locationStr, "C?", 2) == 0) {
                 lID = CITY_UNKNOWN;
@@ -154,7 +169,6 @@ GameView gv_new(char *past_plays, player_message messages[]) {
             } else if (_locationStr[0] == 'D') {
                 int doubleBack_distance = _locationStr[1] - '0';
                 assert(1 <= doubleBack_distance && doubleBack_distance <= 5);
-                // register move: HIDE + doubleBack_distance
                 switch (doubleBack_distance) {
                     case 1:
                         lID = DOUBLE_BACK_1;
@@ -180,13 +194,13 @@ GameView gv_new(char *past_plays, player_message messages[]) {
 
         printf("    Player `%c` @ `%s` (%2d) | HP: %d | %s\n", player, location, lID, gv->currPlayer->health, _event);
 
+        ////////////////////////////////////////////////////////////////
         /* Action */
         if (player == 'D') assert(currPlayer_n == PLAYER_DRACULA);
 
+        // Dracula ACTIONS: `T` && `V` && `M`; Trap, Vamp, Maturation
         if (currPlayer_n == PLAYER_DRACULA) {
-//            assert(lID <= NUM_MAP_LOCATIONS);
 
-            // dracula
             if (_event[0] == 'T') {
                 // TODO Hunters might not know where the trap was placed
                 if (valid_location_p(lID)) gv->encounters.traps[lID]++;
@@ -198,7 +212,6 @@ GameView gv_new(char *past_plays, player_message messages[]) {
                 assert(gv->timers.vampFlyTime == 0);
 
                 // TODO Hunters might not know where the vamp was placed
-
                 gv->encounters.vamp_location = lID;
 
                 gv->timers.vampFlyTime = 6; // or 7
@@ -216,22 +229,21 @@ GameView gv_new(char *past_plays, player_message messages[]) {
 
                 event_encounter_vamp(gv);
             }
+
+        // Hunter ACTIONS: `T` && `V` && `D`; Trap, Vamp, Drac
         } else {
-            // hunter
+
             bool isAlive = true;
             while (*_event != '.' && *_event != '\0' && isAlive) {
                 switch (*_event) {
                     case 'T':
-                        // Encountered a trap
 //                        assert(gv->encounters.traps[lID] > 0);
                         isAlive = event_encounter_trap(gv, currPlayer_n, lID);
                         break;
                     case 'V':
-                        // Remove vamp
                         event_remove_vamp(gv);
                         break;
                     case 'D':
-                        // Encounter dracula
                         isAlive = event_encounter_dracula(gv, currPlayer_n);
                         break;
                 }
@@ -239,35 +251,42 @@ GameView gv_new(char *past_plays, player_message messages[]) {
             }
         }
 
+        ////////////////////////////////////////////////////////////////
+        /* Update Struct Info */
 
+        // Dracula needs to update: Timers, Health, Score
         if (currPlayer_n == PLAYER_DRACULA) {
-            // end of round
+
+            // Update Timers
             if (gv->timers.vampFlyTime && --gv->timers.vampFlyTime == 0) event_encounter_vamp(gv);
             if (gv->timers.hide) --gv->timers.hide;
             if (gv->timers.doubleBack) --gv->timers.doubleBack;
 
-            // Also end of dracula's turn, take 2 damage
+            // Ghe exact location
             dNode draculaLocationNode = gv->currPlayer->moves->tail;
             location_t draculaLocation = resolveDraculaExtras(draculaLocationNode);
 
+            // Update Health: Loses 2 health everytime Drac is at sea
             if ((valid_location_p(draculaLocation) && location_get_type(draculaLocation) == SEA)
                 || draculaLocation == SEA_UNKNOWN)
                 event_player_hurt(gv, PLAYER_DRACULA, LIFE_LOSS_SEA);
 
             else if (draculaLocation == CASTLE_DRACULA) event_player_heal(gv, PLAYER_DRACULA, LIFE_GAIN_CASTLE_DRACULA);
-            // The score decreases by 1 each time Dracula finishes a turn.
+
+            // Update Score: decreases by 1 each time Dracula finishes a turn.
             gv->score -= SCORE_LOSS_DRACULA_TURN;
             gv->currRound++;
-        } else {
-            // Player
 
-            // If the current player rested (stayed in the same city), then heal
+        // Hunters need to update: Health
+         } else {
+
+            // Update Health: A resting player (stayed in the same city) gains 3 health
             if (playerRested(gv, currPlayer_n)) {
                 event_player_heal(gv, currPlayer_n, LIFE_GAIN_REST);
             }
         }
 
-
+        // Update currPlayer
         currPlayer_n = ++gv->currTurn % NUM_PLAYERS;
         gv->currPlayer = &gv->players[currPlayer_n];
     }
@@ -284,8 +303,9 @@ GameView gv_new(char *past_plays, player_message messages[]) {
 //    printf_yellow("    SCORE: %d\n", gv_get_score(gv));
 //    printf_blue("------------SUMMARY------------\n\n\n");
 
+    ////////////////////////////////////////////////////////////////
+    /* Memory Management */
     free(tmp_pastPlays);
-
     return gv;
 }
 
@@ -312,6 +332,8 @@ int gv_get_health(GameView gv, enum player player) {
     return gv->players[player].health;
 }
 
+/* Get the current location a given player is at
+ * Needs to account for whether they're at the hospital or not (Not in TRAIL) */
 location_t gv_get_location(GameView gv, enum player player) {
     if (gv->players[player].health <= 0) return HOSPITAL_LOCATION;
     return gv->players[player].moves->tail->item;
@@ -333,9 +355,10 @@ location_t *
 gv_get_connections(GameView gv, size_t *n_locations, location_t from, enum player player, round_t round, bool road,
                    bool rail, bool sea) {
 
-    if (round == gv->currRound && player == PLAYER_DRACULA) {
+    // Need to find the exact location
+    if (round == gv->currRound && player == PLAYER_DRACULA)
         from = resolveDraculaExtras(gv->players[PLAYER_DRACULA].moves->tail);
-    }
+
 
     assert(valid_location_p(from));
     Queue validMoves = queue_new();
@@ -344,7 +367,7 @@ gv_get_connections(GameView gv, size_t *n_locations, location_t from, enum playe
     // TODO Isolate
     Map m = map_new();
 
-    // Get all the connections
+    // Get all the connections: {ROAD, RAIL, SEA}
     if (road) {
         Queue road_moves = connections_get_roadways(gv, from, player, m);
         queue_append_unique(validMoves, road_moves);
@@ -365,25 +388,21 @@ gv_get_connections(GameView gv, size_t *n_locations, location_t from, enum playe
     Queue extra_moves = connections_get_extras(gv, from, player);
     queue_append_unique(validMoves, extra_moves);
 
-    // Consider the situation after piecing together information
+    // If dracula doesn't have moves,  must teleport back to Castle Dracula
     size_t queueSize = queue_size(validMoves);
-
-    // If dracula doesn't have moves, it must teleport back to Castle Dracula
     if (player == PLAYER_DRACULA && queueSize == 0) {
-
         loc = malloc(1 * sizeof(location_t));
         loc[0] = TELEPORT;
-
         *n_locations = 1;
 
+    // Put everything in the queue into the array
     } else {
-        // Put everything in the queue into the array
         loc = malloc(queueSize * sizeof(location_t));
         for (size_t i = 0; i < queueSize; i++) loc[i] = (location_t) (size_t) queue_de(validMoves);
-
         *n_locations = queueSize;
     }
 
+    // Memory Management
     queue_drop(validMoves);
     map_drop(m);
 

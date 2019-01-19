@@ -1,5 +1,5 @@
 //
-// Created by Andrew on 17/01/2019.
+// Created by Jennifer on 12/01/2019.
 //
 
 #include "_queue.h"
@@ -7,6 +7,8 @@
 #include <stdlib.h>
 
 typedef struct queue_node *qNode;
+
+///
 
 struct queue_container {
     qNode head;
@@ -19,19 +21,15 @@ struct queue_node {
     qNode next;
 };
 
+///
+
+/* Create a new node */
 static qNode node_new(int item);
 
+///
 
-static qNode node_new(int item) {
-    qNode new = malloc(sizeof(*new));
-    assert(new != NULL);
-    (*new) = (struct queue_node) {
-            .next = NULL,
-            .item = item,
-    };
-    return new;
-}
 
+/* Create a new queue */
 Queue queue_new(void) {
     Queue
     new = malloc(sizeof(*new));
@@ -43,6 +41,18 @@ Queue queue_new(void) {
     return new;
 }
 
+/* Creates a new node */
+static qNode node_new(int item) {
+    qNode new = malloc(sizeof(*new));
+    assert(new != NULL);
+    (*new) = (struct queue_node) {
+            .next = NULL,
+            .item = item,
+    };
+    return new;
+}
+
+/* Enqueue an item */
 void queue_en(Queue q, int item) {
     assert(q != NULL);
     // Check that the queue isn't empty
@@ -57,7 +67,10 @@ void queue_en(Queue q, int item) {
     q->size++;
 }
 
-// Returns the value and then frees the node
+
+
+/* Dequeue an item
+ * Returns the value of the node */
 int queue_de(Queue q) {
     assert(q != NULL);
     assert(q->size != 0);
@@ -72,13 +85,16 @@ int queue_de(Queue q) {
     return tmp_value;
 }
 
-// Appends a queue to another
-void queue_append(Queue q, Queue p) {
-    for (qNode tmp = p->head; tmp != NULL; tmp = tmp->next) queue_en(q, tmp->item);
-    queue_drop(p);
-}
+// TODO: 200% Sure we don't need this function but I'll just keep it here anyways
+// // Appends a queue to another
+// void queue_append(Queue q, Queue p) {
+//     for (qNode tmp = p->head; tmp != NULL; tmp = tmp->next) queue_en(q, tmp->item);
+//     queue_drop(p);
+// }
 
-// Appends, drops and also gets rid of repetitions
+/* Appends Queue `p` to Queue `q`
+ * Drops Queue `p`
+ * Also manages the queue so that there are no repetitions */
 void queue_append_unique(Queue q, Queue p) {
     for (qNode tmp = p->head; tmp != NULL; tmp = tmp->next) {
         if (queue_contains(q, tmp->item)) continue;
@@ -87,7 +103,18 @@ void queue_append_unique(Queue q, Queue p) {
     queue_drop(p);
 }
 
+/* Checks whether a value is already within a given Queue `q` */
+bool queue_contains(Queue q, int value) {
+    for (qNode tmp = q->head; tmp != NULL; tmp = tmp->next) if (tmp->item == value) return true;
+    return false;
+}
 
+/* Finds and returns the size of the queue */
+size_t queue_size(Queue q) {
+    return q->size;
+}
+
+/* Drops an entire queue */
 void queue_drop(Queue q) {
     if (q == NULL) return;
     if (q->size == 0) {
@@ -101,18 +128,5 @@ void queue_drop(Queue q) {
         tmp = tmp_next;
     }
     free(q);
-}
-
-
-// Size of queue
-size_t queue_size(Queue q) {
-    return q->size;
-}
-
-//
-
-bool queue_contains(Queue q, int value) {
-    for (qNode tmp = q->head; tmp != NULL; tmp = tmp->next) if (tmp->item == value) return true;
-    return false;
 }
 

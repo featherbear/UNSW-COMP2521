@@ -48,15 +48,18 @@ Queue connections_get_extras(GameView gv, location_t l, enum player player) {
         if (!location_in_trail(gv, player, HIDE) && gv_get_round(gv) != 0 && location_get_type(l) != SEA)
             queue_en(q, HIDE);
 
-        // Add rest as a move for hunters
     } else queue_en(q, l);
 
     return q;
 }
 
+/* Checks if a location is in a player's trail */
 bool location_in_trail(GameView gv, enum player player, location_t loc) {
+
     location_t trail[TRAIL_SIZE];
     gv_get_history(gv, player, trail);
+
+    // Do an iterative check (OR DID I MEAN iNTErAcTiVe ydwy)
     for (size_t i = 0; i < TRAIL_SIZE; i++)
         if (trail[i] == loc) return true;
 
@@ -72,10 +75,10 @@ Queue connections_get_roadways(GameView gv, location_t l, enum player p, Map m) 
             printf("Road | Looking at %zu\n", tmp->v);
             if (p == PLAYER_DRACULA) {
 
-                // Can't visit the hospital and can't go back on trail (unless you call double_back)
+                // Dracula can't visit the hospital..
                 if (tmp->v == HOSPITAL_LOCATION) continue;
 
-                // Dracula can't stay in his trail
+                // ..and can't stay in his trail
                 if (location_in_trail(gv, p, tmp->v)) continue;
 
             }
@@ -87,8 +90,7 @@ Queue connections_get_roadways(GameView gv, location_t l, enum player p, Map m) 
 }
 
 
-/* Finds all the rail connections possible
- * Returns an array of all possible rail connnections */
+/* Finds all the rail connections possible */
 Queue connections_get_railways(location_t l, enum player p, Map m, round_t round) {
     assert(p != PLAYER_DRACULA);
 
@@ -102,7 +104,7 @@ Queue connections_get_railways(location_t l, enum player p, Map m, round_t round
 
             switch (sum % 4) {
                 case 0: // CANNOT move by rail
-                    return q; // continue;
+                    return q;
 
                 case 1: // Can only move one station
                     break;
@@ -126,6 +128,7 @@ Queue connections_get_railways(location_t l, enum player p, Map m, round_t round
 
 /* Helper Function to find possible rail paths using BFS */
 Queue connections_rail_bfs(location_t loc, Map m, int depth) {
+
     // Keep track of what's been visited
     bool hasBeenVisited[NUM_MAP_LOCATIONS] = {false};
     hasBeenVisited[loc] = true;
@@ -161,7 +164,8 @@ Queue connections_rail_bfs(location_t loc, Map m, int depth) {
 
     return q;
 }
-//
+
+
 /* Helper function for BFS to enqueue items
  * Returns the number of nodes added to the queue */
 int connections_bfs_process(Queue q, int item, bool *hasBeenVisited, Map m) {
@@ -182,11 +186,11 @@ int connections_bfs_process(Queue q, int item, bool *hasBeenVisited, Map m) {
     return counter;
 }
 
-/* Finds all sea connections available
- * Returns array of all possible sea/boat connections */
+/* Finds all sea connections available */
 Queue connections_get_seaways(GameView gv, location_t l, enum player p, Map m) {
     Queue q = queue_new();
     for (map_adj *tmp = m->connections[l]; tmp; tmp = tmp->next) {
+
         if (tmp->type == BOAT) {
             if (p == PLAYER_DRACULA && location_in_trail(gv, p, tmp->v)) continue;
             queue_en(q, (int) tmp->v);

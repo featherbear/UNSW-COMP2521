@@ -6,6 +6,19 @@
 #include <assert.h>
 #include <stdlib.h>
 
+/* Creates a new dlist */
+dList dlist_new(void) {
+    dList
+    new = malloc(sizeof(*new));
+    (*new) = (struct dlist_container) {
+            .size = 0,
+            .head = NULL,
+            .tail = NULL
+    };
+    return new;
+}
+
+/* Creates a new dlist node */
 dNode dlist_node_new(int item) {
     dNode
     new = malloc(sizeof(*new));
@@ -18,6 +31,7 @@ dNode dlist_node_new(int item) {
     return new;
 }
 
+/* Adds a new item to the lsit */
 void dlist_push(dList list, int item) {
     dNode *headPtr = &(list->head);
     dNode *tailPtr = &(list->tail);
@@ -34,17 +48,7 @@ void dlist_push(dList list, int item) {
     list->size++;
 }
 
-dList dlist_new(void) {
-    dList
-    new = malloc(sizeof(*new));
-    (*new) = (struct dlist_container) {
-            .size = 0,
-            .head = NULL,
-            .tail = NULL
-    };
-    return new;
-}
-
+/* Deltes the list */
 void dlist_destroy(dList list) {
     for (dNode node = list->head; node;) {
         dNode node_next = node->next;

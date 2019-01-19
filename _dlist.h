@@ -2,6 +2,8 @@
 //
 //
 
+// Note: Dlist is used to store each player's trails while queues were used for getting connections
+
 #ifndef ASS02_DLIST_H
 #define ASS02_DLIST_H
 
@@ -23,14 +25,19 @@ struct dlist_container {
     size_t size;
 };
 
-
-
-//typedef struct dlist_node *dNode;
-//typedef struct dlist_container *dList;
-
-dNode dlist_node_new(int item);
-void dlist_push(dList list, int item);
+/* Creates a new dList */
 dList dlist_new(void);
+
+/* Creates a new dNode */
+dNode dlist_node_new(int item);
+
+/* Adds a new item onto the list */
+void dlist_push(dList list, int item);
+
+/* Drops a dlist for us */
 void dlist_destroy(dList list);
+
+
+
 
 #endif //ASS02_DLIST_H

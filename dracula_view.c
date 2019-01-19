@@ -124,6 +124,7 @@ void dv_get_trail(dracula_view *dv, enum player player, location_t trail[TRAIL_S
 
     // Get the most recent 6 locations into the array
     for (int i = 0; i < TRAIL_SIZE; i++) {
+
         // Need to check if the node exists (May be less than 6 moves played)
         trail[i] = move ? resolveDraculaExtras(move) : -1;
         if (move) move = move->prev;
@@ -138,22 +139,6 @@ location_t *dv_get_dests(dracula_view *dv, size_t *n_locations, bool road, bool 
                               PLAYER_DRACULA, dv_get_round(dv), road, rail, sea);
 }
 
-/**
-
- *
- * The array can be in any order but must contain unique entries.
- * The array size is stored at the variable referenced by `n_locations`.
- * The current location should be included in the array.
- *
- * Road or sea connections should only be considered
- * if the `road` or `sea` parameters are true, respectively.
- *
- * The array should not include the hospital (where Dracula cannot go),
- * nor any locations only reachable by rail (which Dracula cannot use).
- * The set of possible locations must be consistent with the rules on
- * Dracula's movement (e.g. can't move to a location currently in his
- * trail).
- */
 location_t *dv_get_dests_player(dracula_view *dv, size_t *n_locations, enum player player,
                                 bool road, bool rail, bool sea) {
     assert(dv);
