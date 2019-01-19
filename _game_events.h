@@ -44,10 +44,12 @@ bool event_player_hurt(GameView gv, enum player player, int damage) {
     int *health = &gv->players[player].health;
 
     *health -= damage;
+
     printf_red("> Player %d took %d damage! (HP: %d)\n", player, damage, *health);
 
     if (player != PLAYER_DRACULA) {
         if (*health <= 0) {
+            *health = 0;
             result = false;
             gv->score -= SCORE_LOSS_HUNTER_HOSPITAL;
             printf_yellow("> Player %d dun guf. he ded. rip m9\n", player);
