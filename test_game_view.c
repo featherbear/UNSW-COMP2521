@@ -120,6 +120,7 @@ static inline void testFramework(char *title, char *trail, struct expectedData e
                                                      exp.round,
                                                      true, exp.player != PLAYER_DRACULA, true);
         TEST(arraysEqual(nConnections, connections, exp.nConnections, exp.connections));
+        free(connections);
         O();
     }
 

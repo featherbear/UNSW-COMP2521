@@ -63,6 +63,14 @@ Past Trail: {MADRID, ALICANTE, SARAGOSSA, BARCELONA, TOULOUSE, BORDEAUX, CLERMON
 
 ////////////////////////////////////////////////////////////////
 /*If there is no legal move possible for Dracula he automagically Teleports to Castle Dracula as his MOVE*/
+
+/*
+
+{HIDE,     CASTLE_DRACULA, DOUBLE_BACK_2, BUCHAREST, GALATZ,   KLAUSENBURG}},
+
+*/
+
+
 GVA.... SVR.... HAT.... MSA.... DLO.V..
 GVA.... SVR.... HAT.... MSA.... D(MANCHESTER)T...
 GVA.... SVR.... HAT.... MSA.... D(EDINBUR)T...

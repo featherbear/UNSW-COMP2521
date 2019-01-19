@@ -29,6 +29,33 @@ typedef struct dracula_view {
 
 } dracula_view;
 
+
+static location_t resolveDraculaExtras(dNode draculaLocationNode) {
+    location_t draculaLocation = draculaLocationNode->item;
+
+    while (!valid_location_p(draculaLocation)) {
+        if (DOUBLE_BACK_1 <= draculaLocation && draculaLocation <= DOUBLE_BACK_5) {
+            for (int i = 0; i <= draculaLocationNode->item - DOUBLE_BACK_1; i++)
+                draculaLocationNode = draculaLocationNode->prev;
+        } else if (draculaLocation == HIDE) {
+            draculaLocationNode = draculaLocationNode->prev;
+        }
+        draculaLocation = draculaLocationNode->item;
+
+        switch (draculaLocation) {
+            case TELEPORT:
+                return CASTLE_DRACULA;
+            case CITY_UNKNOWN:
+            case SEA_UNKNOWN:
+            case UNKNOWN_LOCATION:
+                return draculaLocation;
+        }
+    }
+
+    return draculaLocation;
+}
+
+
 dracula_view *dv_new(char *past_plays, player_message messages[]) {
     dracula_view *
     new = malloc(sizeof *new);
@@ -59,6 +86,9 @@ int dv_get_health(dracula_view *dv, enum player player) {
 }
 
 location_t dv_get_location(dracula_view *dv, enum player player) {
+    if (player == PLAYER_DRACULA) {
+        return resolveDraculaExtras(dv->gv->currPlayer->moves->tail);
+    }
     return gv_get_location(dv->gv, player);
 }
 

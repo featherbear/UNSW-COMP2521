@@ -118,7 +118,9 @@ GameView gv_new(char *past_plays, player_message messages[]) {
 
     tmp_pastPlays = cursor = strdup(past_plays);
 
-    enum player currPlayer_n = 0;
+    enum player currPlayer_n = gv->currTurn % NUM_PLAYERS;
+    gv->currPlayer = &gv->players[currPlayer_n];
+
     while ((moveStr = strsep(&cursor, " "))) {
         if (strlen(moveStr) != 7) break;
 
@@ -126,8 +128,7 @@ GameView gv_new(char *past_plays, player_message messages[]) {
         char *_locationStr = moveStr + 1; // 1-2
         char *_event = moveStr + 1 + 2;   // 3-6
 
-        currPlayer_n = gv->currTurn % NUM_PLAYERS;
-        gv->currPlayer = &gv->players[currPlayer_n];
+
 
         if (currPlayer_n != PLAYER_DRACULA && gv->currPlayer->health <= 0) {
             gv->currPlayer->health = GAME_START_HUNTER_LIFE_POINTS;
@@ -247,9 +248,7 @@ GameView gv_new(char *past_plays, player_message messages[]) {
 
             // Also end of dracula's turn, take 2 damage
             dNode draculaLocationNode = gv->currPlayer->moves->tail;
-            puts("RESOLVE START");
             location_t draculaLocation = resolveDraculaExtras(draculaLocationNode);
-            puts("RESOLVE DONE");
 
             if ((valid_location_p(draculaLocation) && location_get_type(draculaLocation) == SEA)
                 || draculaLocation == SEA_UNKNOWN)
@@ -268,7 +267,9 @@ GameView gv_new(char *past_plays, player_message messages[]) {
             }
         }
 
-        gv->currTurn++;
+
+        currPlayer_n = ++gv->currTurn % NUM_PLAYERS;
+        gv->currPlayer = &gv->players[currPlayer_n];
     }
 
 //    // Game summary
@@ -312,9 +313,6 @@ int gv_get_health(GameView gv, enum player player) {
 }
 
 location_t gv_get_location(GameView gv, enum player player) {
-//    if (player == PLAYER_DRACULA) {
-//        return resolveDraculaExtras(gv->players[player].moves->tail);
-//    }
     return gv->players[player].moves->tail->item;
 }
 
@@ -381,13 +379,12 @@ gv_get_connections(GameView gv, size_t *n_locations, location_t from, enum playe
         // Put everything in the queue into the array
         loc = malloc(queueSize * sizeof(location_t));
         for (size_t i = 0; i < queueSize; i++) loc[i] = (location_t) (size_t) queue_de(validMoves);
-        queue_drop(validMoves);
 
         *n_locations = queueSize;
     }
 
+    queue_drop(validMoves);
     map_drop(m);
-
 
     return loc;
 }
