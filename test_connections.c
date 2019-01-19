@@ -49,7 +49,7 @@ int main() {
         printf("The Round is: %d\n", gv_get_round(gv));
         from = location_find_by_abbrev("ZU");
         l = gv_get_connections(gv, &n_loc, from, p, gv_get_round(gv), true, false, true);
-        puts("Round 1: PLAYER_DRACULA (4) @ ZURICH; 5 locations: {STRASBOURG, GENEVA, MILAN, MUNICH, HIDE}");
+        puts("Round 1: PLAYER_DRACULA (4) @ ZURICH; 5 locations: {STRASBOURG, GENEVA, MILAN, MUNICH, HIDE, MECEILLES}");
         get_connections_str(l, n_loc);
         printf("Number of generated locations: %d\nNumber of actual locations: 4\n", n_loc);
         free(l);

@@ -51,6 +51,30 @@ static bool playerRested(GameView gv, enum player player) {
     return currLocation == prevLocation;
 }
 
+static location_t resolveDraculaExtras(dNode draculaLocationNode) {
+    location_t draculaLocation = draculaLocationNode->item;
+
+    while (!valid_location_p(draculaLocation)) {
+        if (DOUBLE_BACK_1 <= draculaLocation && draculaLocation <= DOUBLE_BACK_5) {
+            for (int i = 0; i <= draculaLocationNode->item - DOUBLE_BACK_1; i++)
+                draculaLocationNode = draculaLocationNode->prev;
+        } else if (draculaLocation == HIDE) {
+            draculaLocationNode = draculaLocationNode->prev;
+        }
+        draculaLocation = draculaLocationNode->item;
+
+        switch (draculaLocation) {
+            case TELEPORT:
+                return CASTLE_DRACULA;
+            case CITY_UNKNOWN:
+            case SEA_UNKNOWN:
+            case UNKNOWN_LOCATION:
+                return draculaLocation;
+        }
+    }
+
+    return draculaLocation;
+}
 
 GameView gv_new(char *past_plays, player_message messages[]) {
     // TODO what to do with messages
@@ -105,6 +129,10 @@ GameView gv_new(char *past_plays, player_message messages[]) {
         currPlayer_n = gv->currTurn % NUM_PLAYERS;
         gv->currPlayer = &gv->players[currPlayer_n];
 
+        if (currPlayer_n != PLAYER_DRACULA && gv->currPlayer->health <= 0) {
+            gv->currPlayer->health = GAME_START_HUNTER_LIFE_POINTS;
+        }
+
         // Resolve location
         char location[3] = {'\0'};
         memcpy(location, _locationStr, 2);
@@ -115,57 +143,54 @@ GameView gv_new(char *past_plays, player_message messages[]) {
         if (lID == -1) {
             assert(currPlayer_n == PLAYER_DRACULA);
             if (strncmp(_locationStr, "C?", 2) == 0) {
-                dlist_push(gv->currPlayer->moves, CITY_UNKNOWN);
+                lID = CITY_UNKNOWN;
             } else if (strncmp(_locationStr, "S?", 2) == 0) {
-                dlist_push(gv->currPlayer->moves, SEA_UNKNOWN);
+                lID = SEA_UNKNOWN;
             } else if (strncmp(_locationStr, "HI", 2) == 0) {
-                dlist_push(gv->players[currPlayer_n].moves, HIDE);
+                lID = HIDE;
             } else if (strncmp(_locationStr, "TP", 2) == 0) {
-                dlist_push(gv->currPlayer->moves, CASTLE_DRACULA);
+                lID = CASTLE_DRACULA;
             } else if (_locationStr[0] == 'D') {
                 int doubleBack_distance = _locationStr[1] - '0';
                 assert(1 <= doubleBack_distance && doubleBack_distance <= 5);
                 // register move: HIDE + doubleBack_distance
-                location_t move = 0;
                 switch (doubleBack_distance) {
                     case 1:
-                        move = DOUBLE_BACK_1;
+                        lID = DOUBLE_BACK_1;
                         break;
                     case 2:
-                        move = DOUBLE_BACK_2;
+                        lID = DOUBLE_BACK_2;
                         break;
                     case 3:
-                        move = DOUBLE_BACK_3;
+                        lID = DOUBLE_BACK_3;
                         break;
                     case 4:
-                        move = DOUBLE_BACK_4;
+                        lID = DOUBLE_BACK_4;
                         break;
                     case 5:
-                        move = DOUBLE_BACK_5;
+                        lID = DOUBLE_BACK_5;
                         break;
                 }
-                dlist_push(gv->currPlayer->moves, move);
             }
-        } else dlist_push(gv->currPlayer->moves, lID);
+        }
+
+        dlist_push(gv->currPlayer->moves, lID);
 
 
-        printf("    Player `%c` @ `%s` (ID: %2d) | %s\n", player, location, lID, _event);
+        printf("    Player `%c` @ `%s` (%2d) | HP: %d | %s\n", player, location, lID, gv->currPlayer->health, _event);
 
         /* Action */
         if (player == 'D') assert(currPlayer_n == PLAYER_DRACULA);
 
         if (currPlayer_n == PLAYER_DRACULA) {
-            assert(lID <= NUM_MAP_LOCATIONS);
+//            assert(lID <= NUM_MAP_LOCATIONS);
 
             // dracula
             if (_event[0] == 'T') {
-                // Place trap
-//                assert(gv->encounters.traps[lID] < 3);
                 // TODO Hunters might not know where the trap was placed
-                // g->encounters->unknown_traps++; ??
-                printf("Drac is at: %s\n", location);
-                gv->encounters.traps[lID]++;
+                if (valid_location_p(lID)) gv->encounters.traps[lID]++;
             }
+
             if (_event[1] == 'V') {
                 // Place vamp
                 assert(gv->encounters.vamp_location == NOWHERE);
@@ -222,19 +247,15 @@ GameView gv_new(char *past_plays, player_message messages[]) {
 
             // Also end of dracula's turn, take 2 damage
             dNode draculaLocationNode = gv->currPlayer->moves->tail;
-            location_t draculaLocation = draculaLocationNode->item;
-
-            if (DOUBLE_BACK_1 <= draculaLocation && draculaLocation <= DOUBLE_BACK_5) {
-                for (int i = 0; i <= draculaLocation - DOUBLE_BACK_1; i++) {
-                    draculaLocationNode = draculaLocationNode->prev;
-                }
-                draculaLocation = draculaLocationNode->item;
-            }
+            puts("RESOLVE START");
+            location_t draculaLocation = resolveDraculaExtras(draculaLocationNode);
+            puts("RESOLVE DONE");
 
             if ((valid_location_p(draculaLocation) && location_get_type(draculaLocation) == SEA)
                 || draculaLocation == SEA_UNKNOWN)
                 event_player_hurt(gv, PLAYER_DRACULA, LIFE_LOSS_SEA);
 
+            else if (draculaLocation == CASTLE_DRACULA) event_player_heal(gv, PLAYER_DRACULA, LIFE_GAIN_CASTLE_DRACULA);
             // The score decreases by 1 each time Dracula finishes a turn.
             gv->score -= SCORE_LOSS_DRACULA_TURN;
             gv->currRound++;
@@ -245,27 +266,6 @@ GameView gv_new(char *past_plays, player_message messages[]) {
             if (playerRested(gv, currPlayer_n)) {
                 event_player_heal(gv, currPlayer_n, LIFE_GAIN_REST);
             }
-
-            // If at the end
-            if (currPlayer_n == PLAYER_MINA_HARKER) {
-                bool research = true;
-                for (enum player i = 0; i < NUM_PLAYERS - 1; i++) {
-                    if (!playerRested(gv, i)) research = false;
-                }
-
-                if (research) {
-//                    If a Hunter rests, and each of the other Hunters rested in their most recent turn,
-//                    then we say they have been doing collaborative research,
-//                    and the 6th move in Dracula’s trail is immediately revealed.
-
-//                            nothing is revealed if there are not yet 6 moves in the trail
-                }
-
-            }// (currPlayer_n == PLAYER_DRACULA-1)
-//            if (lastLocation == lID) {
-
-            // TODO player rested, did research
-//            }
         }
 
         gv->currTurn++;
@@ -312,6 +312,9 @@ int gv_get_health(GameView gv, enum player player) {
 }
 
 location_t gv_get_location(GameView gv, enum player player) {
+//    if (player == PLAYER_DRACULA) {
+//        return resolveDraculaExtras(gv->players[player].moves->tail);
+//    }
     return gv->players[player].moves->tail->item;
 }
 
@@ -331,6 +334,7 @@ location_t *
 gv_get_connections(GameView gv, size_t *n_locations, location_t from, enum player player, round_t round, bool road,
                    bool rail, bool sea) {
 
+    assert(valid_location_p(from));
     Queue validMoves = queue_new();
     location_t *loc;
 

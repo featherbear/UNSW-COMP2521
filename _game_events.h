@@ -26,9 +26,7 @@ void event_remove_vamp(GameView gv) {
 }
 
 void event_remove_trap(GameView gv, location_t location) {
-    assert(gv->encounters.traps[location] > 0);
-
-    gv->encounters.traps[location]--;
+    if (valid_location_p(location) && gv->encounters.traps[location]) gv->encounters.traps[location]--;
 }
 
 /*
@@ -55,7 +53,7 @@ bool event_player_hurt(GameView gv, enum player player, int damage) {
             printf_yellow("> Player %d dun guf. he ded. rip m9\n", player);
 
             // "the magical teleportation to the hospital does not show up in the game history"
-            // //  dlist_push(gv->players[player].moves, HOSPITAL_LOCATION)
+            // dlist_push(gv->players[player].moves, HOSPITAL_LOCATION);
         }
     }
 
@@ -72,9 +70,12 @@ void event_player_heal(GameView gv, enum player player, int amount) {
     int *health = &gv->players[player].health;
     *health += amount;
     printf_green("Player %d recovered %d health points (HP: %d)\n", player, amount, *health);
-    if (*health > GAME_START_HUNTER_LIFE_POINTS) printf_green("Health capped at 9 HP\n");
+
     // Cap health for Hunters
-    if (player != PLAYER_DRACULA) *health = min(GAME_START_HUNTER_LIFE_POINTS, *health);
+    if (player != PLAYER_DRACULA && *health > GAME_START_HUNTER_LIFE_POINTS) {
+        printf_green("Health capped at 9 HP\n");
+        *health = min(GAME_START_HUNTER_LIFE_POINTS, *health);
+    }
 }
 
 
@@ -85,7 +86,6 @@ void event_player_heal(GameView gv, enum player player, int amount) {
 bool event_encounter_trap(GameView gv, enum player player, location_t location) {
 
     assert(player != PLAYER_DRACULA);
-    assert(gv->encounters.traps[location] > 0);
 
     printf_yellow("> Player %d encountered a trap!\n", player);
 

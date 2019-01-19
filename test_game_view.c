@@ -585,7 +585,7 @@ int main(void) {
     // Next round
 
     {
-        location_t connections[] = {LIVERPOOL, SWANSEA, MANCHESTER, IRISH_SEA};
+        location_t connections[] = {LIVERPOOL, SWANSEA, MANCHESTER, IRISH_SEA, EDINBURGH, LONDON};
         testFramework("Round 2 Turn 0", "GMN.... SPL.... HAM.... MPA.... DC?.V.. "
                                         "GLV.... SLO.... HNS.... MST.... DC?T...", (struct expectedData) {
                 .player = PLAYER_LORD_GODALMING,
@@ -593,11 +593,11 @@ int main(void) {
                 .round = 2,
 
                 .location = {LIVERPOOL, LONDON, NORTH_SEA, STRASBOURG, CITY_UNKNOWN},
-                .history = {{LIVERPOOL,    MANCHESTER,       UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
-                            {LONDON,       PLYMOUTH,         UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
-                            {NORTH_SEA,    AMSTERDAM, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
-                            {STRASBOURG,   PARIS,            UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
-                            {CITY_UNKNOWN, CITY_UNKNOWN,     UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}},
+                .history = {{LIVERPOOL,    MANCHESTER,   UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {LONDON,       PLYMOUTH,     UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {NORTH_SEA,    AMSTERDAM,    UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {STRASBOURG,   PARIS,        UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {CITY_UNKNOWN, CITY_UNKNOWN, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}},
                 .health = {GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
@@ -605,24 +605,24 @@ int main(void) {
                            GAME_START_BLOOD_POINTS},
 
                 .connections = connections,
-                .nConnections = 4,
+                .nConnections = 6,
         });
     }
     {
         location_t connections[] = {LONDON, MANCHESTER, EDINBURGH, LIVERPOOL, SWANSEA, ENGLISH_CHANNEL, PLYMOUTH};
         testFramework("Round 2 Turn 1", "GMN.... SPL.... HAM.... MPA.... DC?.V.. "
                                         "GLV.... SLO.... HNS.... MST.... DC?T... "
-                                        "GIR", (struct expectedData) {
+                                        "GIR....", (struct expectedData) {
                 .player = PLAYER_DR_SEWARD,
                 .score = 364,
                 .round = 2,
 
                 .location = {IRISH_SEA, LONDON, NORTH_SEA, STRASBOURG, CITY_UNKNOWN},
-                .history = {{IRISH_SEA,    LIVERPOOL,        MANCHESTER,       UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
-                            {LONDON,       PLYMOUTH,         UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
-                            {NORTH_SEA,    AMSTERDAM, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
-                            {STRASBOURG,   PARIS,            UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
-                            {CITY_UNKNOWN, CITY_UNKNOWN,     UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}},
+                .history = {{IRISH_SEA,    LIVERPOOL,    MANCHESTER,       UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {LONDON,       PLYMOUTH,     UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {NORTH_SEA,    AMSTERDAM,    UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {STRASBOURG,   PARIS,        UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {CITY_UNKNOWN, CITY_UNKNOWN, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}},
                 .health = {GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
@@ -665,7 +665,8 @@ int main(void) {
         });
     }
     {
-        location_t connections[] = {CONSTANTA, KLAUSENBURG, BELGRADE, SOFIA};
+        location_t connections[] = {CONSTANTA, BELGRADE, SOFIA, DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3,
+                                    DOUBLE_BACK_4};
         testFramework("Round 5 Turn 4", "GMN.... SPL.... HAM.... MPA.... DGA.V.. "
                                         "GLV.... SLO.... HNS.... MST.... DHIT... "
                                         "GIR.... SPL.... HAO.... MZU.... DCDT... "
@@ -676,7 +677,7 @@ int main(void) {
                 .score = 361,
                 .round = 5,
 
-                .location = {SWANSEA, LONDON, NORTH_SEA, MARSEILLES, CITY_UNKNOWN},
+                .location = {SWANSEA, LONDON, NORTH_SEA, MARSEILLES, BUCHAREST},
                 .history = {{SWANSEA,    LIVERPOOL,      SWANSEA,        IRISH_SEA,      LIVERPOOL,  MANCHESTER},
                             {LONDON,     PLYMOUTH,       LONDON,         PLYMOUTH,       LONDON,     PLYMOUTH},
                             {NORTH_SEA,  ATLANTIC_OCEAN, NORTH_SEA,      ATLANTIC_OCEAN, NORTH_SEA,  AMSTERDAM},
@@ -689,7 +690,7 @@ int main(void) {
                            GAME_START_BLOOD_POINTS + LIFE_GAIN_CASTLE_DRACULA},
 
                 .connections = connections,
-                .nConnections = 4,
+                .nConnections = 7,
         });
     }
 
@@ -705,18 +706,17 @@ int main(void) {
                                         "GPL.... SSJ.... HBA.... MGR.... DC?T... "
                                         "GPL.... SSJ.... HBA.... MGR.... DC?T...", (struct expectedData) {
                 .player = PLAYER_LORD_GODALMING,
-                .score = 349,
+                .score = 353,
                 .round = 7,
 
-                .location = {PLYMOUTH, ST_JOSEPH_AND_ST_MARYS, BARCELONA, GRANADA, CITY_UNKNOWN},
-                .history = {{PLYMOUTH,               PLYMOUTH,               LONDON,            PLYMOUTH,          LONDON,           MANCHESTER},
-                            {ST_JOSEPH_AND_ST_MARYS, ST_JOSEPH_AND_ST_MARYS, BARCELONA,         MEDITERRANEAN_SEA, MARSEILLES,       CLERMONT_FERRAND},
-                            {BARCELONA,              BARCELONA,              MEDITERRANEAN_SEA, MARSEILLES,        CLERMONT_FERRAND, GENEVA},
-                            {GRANADA,                GRANADA,                MANCHESTER,        GRANADA,           MANCHESTER,       LISBON},
-                            {CITY_UNKNOWN,           CITY_UNKNOWN,           CITY_UNKNOWN,      BARCELONA,         CITY_UNKNOWN,     BORDEAUX}},
+                .location = {PLYMOUTH, SARAJEVO, BARCELONA, GRANADA, CITY_UNKNOWN},
+                .history = {{PLYMOUTH,     PLYMOUTH,     LONDON,            PLYMOUTH,          LONDON,           MANCHESTER},
+                            {SARAJEVO,     SARAJEVO,     BARCELONA,         MEDITERRANEAN_SEA, MARSEILLES,       CLERMONT_FERRAND},
+                            {BARCELONA,    BARCELONA,    MEDITERRANEAN_SEA, MARSEILLES,        CLERMONT_FERRAND, GENEVA},
+                            {GRANADA,      GRANADA,      MADRID,            GRANADA,           MADRID,           LISBON},
+                            {CITY_UNKNOWN, CITY_UNKNOWN, CITY_UNKNOWN,      BARCELONA,         CITY_UNKNOWN,     BORDEAUX}},
                 .health = {GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_DRACULA_ENCOUNTER - LIFE_LOSS_TRAP_ENCOUNTER -
-                           LIFE_LOSS_DRACULA_ENCOUNTER,
+                           GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_BLOOD_POINTS - LIFE_LOSS_HUNTER_ENCOUNTER - LIFE_LOSS_HUNTER_ENCOUNTER},
@@ -726,7 +726,8 @@ int main(void) {
         });
     }
     {
-        location_t connections[] = {PLYMOUTH, ENGLISH_CHANNEL, LONDON};
+        location_t connections[] = {GRANADA, CADIZ, LISBON, SANTANDER, DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3,
+                                    DOUBLE_BACK_4, DOUBLE_BACK_5, HIDE};
         testFramework("Round 7 Turn 4", "GED.... SGE.... HZU.... MCA.... DCF.V.. "
                                         "GMN.... SCFVD.. HGE.... MLS.... DBOT... "
                                         "GLO.... SMR.... HCF.... MMA.... DTOT... "
@@ -736,24 +737,23 @@ int main(void) {
                                         "GPL.... SSJ.... HBA.... MGR.... DMAT... "
                                         "GLO.... SBE.... HMS.... MMATD..", (struct expectedData) {
                 .player = PLAYER_DRACULA,
-                .score = 349,
+                .score = 353,
                 .round = 7,
 
-                .location = {PLYMOUTH, ST_JOSEPH_AND_ST_MARYS, BARCELONA, GRANADA, CITY_UNKNOWN},
-                .history = {{PLYMOUTH,               PLYMOUTH,               LONDON,            PLYMOUTH,          LONDON,           MANCHESTER},
-                            {ST_JOSEPH_AND_ST_MARYS, ST_JOSEPH_AND_ST_MARYS, BARCELONA,         MEDITERRANEAN_SEA, MARSEILLES,       CLERMONT_FERRAND},
-                            {BARCELONA,              BARCELONA,              MEDITERRANEAN_SEA, MARSEILLES,        CLERMONT_FERRAND, GENEVA},
-                            {GRANADA,                GRANADA,                MANCHESTER,        GRANADA,           MANCHESTER,       LISBON},
-                            {MANCHESTER,             ALICANTE,               STRASBOURG,        BARCELONA,         TOULOUSE,         BORDEAUX}},
+                .location = {LONDON, BELGRADE, MEDITERRANEAN_SEA, MADRID, MADRID},
+                .history = {{LONDON,            PLYMOUTH,  PLYMOUTH,  LONDON,            PLYMOUTH,          LONDON},
+                            {BELGRADE,          SARAJEVO,  SARAJEVO,  BARCELONA,         MEDITERRANEAN_SEA, MARSEILLES, CLERMONT_FERRAND},
+                            {MEDITERRANEAN_SEA, BARCELONA, BARCELONA, MEDITERRANEAN_SEA, MARSEILLES,        CLERMONT_FERRAND},
+                            {MADRID,            GRANADA,   GRANADA,   MADRID,            GRANADA,           MADRID},
+                            {MADRID,            ALICANTE,  SARAGOSSA, BARCELONA,         TOULOUSE,          BORDEAUX}},
                 .health = {GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_DRACULA_ENCOUNTER - LIFE_LOSS_TRAP_ENCOUNTER -
-                           LIFE_LOSS_DRACULA_ENCOUNTER,
+                           GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS - LIFE_LOSS_TRAP_ENCOUNTER - LIFE_LOSS_DRACULA_ENCOUNTER,
-                           GAME_START_BLOOD_POINTS - LIFE_LOSS_HUNTER_ENCOUNTER - LIFE_LOSS_HUNTER_ENCOUNTER},
+                           GAME_START_BLOOD_POINTS - 3 * LIFE_LOSS_HUNTER_ENCOUNTER},
 
                 .connections = connections,
-                .nConnections = 3,
+                .nConnections = 10,
         });
     }
 
@@ -765,28 +765,30 @@ int main(void) {
 
     {
         location_t connections[] = {TELEPORT};
-        testFramework("Test teleport case", "GED.... SGE.... HZU.... MCA.... DLE.V.. "
-                                            "GMN.... SCFVD.. HGE.... MLS.... DECT... "
-                                            "GLO.... SMR.... HCF.... MMA.... DLOT... "
-                                            "GPL.... SMS.... HMR.... MGR.... DMNT... "
-                                            "GLO.... SBATD.. HMS.... MMA.... DLVT... "
-                                            "GPL.... SSJ.... HBA.... MGR.... DSWT... "
-                                            "GPL.... SSJ.... HBA.... MGR....", (struct expectedData) {
+        testFramework("Test teleport case", "GVA.... SVR.... HAT.... MSA.... DLE.V.. "
+                                            "GVA.... SVR.... HAT.... MSA.... DECT... "
+                                            "GVA.... SVR.... HAT.... MSA.... DLOT... "
+                                            "GVA.... SVR.... HAT.... MSA.... DMNT... "
+                                            "GVA.... SVR.... HAT.... MSA.... DHILT.. "
+                                            "GVA.... SVR.... HAT.... MSA.... DLVT... "
+                                            "GVA.... SVR.... HAT.... MSA.... DSWT... "
+                                            "GVA.... SVR.... HAT.... MSA.... DD1T... "
+                                            "GVA.... SVR.... HAT.... MSA....", (struct expectedData) {
                 .player = PLAYER_DRACULA,
-                .score = 342,
-                .round = 6,
+                .score = 345,
+                .round = 8,
 
-                .location = {PLYMOUTH, ST_JOSEPH_AND_ST_MARYS, BARCELONA, GRANADA, SWANSEA},
-                .history = {{PLYMOUTH,               PLYMOUTH,               LONDON,            PLYMOUTH,          LONDON,           MANCHESTER},
-                            {ST_JOSEPH_AND_ST_MARYS, ST_JOSEPH_AND_ST_MARYS, BARCELONA,         MEDITERRANEAN_SEA, MARSEILLES,       CLERMONT_FERRAND},
-                            {BARCELONA,              BARCELONA,              MEDITERRANEAN_SEA, MARSEILLES,        CLERMONT_FERRAND, GENEVA},
-                            {GRANADA,                GRANADA,                MARSEILLES,        GRANADA,           MARSEILLES,       LISBON},
-                            {SWANSEA,                LIVERPOOL,              MANCHESTER,        LONDON,            ENGLISH_CHANNEL,  LE_HAVRE}},
+                .location = {VALONA, VARNA, ATHENS, SALONICA, DOUBLE_BACK_1},
+                .history = {{VALONA,        VALONA,   VALONA,    VALONA,   VALONA,     VALONA},
+                            {VARNA,         VARNA,    VARNA,     VARNA,    VARNA,      VARNA},
+                            {ATHENS,        ATHENS,   ATHENS,    ATHENS,   ATHENS,     ATHENS},
+                            {SALONICA,      SALONICA, SALONICA,  SALONICA, SALONICA,   SALONICA},
+                            {DOUBLE_BACK_1, SWANSEA,  LIVERPOOL, HIDE,     MANCHESTER, LONDON}},
                 .health = {GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_BLOOD_POINTS},
+                           GAME_START_BLOOD_POINTS - LIFE_LOSS_SEA},
 
                 .connections = connections,
                 .nConnections = 1,

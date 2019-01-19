@@ -17,13 +17,15 @@ Round 1: PLAYER_VAN_HELSING (2) @ AMSTERDAM; 4 locations: {AMSTERDAM, NORTRTH_SE
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO.... HNS....
 Round 1: PLAYER_MINA_HARKER (3) @ PARIS; 7 locations: {PARIS, GENEVA, CLERMONT_FERRAND, NANTES, LE_HAVRE, BRUSSELS, STRASBOURG}
 
+// Tested
 MN.... SPL.... HAM.... MPA.... DZU.V.. GLV.... SLO.... HNS.... MST....
 Round 1: PLAYER_DRACULA (4) @ ZURICH; 5 locations: {STRASBOURG, GENEVA, MARCEILLES,  MILAN, MUNICH, HIDE}
 
+// Tested
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO.... HNS.... MST.... DC?T...
 Round 2: PLAYER_GODALMING (0) @ LIVERPOOL; 6 locations: {LIVERPOOL, SWANSEA, MANCHESTER, IRISH_SEA, EDINBURGH, LONDON}
 
-
+// Tested
 pastPlays string given to Seward:
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO.... HNS.... MST.... DC?T... GIR....
 Round 2: PLAYER_SEWARD (1) @ LONDON; 7 locations: {LONDON, MANCHESTER, EDINBURGH, LIVERPOOL, SWANSEA, ENGLISH_CHANNEL, PLYMOUTH}
@@ -31,25 +33,26 @@ Round 2: PLAYER_SEWARD (1) @ LONDON; 7 locations: {LONDON, MANCHESTER, EDINBURGH
 ////////////////////////////////////////////////////////////////
 Samples from Game #1:
 
-// Tested and works
+// Tested
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO.... HNS.... MST.... DC?T... GIR.... SPL.... HAO.... MZU.... DCDT... GSW.... SLO.... HNS.... MFR.... DC?T... GLV.... SPL.... HAO.... MZU.... DC?T... GSW.... SLO.... HNS....
 Round 5: PLAYER_MINA_HARKER (3) @ ZURICH; 6 locations: {STRASBOURG, MUNICH, MILAN, MARSEILLES, GENEVA, ZURICH}
 
-
+// Tested | Don't forget doublebacks
 GMN.... SPL.... HAM.... MPA.... DGA.V.. GLV.... SLO.... HNS.... MST.... DHIT... GIR.... SPL.... HAO.... MZU.... DCDT... GSW.... SLO....HNS.... MFR.... DKLT... GLV.... SPL.... HAO.... MZU.... DBCT... GSW.... SLO.... HNS.... MMR....
-Round 5: PLAYER_DRACULA (4) @ BUCHAREST; 4 locations: {CONSTANTA, KLAUSENBURG, BELGRADE, SOFIA}
+Round 5: PLAYER_DRACULA (4) @ BUCHAREST; 7 locations: {CONSTANTA, BELGRADE, SOFIA}  + DOUBLE BACK 1-4
 trail = {BUCHAREST, KLAUSENBURG, CASTLE_DRACULA, GALATZ, GALATZ, UNKNOWN_LOCATION}
  
 
 ////////////////////////////////////////////////////////////////
 Samples from Game #2:
 
+// Tested
 GED.... SGE.... HZU.... MCA.... DCF.V.. GMN.... SCFVD.. HGE.... MLS.... DBOT... GLO.... SMR.... HCF.... MMA.... DC?T... GPL.... SMS.... HMR.... MGR.... DBAT... GLO.... SBATD.. HMS.... MMA.... DC?T... GPL.... SSJ.... HBA.... MGR.... DC?T... GPL.... SSJ.... HBA.... MGR.... DC?T...
 round 7: PLAYER_GOLDALMING (0) @ PLYMOUTH; 3 locations: {PLYMOUTH, ENGLISH_CHANNEL, LONDON}
 
-
+// Tested
 GED.... SGE.... HZU.... MCA.... DCF.V.. GMN.... SCFVD.. HGE.... MLS.... DBOT... GLO.... SMR.... HCF.... MMA.... DTOT... GPL.... SMS.... HMR.... MGR.... DBAT... GLO.... SBATD.. HMS.... MMA.... DSRT... GPL.... SSJ.... HBA.... MGR.... DALT... GPL.... SSJ.... HBA.... MGR.... DMAT... GLO.... SBE.... HMS.... MMATD..
-Round 7: PLAYER_DRACULA (4) @ MADRID; 11 locations: {DOUBLE_BACK_0, DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3, DOUBLE_BACK_4, DOUBLE_BACK_5, HIDE, NANTES, PARIS, GENEVA, MARSEILLES}
+Round 7: PLAYER_DRACULA (4) @ MADRID; 10 locations: {GRANADA, CADIZ, LISBON, SANTANDER, DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3, DOUBLE_BACK_4, DOUBLE_BACK_5, HIDE}
 
 Past Trail: {MADRID, ALICANTE, SARAGOSSA, BARCELONA, TOULOUSE, BORDEAUX, CLERMONT_FERRAND}
 

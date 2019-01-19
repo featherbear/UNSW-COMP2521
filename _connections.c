@@ -44,7 +44,6 @@ Queue connections_get_extras (GameView gv, location_t l, enum player player)
     // Add rest as a move for hunters
     } else queue_en(q, l);
 
-    printf("EXTRAS GAVE %d items\n", queue_size(q));
     return q;
 }
 
@@ -80,7 +79,6 @@ Queue connections_get_roadways (GameView gv, location_t l, enum player p, Map m)
 
     }
 
-    printf("ROAD GAVE %d items\n", queue_size(q));
     return q;
 }
 
@@ -121,8 +119,6 @@ Queue connections_get_railways (location_t l, enum player p, Map m, round_t roun
         }
     }
 
-    // Note: queue_append handles the queue dropping
-    printf("RAIL GAVE %d items\n", queue_size(q));
     return q;
 }
 
@@ -199,7 +195,6 @@ Queue connections_get_seaways (GameView gv, location_t l, enum player p, Map m)
         }
     }
 
-    printf("SEA GAVE %d items\n", queue_size(q));
     return q;
 }
 
