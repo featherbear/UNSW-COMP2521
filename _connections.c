@@ -203,11 +203,11 @@ int connections_bfs_process(Queue q, int item, bool *hasBeenVisited, Map m)
 Queue connections_get_seaways (GameView gv, location_t l, enum player p, Map m)
 {
     Queue q = queue_new();
-
-    map_adj *tmp = m->connections[l];
-    while (tmp != NULL) {
+    
+    for (map_adj *tmp = m->connections[l]; tmp; tmp = tmp->next) {
         if (tmp->type == BOAT) queue_en(q, (int)tmp->v);
     }
+
     return q;
 }
 

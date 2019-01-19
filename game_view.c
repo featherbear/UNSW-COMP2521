@@ -329,13 +329,11 @@ location_t gv_get_location(GameView gv, enum player player) {
 }
 
 void gv_get_history(GameView gv, enum player player, location_t trail[TRAIL_SIZE]) {
-
     // Get the current location of the player
     dNode move = gv->players[player].moves->tail;
 
     // Get the most recent 6 locations into the array
     for (int i = 0; i < TRAIL_SIZE; i++) {
-
         // Need to check if the node exists (May be less than 6 moves played)
         trail[i] = move ? move->item : -1;
         if (move) move = move->prev;
@@ -351,27 +349,34 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
     // TODO Isolate
     Map m = map_new();
 
+    printf("MADE MAP\n");
+
     // Get all the connections
     if (road) {
+        puts("GETTING ROADS");
         Queue road_moves = connections_get_roadways(gv, from, player, m);
         queue_append(validMoves, road_moves);
     }
 
     if (rail) {
+        puts("GETTING RAILS");
         assert(player != PLAYER_DRACULA);
         Queue rail_moves = connections_get_railways(from, player, m, round);
         queue_append(validMoves, rail_moves);
     }
 
     if (sea) {
+        puts("GETTING SEA");
         Queue sea_moves = connections_get_seaways(gv, from, player, m);
         queue_append(validMoves, sea_moves);
     }
 
+    puts("GETTING EXTRA");
     // Consider extra moves
     Queue extra_moves = connections_get_extras(gv, from, player);
     queue_append(validMoves, extra_moves);
 
+    puts("GETTING SIZE");
     // Consider the situtaion after piecing together informtation
     size_t queueSize = queue_size(validMoves);
 

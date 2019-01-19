@@ -49,8 +49,8 @@ int main() {
 //        l = gv_get_connections(gv, &n_loc, from, p, gv_get_round(gv), true, true, true);
 //        printf("Round 1: PLAYER_GODALMING (0) @ MANCHESTER; 4 locations: {MANCHESTER, EDINBURGH, LIVERPOOL, LONDON}");
 //        get_connections_str(l, n_loc);
+        gv_drop(gv);
     }
-    gv_drop(gv);
 }
 
 void get_connections_str(location_t *l, size_t size) {
