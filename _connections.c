@@ -1,15 +1,12 @@
+//
 // Created by Jennifer on 12/01/2019
+//
 
 #include <assert.h>
 #include <stdio.h>
 
-// #include "game.h"
-// #include "game_view.h"
 #include "_structures.h"
-// #include "map.h"
-// #include "places.h"
 #include "_queue.h"
-
 #include "_connections.h"
 
 
@@ -18,7 +15,7 @@ Queue connections_get_extras(GameView gv, location_t l, enum player player) {
 
     Queue q = queue_new();
 
-    // Extra moves for dracula
+    // Extra moves for Dracula: DOUBLE_BACK_N && HIDE
     if (player == PLAYER_DRACULA) {
 
         if (!location_in_trail(gv, player, DOUBLE_BACK_1)

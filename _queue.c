@@ -85,12 +85,20 @@ int queue_de(Queue q) {
     return tmp_value;
 }
 
+
+// EDDIT WELL
+/*
+_connections.c:109: undefined reference to `queue_append'
+_connections.c:114: undefined reference to `queue_append'
+*/
 // TODO: 200% Sure we don't need this function but I'll just keep it here anyways
-// // Appends a queue to another
-// void queue_append(Queue q, Queue p) {
-//     for (qNode tmp = p->head; tmp != NULL; tmp = tmp->next) queue_en(q, tmp->item);
-//     queue_drop(p);
-// }
+
+
+// Appends a queue to another
+void queue_append(Queue q, Queue p) {
+    for (qNode tmp = p->head; tmp != NULL; tmp = tmp->next) queue_en(q, tmp->item);
+    queue_drop(p);
+}
 
 /* Appends Queue `p` to Queue `q`
  * Drops Queue `p`

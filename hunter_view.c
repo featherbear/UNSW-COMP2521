@@ -16,7 +16,6 @@
 #include "game_view.h"
 #include "hunter_view.h"
 
-// #include "map.h" ... if you decide to use the Map ADT
 
 typedef struct hunter_view {
     GameView gv;

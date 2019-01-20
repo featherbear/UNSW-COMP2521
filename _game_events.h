@@ -38,24 +38,20 @@ bool event_player_hurt(GameView gv, enum player player, int damage) {
 
     bool result = true;
 
-    // Pointer to the player's health
-    // ... a POINTER because I'm lazy to keep referencing the entire gv->players[player].health each time
-    // Ermm... I didn't mean that kinda comment.. but yay for laziness
+    // Get the player's health
     int *health = &gv->players[player].health;
 
     *health -= damage;
 
     printf_red("> Player %d took %d damage! (HP: %d)\n", player, damage, *health);
 
+    // Teleportation when HUNTER dies.
     if (player != PLAYER_DRACULA) {
         if (*health <= 0) {
             *health = 0;
             result = false;
             gv->score -= SCORE_LOSS_HUNTER_HOSPITAL;
             printf_yellow("> Player %d dun guf. he ded. rip m9\n", player);
-
-            // "the magical teleportation to the hospital does not show up in the game history"
-            // dlist_push(gv->players[player].moves, HOSPITAL_LOCATION);
         }
     }
 
@@ -67,7 +63,6 @@ bool event_player_hurt(GameView gv, enum player player, int damage) {
  * Heals a given player - Hunters are capped at 9 health points
  */
 void event_player_heal(GameView gv, enum player player, int amount) {
-
 
     int *health = &gv->players[player].health;
     *health += amount;

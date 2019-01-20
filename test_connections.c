@@ -12,7 +12,6 @@
 
 #include "game.h"
 #include "game_view.h"
-//#include "map.c"
 #include "map.h"
 #include "game_view.h"
 #include "places.h"
@@ -28,7 +27,6 @@ char *get_playerName(enum player p);
 
 int main() {
 
-    puts("===== Testing Connections w/ Samples from Game #0 =====");
 
     ////////////////////////////////////////////////////////////////
     char *plays;
@@ -40,16 +38,16 @@ int main() {
     location_t *l;
 
 
-    plays = "MN.... SPL.... HAM.... MPA.... DZU.V.. GLV.... SL.... HNS.... MST....";
+    plays = "GVA.... SVR.... HAT.... MSN.... DSR.V.. GVA.... SVR.... HAT.... MSR.... DALT... GVA.... SVR.... HAT.... MAL.... DGRT... GVA.... SVR.... HAT.... MGR.... DMAT...GVA.... SVR.... HAT....";
     {
         gv = gv_new(plays, messages);
         n_loc = 0;
         p = gv_get_player(gv);
         printf("The player number is: %d\n", p);
         printf("The Round is: %d\n", gv_get_round(gv));
-        from = location_find_by_abbrev("ZU");
+        from = location_find_by_abbrev("JM");
         l = gv_get_connections(gv, &n_loc, from, p, gv_get_round(gv), true, false, true);
-        puts("Round 1: PLAYER_DRACULA (4) @ ZURICH; 5 locations: {STRASBOURG, GENEVA, MILAN, MUNICH, HIDE, MECEILLES}");
+        puts("Round 5: PLAYER_MINA_HARKER (3) @ HOSPITAL; 5 locations: {ZAGREB, SZEGED, BELGRADE, SARAJEVO, HOSPITAL}");
         get_connections_str(l, n_loc);
         printf("Number of generated locations: %d\nNumber of actual locations: 4\n", n_loc);
         free(l);

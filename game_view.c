@@ -339,12 +339,12 @@ location_t gv_get_location(GameView gv, enum player player) {
     return gv->players[player].moves->tail->item;
 }
 
+/* Given an array, fill that array out with the given player's past moves */
 void gv_get_history(GameView gv, enum player player, location_t trail[TRAIL_SIZE]) {
-    // Get the current location of the player
-    dNode move = gv->players[player].moves->tail;
 
-    // Get the most recent 6 locations into the array
+    dNode move = gv->players[player].moves->tail;
     for (int i = 0; i < TRAIL_SIZE; i++) {
+
         // Need to check if the node exists (May be less than 6 moves played)
         trail[i] = move ? move->item : -1;
         if (move) move = move->prev;

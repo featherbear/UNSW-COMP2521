@@ -1,14 +1,14 @@
+//
 // Created by Jennifer on 12/01/2019
+//
 
 #ifndef ASS02_CONNECTIONS_H
 #define ASS02_CONNECTIONS_H
 
 #include "game.h"
 #include "game_view.h"
-//#include "_structures.h"
 #include "map.h"
 #include "places.h"
-//#include "_queue.h"
 
 /* Adds the extra locations (HIDE, DOUBLE_BACK, "rest" ) */
 Queue connections_get_extras(GameView gv, location_t l, enum player player);
