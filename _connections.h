@@ -25,6 +25,7 @@ Queue connections_get_extras(GameView gv, location_t l, enum player player);
 
 /* Checks if a location is in a player's trail */
 bool location_in_trail(GameView gv, enum player p, location_t l);
+bool locations_in_trail(GameView gv, enum player player, location_t *loc, size_t nLoc);
 
 /* Finds all locations accessible by road */
 Queue connections_get_roadways(GameView gv, location_t l, enum player p, Map m);

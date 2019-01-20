@@ -43,39 +43,90 @@ location_t resolveExtraLocations(dNode posNode) {
     return pos;
 }
 
-/* Adds the extra locations (HIDE, DOUBLE_BACK, "rest" ) */
 Queue connections_get_extras(GameView gv, location_t l, enum player player) {
-
     Queue q = queue_new();
 
-    // Extra moves for Dracula: DOUBLE_BACK_N && HIDE
-    if (player == PLAYER_DRACULA) {
+    if (player != PLAYER_DRACULA) {
+        queue_en(q, l);
+        return q;
+    }
 
-        // Consider DOUBLE_BACK_N
-        if (!location_in_trail(gv, player, DOUBLE_BACK_1)
-            && !location_in_trail(gv, player, DOUBLE_BACK_2)
-            && !location_in_trail(gv, player, DOUBLE_BACK_3)
-            && !location_in_trail(gv, player, DOUBLE_BACK_4)
-            && !location_in_trail(gv, player, DOUBLE_BACK_5)) {
+    location_t lastLoc = resolveExtraLocations(gv->players[PLAYER_DRACULA].moves->tail);
+    if (!location_in_trail(gv, PLAYER_DRACULA, HIDE) && location_get_type(lastLoc) != SEA) {
+        queue_en(q, lastLoc);
+    }
 
-            dNode tmp = gv->players[PLAYER_DRACULA].moves->tail->prev;
+    location_t doubleBacks[] = {DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3, DOUBLE_BACK_4, DOUBLE_BACK_5};
+    if (!locations_in_trail(gv, PLAYER_DRACULA, doubleBacks, 5)) {
+        size_t rounds = gv_get_round(gv);
 
-            size_t rounds = gv_get_round(gv);
-            for (int i = 2; i <= rounds; i++) {
-                printf("Doing this for the %d[.] time\n", i-1);
-                queue_en(q, resolveExtraLocations(tmp));
-                tmp = tmp->prev;
-            }
+        dNode doubleBackCursor = gv->players[PLAYER_DRACULA].moves->tail->prev;
+        for (size_t i = 1; i < rounds; i++ ) {
+            queue_en(q, resolveExtraLocations(doubleBackCursor));
+            doubleBackCursor = doubleBackCursor->prev;
         }
+    }
+    return q;}
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>
+// OR IF YOU WANTED THE ORIGINAL FUNCTION??
 
-        // Consider HIDE
-        if (!location_in_trail(gv, player, HIDE) && gv_get_round(gv) != 0 && location_get_type(l) != SEA)
-            queue_en(q, resolveExtraLocations(gv->players[PLAYER_DRACULA].moves->tail));
+/* Adds the extra locations (HIDE, DOUBLE_BACK, "rest" ) */
+//Queue connections_get_extras(GameView gv, location_t l, enum player player) {
+//
+//    Queue q = queue_new();
+//
+//    // Extra moves for Dracula: DOUBLE_BACK_N && HIDE
+//    if (player == PLAYER_DRACULA) {
+//
+//        // Consider DOUBLE_BACK_N
+//        if (!location_in_trail(gv, player, DOUBLE_BACK_1)
+//            && !location_in_trail(gv, player, DOUBLE_BACK_2)
+//            && !location_in_trail(gv, player, DOUBLE_BACK_3)
+//            && !location_in_trail(gv, player, DOUBLE_BACK_4)
+//            && !location_in_trail(gv, player, DOUBLE_BACK_5)) {
+//
+//            dNode tmp = gv->players[PLAYER_DRACULA].moves->tail->prev;
+//
+//            size_t rounds = gv_get_round(gv);
+//            for (int i = 2; i <= rounds; i++) {
+//                printf("Doing this for the %d[.] time\n", i-1);
+//                queue_en(q, resolveExtraLocations(tmp));
+//                tmp = tmp->prev;
+//            }
+//        }
+//
+//        // Consider HIDE
+//        puts(( !location_in_trail(gv, player, HIDE) && gv_get_round(gv) != 0 && location_get_type(l) != SEA) ? "Hide added" : "Hide not added");
+//        if (!location_in_trail(gv, player, HIDE) && gv_get_round(gv) != 0 && location_get_type(l) != SEA)
+//            queue_en(q, resolveExtraLocations(gv->players[PLAYER_DRACULA].moves->tail));
+//
+//    } else queue_en(q, l);
+//
+//    return q;
+//}
 
-    } else queue_en(q, l);
 
-    return q;
+
+/* Check if any location is in the trail */
+// Optimised location_in_trail function
+bool locations_in_trail(GameView gv, enum player player, location_t *loc, size_t nLoc) {
+
+    location_t trail[TRAIL_SIZE];
+    gv_get_history(gv, player, trail);
+
+    for (size_t i = 0; i < nLoc; i++) {
+        for (size_t j = 0; j < TRAIL_SIZE; j++)
+            if (loc[i] == trail[j]) return true;
+    }
+
+    return false;
 }
+
+
+
+
+
+
 
 /* Checks if a location is in a player's trail */
 bool location_in_trail(GameView gv, enum player player, location_t loc) {
@@ -89,6 +140,7 @@ bool location_in_trail(GameView gv, enum player player, location_t loc) {
 
     return false;
 }
+
 
 /* Finds all locations accessible by road */
 Queue connections_get_roadways(GameView gv, location_t l, enum player p, Map m) {

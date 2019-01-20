@@ -457,7 +457,7 @@ int main(void) {
         });
     }
     {
-        location_t connections[] = {STRASBOURG, GENEVA, MILAN, MUNICH, MARSEILLES, HIDE};
+        location_t connections[] = {STRASBOURG, GENEVA, MILAN, MUNICH, MARSEILLES, ZURICH};
         testFramework("Round 1 Turn 4", "GMN.... SPL.... HAM.... MPA.... DZU.V.. "
                                         "GLV.... SLO.... HNS.... MST....", (struct expectedData) {
                 .player = PLAYER_DRACULA,
@@ -566,8 +566,8 @@ int main(void) {
         });
     }
     {
-        location_t connections[] = {CONSTANTA, BELGRADE, SOFIA, DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3,
-                                    DOUBLE_BACK_4};
+        // J: Changed this
+        location_t connections[] = {CONSTANTA, BELGRADE, SOFIA, KLAUSENBURG, CASTLE_DRACULA, GALATZ};
         testFramework("Round 5 Turn 4", "GMN.... SPL.... HAM.... MPA.... DGA.V.. "
                                         "GLV.... SLO.... HNS.... MST.... DHIT... "
                                         "GIR.... SPL.... HAO.... MZU.... DCDT... "
@@ -591,7 +591,7 @@ int main(void) {
                            GAME_START_BLOOD_POINTS + LIFE_GAIN_CASTLE_DRACULA},
 
                 .connections = connections,
-                .nConnections = 7,
+                .nConnections = 6,
         });
         
     }
@@ -629,8 +629,9 @@ int main(void) {
         
     }
     {
-        location_t connections[] = {GRANADA, CADIZ, LISBON, SANTANDER, DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3,
-                                    DOUBLE_BACK_4, DOUBLE_BACK_5, HIDE};
+        // J: Changed this
+        location_t connections[] = {GRANADA, CADIZ, LISBON, SANTANDER, ALICANTE, SARAGOSSA, BARCELONA,
+                                    TOULOUSE, BORDEAUX, MADRID};
         testFramework("Round 7 Turn 4", "GED.... SGE.... HZU.... MCA.... DCF.V.. "
                                         "GMN.... SCFVD.. HGE.... MLS.... DBOT... "
                                         "GLO.... SMR.... HCF.... MMA.... DTOT... "

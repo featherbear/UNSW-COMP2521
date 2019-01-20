@@ -316,47 +316,29 @@ int main(void) {
         });
     }
 
+    // J: Added a new test
+    { /* Dracula cannot make a DOUBLE_BACK move of 'n' if he hasn't had 'n' moves */
+        location_t connections[] = {PARIS, LE_HAVRE, NANTES, BORDEAUX, CLERMONT_FERRAND, BAY_OF_BISCAY};
+        testFramework("Test Double Backs", "GVA.... SVR.... HAT.... MSA.... DLE.V.. GVA.... SVR.... HAT.... MSA.... DPAT... GVA.... SVR.... HAT.... MSA.... DNAT... GVA.... SVR.... HAT.... MSA....", (struct expectedData) {
+                .player = PLAYER_DRACULA,
+                .score = 366 - 3,
+                .round = 3,
 
-    ////////////////////////////////////////////////////////////////
-    // /* Dracula cannot make a DOUBLE_BACK move of 'n' if he hasn't had 'n' moves */
-    // GVA.... SVR.... HAT.... MSA.... DLE.V..
-    // GVA.... SVR.... HAT.... MSA.... D(PARIS)T...
-    // GVA.... SVR.... HAT.... MSA.... D(NANTES)T...
-    // GVA.... SVR.... HAT.... MSA....
-
-    // // String to use
-    // "GVA.... SVR.... HAT.... MSA.... DLE.V.. GVA.... SVR.... HAT.... MSA.... DPAT... GVA.... SVR.... HAT.... MSA.... DNAT... GVA.... SVR.... HAT.... MSA...."
-
-    // Round 3: PLAYER_DRACULA (4) @ NANTES; 7 locations: {HIDE, PARIS, LE_HAVRE, NANTES, BORDEAUX, CLERMONT_FERRAND, BAY_OF_BISCAY}
-    // Past Trail: {NANTES, PARIS, LE_HAVRE, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}
-
-    /*
- {
-        location_t connections[] = {PLYMOUTH, ENGLISH_CHANNEL, LONDON};
-        testFramework("????????", "", (struct expectedData) {
-                .player = ???,
-                .score = ???,
-                .round = ???,
-
-                .location = {UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION,             UNKNOWN_LOCATION},
-                .history = {{UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
-                            {UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
-                            {UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
-                            {UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
-                            {UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}},
+                .location = {VALONA, VARNA, ATHENS, SALONICA,             UNKNOWN_LOCATION},
+                .history = {{VALONA, VALONA, VALONA, VALONA, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {VARNA, VARNA, VARNA, VARNA, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {ATHENS, ATHENS, ATHENS, ATHENS, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {SALONICA, SALONICA, SALONICA, SALONICA, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {NANTES, PARIS, LE_HAVRE, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}},
                 .health = {GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_HUNTER_LIFE_POINTS ,
+                           GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_BLOOD_POINTS },
 
                 .connections = connections,
-                .nConnections = ???,
+                .nConnections = 7,
         });
     }
-*/
-
-
-
     return EXIT_SUCCESS;
 }
