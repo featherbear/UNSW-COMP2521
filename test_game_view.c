@@ -82,12 +82,13 @@ static inline void testFramework(char *title, char *trail, struct expectedData e
         location_t *connections = gv_get_connections(gv, &nConnections, gv_get_location(gv, exp.player), exp.player,
                                                      exp.round,
                                                      true, exp.player != PLAYER_DRACULA, true);
-        TEST(arraysEqual(nConnections, connections, exp.nConnections, exp.connections));
+        assert(arraysEqual(nConnections, connections, exp.nConnections, exp.connections));
         free(connections);
         O();
     }
 
     gv_drop(gv);
+    printf_green("passed\n");
 }
 
 
@@ -105,7 +106,7 @@ int main(void) {
         TEST(gv_get_health(gv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
         TEST(gv_get_score(gv) == GAME_START_SCORE);
         TEST(gv_get_location(gv, PLAYER_LORD_GODALMING) == UNKNOWN_LOCATION);
-        printf_green("passed\n");
+        
         gv_drop(gv);
     } while (0);
 
@@ -126,7 +127,7 @@ int main(void) {
         TEST(gv_get_location(gv, PLAYER_DRACULA) == CITY_UNKNOWN);
         TEST(gv_get_health(gv, PLAYER_DRACULA) == GAME_START_BLOOD_POINTS);
 
-        printf_green("passed\n");
+        
         gv_drop(gv);
     } while (0);
 
@@ -167,7 +168,7 @@ int main(void) {
         assert(history[1] == UNKNOWN_LOCATION);
         O();
 
-        printf_green("passed\n");
+        
         gv_drop(gv);
     } while (0);
 
@@ -203,7 +204,7 @@ int main(void) {
         assert(history[1] == SEA_UNKNOWN);
         O();
 
-        printf_green("passed\n");
+        
         gv_drop(gv);
     } while (0);
 
@@ -232,7 +233,7 @@ int main(void) {
         assert(history[1] == ENGLISH_CHANNEL);
         O();
 
-        printf_green("passed\n");
+        
         gv_drop(gv);
     } while (0);
 
@@ -260,7 +261,7 @@ int main(void) {
                 .connections = NULL,
                 .nConnections = 0,
         });
-        printf_green("passed\n");
+        
 
     }
     {
@@ -306,7 +307,7 @@ int main(void) {
                 .connections = NULL,
                 .nConnections = 0
         });
-        printf_green("passed\n");
+        
     }
     {
         testFramework("Round 0 Turn 3", "GMN.... SPL.... HAM....", (struct expectedData) {
@@ -329,7 +330,7 @@ int main(void) {
                 .connections = NULL,
                 .nConnections = 0,
         });
-        printf_green("passed\n");
+        
     }
     {
         testFramework("Round 0 Turn 4", "GMN.... SPL.... HAM.... MPA....", (struct expectedData) {
@@ -352,7 +353,7 @@ int main(void) {
                 .connections = NULL,
                 .nConnections = 0,
         });
-        printf_green("passed\n");
+        
     }
     {
         // Next round
@@ -402,7 +403,7 @@ int main(void) {
                 .connections = connections,
                 .nConnections = 3,
         });
-        printf_green("passed\n");
+        
     }
     {
         location_t connections[] = {AMSTERDAM, NORTH_SEA, BRUSSELS, COLOGNE};
@@ -427,7 +428,7 @@ int main(void) {
                 .connections = connections,
                 .nConnections = 4,
         });
-        printf_green("passed\n");
+        
     }
     {
         location_t connections[] = {PARIS, GENEVA, CLERMONT_FERRAND, NANTES, LE_HAVRE, BRUSSELS, STRASBOURG};
@@ -463,8 +464,8 @@ int main(void) {
                 .round = 1,
 
                 .location = {LIVERPOOL, LONDON, NORTH_SEA, STRASBOURG, ZURICH},
-                .history = {{LIVERPOOL, MANCHESTER,        UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
-                            {LONDON, PLYMOUTH,             UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                .history = {{LIVERPOOL,  MANCHESTER,       UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {LONDON,     PLYMOUTH,         UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
                             {NORTH_SEA,  AMSTERDAM,        UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
                             {STRASBOURG, PARIS,            UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
                             {ZURICH,     UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}},
@@ -477,7 +478,7 @@ int main(void) {
                 .connections = connections,
                 .nConnections = 6,
         });
-        printf_green("passed\n");
+        
     }
 
     // Next round
@@ -505,7 +506,7 @@ int main(void) {
                 .connections = connections,
                 .nConnections = 6,
         });
-        printf_green("passed\n");
+        
     }
     {
         location_t connections[] = {LONDON, MANCHESTER, EDINBURGH, LIVERPOOL, SWANSEA, ENGLISH_CHANNEL, PLYMOUTH};
@@ -548,11 +549,11 @@ int main(void) {
                 .round = 5,
 
                 .location = {SWANSEA, LONDON, NORTH_SEA, ZURICH, CITY_UNKNOWN},
-                .history = {{SWANSEA, LIVERPOOL, SWANSEA, IRISH_SEA, LIVERPOOL, MANCHESTER},
-                            {LONDON, PLYMOUTH, LONDON, PLYMOUTH, LONDON, PLYMOUTH},
-                            {NORTH_SEA, ATLANTIC_OCEAN, NORTH_SEA, ATLANTIC_OCEAN, NORTH_SEA, AMSTERDAM},
-                            {ZURICH, FRANKFURT, ZURICH, STRASBOURG, PARIS, UNKNOWN_LOCATION},
-                            {CITY_UNKNOWN, CITY_UNKNOWN, CASTLE_DRACULA, CITY_UNKNOWN, CITY_UNKNOWN, UNKNOWN_LOCATION}},
+                .history = {{SWANSEA,      LIVERPOOL,      SWANSEA,        IRISH_SEA,      LIVERPOOL,    MANCHESTER},
+                            {LONDON,       PLYMOUTH,       LONDON,         PLYMOUTH,       LONDON,       PLYMOUTH},
+                            {NORTH_SEA,    ATLANTIC_OCEAN, NORTH_SEA,      ATLANTIC_OCEAN, NORTH_SEA,    AMSTERDAM},
+                            {ZURICH,       FRANKFURT,      ZURICH,         STRASBOURG,     PARIS,        UNKNOWN_LOCATION},
+                            {CITY_UNKNOWN, CITY_UNKNOWN,   CASTLE_DRACULA, CITY_UNKNOWN,   CITY_UNKNOWN, UNKNOWN_LOCATION}},
                 .health = {GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
@@ -591,7 +592,7 @@ int main(void) {
                 .connections = connections,
                 .nConnections = 7,
         });
-        printf_green("passed\n");
+        
     }
 
     /* */
@@ -610,11 +611,11 @@ int main(void) {
                 .round = 7,
 
                 .location = {PLYMOUTH, SARAJEVO, BARCELONA, GRANADA, CITY_UNKNOWN},
-                .history = {{PLYMOUTH, PLYMOUTH, LONDON,PLYMOUTH, LONDON, MANCHESTER},
-                            {SARAJEVO, SARAJEVO, BARCELONA, MEDITERRANEAN_SEA, MARSEILLES, CLERMONT_FERRAND},
-                            {BARCELONA, BARCELONA, MEDITERRANEAN_SEA, MARSEILLES, CLERMONT_FERRAND, GENEVA},
-                            {GRANADA, GRANADA, MADRID, GRANADA, MADRID, LISBON},
-                            {CITY_UNKNOWN, CITY_UNKNOWN, CITY_UNKNOWN, BARCELONA, CITY_UNKNOWN, BORDEAUX}},
+                .history = {{PLYMOUTH,     PLYMOUTH,     LONDON,            PLYMOUTH,          LONDON,           MANCHESTER},
+                            {SARAJEVO,     SARAJEVO,     BARCELONA,         MEDITERRANEAN_SEA, MARSEILLES,       CLERMONT_FERRAND},
+                            {BARCELONA,    BARCELONA,    MEDITERRANEAN_SEA, MARSEILLES,        CLERMONT_FERRAND, GENEVA},
+                            {GRANADA,      GRANADA,      MADRID,            GRANADA,           MADRID,           LISBON},
+                            {CITY_UNKNOWN, CITY_UNKNOWN, CITY_UNKNOWN,      BARCELONA,         CITY_UNKNOWN,     BORDEAUX}},
                 .health = {GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
@@ -624,7 +625,7 @@ int main(void) {
                 .connections = connections,
                 .nConnections = 3,
         });
-        printf_green("passed\n");
+        
     }
     {
         location_t connections[] = {GRANADA, CADIZ, LISBON, SANTANDER, DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3,
@@ -642,11 +643,11 @@ int main(void) {
                 .round = 7,
 
                 .location = {LONDON, BELGRADE, MEDITERRANEAN_SEA, MADRID, MADRID},
-                .history = {{LONDON, PLYMOUTH,  PLYMOUTH,  LONDON, PLYMOUTH,        LONDON},
-                            {BELGRADE, SARAJEVO, SARAJEVO, BARCELONA,        MEDITERRANEAN_SEA, MARSEILLES, CLERMONT_FERRAND},
-                            {MEDITERRANEAN_SEA, BARCELONA, BARCELONA, MEDITERRANEAN_SEA, MARSEILLES, CLERMONT_FERRAND},
-                            {MADRID, GRANADA, GRANADA, MADRID, GRANADA, MADRID},
-                            {MADRID, ALICANTE,  SARAGOSSA, BARCELONA, TOULOUSE,         BORDEAUX}},
+                .history = {{LONDON,            PLYMOUTH,  PLYMOUTH,  LONDON,            PLYMOUTH,          LONDON},
+                            {BELGRADE,          SARAJEVO,  SARAJEVO,  BARCELONA,         MEDITERRANEAN_SEA, MARSEILLES},
+                            {MEDITERRANEAN_SEA, BARCELONA, BARCELONA, MEDITERRANEAN_SEA, MARSEILLES,        CLERMONT_FERRAND},
+                            {MADRID,            GRANADA,   GRANADA,   MADRID,            GRANADA,           MADRID},
+                            {MADRID,            ALICANTE,  SARAGOSSA, BARCELONA,         TOULOUSE,          BORDEAUX}},
                 .health = {GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
@@ -697,6 +698,7 @@ int main(void) {
 
     return EXIT_SUCCESS;
 
+
 /*
  {
         location_t connections[] = {PLYMOUTH, ENGLISH_CHANNEL, LONDON};
@@ -725,27 +727,29 @@ int main(void) {
 
 
     { /* Whenever a Hunter is reduced to 0 or less life points they are instantly automagically teleported to the Hospital of St Joseph and St Mary */
-    // NOTE: Not sure if MINA is at Hospital yet.. But she has lost all her health so she should be there? But it's not included within the trail.. please double check
-        location_t connections[] = {ZAGREB, SZEGED, BELGRADE, SARAJEVO, HOSPITAL};
+        // NOTE: Not sure if MINA is at Hospital yet.. But she has lost all her health so she should be there? But it's not included within the trail.. please double check
+        location_t connections[] = {ZAGREB, SZEGED, BELGRADE, SARAJEVO, HOSPITAL_LOCATION};
         testFramework("Testing Teleportation", "", (struct expectedData) {
                 .player = PLAYER_MINA_HARKER,
                 .score = 366 - 4, // Uhhh not sure if right ..
                 .round = 5,
 
                 .location = {VALONA, VARNA, ATHENS, ST_JOSEPH_AND_ST_MARYS, MADRID},
-                .history = {{VALONA, VALONA, VALONA, VALONA, VALONA, UNKNOWN_LOCATION},
-                            {VARNA, VARNA , VARNA, VARNA , VARNA, UNKNOWN_LOCATION },
-                            {ATHENS, ATHENS, ATHENS, ATHENS, ATHENS,UNKNOWN_LOCATION},
-                            {SANTANDER, SARAGOSSA, ALICANTE, GRANADA, HOSPITAL, UNKNOWN_LOCATION},
-                            {SARAGOSSA, ALICANTE, GRANADA, MADRID, UNKNOWN_LOCATION. UNKNOWN_LOCATION}},
+                .history = {{VALONA,    VALONA,    VALONA,   VALONA, VALONA,             UNKNOWN_LOCATION},
+                            {VARNA,     VARNA,     VARNA,    VARNA,  VARNA,              UNKNOWN_LOCATION},
+                            {ATHENS,    ATHENS,    ATHENS,   ATHENS, ATHENS,             UNKNOWN_LOCATION},
+                            {SANTANDER, SARAGOSSA, ALICANTE, GRANADA, HOSPITAL_LOCATION, UNKNOWN_LOCATION},
+                            {SARAGOSSA, ALICANTE,  GRANADA,  MADRID, UNKNOWN_LOCATION,   UNKNOWN_LOCATION}},
                 .health = {GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_HUNTER_LIFE_POINTS ,
-                           GAME_START_BLOOD_POINTS },
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_BLOOD_POINTS},
 
                 .connections = connections,
-                .nConnections = ???,
+                .nConnections = 5,
         });
     }
+
+
 }
