@@ -631,7 +631,7 @@ int main(void) {
     {
          // J: Deleted the 6th location in Drac's trail & updated nCons
         location_t connections[] = {GRANADA, CADIZ, LISBON, SANTANDER, ALICANTE, SARAGOSSA, BARCELONA,
-                                    TOULOUSE, MADRID, BORDEAUX};
+                                    TOULOUSE, MADRID};
         testFramework("Round 7 Turn 4", "GED.... SGE.... HZU.... MCA.... DCF.V.. "
                                         "GMN.... SCFVD.. HGE.... MLS.... DBOT... "
                                         "GLO.... SMR.... HCF.... MMA.... DTOT... "
@@ -657,7 +657,7 @@ int main(void) {
                            GAME_START_BLOOD_POINTS - 3 * LIFE_LOSS_HUNTER_ENCOUNTER},
 
                 .connections = connections,
-                .nConnections = 10,
+                .nConnections = 9,
         });
     }
 

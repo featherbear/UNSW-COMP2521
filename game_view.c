@@ -99,7 +99,7 @@ GameView gv_new(char *past_plays, player_message messages[]) {
     while ((moveStr = strsep(&cursor, " "))) {
         if (strlen(moveStr) != 7) break;
 
-        char player = *moveStr;           // 0    // not too important if we're cycling n%5
+        char player = *moveStr;           // 0
         char *_locationStr = moveStr + 1; // 1-2
         char *_event = moveStr + 1 + 2;   // 3-6
 
@@ -321,26 +321,26 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
      // Get all the connections: {ROAD, RAIL, SEA}
      if (road) {
          Queue road_moves = connections_get_roadways(gv, from, player, m);
-         printf("\nRoad Locations  | %zu\n", queue_size(road_moves));
+         // printf("\nRoad Locations  | %zu\n", queue_size(road_moves));
          queue_append_unique(validMoves, road_moves);
      }
 
     if (rail) {
         assert(player != PLAYER_DRACULA);
         Queue rail_moves = connections_get_railways(from, player, m, round);
-        printf("Rail Locations  | %zu\n", queue_size(rail_moves));
+        // printf("Rail Locations  | %zu\n", queue_size(rail_moves));
         queue_append_unique(validMoves, rail_moves);
     }
 
     if (sea) {
         Queue sea_moves = connections_get_seaways(gv, from, player, m);
-        printf("Sea Locations   | %zu\n", queue_size(sea_moves));
+        // printf("Sea Locations   | %zu\n", queue_size(sea_moves));
         queue_append_unique(validMoves, sea_moves);
     }
 
-    // Consider extra moves (Non-exact)
+    // Consider extra moves
     Queue extra_moves = connections_get_extras(gv, from, player);
-    printf("Extra Locations | %zu\n", queue_size(extra_moves));
+    // printf("Extra Locations | %zu\n", queue_size(extra_moves));
     queue_append_unique(validMoves, extra_moves);
 
     // If dracula doesn't have moves, he must teleport back to Castle Dracula

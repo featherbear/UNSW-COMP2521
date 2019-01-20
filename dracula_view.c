@@ -19,12 +19,6 @@
 #include "_connections.h"
 #include "_structures.h"
 
-
-//
-// Function declarations
-//
-static location_t get_exact_locations (location_t l);
-
 ///
 
 typedef struct dracula_view {
@@ -87,7 +81,8 @@ void dv_get_locale_info(dracula_view *dv, location_t where, int *n_traps, int *n
     *n_vamps = (int)dv->gv->encounters.vamp_location == where;
 }
 
-/* Get the history of a given player */
+/* Get the history of a given player
+ * The history stores the non-exact value*/
 void dv_get_trail(dracula_view *dv, enum player player, location_t trail[TRAIL_SIZE]) {
 
     if (player != PLAYER_DRACULA) {

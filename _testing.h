@@ -17,6 +17,7 @@
 //
 // Function Declarations
 //
+
 bool itemInArray(int needle, int *haystack, size_t n_haystack);
 bool arraysEqual(size_t nA, int *A, size_t nB, int *B);
 
@@ -47,13 +48,13 @@ bool itemInArray(int needle, int *haystack, size_t n_haystack) {
 /* Compare two arrays and checks if they have the same items (unordered) */
 bool arraysEqual(size_t nA, int *A, size_t nB, int *B) {
 
-    printf("Generated Locations: %d |", nA);
+   /* printf("Generated Locations: %d |", nA);
     for (int i = 0; i < nA; i++) printf(" %s", location_get_name(A[i]));
     puts("");
 
     printf("Expected  Locations: %d |", nB);
     for (int i = 0; i < nB; i++) printf(" %s", location_get_name(B[i]));
-    puts("");
+    puts("");*/
 
     // Early exit - if the sizes do not match
     if (nA != nB) return false;
