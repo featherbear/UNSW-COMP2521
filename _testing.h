@@ -7,7 +7,6 @@
 
 #include <stdio.h>
 
-
 #define TEST(ast)          A(#ast); assert(ast); O();
 #define TEST_MSG(msg, ast) A(msg);  assert(ast); O();
 
@@ -15,13 +14,13 @@
 #define T(m) printf("\n%s ::\n", m);
 #define A(m) printf("  %s", m);
 
-
-// Testing helpers
-// Check if an item (int) is in an array
+//
+// Function Declarations
+//
 bool itemInArray(int needle, int *haystack, size_t n_haystack);
-
-// Compare two arrays and checks if they have the same items (unordered)
 bool arraysEqual(size_t nA, int *A, size_t nB, int *B);
+
+///
 
 struct expectedData {
     round_t round;
@@ -34,7 +33,9 @@ struct expectedData {
     location_t *connections;
 };
 
-// Check if an item (int) is in an array
+///
+
+/* Check if an item (int) is in an array */
 bool itemInArray(int needle, int *haystack, size_t n_haystack) {
     for (size_t i = 0; i < n_haystack; i++) {
         if (haystack[i] == needle) return true;
@@ -42,14 +43,14 @@ bool itemInArray(int needle, int *haystack, size_t n_haystack) {
     return false;
 }
 
-// Compare two arrays and checks if they have the same items (unordered)
+/* Compare two arrays and checks if they have the same items (unordered) */
 bool arraysEqual(size_t nA, int *A, size_t nB, int *B) {
 
-    printf("\nA: %d |", nA);
+    printf("\nGenerated Locations: %d |", nA);
     for (int i = 0; i < nA; i++) printf(" %d", A[i]);
     puts("");
 
-    printf("B: %d |", nB);
+    printf("Expected  Locations: %d |", nB);
     for (int i = 0; i < nB; i++) printf(" %d", B[i]);
     puts("");
 

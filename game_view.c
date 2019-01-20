@@ -67,7 +67,6 @@ GameView gv_new(char *past_plays, player_message messages[]) {
 
             .timers = {
                     .doubleBack = 0,
-//                    .hide = 0,
                     .vampFlyTime = 0
             },
 
@@ -164,6 +163,7 @@ GameView gv_new(char *past_plays, player_message messages[]) {
         if (currPlayer_n == PLAYER_DRACULA) {
 
             if (_event[0] == 'T') {
+
                 // TODO Hunters might not know where the trap was placed
                 if (valid_location_p(lID)) gv->encounters.traps[lID]++;
             }
@@ -180,26 +180,24 @@ GameView gv_new(char *past_plays, player_message messages[]) {
             }
 
             if (_event[2] == 'M') {
+
                 // Remove trap
                 assert(gv->encounters.traps[lID] > 0);
                 event_remove_trap(gv, lID);
 
             } else if (_event[2] == 'V') {
-                // Trigger vamp
-//                assert(gv->encounters.vamp_location != NOWHERE); // -> NOWHERE == UNKNOWN_LOCATION
-//                assert(gv->timers.vampFlyTime > 0);
 
+                // Trigger vamp
                 event_encounter_vamp(gv);
             }
 
-            // Hunter ACTIONS: `T` && `V` && `D`; Trap, Vamp, Drac
+        // Hunter ACTIONS: `T` && `V` && `D`; Trap, Vamp, Drac
         } else {
 
             bool isAlive = true;
             while (*_event != '.' && *_event != '\0' && isAlive) {
                 switch (*_event) {
                     case 'T':
-//                        assert(gv->encounters.traps[lID] > 0);
                         isAlive = event_encounter_trap(gv, currPlayer_n, lID);
                         break;
                     case 'V':
@@ -224,10 +222,8 @@ GameView gv_new(char *past_plays, player_message messages[]) {
             if (gv->timers.hide) --gv->timers.hide;
             if (gv->timers.doubleBack) --gv->timers.doubleBack;
 
-            // The exact location
-            puts("game_view.c: currPlayer_n");
+            // Find the exact location
             location_t draculaLocation = resolveExtraLocations(gv->currPlayer->moves->tail);
-            puts("game_view.c:resolve");
 
             // Update Health: Loses 2 health everytime Drac is at sea
             if ((valid_location_p(draculaLocation) && location_get_type(draculaLocation) == SEA)
@@ -318,42 +314,38 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
 
     // Need to find the exact location
     if (round == gv->currRound && player == PLAYER_DRACULA) {
-        puts("game_view.c:start gv_get_conn");
         from = resolveExtraLocations(gv->players[PLAYER_DRACULA].moves->tail);
-        puts("game_view.c:resolve");
     }
-
-
 
     assert(valid_location_p(from));
     Queue validMoves = queue_new();
     location_t *loc;
     Map m = map_new();
 
-    // Get all the connections: {ROAD, RAIL, SEA}
-    if (road) {
-        Queue road_moves = connections_get_roadways(gv, from, player, m);
-        queue_append_unique(validMoves, road_moves);
-    }
+     // Get all the connections: {ROAD, RAIL, SEA}
+     if (road) {
+         Queue road_moves = connections_get_roadways(gv, from, player, m);
+         printf("Road Locations | %d\n", queue_size(road_moves));
+         queue_append_unique(validMoves, road_moves);
+     }
 
     if (rail) {
         assert(player != PLAYER_DRACULA);
         Queue rail_moves = connections_get_railways(from, player, m, round);
+        printf("Rail Locations | %d\n", queue_size(rail_moves));
         queue_append_unique(validMoves, rail_moves);
     }
 
     if (sea) {
         Queue sea_moves = connections_get_seaways(gv, from, player, m);
+        printf("Sea Locations | %d\n", queue_size(sea_moves));
         queue_append_unique(validMoves, sea_moves);
     }
-
-    puts("got transports; finding extras");
 
     // Consider extra moves (Non-exact)
     Queue extra_moves = connections_get_extras(gv, from, player);
     queue_append_unique(validMoves, extra_moves);
 
-    puts("extras finish");
     // If dracula doesn't have moves, he must teleport back to Castle Dracula
     size_t queueSize = queue_size(validMoves);
 
@@ -362,7 +354,7 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
         loc[0] = TELEPORT;
         *n_locations = 1;
 
-        // Put everything in the queue into the array
+    // Put everything in the queue into the array
     } else {
         loc = malloc(queueSize * sizeof(location_t));
         for (size_t i = 0; i < queueSize; i++) loc[i] = (location_t) (size_t) queue_de(validMoves);
@@ -375,7 +367,3 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
 
     return loc;
 }
-
-
-
-

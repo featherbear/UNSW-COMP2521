@@ -262,7 +262,7 @@ int main(void) {
         hv_drop (hv);
     } while (0);
 
-    ////////////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////////////
     /* Rolling tests */
     {
         testFramework("Round 0 Turn 0", "", (struct expectedData) {
@@ -285,9 +285,10 @@ int main(void) {
                 .connections = NULL,
                 .nConnections = 0,
         });
-        printf_green("passed\n");
+
 
     }
+       ////////////////////////////////////////////////////////////////
     {
         testFramework("Round 0 Turn 1", "GMN....", (struct expectedData) {
                 .player = PLAYER_DR_SEWARD,
@@ -310,6 +311,7 @@ int main(void) {
                 .nConnections = 0,
         });
     }
+       ////////////////////////////////////////////////////////////////
     {
         testFramework("Round 0 Turn 2", "GMN.... SPL....", (struct expectedData) {
                 .player = PLAYER_VAN_HELSING,
@@ -331,8 +333,9 @@ int main(void) {
                 .connections = NULL,
                 .nConnections = 0
         });
-        printf_green("passed\n");
+
     }
+       ////////////////////////////////////////////////////////////////
     {
         testFramework("Round 0 Turn 3", "GMN.... SPL.... HAM....", (struct expectedData) {
                 .player = PLAYER_MINA_HARKER,
@@ -354,8 +357,9 @@ int main(void) {
                 .connections = NULL,
                 .nConnections = 0,
         });
-        printf_green("passed\n");
+
     }
+       ////////////////////////////////////////////////////////////////
     {
         testFramework("Round 0 Turn 4", "GMN.... SPL.... HAM.... MPA....", (struct expectedData) {
                 .player = PLAYER_DRACULA,
@@ -377,10 +381,10 @@ int main(void) {
                 .connections = NULL,
                 .nConnections = 0,
         });
-        printf_green("passed\n");
+
     }
+       ////////////////////////////////////////////////////////////////
     {
-        // Next round
         location_t connections[] = {MANCHESTER, EDINBURGH, LIVERPOOL, LONDON};
         testFramework("Round 1 Turn 0", "GMN.... SPL.... HAM.... MPA.... DC?.V..", (struct expectedData) {
                 // TODO VAMPIRE WAS PLACED / Check drac view
@@ -404,6 +408,7 @@ int main(void) {
                 .nConnections = 4,
         });
     }
+       ////////////////////////////////////////////////////////////////
     {
         location_t connections[] = {PLYMOUTH, LONDON, ENGLISH_CHANNEL};
         testFramework("Round 1 Turn 1", "GMN.... SPL.... HAM.... MPA.... DC?.V.. "
@@ -427,8 +432,9 @@ int main(void) {
                 .connections = connections,
                 .nConnections = 3,
         });
-        printf_green("passed\n");
+
     }
+       ////////////////////////////////////////////////////////////////
     {
         location_t connections[] = {AMSTERDAM, NORTH_SEA, BRUSSELS, COLOGNE};
         testFramework("Round 1 Turn 2", "GMN.... SPL.... HAM.... MPA.... DC?.V.. "
@@ -452,8 +458,9 @@ int main(void) {
                 .connections = connections,
                 .nConnections = 4,
         });
-        printf_green("passed\n");
+
     }
+       ////////////////////////////////////////////////////////////////
     {
         location_t connections[] = {PARIS, GENEVA, CLERMONT_FERRAND, NANTES, LE_HAVRE, BRUSSELS, STRASBOURG};
         testFramework("Round 1 Turn 3", "GMN.... SPL.... HAM.... MPA.... DC?.V.. "
@@ -479,8 +486,8 @@ int main(void) {
                 .nConnections = 7,
         });
     }
+       ////////////////////////////////////////////////////////////////
     {
-        // J: Changed hide into ZURICH
         location_t connections[] = {STRASBOURG, GENEVA, MILAN, MUNICH, MARSEILLES, ZURICH};
         testFramework("Round 1 Turn 4", "GMN.... SPL.... HAM.... MPA.... DZU.V.. "
                                         "GLV.... SLO.... HNS.... MST....", (struct expectedData) {
@@ -489,8 +496,8 @@ int main(void) {
                 .round = 1,
 
                 .location = {LIVERPOOL, LONDON, NORTH_SEA, STRASBOURG, ZURICH},
-                .history = {{LIVERPOOL, MANCHESTER,        UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
-                            {LONDON, PLYMOUTH,             UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                .history = {{LIVERPOOL,  MANCHESTER,       UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {LONDON,     PLYMOUTH,         UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
                             {NORTH_SEA,  AMSTERDAM,        UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
                             {STRASBOURG, PARIS,            UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
                             {ZURICH,     UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}},
@@ -503,11 +510,9 @@ int main(void) {
                 .connections = connections,
                 .nConnections = 6,
         });
-        printf_green("passed\n");
+
     }
-
-    // Next round
-
+       ////////////////////////////////////////////////////////////////
     {
         location_t connections[] = {LIVERPOOL, SWANSEA, MANCHESTER, IRISH_SEA, EDINBURGH, LONDON};
         testFramework("Round 2 Turn 0", "GMN.... SPL.... HAM.... MPA.... DC?.V.. "
@@ -531,8 +536,9 @@ int main(void) {
                 .connections = connections,
                 .nConnections = 6,
         });
-        printf_green("passed\n");
+
     }
+       ////////////////////////////////////////////////////////////////
     {
         location_t connections[] = {LONDON, MANCHESTER, EDINBURGH, LIVERPOOL, SWANSEA, ENGLISH_CHANNEL, PLYMOUTH};
         testFramework("Round 2 Turn 1", "GMN.... SPL.... HAM.... MPA.... DC?.V.. "
@@ -558,6 +564,7 @@ int main(void) {
                 .nConnections = 7,
         });
     }
+       ////////////////////////////////////////////////////////////////
     {
         location_t connections[] = {STRASBOURG, MUNICH, MILAN, MARSEILLES, GENEVA, ZURICH};
         testFramework("Round 5 Turn 3", "GMN.... SPL.... HAM.... MPA.... DC?.V.. "
@@ -571,11 +578,11 @@ int main(void) {
                 .round = 5,
 
                 .location = {SWANSEA, LONDON, NORTH_SEA, ZURICH, CITY_UNKNOWN},
-                .history = {{SWANSEA, LIVERPOOL, SWANSEA, IRISH_SEA, LIVERPOOL, MANCHESTER},
-                            {LONDON, PLYMOUTH, LONDON, PLYMOUTH, LONDON, PLYMOUTH},
-                            {NORTH_SEA, ATLANTIC_OCEAN, NORTH_SEA, ATLANTIC_OCEAN, NORTH_SEA, AMSTERDAM},
-                            {ZURICH, FRANKFURT, ZURICH, STRASBOURG, PARIS, UNKNOWN_LOCATION},
-                            {CITY_UNKNOWN, CITY_UNKNOWN, CASTLE_DRACULA, CITY_UNKNOWN, CITY_UNKNOWN, UNKNOWN_LOCATION}},
+                .history = {{SWANSEA,      LIVERPOOL,      SWANSEA,        IRISH_SEA,      LIVERPOOL,    MANCHESTER},
+                            {LONDON,       PLYMOUTH,       LONDON,         PLYMOUTH,       LONDON,       PLYMOUTH},
+                            {NORTH_SEA,    ATLANTIC_OCEAN, NORTH_SEA,      ATLANTIC_OCEAN, NORTH_SEA,    AMSTERDAM},
+                            {ZURICH,       FRANKFURT,      ZURICH,         STRASBOURG,     PARIS,        UNKNOWN_LOCATION},
+                            {CITY_UNKNOWN, CITY_UNKNOWN,   CASTLE_DRACULA, CITY_UNKNOWN,   CITY_UNKNOWN, UNKNOWN_LOCATION}},
                 .health = {GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
@@ -586,10 +593,9 @@ int main(void) {
                 .nConnections = 6,
         });
     }
+       ////////////////////////////////////////////////////////////////
     {
-        // J: Changed this.
-        // trail = {BUCHAREST, KLAUSENBURG, CASTLE_DRACULA, GALATZ, GALATZ, UNKNOWN_LOCATION}
-        location_t connections[] = {CONSTANTA, BELGRADE, SOFIA, BUCHAREST, KLAUSENBURG, CASTLE_DRACULA, GALATZ};
+        location_t connections[] = {CONSTANTA, BELGRADE, SOFIA, KLAUSENBURG, CASTLE_DRACULA, GALATZ};
         testFramework("Round 5 Turn 4", "GMN.... SPL.... HAM.... MPA.... DGA.V.. "
                                         "GLV.... SLO.... HNS.... MST.... DHIT... "
                                         "GIR.... SPL.... HAO.... MZU.... DCDT... "
@@ -613,10 +619,11 @@ int main(void) {
                            GAME_START_BLOOD_POINTS + LIFE_GAIN_CASTLE_DRACULA},
 
                 .connections = connections,
-                .nConnections = 7,
+                .nConnections = 6,
         });
-        printf_green("passed\n");
+
     }
+       ////////////////////////////////////////////////////////////////
     {
         location_t connections[] = {PLYMOUTH, ENGLISH_CHANNEL, LONDON};
         testFramework("Round 7 Turn 0", "GED.... SGE.... HZU.... MCA.... DCF.V.. "
@@ -631,11 +638,11 @@ int main(void) {
                 .round = 7,
 
                 .location = {PLYMOUTH, SARAJEVO, BARCELONA, GRANADA, CITY_UNKNOWN},
-                .history = {{PLYMOUTH, PLYMOUTH, LONDON,PLYMOUTH, LONDON, MANCHESTER},
-                            {SARAJEVO, SARAJEVO, BARCELONA, MEDITERRANEAN_SEA, MARSEILLES, CLERMONT_FERRAND},
-                            {BARCELONA, BARCELONA, MEDITERRANEAN_SEA, MARSEILLES, CLERMONT_FERRAND, GENEVA},
-                            {GRANADA, GRANADA, MADRID, GRANADA, MADRID, LISBON},
-                            {CITY_UNKNOWN, CITY_UNKNOWN, CITY_UNKNOWN, BARCELONA, CITY_UNKNOWN, BORDEAUX}},
+                .history = {{PLYMOUTH,     PLYMOUTH,     LONDON,            PLYMOUTH,          LONDON,           MANCHESTER},
+                            {SARAJEVO,     SARAJEVO,     BARCELONA,         MEDITERRANEAN_SEA, MARSEILLES,       CLERMONT_FERRAND},
+                            {BARCELONA,    BARCELONA,    MEDITERRANEAN_SEA, MARSEILLES,        CLERMONT_FERRAND, GENEVA},
+                            {GRANADA,      GRANADA,      MADRID,            GRANADA,           MADRID,           LISBON},
+                            {CITY_UNKNOWN, CITY_UNKNOWN, CITY_UNKNOWN,      BARCELONA,         CITY_UNKNOWN,     BORDEAUX}},
                 .health = {GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
@@ -645,10 +652,10 @@ int main(void) {
                 .connections = connections,
                 .nConnections = 3,
         });
-        printf_green("passed\n");
+
     }
+       ////////////////////////////////////////////////////////////////
     {
-        // J: Changed this.
         location_t connections[] = {GRANADA, CADIZ, LISBON, SANTANDER, ALICANTE, SARAGOSSA, BARCELONA,
                                     TOULOUSE, BORDEAUX, MADRID};
         testFramework("Round 7 Turn 4", "GED.... SGE.... HZU.... MCA.... DCF.V.. "
@@ -664,11 +671,11 @@ int main(void) {
                 .round = 7,
 
                 .location = {LONDON, BELGRADE, MEDITERRANEAN_SEA, MADRID, MADRID},
-                .history = {{LONDON, PLYMOUTH,  PLYMOUTH,  LONDON, PLYMOUTH, LONDON},
-                            {BELGRADE, SARAJEVO, SARAJEVO, BARCELONA, MEDITERRANEAN_SEA, MARSEILLES, CLERMONT_FERRAND},
-                            {MEDITERRANEAN_SEA, BARCELONA, BARCELONA, MEDITERRANEAN_SEA, MARSEILLES, CLERMONT_FERRAND},
-                            {MADRID, GRANADA, GRANADA, MADRID, GRANADA, MADRID},
-                            {MADRID, ALICANTE,  SARAGOSSA, BARCELONA, TOULOUSE, BORDEAUX}},
+                .history = {{LONDON,            PLYMOUTH,  PLYMOUTH,  LONDON,            PLYMOUTH,          LONDON},
+                            {BELGRADE,          SARAJEVO,  SARAJEVO,  BARCELONA,         MEDITERRANEAN_SEA, MARSEILLES},
+                            {MEDITERRANEAN_SEA, BARCELONA, BARCELONA, MEDITERRANEAN_SEA, MARSEILLES,        CLERMONT_FERRAND},
+                            {MADRID,            GRANADA,   GRANADA,   MADRID,            GRANADA,           MADRID},
+                            {MADRID,            ALICANTE,  SARAGOSSA, BARCELONA,         TOULOUSE,          BORDEAUX}},
                 .health = {GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
@@ -680,46 +687,10 @@ int main(void) {
         });
     }
 
-    ////////////////////////////////////////////////////////////////
-    // Extra Cases by Jennifer - 17/8/19
-    ////////////////////////////////////////////////////////////////
-
-    /*If there is no legal move possible for Dracula he automagically Teleports to Castle Dracula as his MOVE*/
-
-    {
-        location_t connections[] = {TELEPORT};
-        testFramework("Test teleport case", "GVA.... SVR.... HAT.... MSA.... DBD.V.. "
-                                            "GVA.... SVR.... HAT.... MSA.... DKL.... "
-                                            "GVA.... SVR.... HAT.... MSA.... DGA.... "
-                                            "GVA.... SVR.... HAT.... MSA.... DBC.... "
-                                            "GVA.... SVR.... HAT.... MSA.... DD2.... "
-                                            "GVA.... SVR.... HAT.... MSA.... DCD.... "
-                                            "GVA.... SVR.... HAT.... MSA.... DHIT... "
-                                            "GVA.... SVR.... HAT.... MSA....", (struct expectedData) {
-                .player = PLAYER_DRACULA,
-                .score = 346,
-                .round = 7,
-
-                .location = {VALONA, VARNA, ATHENS, SALONICA, HIDE},
-                .history = {{VALONA,   VALONA,         VALONA,        VALONA,    VALONA,   VALONA},
-                            {VARNA,    VARNA,          VARNA,         VARNA,     VARNA,    VARNA},
-                            {ATHENS,   ATHENS,         ATHENS,        ATHENS,    ATHENS,   ATHENS},
-                            {SALONICA, SALONICA,       SALONICA,      SALONICA,  SALONICA, SALONICA},
-                            {HIDE,     CASTLE_DRACULA, DOUBLE_BACK_2, BUCHAREST, GALATZ,   KLAUSENBURG}},
-                .health = {GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_BLOOD_POINTS + 2 * LIFE_GAIN_CASTLE_DRACULA},
-
-                .connections = connections,
-                .nConnections = 1,
-        });
-    }
-
     return EXIT_SUCCESS;
 
 /*
+ // STUB
  {
         location_t connections[] = {PLYMOUTH, ENGLISH_CHANNEL, LONDON};
         testFramework("????????", "", (struct expectedData) {

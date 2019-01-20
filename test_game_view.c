@@ -630,6 +630,8 @@ int main(void) {
     }
     {
         // J: Changed this
+        // What's up?
+        // There's no HIDE or DBS this time..
         location_t connections[] = {GRANADA, CADIZ, LISBON, SANTANDER, ALICANTE, SARAGOSSA, BARCELONA,
                                     TOULOUSE, BORDEAUX, MADRID};
         testFramework("Round 7 Turn 4", "GED.... SGE.... HZU.... MCA.... DCF.V.. "
@@ -667,36 +669,36 @@ int main(void) {
 
     /*If there is no legal move possible for Dracula he automagically Teleports to Castle Dracula as his MOVE*/
 
-    {
-        location_t connections[] = {TELEPORT};
-        testFramework("Test teleport case", "GVA.... SVR.... HAT.... MSA.... DBD.V.. "
-                                            "GVA.... SVR.... HAT.... MSA.... DKL.... "
-                                            "GVA.... SVR.... HAT.... MSA.... DGA.... "
-                                            "GVA.... SVR.... HAT.... MSA.... DBC.... "
-                                            "GVA.... SVR.... HAT.... MSA.... DD2.... "
-                                            "GVA.... SVR.... HAT.... MSA.... DCD.... "
-                                            "GVA.... SVR.... HAT.... MSA.... DHIT... "
-                                            "GVA.... SVR.... HAT.... MSA....", (struct expectedData) {
-                .player = PLAYER_DRACULA,
-                .score = 346,
-                .round = 7,
+    // {
+    //     location_t connections[] = {TELEPORT};
+    //     testFramework("Test teleport case", "GVA.... SVR.... HAT.... MSA.... DBD.V.. "
+    //                                         "GVA.... SVR.... HAT.... MSA.... DKL.... "
+    //                                         "GVA.... SVR.... HAT.... MSA.... DGA.... "
+    //                                         "GVA.... SVR.... HAT.... MSA.... DBC.... "
+    //                                         "GVA.... SVR.... HAT.... MSA.... DD2.... "
+    //                                         "GVA.... SVR.... HAT.... MSA.... DCD.... "
+    //                                         "GVA.... SVR.... HAT.... MSA.... DHIT... "
+    //                                         "GVA.... SVR.... HAT.... MSA....", (struct expectedData) {
+    //             .player = PLAYER_DRACULA,
+    //             .score = 346,
+    //             .round = 7,
 
-                .location = {VALONA, VARNA, ATHENS, SALONICA, HIDE},
-                .history = {{VALONA,   VALONA,         VALONA,        VALONA,    VALONA,   VALONA},
-                            {VARNA,    VARNA,          VARNA,         VARNA,     VARNA,    VARNA},
-                            {ATHENS,   ATHENS,         ATHENS,        ATHENS,    ATHENS,   ATHENS},
-                            {SALONICA, SALONICA,       SALONICA,      SALONICA,  SALONICA, SALONICA},
-                            {HIDE,     CASTLE_DRACULA, DOUBLE_BACK_2, BUCHAREST, GALATZ,   KLAUSENBURG}},
-                .health = {GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_BLOOD_POINTS + 2 * LIFE_GAIN_CASTLE_DRACULA},
+    //             .location = {VALONA, VARNA, ATHENS, SALONICA, HIDE},
+    //             .history = {{VALONA,   VALONA,         VALONA,        VALONA,    VALONA,   VALONA},
+    //                         {VARNA,    VARNA,          VARNA,         VARNA,     VARNA,    VARNA},
+    //                         {ATHENS,   ATHENS,         ATHENS,        ATHENS,    ATHENS,   ATHENS},
+    //                         {SALONICA, SALONICA,       SALONICA,      SALONICA,  SALONICA, SALONICA},
+    //                         {HIDE,     CASTLE_DRACULA, DOUBLE_BACK_2, BUCHAREST, GALATZ,   KLAUSENBURG}},
+    //             .health = {GAME_START_HUNTER_LIFE_POINTS,
+    //                       GAME_START_HUNTER_LIFE_POINTS,
+    //                       GAME_START_HUNTER_LIFE_POINTS,
+    //                       GAME_START_HUNTER_LIFE_POINTS,
+    //                       GAME_START_BLOOD_POINTS + 2 * LIFE_GAIN_CASTLE_DRACULA},
 
-                .connections = connections,
-                .nConnections = 1,
-        });
-    }
+    //             .connections = connections,
+    //             .nConnections = 1,
+    //     });
+    // }
 
     return EXIT_SUCCESS;
 

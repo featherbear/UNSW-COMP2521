@@ -11,6 +11,7 @@
 #include "game.h"
 #include "game_view.h"
 
+// Function declarations
 void event_remove_vamp(GameView gv);
 void event_remove_trap(GameView gv, location_t location);
 bool event_player_hurt(GameView gv, enum player player, int damage);
@@ -20,11 +21,15 @@ bool event_encounter_trap(GameView gv, enum player player, location_t location);
 void event_encounter_vamp(GameView gv);
 bool event_encounter_dracula(GameView gv, enum player player);
 
+/* Removes a vamp
+ * Updates the struct */
 void event_remove_vamp(GameView gv) {
     gv->timers.vampFlyTime = 0;
     gv->encounters.vamp_location = NOWHERE;
 }
 
+/* Removes a trap
+ * Updates the struct */
 void event_remove_trap(GameView gv, location_t location) {
     if (valid_location_p(location) && gv->encounters.traps[location]) gv->encounters.traps[location]--;
 }
@@ -36,16 +41,14 @@ void event_remove_trap(GameView gv, location_t location) {
  */
 bool event_player_hurt(GameView gv, enum player player, int damage) {
 
-    bool result = true;
-
     // Get the player's health
     int *health = &gv->players[player].health;
-
+    bool result = true;
     *health -= damage;
 
     printf_red("> Player %d took %d damage! (HP: %d)\n", player, damage, *health);
 
-    // Teleportation when HUNTER dies.
+    // Hunter TELEPORTS when he dies
     if (player != PLAYER_DRACULA) {
         if (*health <= 0) {
             *health = 0;

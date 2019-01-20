@@ -23,7 +23,6 @@ void get_connections_str(location_t *l, size_t size);
 char *get_playerName(enum player p);
 
 
-///////
 
 int main() {
 
