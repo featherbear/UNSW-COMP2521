@@ -9,6 +9,39 @@
 #include "_queue.h"
 #include "_connections.h"
 
+/* Takes in 'non-exact' moves and returns exactly where Dracula is (if not resolved to an unknown location) */
+location_t resolveExtraLocations(dNode posNode) {
+    assert(posNode);
+    location_t pos = posNode->item;
+
+    while (!valid_location_p(pos)) {
+        // Find the exact location for DOUBLE_BACK_N
+        if (DOUBLE_BACK_1 <= pos && pos <= DOUBLE_BACK_5) {
+            for (int i = 0; i <= posNode->item - DOUBLE_BACK_1; i++)
+                posNode = posNode->prev;
+
+            // Find the exact location for HIDE
+        } else if (pos == HIDE) {
+            posNode = posNode->prev;
+        }
+
+        pos = posNode->item;
+
+        // Handle TELEPORT and UNKNOWN cases
+        switch (pos) {
+            case TELEPORT:
+                return CASTLE_DRACULA;
+            case CITY_UNKNOWN:
+            case SEA_UNKNOWN:
+            case UNKNOWN_LOCATION:
+                return pos;
+            default:
+                break;
+        }
+    }
+
+    return pos;
+}
 
 /* Adds the extra locations (HIDE, DOUBLE_BACK, "rest" ) */
 Queue connections_get_extras(GameView gv, location_t l, enum player player) {
@@ -18,32 +51,26 @@ Queue connections_get_extras(GameView gv, location_t l, enum player player) {
     // Extra moves for Dracula: DOUBLE_BACK_N && HIDE
     if (player == PLAYER_DRACULA) {
 
+        // Consider DOUBLE_BACK_N
         if (!location_in_trail(gv, player, DOUBLE_BACK_1)
             && !location_in_trail(gv, player, DOUBLE_BACK_2)
             && !location_in_trail(gv, player, DOUBLE_BACK_3)
             && !location_in_trail(gv, player, DOUBLE_BACK_4)
             && !location_in_trail(gv, player, DOUBLE_BACK_5)) {
 
-            switch (gv_get_round(gv)) {
-                default:
-                    queue_en(q, DOUBLE_BACK_5);
-                case 5:
-                    queue_en(q, DOUBLE_BACK_4);
-                case 4:
-                    queue_en(q, DOUBLE_BACK_3);
-                case 3:
-                    queue_en(q, DOUBLE_BACK_2);
-                case 2:
-                    queue_en(q, DOUBLE_BACK_1);
-                case 1:
-                case 0:
-                    break;
+            dNode tmp = gv->players[PLAYER_DRACULA].moves->tail->prev;
+
+            size_t rounds = gv_get_round(gv);
+            for (int i = 2; i <= rounds; i++) {
+                printf("Doing this for the %d[.] time\n", i-1);
+                queue_en(q, resolveExtraLocations(tmp));
+                tmp = tmp->prev;
             }
         }
 
-
+        // Consider HIDE
         if (!location_in_trail(gv, player, HIDE) && gv_get_round(gv) != 0 && location_get_type(l) != SEA)
-            queue_en(q, HIDE);
+            queue_en(q, resolveExtraLocations(gv->players[PLAYER_DRACULA].moves->tail));
 
     } else queue_en(q, l);
 

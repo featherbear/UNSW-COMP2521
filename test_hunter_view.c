@@ -480,7 +480,8 @@ int main(void) {
         });
     }
     {
-        location_t connections[] = {STRASBOURG, GENEVA, MILAN, MUNICH, MARSEILLES, HIDE};
+        // J: Changed hide into ZURICH
+        location_t connections[] = {STRASBOURG, GENEVA, MILAN, MUNICH, MARSEILLES, ZURICH};
         testFramework("Round 1 Turn 4", "GMN.... SPL.... HAM.... MPA.... DZU.V.. "
                                         "GLV.... SLO.... HNS.... MST....", (struct expectedData) {
                 .player = PLAYER_DRACULA,
@@ -557,9 +558,6 @@ int main(void) {
                 .nConnections = 7,
         });
     }
-
-    /* */
-
     {
         location_t connections[] = {STRASBOURG, MUNICH, MILAN, MARSEILLES, GENEVA, ZURICH};
         testFramework("Round 5 Turn 3", "GMN.... SPL.... HAM.... MPA.... DC?.V.. "
@@ -589,8 +587,9 @@ int main(void) {
         });
     }
     {
-        location_t connections[] = {CONSTANTA, BELGRADE, SOFIA, DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3,
-                                    DOUBLE_BACK_4};
+        // J: Changed this.
+        // trail = {BUCHAREST, KLAUSENBURG, CASTLE_DRACULA, GALATZ, GALATZ, UNKNOWN_LOCATION}
+        location_t connections[] = {CONSTANTA, BELGRADE, SOFIA, BUCHAREST, KLAUSENBURG, CASTLE_DRACULA, GALATZ};
         testFramework("Round 5 Turn 4", "GMN.... SPL.... HAM.... MPA.... DGA.V.. "
                                         "GLV.... SLO.... HNS.... MST.... DHIT... "
                                         "GIR.... SPL.... HAO.... MZU.... DCDT... "
@@ -618,9 +617,6 @@ int main(void) {
         });
         printf_green("passed\n");
     }
-
-    /* */
-
     {
         location_t connections[] = {PLYMOUTH, ENGLISH_CHANNEL, LONDON};
         testFramework("Round 7 Turn 0", "GED.... SGE.... HZU.... MCA.... DCF.V.. "
@@ -652,8 +648,9 @@ int main(void) {
         printf_green("passed\n");
     }
     {
-        location_t connections[] = {GRANADA, CADIZ, LISBON, SANTANDER, DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3,
-                                    DOUBLE_BACK_4, DOUBLE_BACK_5, HIDE};
+        // J: Changed this.
+        location_t connections[] = {GRANADA, CADIZ, LISBON, SANTANDER, ALICANTE, SARAGOSSA, BARCELONA,
+                                    TOULOUSE, BORDEAUX, MADRID};
         testFramework("Round 7 Turn 4", "GED.... SGE.... HZU.... MCA.... DCF.V.. "
                                         "GMN.... SCFVD.. HGE.... MLS.... DBOT... "
                                         "GLO.... SMR.... HCF.... MMA.... DTOT... "
@@ -667,11 +664,11 @@ int main(void) {
                 .round = 7,
 
                 .location = {LONDON, BELGRADE, MEDITERRANEAN_SEA, MADRID, MADRID},
-                .history = {{LONDON, PLYMOUTH,  PLYMOUTH,  LONDON, PLYMOUTH,        LONDON},
-                            {BELGRADE, SARAJEVO, SARAJEVO, BARCELONA,        MEDITERRANEAN_SEA, MARSEILLES, CLERMONT_FERRAND},
+                .history = {{LONDON, PLYMOUTH,  PLYMOUTH,  LONDON, PLYMOUTH, LONDON},
+                            {BELGRADE, SARAJEVO, SARAJEVO, BARCELONA, MEDITERRANEAN_SEA, MARSEILLES, CLERMONT_FERRAND},
                             {MEDITERRANEAN_SEA, BARCELONA, BARCELONA, MEDITERRANEAN_SEA, MARSEILLES, CLERMONT_FERRAND},
                             {MADRID, GRANADA, GRANADA, MADRID, GRANADA, MADRID},
-                            {MADRID, ALICANTE,  SARAGOSSA, BARCELONA, TOULOUSE,         BORDEAUX}},
+                            {MADRID, ALICANTE,  SARAGOSSA, BARCELONA, TOULOUSE, BORDEAUX}},
                 .health = {GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,

@@ -9,9 +9,16 @@
 #include "game_view.h"
 #include "map.h"
 #include "places.h"
+#include "_dlist.h"
+#include "_queue.h"
 
 // Credits and many thanks to
 // https://stackoverflow.com/questions/10258305/how-to-implement-a-breadth-first-search-to-a-certain-depth
+
+
+location_t resolveExtraLocations(dNode posNode);
+
+//
 
 /* Adds the extra locations (HIDE, DOUBLE_BACK, "rest" ) */
 Queue connections_get_extras(GameView gv, location_t l, enum player player);

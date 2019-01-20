@@ -76,6 +76,9 @@ static inline void testFramework(char *title, char *trail, struct expectedData e
         {
             A("Check Dracula's player move");
             dv_get_player_move(dv, PLAYER_DRACULA, &start, &end);
+            printf("%d -> %d\n", exp.history[PLAYER_DRACULA][1], exp.history[PLAYER_DRACULA][1]);
+            printf("%d -> %d\n", start, end);
+
             assert(exp.history[PLAYER_DRACULA][1] == start);
             assert(exp.history[PLAYER_DRACULA][0] == end);
             O();
@@ -161,7 +164,7 @@ int main(void) {
         dv_drop(dv);
     } while (0);
 
-    
+
 
     //////////////////////////////////////////////////////////////
 
@@ -214,9 +217,9 @@ int main(void) {
     }
 
 
-    {
-        location_t connections[] = {CONSTANTA, BELGRADE, SOFIA, DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3,
-                                    DOUBLE_BACK_4};
+    {   // J: Changed this.
+        // trail = {BUCHAREST, KLAUSENBURG, CASTLE_DRACULA, GALATZ, GALATZ, UNKNOWN_LOCATION}
+        location_t connections[] = {CONSTANTA, BELGRADE, SOFIA, BUCHAREST, KLAUSENBURG, CASTLE_DRACULA, GALATZ};
         testFramework("Round 5 Turn 4", "GMN.... SPL.... HAM.... MPA.... DGA.V.. "
                                         "GLV.... SLO.... HNS.... MST.... DHIT... "
                                         "GIR.... SPL.... HAO.... MZU.... DCDT... "
@@ -245,8 +248,9 @@ int main(void) {
     }
 
     {
-        location_t connections[] = {GRANADA, CADIZ, LISBON, SANTANDER, DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3,
-                                    DOUBLE_BACK_4, DOUBLE_BACK_5, HIDE};
+        // J: Changed this.
+        // Past Trail: {MADRID, ALICANTE, SARAGOSSA, BARCELONA, TOULOUSE, BORDEAUX}
+        location_t connections[] = {GRANADA, CADIZ, LISBON, SANTANDER, ALICANTE, SARAGOSSA, BARCELONA, TOULOUSE, DORDEAUX, MADRID};
         testFramework("Round 7 Turn 4", "GED.... SGE.... HZU.... MCA.... DCF.V.. "
                                         "GMN.... SCFVD.. HGE.... MLS.... DBOT... "
                                         "GLO.... SMR.... HCF.... MMA.... DTOT... "
@@ -263,7 +267,7 @@ int main(void) {
                 .history = {{LONDON,            PLYMOUTH,  PLYMOUTH,  LONDON,            PLYMOUTH,          LONDON},
                             {BELGRADE,          SARAJEVO,  SARAJEVO,  BARCELONA,         MEDITERRANEAN_SEA, MARSEILLES},
                             {MEDITERRANEAN_SEA, BARCELONA, BARCELONA, MEDITERRANEAN_SEA, MARSEILLES,        CLERMONT_FERRAND},
-                            {MADRID,            GRANADA,  GRANADA,   MADRID,            GRANADA,           MADRID},
+                            {MADRID,            GRANADA,   GRANADA,   MADRID,            GRANADA,           MADRID},
                             {MADRID,            ALICANTE,  SARAGOSSA, BARCELONA,         TOULOUSE,          BORDEAUX}},
                 .health = {GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
@@ -281,7 +285,6 @@ int main(void) {
     ////////////////////////////////////////////////////////////////
 
     /*If there is no legal move possible for Dracula he automagically Teleports to Castle Dracula as his MOVE*/
-
     {
         location_t connections[] = {TELEPORT};
         testFramework("Test teleport case", "GVA.... SVR.... HAT.... MSA.... DBD.V.. "
@@ -297,11 +300,11 @@ int main(void) {
                 .round = 7,
 
                 .location = {VALONA, VARNA, ATHENS, SALONICA, CASTLE_DRACULA},
-                .history = {{VALONA,         VALONA,         VALONA,    VALONA,    VALONA,   VALONA},
-                            {VARNA,          VARNA,          VARNA,     VARNA,     VARNA,    VARNA},
-                            {ATHENS,         ATHENS,         ATHENS,    ATHENS,    ATHENS,   ATHENS},
-                            {SALONICA,       SALONICA,       SALONICA,  SALONICA,  SALONICA, SALONICA},
-                            {CASTLE_DRACULA,  CASTLE_DRACULA, GALATZ,    BUCHAREST, GALATZ,   KLAUSENBURG}},
+                .history = {{VALONA,   VALONA,         VALONA,        VALONA,    VALONA,   VALONA},
+                            {VARNA,    VARNA,          VARNA,         VARNA,     VARNA,    VARNA},
+                            {ATHENS,   ATHENS,         ATHENS,        ATHENS,    ATHENS,   ATHENS},
+                            {SALONICA, SALONICA,       SALONICA,      SALONICA,  SALONICA, SALONICA},
+                            {HIDE,     CASTLE_DRACULA, DOUBLE_BACK_2, BUCHAREST, GALATZ,   KLAUSENBURG}},
                 .health = {GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
@@ -312,5 +315,48 @@ int main(void) {
                 .nConnections = 1,
         });
     }
+
+
+    ////////////////////////////////////////////////////////////////
+    // /* Dracula cannot make a DOUBLE_BACK move of 'n' if he hasn't had 'n' moves */
+    // GVA.... SVR.... HAT.... MSA.... DLE.V..
+    // GVA.... SVR.... HAT.... MSA.... D(PARIS)T...
+    // GVA.... SVR.... HAT.... MSA.... D(NANTES)T...
+    // GVA.... SVR.... HAT.... MSA....
+
+    // // String to use
+    // "GVA.... SVR.... HAT.... MSA.... DLE.V.. GVA.... SVR.... HAT.... MSA.... DPAT... GVA.... SVR.... HAT.... MSA.... DNAT... GVA.... SVR.... HAT.... MSA...."
+
+    // Round 3: PLAYER_DRACULA (4) @ NANTES; 7 locations: {HIDE, PARIS, LE_HAVRE, NANTES, BORDEAUX, CLERMONT_FERRAND, BAY_OF_BISCAY}
+    // Past Trail: {NANTES, PARIS, LE_HAVRE, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}
+
+    /*
+ {
+        location_t connections[] = {PLYMOUTH, ENGLISH_CHANNEL, LONDON};
+        testFramework("????????", "", (struct expectedData) {
+                .player = ???,
+                .score = ???,
+                .round = ???,
+
+                .location = {UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION,             UNKNOWN_LOCATION},
+                .history = {{UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
+                            {UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}},
+                .health = {GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS ,
+                           GAME_START_BLOOD_POINTS },
+
+                .connections = connections,
+                .nConnections = ???,
+        });
+    }
+*/
+
+
+
     return EXIT_SUCCESS;
 }

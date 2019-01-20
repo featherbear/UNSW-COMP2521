@@ -17,9 +17,9 @@ Round 1: PLAYER_VAN_HELSING (2) @ AMSTERDAM; 4 locations: {AMSTERDAM, NORTRTH_SE
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO.... HNS....
 Round 1: PLAYER_MINA_HARKER (3) @ PARIS; 7 locations: {PARIS, GENEVA, CLERMONT_FERRAND, NANTES, LE_HAVRE, BRUSSELS, STRASBOURG}
 
-// Tested
+// TODO, J: Changed HIDE to ZURICH
 MN.... SPL.... HAM.... MPA.... DZU.V.. GLV.... SLO.... HNS.... MST....
-Round 1: PLAYER_DRACULA (4) @ ZURICH; 5 locations: {STRASBOURG, GENEVA, MARCEILLES,  MILAN, MUNICH, HIDE}
+Round 1: PLAYER_DRACULA (4) @ ZURICH; 5 locations: {STRASBOURG, GENEVA, MARCEILLES,  MILAN, MUNICH, ZURICH}
 
 // Tested
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO.... HNS.... MST.... DC?T...
@@ -37,9 +37,9 @@ Samples from Game #1:
 GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO.... HNS.... MST.... DC?T... GIR.... SPL.... HAO.... MZU.... DCDT... GSW.... SLO.... HNS.... MFR.... DC?T... GLV.... SPL.... HAO.... MZU.... DC?T... GSW.... SLO.... HNS....
 Round 5: PLAYER_MINA_HARKER (3) @ ZURICH; 6 locations: {STRASBOURG, MUNICH, MILAN, MARSEILLES, GENEVA, ZURICH}
 
-// Tested | Don't forget doublebacks
+// Tested J: Changed DOUBLE_BACK_N to Locations
 GMN.... SPL.... HAM.... MPA.... DGA.V.. GLV.... SLO.... HNS.... MST.... DHIT... GIR.... SPL.... HAO.... MZU.... DCDT... GSW.... SLO....HNS.... MFR.... DKLT... GLV.... SPL.... HAO.... MZU.... DBCT... GSW.... SLO.... HNS.... MMR....
-Round 5: PLAYER_DRACULA (4) @ BUCHAREST; 7 locations: {CONSTANTA, BELGRADE, SOFIA}  + DOUBLE BACK 1-4
+Round 5: PLAYER_DRACULA (4) @ BUCHAREST; 7 locations: {CONSTANTA, BELGRADE, SOFIA, BUCHAREST, KLAUSENBURG, CASTLE_DRACULA, GALATZ}
 trail = {BUCHAREST, KLAUSENBURG, CASTLE_DRACULA, GALATZ, GALATZ, UNKNOWN_LOCATION}
  
 
@@ -50,11 +50,10 @@ Samples from Game #2:
 GED.... SGE.... HZU.... MCA.... DCF.V.. GMN.... SCFVD.. HGE.... MLS.... DBOT... GLO.... SMR.... HCF.... MMA.... DC?T... GPL.... SMS.... HMR.... MGR.... DBAT... GLO.... SBATD.. HMS.... MMA.... DC?T... GPL.... SSJ.... HBA.... MGR.... DC?T... GPL.... SSJ.... HBA.... MGR.... DC?T...
 round 7: PLAYER_GOLDALMING (0) @ PLYMOUTH; 3 locations: {PLYMOUTH, ENGLISH_CHANNEL, LONDON}
 
-// Tested
+// Changed Double backs to locations
 GED.... SGE.... HZU.... MCA.... DCF.V.. GMN.... SCFVD.. HGE.... MLS.... DBOT... GLO.... SMR.... HCF.... MMA.... DTOT... GPL.... SMS.... HMR.... MGR.... DBAT... GLO.... SBATD.. HMS.... MMA.... DSRT... GPL.... SSJ.... HBA.... MGR.... DALT... GPL.... SSJ.... HBA.... MGR.... DMAT... GLO.... SBE.... HMS.... MMATD..
-Round 7: PLAYER_DRACULA (4) @ MADRID; 10 locations: {GRANADA, CADIZ, LISBON, SANTANDER, DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3, DOUBLE_BACK_4, DOUBLE_BACK_5, HIDE}
-
-Past Trail: {MADRID, ALICANTE, SARAGOSSA, BARCELONA, TOULOUSE, BORDEAUX, CLERMONT_FERRAND}
+Round 7: PLAYER_DRACULA (4) @ MADRID; 10 locations: {GRANADA, CADIZ, LISBON, SANTANDER, ALICANTE, SARAGOSSA, BARCELONA, TOULOUSE, DORDEAUX, MADRID}
+Past Trail: {MADRID, ALICANTE, SARAGOSSA, BARCELONA, TOULOUSE, BORDEAUX}
 
 ////////////////////////////////////////////////////////////////
 // Extra Cases:
@@ -65,12 +64,9 @@ Past Trail: {MADRID, ALICANTE, SARAGOSSA, BARCELONA, TOULOUSE, BORDEAUX, CLERMON
 /*If there is no legal move possible for Dracula he automagically Teleports to Castle Dracula as his MOVE*/
 
 /*
-
-{HIDE,     CASTLE_DRACULA, DOUBLE_BACK_2, BUCHAREST, GALATZ,   KLAUSENBURG}},
+{HIDE, CASTLE_DRACULA, DOUBLE_BACK_2, BUCHAREST, GALATZ,   KLAUSENBURG}},
 
 */
-
-
 GVA.... SVR.... HAT.... MSA.... DLO.V..
 GVA.... SVR.... HAT.... MSA.... D(MANCHESTER)T...
 GVA.... SVR.... HAT.... MSA.... D(EDINBUR)T...
@@ -97,7 +93,7 @@ GVA.... SVR.... HAT.... MSA....
 // String to use
 "GVA.... SVR.... HAT.... MSA.... DLE.V.. GVA.... SVR.... HAT.... MSA.... DPAT... GVA.... SVR.... HAT.... MSA.... DNAT... GVA.... SVR.... HAT.... MSA...."
 
-Round 3: PLAYER_DRACULA (4) @ NANTES; 7 locations: {HIDE, DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3, BORDEAUX, CLERMONT_FERRAND, BAY_OF_BISCAY}
+Round 3: PLAYER_DRACULA (4) @ NANTES; 7 locations: {HIDE, PARIS, LE_HAVRE, NANTES, BORDEAUX, CLERMONT_FERRAND, BAY_OF_BISCAY}
 Past Trail: {NANTES, PARIS, LE_HAVRE, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}
 
 ////////////////////////////////////////////////////////////////

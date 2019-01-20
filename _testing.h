@@ -45,7 +45,6 @@ bool itemInArray(int needle, int *haystack, size_t n_haystack) {
 // Compare two arrays and checks if they have the same items (unordered)
 bool arraysEqual(size_t nA, int *A, size_t nB, int *B) {
 
-/*
     printf("\nA: %d |", nA);
     for (int i = 0; i < nA; i++) printf(" %d", A[i]);
     puts("");
@@ -53,7 +52,6 @@ bool arraysEqual(size_t nA, int *A, size_t nB, int *B) {
     printf("B: %d |", nB);
     for (int i = 0; i < nB; i++) printf(" %d", B[i]);
     puts("");
-*/
 
     // Early exit - if the sizes do not match
     if (nA != nB) return false;

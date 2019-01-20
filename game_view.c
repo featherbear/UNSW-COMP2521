@@ -49,39 +49,6 @@ static bool playerRested(GameView gv, enum player p) {
     return currLocation == prevLocation;
 }
 
-/* Takes in 'non-exact' moves and returns exactly where Dracula is (if not resolved to an unknown location) */
-static location_t resolveDraculaExtras(dNode draculaLocationNode) {
-    location_t draculaLocation = draculaLocationNode->item;
-
-    while (!valid_location_p(draculaLocation)) {
-        // Find the exact location for DOUBLE_BACK_N
-        if (DOUBLE_BACK_1 <= draculaLocation && draculaLocation <= DOUBLE_BACK_5) {
-            for (int i = 0; i <= draculaLocationNode->item - DOUBLE_BACK_1; i++)
-                draculaLocationNode = draculaLocationNode->prev;
-
-            // Find the exact location for HIDE
-        } else if (draculaLocation == HIDE) {
-            draculaLocationNode = draculaLocationNode->prev;
-        }
-
-        draculaLocation = draculaLocationNode->item;
-
-        // Handle TELEPORT and UNKNOWN cases
-        switch (draculaLocation) {
-            case TELEPORT:
-                return CASTLE_DRACULA;
-            case CITY_UNKNOWN:
-            case SEA_UNKNOWN:
-            case UNKNOWN_LOCATION:
-                return draculaLocation;
-            default:
-                break;
-        }
-    }
-
-    return draculaLocation;
-}
-
 /**
  * Creates a new view to summarise the current state of the game.
  * Plays start at index 0
@@ -257,9 +224,10 @@ GameView gv_new(char *past_plays, player_message messages[]) {
             if (gv->timers.hide) --gv->timers.hide;
             if (gv->timers.doubleBack) --gv->timers.doubleBack;
 
-            // Ghe exact location
-            dNode draculaLocationNode = gv->currPlayer->moves->tail;
-            location_t draculaLocation = resolveDraculaExtras(draculaLocationNode);
+            // The exact location
+            puts("game_view.c: currPlayer_n");
+            location_t draculaLocation = resolveExtraLocations(gv->currPlayer->moves->tail);
+            puts("game_view.c:resolve");
 
             // Update Health: Loses 2 health everytime Drac is at sea
             if ((valid_location_p(draculaLocation) && location_get_type(draculaLocation) == SEA)
@@ -346,20 +314,20 @@ void gv_get_history(GameView gv, enum player player, location_t trail[TRAIL_SIZE
     }
 }
 
-location_t *
-gv_get_connections(GameView gv, size_t *n_locations, location_t from, enum player player, round_t round, bool road,
-                   bool rail, bool sea) {
+location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from, enum player player, round_t round, bool road, bool rail, bool sea) {
 
     // Need to find the exact location
-    if (round == gv->currRound && player == PLAYER_DRACULA)
-        from = resolveDraculaExtras(gv->players[PLAYER_DRACULA].moves->tail);
+    if (round == gv->currRound && player == PLAYER_DRACULA) {
+        puts("game_view.c:start gv_get_conn");
+        from = resolveExtraLocations(gv->players[PLAYER_DRACULA].moves->tail);
+        puts("game_view.c:resolve");
+    }
+
 
 
     assert(valid_location_p(from));
     Queue validMoves = queue_new();
     location_t *loc;
-
-    // TODO Isolate
     Map m = map_new();
 
     // Get all the connections: {ROAD, RAIL, SEA}
@@ -379,18 +347,22 @@ gv_get_connections(GameView gv, size_t *n_locations, location_t from, enum playe
         queue_append_unique(validMoves, sea_moves);
     }
 
-    // Consider extra moves
+    puts("got transports; finding extras");
+
+    // Consider extra moves (Non-exact)
     Queue extra_moves = connections_get_extras(gv, from, player);
     queue_append_unique(validMoves, extra_moves);
 
-    // If dracula doesn't have moves,  must teleport back to Castle Dracula
+    puts("extras finish");
+    // If dracula doesn't have moves, he must teleport back to Castle Dracula
     size_t queueSize = queue_size(validMoves);
+
     if (player == PLAYER_DRACULA && queueSize == 0) {
         loc = malloc(1 * sizeof(location_t));
         loc[0] = TELEPORT;
         *n_locations = 1;
 
-        // Put everything in the queue into the array
+    // Put everything in the queue into the array
     } else {
         loc = malloc(queueSize * sizeof(location_t));
         for (size_t i = 0; i < queueSize; i++) loc[i] = (location_t) (size_t) queue_de(validMoves);

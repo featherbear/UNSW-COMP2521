@@ -38,7 +38,7 @@ int main() {
     location_t *l;
 
 
-    plays = "GVA.... SVR.... HAT.... MSN.... DSR.V.. GVA.... SVR.... HAT.... MSR.... DALT... GVA.... SVR.... HAT.... MAL.... DGRT... GVA.... SVR.... HAT.... MGR.... DMAT...GVA.... SVR.... HAT....";
+    plays = "MN.... SPL.... HAM.... MPA.... DZU.V.. GLV.... SLO.... HNS.... MST....";
     {
         gv = gv_new(plays, messages);
         n_loc = 0;
@@ -47,7 +47,7 @@ int main() {
         printf("The Round is: %d\n", gv_get_round(gv));
         from = location_find_by_abbrev("JM");
         l = gv_get_connections(gv, &n_loc, from, p, gv_get_round(gv), true, false, true);
-        puts("Round 5: PLAYER_MINA_HARKER (3) @ HOSPITAL; 5 locations: {ZAGREB, SZEGED, BELGRADE, SARAJEVO, HOSPITAL}");
+        puts("Round 1: PLAYER_DRACULA (4) @ ZURICH; 5 locations: {STRASBOURG, GENEVA, MARCEILLES,  MILAN, MUNICH, ZURICH}");
         get_connections_str(l, n_loc);
         printf("Number of generated locations: %d\nNumber of actual locations: 4\n", n_loc);
         free(l);
