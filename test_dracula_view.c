@@ -23,6 +23,7 @@ static inline void testFramework(char *title, char *trail, struct expectedData e
     player_message messages[] = {};
     DraculaView dv = dv_new(trail, messages);
     // printf("The round is: %d\nThe score is: %d\n", dv_get_round(dv), dv_get_score(dv));
+    printf("%d\n", dv_get_score(dv));
     TEST(dv_get_round(dv) == exp.round);
     TEST(dv_get_score(dv) == exp.score);
 
@@ -42,51 +43,6 @@ static inline void testFramework(char *title, char *trail, struct expectedData e
         printf("Dracula's locations is: %d\n", dv_get_location(dv, PLAYER_DRACULA));
         TEST(dv_get_location(dv, PLAYER_DRACULA) == exp.location[PLAYER_DRACULA]);
     }
-
-    // {
-    //     location_t start;
-    //     location_t end;
-    //     {
-    //         A("Check Lord Godalming's player move");
-    //         dv_get_player_move(dv, PLAYER_LORD_GODALMING, &start, &end);
-    //         assert(exp.history[PLAYER_LORD_GODALMING][1] == start);
-    //         assert(exp.history[PLAYER_LORD_GODALMING][0] == end);
-    //         O();
-    //     }
-    //     {
-    //         A("Check Dr Seward's player move");
-    //         dv_get_player_move(dv, PLAYER_DR_SEWARD, &start, &end);
-    //         assert(exp.history[PLAYER_DR_SEWARD][1] == start);
-    //         assert(exp.history[PLAYER_DR_SEWARD][0] == end);
-    //         O();
-    //     }
-    //     {
-    //         A("Check Van Helsing's player move");
-    //         dv_get_player_move(dv, PLAYER_VAN_HELSING, &start, &end);
-    //         assert(exp.history[PLAYER_VAN_HELSING][1] == start);
-    //         assert(exp.history[PLAYER_VAN_HELSING][0] == end);
-    //         O();
-    //     }
-    //     {
-    //         A("Check Mina Harker's player move");
-    //         dv_get_player_move(dv, PLAYER_MINA_HARKER, &start, &end);
-    //         assert(exp.history[PLAYER_MINA_HARKER][1] == start);
-    //         assert(exp.history[PLAYER_MINA_HARKER][0] == end);
-    //         O();
-    //     }
-    //     {
-    //         A("Check Dracula's player move");
-    //         dv_get_player_move(dv, PLAYER_DRACULA, &start, &end);
-    //         printf("%d -> %d\n", exp.history[PLAYER_DRACULA][1], exp.history[PLAYER_DRACULA][1]);
-    //         printf("%d -> %d\n", start, end);
-
-    //         assert(exp.history[PLAYER_DRACULA][1] == start);
-    //         assert(dv_get_location(...STH) == end);
-    //         O();
-    //     }
-    // }
-
-    // TODO: dc_get_locale_info(dv, where, *n_traps, *n_vamps);
 
     location_t history[TRAIL_SIZE];
     {
@@ -117,8 +73,7 @@ static inline void testFramework(char *title, char *trail, struct expectedData e
         A("Check Dracula's move history");
         dv_get_trail(dv, PLAYER_DRACULA, history);
         for (size_t i = 0; i < TRAIL_SIZE; i++) {
-            printf("(%d) Expected location: %d\n Generated location: %d\n", i, exp.history[PLAYER_DRACULA][i],
-                   history[i]);
+//            printf("(%d) Expected location: %d\n Generated location: %d\n", i, exp.history[PLAYER_DRACULA][i], history[i]);
             assert(history[i] == exp.history[PLAYER_DRACULA][i]);
         }
 
@@ -126,7 +81,6 @@ static inline void testFramework(char *title, char *trail, struct expectedData e
         O();
     }
 
-    // TODO: Check this.
     // location_t *dv_get_dests_player (DraculaView dv, size_t *n_locations, enum player player, bool road, bool rail, bool sea);
 
     if (exp.round > 0) {
@@ -382,6 +336,36 @@ int main(void) {
     ////////////////////////////////////////////////////////////////
     // Some extra tests that Jennifer wrote on 17/01/19
     ////////////////////////////////////////////////////////////////
+
+    {
+        location_t connections[] = {CASTLE_DRACULA};
+        testFramework("Test teleport case", "GMA.... SMN.... HKL.... MKL.... DGA.V.. "
+                                            "GAL.... SED.... HKL.... MKL.... DCDT... "
+                                            "GMS.... SNS.... HKL.... MKL.... DKLT... "
+                                            "GMR.... SHA.... HKL.... MKL.... DD2T... "
+                                            "GGO.... SBR.... HKL.... MKL.... DHIT... "
+                                            "GVE.... SPR.... HKL.... MKL....", (struct expectedData) {
+                .player = PLAYER_DRACULA,
+                .score = 361,
+                .round = 5,
+
+                .location = {VENICE, PRAGUE, KLAUSENBURG, KLAUSENBURG, CASTLE_DRACULA},
+                .history = {{VENICE,         GENOA,          MARSEILLES,  MEDITERRANEAN_SEA, ALICANTE,    MADRID},
+                            {PRAGUE,         BERLIN,         HAMBURG,     NORTH_SEA,         EDINBURGH,   MANCHESTER},
+                            {KLAUSENBURG,    KLAUSENBURG,    KLAUSENBURG, KLAUSENBURG,       KLAUSENBURG, KLAUSENBURG},
+                            {KLAUSENBURG,    KLAUSENBURG,    KLAUSENBURG, KLAUSENBURG,       KLAUSENBURG, KLAUSENBURG},
+                            {CASTLE_DRACULA, CASTLE_DRACULA, KLAUSENBURG, CASTLE_DRACULA,    GALATZ,      UNKNOWN_LOCATION}},
+                .health = {GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_HUNTER_LIFE_POINTS,
+                           GAME_START_BLOOD_POINTS + 3 * LIFE_GAIN_CASTLE_DRACULA},
+                .connections = connections,
+                .nConnections = 1,
+        });
+    }
+
+
     { // Just added this.. Delete when you see :)
         location_t connections[] = {NANTES, PARIS, LE_HAVRE, BORDEAUX, SANTANDER, ATLANTIC_OCEAN,
                                     BAY_OF_BISCAY /* This one's kinda funny | Dracula can't hide at sea, but he can double back? */};
@@ -513,6 +497,3 @@ int main(void) {
 
     return EXIT_SUCCESS;
 }
-
-// TODO // locale info 
-// TODO // get player move

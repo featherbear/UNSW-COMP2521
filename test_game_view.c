@@ -629,7 +629,7 @@ int main(void) {
 
     }
     {
-         // J: Deleted the 6th location in Drac's trail & updated nCons
+        // J: Deleted the 6th location in Drac's trail & updated nCons
         location_t connections[] = {GRANADA, CADIZ, LISBON, SANTANDER, ALICANTE, SARAGOSSA, BARCELONA,
                                     TOULOUSE, MADRID};
         testFramework("Round 7 Turn 4", "GED.... SGE.... HZU.... MCA.... DCF.V.. "
@@ -664,35 +664,29 @@ int main(void) {
     ////////////////////////////////////////////////////////////////
     // Extra Cases by Jennifer - 17/8/19
     ////////////////////////////////////////////////////////////////
-
-    /*If there is no legal move possible for Dracula he automagically Teleports to Castle Dracula as his MOVE*/
-
     {
-        location_t connections[] = {TELEPORT};
-        testFramework("Test teleport case", "GVA.... SVR.... HAT.... MSA.... DBD.V.. "
-                                            "GVA.... SVR.... HAT.... MSA.... DKL.... "
-                                            "GVA.... SVR.... HAT.... MSA.... DGA.... "
-                                            "GVA.... SVR.... HAT.... MSA.... DBC.... "
-                                            "GVA.... SVR.... HAT.... MSA.... DD2.... "
-                                            "GVA.... SVR.... HAT.... MSA.... DCD.... "
-                                            "GVA.... SVR.... HAT.... MSA.... DHIT... "
-                                            "GVA.... SVR.... HAT.... MSA....", (struct expectedData) {
+        location_t connections[] = {CASTLE_DRACULA};
+        testFramework("Test teleport case", "GMA.... SMN.... HKL.... MKL.... DGA.V.. "
+                                            "GAL.... SED.... HKL.... MKL.... DCDT... "
+                                            "GMS.... SNS.... HKL.... MKL.... DKLT... "
+                                            "GMR.... SHA.... HKL.... MKL.... DD2T... "
+                                            "GGO.... SBR.... HKL.... MKL.... DHIT... "
+                                            "GVE.... SPR.... HKL.... MKL....", (struct expectedData) {
                 .player = PLAYER_DRACULA,
-                .score = 346,
-                .round = 7,
+                .score = 361,
+                .round = 5,
 
-                .location = {VALONA, VARNA, ATHENS, SALONICA, HIDE},
-                .history = {{VALONA,   VALONA,         VALONA,        VALONA,    VALONA,   VALONA},
-                            {VARNA,    VARNA,          VARNA,         VARNA,     VARNA,    VARNA},
-                            {ATHENS,   ATHENS,         ATHENS,        ATHENS,    ATHENS,   ATHENS},
-                            {SALONICA, SALONICA,       SALONICA,      SALONICA,  SALONICA, SALONICA},
-                            {HIDE,     CASTLE_DRACULA, DOUBLE_BACK_2, BUCHAREST, GALATZ,   KLAUSENBURG}},
+                .location = {VENICE, PRAGUE, KLAUSENBURG, KLAUSENBURG, HIDE},
+                .history = {{VENICE,      GENOA,         MARSEILLES,  MEDITERRANEAN_SEA, ALICANTE,    MADRID},
+                            {PRAGUE,      BERLIN,        HAMBURG,     NORTH_SEA,         EDINBURGH,   MANCHESTER},
+                            {KLAUSENBURG, KLAUSENBURG,   KLAUSENBURG, KLAUSENBURG,       KLAUSENBURG, KLAUSENBURG},
+                            {KLAUSENBURG, KLAUSENBURG,   KLAUSENBURG, KLAUSENBURG,       KLAUSENBURG, KLAUSENBURG},
+                            {HIDE,        DOUBLE_BACK_2, KLAUSENBURG, CASTLE_DRACULA,    GALATZ,      UNKNOWN_LOCATION}},
                 .health = {GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
                            GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_BLOOD_POINTS + 2 * LIFE_GAIN_CASTLE_DRACULA},
-
+                           GAME_START_BLOOD_POINTS + 3 * LIFE_GAIN_CASTLE_DRACULA},
                 .connections = connections,
                 .nConnections = 1,
         });

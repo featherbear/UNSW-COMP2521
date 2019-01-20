@@ -321,26 +321,26 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
      // Get all the connections: {ROAD, RAIL, SEA}
      if (road) {
          Queue road_moves = connections_get_roadways(gv, from, player, m);
-         // printf("\nRoad Locations  | %zu\n", queue_size(road_moves));
+//         printf("\nRoad Locations  | %zu\n", queue_size(road_moves));
          queue_append_unique(validMoves, road_moves);
      }
 
     if (rail) {
         assert(player != PLAYER_DRACULA);
         Queue rail_moves = connections_get_railways(from, player, m, round);
-        // printf("Rail Locations  | %zu\n", queue_size(rail_moves));
+//        printf("Rail Locations  | %zu\n", queue_size(rail_moves));
         queue_append_unique(validMoves, rail_moves);
     }
 
     if (sea) {
         Queue sea_moves = connections_get_seaways(gv, from, player, m);
-        // printf("Sea Locations   | %zu\n", queue_size(sea_moves));
+//        printf("Sea Locations   | %zu\n", queue_size(sea_moves));
         queue_append_unique(validMoves, sea_moves);
     }
 
     // Consider extra moves
     Queue extra_moves = connections_get_extras(gv, from, player);
-    // printf("Extra Locations | %zu\n", queue_size(extra_moves));
+//    printf("Extra Locations | %zu\n", queue_size(extra_moves));
     queue_append_unique(validMoves, extra_moves);
 
     // If dracula doesn't have moves, he must teleport back to Castle Dracula
@@ -348,7 +348,7 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
 
     if (player == PLAYER_DRACULA && queueSize == 0) {
         loc = malloc(1 * sizeof(location_t));
-        loc[0] = TELEPORT;
+        loc[0] = CASTLE_DRACULA;
         *n_locations = 1;
 
     // Put everything in the queue into the array

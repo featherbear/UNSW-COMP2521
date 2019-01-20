@@ -20,6 +20,7 @@ location_t resolveExtraLocations(dNode posNode) {
     assert(posNode);
     location_t pos = posNode->item;
     while (!valid_location_p(pos)) {
+
         // Find the exact location for DOUBLE_BACK_N
         if (DOUBLE_BACK_1 <= pos && pos <= DOUBLE_BACK_5) {
             for (int i = 0; i <= pos - DOUBLE_BACK_1; i++) {
@@ -50,7 +51,6 @@ location_t resolveExtraLocations(dNode posNode) {
     return pos;
 }
 
-#include <string.h>
 
 /* Consider extra moves:
  * Hunter: Rest
@@ -64,13 +64,13 @@ Queue connections_get_extras(GameView gv, location_t l, enum player player) {
         return q;
     }
 
-    // Dracula: HIDE && DOUBLE_BACK_N
+    // Dracula: HIDE
     location_t lastLoc = resolveExtraLocations(gv->players[PLAYER_DRACULA].moves->tail);
     if (!location_in_trail(gv, PLAYER_DRACULA, HIDE) && location_get_type(lastLoc) != SEA) {
         queue_en(q, lastLoc);
     }
 
-    // Add in DOUBLE_BACKs where necessary
+    // Dracula: DOUBLE_BACK_N
     location_t doubleBacks[] = {DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3, DOUBLE_BACK_4, DOUBLE_BACK_5};
 
     if (!locations_in_trail(gv, PLAYER_DRACULA, doubleBacks, 5)) {
@@ -79,7 +79,7 @@ Queue connections_get_extras(GameView gv, location_t l, enum player player) {
 
         dNode doubleBackCursor = gv->players[PLAYER_DRACULA].moves->tail;
 
-        for (size_t i = 0; i < rounds; i++) {
+        for (int i = 0; i < (int)rounds; i++) {
             queue_en(q, resolveExtraLocations(doubleBackCursor));
             doubleBackCursor = doubleBackCursor->prev;
         }
@@ -94,10 +94,10 @@ bool locations_in_trail(GameView gv, enum player player, location_t *loc, size_t
     gv_get_history(gv, player, trail);
 
     for (size_t i = 0; i < nLoc; i++) {
-        for (size_t j = 0; j < TRAIL_SIZE; j++)
+        // The oldest move in the trail can be discarded
+        for (size_t j = 0; j < TRAIL_SIZE - 1; j++)
             if (loc[i] == trail[j]) return true;
     }
-
     return false;
 }
 
@@ -108,8 +108,8 @@ bool location_in_trail(GameView gv, enum player player, location_t loc) {
     location_t trail[TRAIL_SIZE];
     gv_get_history(gv, player, trail);
 
-    // Do an iterative check (OR DID I MEAN iNTErAcTiVe ydwy <-- Gal be like waht does this meeean)
-    for (size_t i = 0; i < TRAIL_SIZE; i++)
+    // The oldest move in the trail can be discarded
+    for (size_t i = 0; i < TRAIL_SIZE - 1; i++)
         if (trail[i] == loc) return true;
 
     return false;
@@ -123,7 +123,6 @@ Queue connections_get_roadways(GameView gv, location_t l, enum player p, Map m) 
     for (map_adj *tmp = m->connections[l]; tmp != NULL; tmp = tmp->next) {
         if (tmp->type == ROAD) {
             if (p == PLAYER_DRACULA) {
-
                 // Dracula can't visit the hospital..
                 if (tmp->v == HOSPITAL_LOCATION) continue;
 
@@ -158,12 +157,12 @@ Queue connections_get_railways(location_t l, enum player p, Map m, round_t round
 
                 case 2:  // Can move up to two stations
                     k = connections_rail_bfs(tmp->v, m, 1);
-                    queue_append(q, k);
+                    queue_append_unique(q, k);
                     break;
 
                 case 3: // Can move up to three stations
                     k = connections_rail_bfs(tmp->v, m, 2);
-                    queue_append(q, k);
+                    queue_append_unique(q, k);
                     break;
             };
             queue_en(q, (int) tmp->v);

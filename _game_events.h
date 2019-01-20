@@ -46,7 +46,7 @@ bool event_player_hurt(GameView gv, enum player player, int damage) {
     bool result = true;
     *health -= damage;
 
-    printf_red("> Player %d took %d damage! (HP: %d)\n", player, damage, *health);
+    printf_red("    > Player %d took %d damage! (HP: %d)\n", player, damage, *health);
 
     // Hunter TELEPORTS when he dies
     if (player != PLAYER_DRACULA) {
@@ -54,7 +54,7 @@ bool event_player_hurt(GameView gv, enum player player, int damage) {
             *health = 0;
             result = false;
             gv->score -= SCORE_LOSS_HUNTER_HOSPITAL;
-            printf_yellow("> Player %d dun guf. he ded. rip m9\n", player);
+            printf_yellow("    > Player %d dun guf. he ded. rip m9\n", player);
         }
     }
 
@@ -69,11 +69,11 @@ void event_player_heal(GameView gv, enum player player, int amount) {
 
     int *health = &gv->players[player].health;
     *health += amount;
-    printf_green("Player %d recovered %d health points (HP: %d)\n", player, amount, *health);
+    printf_green("    > Player %d recovered %d health points (HP: %d)\n", player, amount, *health);
 
     // Cap health for Hunters
     if (player != PLAYER_DRACULA && *health > GAME_START_HUNTER_LIFE_POINTS) {
-        printf_green("Health capped at 9 HP\n");
+        printf_green("    > Health capped at 9 HP\n");
         *health = min(GAME_START_HUNTER_LIFE_POINTS, *health);
     }
 }
@@ -87,7 +87,7 @@ bool event_encounter_trap(GameView gv, enum player player, location_t location) 
 
     assert(player != PLAYER_DRACULA);
 
-    printf_yellow("> Player %d encountered a trap!\n", player);
+    printf_yellow("    > Player %d encountered a trap!\n", player);
 
     event_remove_trap(gv, location);
     return event_player_hurt(gv, player, LIFE_LOSS_TRAP_ENCOUNTER);
@@ -98,7 +98,7 @@ bool event_encounter_trap(GameView gv, enum player player, location_t location) 
  * Reduce the game score by 13, then remove vampire
  */
 void event_encounter_vamp(GameView gv) {
-    printf_red("> A vampire has matured. players dun guf again smh fake hunterzz!\n");
+    printf_red("    > A vampire has matured. players dun guf again smh fake hunterzz!\n");
 
     gv->score -= SCORE_LOSS_VAMPIRE_MATURES;
     event_remove_vamp(gv);
@@ -111,7 +111,7 @@ void event_encounter_vamp(GameView gv) {
 bool event_encounter_dracula(GameView gv, enum player player) {
     assert(player != PLAYER_DRACULA);
 
-    printf_yellow("> BAM! Player %d encountered Dracula at %s!\n", player,
+    printf_yellow("    > BAM! Player %d encountered Dracula at %s!\n", player,
                   location_get_name(gv_get_location(gv, player)));
 
     event_player_hurt(gv, PLAYER_DRACULA, LIFE_LOSS_HUNTER_ENCOUNTER);

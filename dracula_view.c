@@ -29,8 +29,7 @@ typedef struct dracula_view {
 
 /* Make a summary of the game situation */
 dracula_view *dv_new(char *past_plays, player_message messages[]) {
-    dracula_view *
-    new = malloc(sizeof *new);
+    dracula_view *new = malloc(sizeof *new);
     if (new == NULL) err(EX_OSERR, "Couldn't allocate DraculaView");
 
     (*new) = (dracula_view) {
@@ -58,7 +57,7 @@ int dv_get_health(dracula_view *dv, enum player player) {
     return gv_get_health(dv->gv, player);
 }
 
- /* Get the location of a given player */
+/* Get the location of a given player */
 location_t dv_get_location(dracula_view *dv, enum player player) {
     if (player == PLAYER_DRACULA) return resolveExtraLocations(dv->gv->currPlayer->moves->tail);
     return gv_get_location(dv->gv, player);
@@ -77,8 +76,8 @@ void dv_get_player_move(dracula_view *dv, enum player player, location_t *start,
  * Returns the number of minions (traps and vampires)
  * `WHERE` cannot be at sea or unknown */
 void dv_get_locale_info(dracula_view *dv, location_t where, int *n_traps, int *n_vamps) {
-    *n_traps = (int)dv->gv->encounters.traps[where];
-    *n_vamps = (int)dv->gv->encounters.vamp_location == where;
+    *n_traps = (int) dv->gv->encounters.traps[where];
+    *n_vamps = (int) dv->gv->encounters.vamp_location == where;
 }
 
 /* Get the history of a given player
@@ -106,9 +105,7 @@ location_t *dv_get_dests(dracula_view *dv, size_t *n_locations, bool road, bool 
 }
 
 /* Get the available connections for EVERY PLAYER */
-location_t *dv_get_dests_player(dracula_view *dv, size_t *n_locations, enum player player,
-                                bool road, bool rail, bool sea) {
+location_t *dv_get_dests_player(dracula_view *dv, size_t *n_locations, enum player player, bool road, bool rail, bool sea) {
     if (player == PLAYER_DRACULA) return dv_get_dests(dv, n_locations, road, sea);
-
     return gv_get_connections(dv->gv, n_locations, dv_get_location(dv, player), player, dv_get_round(dv), road, rail, sea);
 }

@@ -23,10 +23,6 @@ void queue_en(Queue q, int item);
 int queue_de(Queue q);
 
 /* Appends Queue `p` to Queue `q`
- * Drops Queue `p` */
-void queue_append(Queue q, Queue p);
-
-/* Appends Queue `p` to Queue `q`
  * Drops Queue `p`
  * Also manages the queue so that there are no repetitions */
 void queue_append_unique(Queue q, Queue p);

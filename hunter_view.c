@@ -25,8 +25,7 @@ typedef struct hunter_view {
 ///
 
 hunter_view *hv_new(char *past_plays, player_message messages[]) {
-    hunter_view *
-    new = malloc(sizeof *new);
+    hunter_view *new = malloc(sizeof *new);
     if (new == NULL) err(EX_OSERR, "Couldn't allocate HunterView");
 
     new->gv = gv_new(past_plays, messages);

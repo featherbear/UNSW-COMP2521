@@ -68,7 +68,6 @@ void queue_en(Queue q, int item) {
 }
 
 
-
 /* Dequeue an item
  * Returns the value of the node */
 int queue_de(Queue q) {
@@ -83,21 +82,6 @@ int queue_de(Queue q) {
     free(tmp);
     q->size--;
     return tmp_value;
-}
-
-
-// EDDIT WELL
-/*
-_connections.c:109: undefined reference to `queue_append'
-_connections.c:114: undefined reference to `queue_append'
-*/
-// TODO: 200% Sure we don't need this function but I'll just keep it here anyways
-
-
-// Appends a queue to another
-void queue_append(Queue q, Queue p) {
-    for (qNode tmp = p->head; tmp != NULL; tmp = tmp->next) queue_en(q, tmp->item);
-    queue_drop(p);
 }
 
 /* Appends Queue `p` to Queue `q`
