@@ -59,22 +59,17 @@ Past Trail: {MADRID, ALICANTE, SARAGOSSA, BARCELONA, TOULOUSE, BORDEAUX}
 // Extra Cases:
 // Created by Jennifer 17/8/19
 //
-
 ////////////////////////////////////////////////////////////////
 /*If there is no legal move possible for Dracula he automagically Teleports to Castle Dracula as his MOVE*/
 
-/*
-{HIDE, CASTLE_DRACULA, DOUBLE_BACK_2, BUCHAREST, GALATZ,   KLAUSENBURG}},
-
-*/
 GVA.... SVR.... HAT.... MSA.... DLO.V..
 GVA.... SVR.... HAT.... MSA.... D(MANCHESTER)T...
 GVA.... SVR.... HAT.... MSA.... D(EDINBUR)T...
-GVA.... SVR.... HAT.... MSA.... D(MANCHESTER)T...
+GVA.... SVR.... HAT.... MSA.... D(MANCHESTER)T... // Does a DOUBLE_BACK_2
 GVA.... SVR.... HAT.... MSA.... D(HIDE)LT... // Does a HIDE
 GVA.... SVR.... HAT.... MSA.... D(LIVERPOOL)T...
 GVA.... SVR.... HAT.... MSA.... D(SWANSEA)T...
-GVA.... SVR.... HAT.... MSA.... D(LIVERPOOL)T... // Does a DOUBLE_BACK_2
+GVA.... SVR.... HAT.... MSA.... D(LIVERPOOL)T...
 GVA.... SVR.... HAT.... MSA....
 
 // String to use 
@@ -97,22 +92,21 @@ Round 3: PLAYER_DRACULA (4) @ NANTES; 7 locations: {HIDE, PARIS, LE_HAVRE, NANTE
 Past Trail: {NANTES, PARIS, LE_HAVRE, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}
 
 ////////////////////////////////////////////////////////////////
-/* Dracula cannot HIDE at sea */ 
+// Added this one in Dracula_view_tests
+/* Dracula cannot HIDE at sea */
 GVA.... SVR.... HAT.... MSA.... DLE.V.. 
 GVA.... SVR.... HAT.... MSA.... D(PARIS)T... 
 GVA.... SVR.... HAT.... MSA.... D(NANTES)T... 
 GVA.... SVR.... HAT.... MSA.... D(BAY_OF_BISCAY)T...
 GVA.... SVR.... HAT.... MSA....
 
-// String to use
-"GVA.... SVR.... HAT.... MSA.... DLE.V.. GVA.... SVR.... HAT.... MSA.... DPAT... GVA.... SVR.... HAT.... MSA.... DNAT... GVA.... SVR.... HAT.... MSA.... DBBT... GVA.... SVR.... HAT.... MSA...."
-
 Round 4: PLAYER_DRACULA (4) @ BAY_OF_BISCAY; locations: {DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3, BORDEAUX, SANTANDER}
 Past Trail: {BAY_OF_BISCAY, NANTES, PARIS, LE_HAVRE, UNKNOWN_LOCATION, UNKNOWN_LOCATION}
 
 ////////////////////////////////////////////////////////////////
+//  Added this into test_dracula_view.c
 /* Dracula cannot make a DOUBLE_BACK move if he already has a DOUBLE_BACK move in his trail */
-GVA.... SVR.... HAT.... MSA.... DLE.V.. 
+GVA.... SVR.... HAT.... MSA.... DLE.V..
 GVA.... SVR.... HAT.... MSA.... D(PARIS)T... 
 GVA.... SVR.... HAT.... MSA.... D(CLERMONT_FERRAND)T... 
 GVA.... SVR.... HAT.... MSA.... D(MARSEILLES)T... 
@@ -126,6 +120,7 @@ Round 9: PLAYER_DRACULA (4) @ GENOA; 3 locations: {FLORENCE, VENICE, TYRRHENIAN_
 Past Trail: {GENOA, ZURICH, MILAN, GENOA, MARSEILLES, CLERMONT_FERRANT, PARIS}
 
 ////////////////////////////////////////////////////////////////
+// Added into tests_drac_view.c
 /* Dracula can never move to the hospital of St Joseph and St Mary */
 GVA.... SVR.... HAT.... MSA.... D(SZEGED).V.. 
 GVA.... SVR.... HAT.... MSA.... 
@@ -133,8 +128,10 @@ GVA.... SVR.... HAT.... MSA....
 Round 2: PLAYER_DRACULA (4) @ SZEGED; 4 locations: {BUDAPEST, KLAUSENBURG, BELGRADE, ZAGREB} 
 Past Trail: {SZEGED, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}
 
+
+
 ////////////////////////////////////////////////////////////////
-// TODO: Check if that's correct... 
+// Added into hunter_view_tests.c
 /* Whenever a Hunter is reduced to 0 or less life points they are instantly automagically teleported to the Hospital of St Joseph and St Mary */
 
 Poor MINA keeps following Dracula losing health 

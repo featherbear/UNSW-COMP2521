@@ -9,19 +9,23 @@
 #include "_queue.h"
 #include "_connections.h"
 
+
+#include "places.h"
+
 /* Takes in 'non-exact' moves and returns exactly where Dracula is (if not resolved to an unknown location) */
 location_t resolveExtraLocations(dNode posNode) {
     assert(posNode);
     location_t pos = posNode->item;
 
     while (!valid_location_p(pos)) {
-
         // Find the exact location for DOUBLE_BACK_N
-        if (DOUBLE_BACK_1 <= pos && pos <= DOUBLE_BACK_5) {
-            for (int i = 0; i <= posNode->item - DOUBLE_BACK_1; i++)
-                posNode = posNode->prev;
 
-        // Find the exact location for HIDE
+        if (DOUBLE_BACK_1 <= pos && pos <= DOUBLE_BACK_5) {
+            for (int i = 0; i <= pos - DOUBLE_BACK_1; i++) {
+                posNode = posNode->prev;
+            }
+
+            // Find the exact location for HIDE
         } else if (pos == HIDE) {
             posNode = posNode->prev;
         }
@@ -39,7 +43,9 @@ location_t resolveExtraLocations(dNode posNode) {
             default:
                 break;
         }
+
     }
+
     return pos;
 }
 
@@ -67,8 +73,8 @@ Queue connections_get_extras(GameView gv, location_t l, enum player player) {
     if (!locations_in_trail(gv, PLAYER_DRACULA, doubleBacks, 5)) {
         size_t rounds = gv_get_round(gv);
 
-        dNode doubleBackCursor = gv->players[PLAYER_DRACULA].moves->tail->prev;
-        for (size_t i = 2; i < rounds; i++ ) {
+        dNode doubleBackCursor = gv->players[PLAYER_DRACULA].moves->tail;
+        for (size_t i = 1; i < rounds; i++) {
             queue_en(q, resolveExtraLocations(doubleBackCursor));
             doubleBackCursor = doubleBackCursor->prev;
         }

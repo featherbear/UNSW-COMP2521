@@ -6,7 +6,7 @@
 # 2018-12-31	v1.0	Team Dracula <cs2521@cse.unsw.edu.au>
 
 CC	 = 3c
-BINS	 = test_game_view test_hunter_view test_dracula_view test_connections
+BINS	 = test_game_view test_hunter_view test_dracula_view
 
 all: ${BINS}
 
@@ -18,9 +18,6 @@ test_hunter_view.o:	test_hunter_view.c hunter_view.h game_view.h map.h places.h 
 
 test_dracula_view:	test_dracula_view.o dracula_view.o game_view.o map.o places.o _queue.o _dlist.o _connections.o
 test_dracula_view.o:	test_dracula_view.c dracula_view.h game_view.h map.h places.h game.h
-
-test_connections:      test_connections.o game_view.o map.o places.o _queue.o _dlist.o _connections.o
-test_connections.o:    test_connections.c game_view.h map.h places.h game.h
 
 _queue.o:       _queue.c _queue.h
 _dlist.o:       _dlist.c _dlist.h

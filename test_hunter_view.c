@@ -653,11 +653,11 @@ int main(void) {
                 .nConnections = 3,
         });
 
-    }
+     }
        ////////////////////////////////////////////////////////////////
-    {
+    {    // J: Deleted the 6th location in Drac's trail & updated nCons
         location_t connections[] = {GRANADA, CADIZ, LISBON, SANTANDER, ALICANTE, SARAGOSSA, BARCELONA,
-                                    TOULOUSE, BORDEAUX, MADRID};
+                                    TOULOUSE, MADRID};
         testFramework("Round 7 Turn 4", "GED.... SGE.... HZU.... MCA.... DCF.V.. "
                                         "GMN.... SCFVD.. HGE.... MLS.... DBOT... "
                                         "GLO.... SMR.... HCF.... MMA.... DTOT... "
@@ -683,62 +683,43 @@ int main(void) {
                            GAME_START_BLOOD_POINTS - 3 * LIFE_LOSS_HUNTER_ENCOUNTER},
 
                 .connections = connections,
-                .nConnections = 10,
+                .nConnections = 9,
+        });
+    }
+       ////////////////////////////////////////////////////////////////
+    {  // Just added.. Delete when you see :)
+        location_t connections[] = {ZAGREB, SZEGED, BELGRADE, SARAJEVO, HOSPITAL_LOCATION};
+        testFramework("Testing Teleportation",  "GVA.... SVR.... HAT.... MSA.... DLO.V.. "
+                                                "GVA.... SVR.... HAT.... MSA.... DMNT... "
+                                                "GVA.... SVR.... HAT.... MSA.... DEDT... " // Does a DOUBLE_BACK_2
+                                                "GVA.... SVR.... HAT.... MSA.... DMNT... "
+                                                "GVA.... SVR.... HAT.... MSA.... DHILT... " // Does a HIDE
+                                                "GVA.... SVR.... HAT.... MSA.... DLVT... "
+                                                "GVA.... SVR.... HAT.... MSA.... DSWT... "
+                                                "GVA.... SVR.... HAT.... MSA.... DLVT... "
+                                                "GVA.... SVR.... HAT.... MSA....", (struct expectedData) {
+                .player = PLAYER_DRACULA,
+                .score = 366 - 4, // Uhhh not sure if right ..
+                .round = 5,
+
+                .location = {VALONA,    VARNA, ATHENS, ST_JOSEPH_AND_ST_MARYS, MADRID},
+                .history = {{VALONA,    VALONA,    VALONA,   VALONA,  VALONA,            UNKNOWN_LOCATION},
+                            {VARNA,     VARNA ,    VARNA,    VARNA ,  VARNA,             UNKNOWN_LOCATION},
+                            {ATHENS,    ATHENS,    ATHENS,   ATHENS,  ATHENS,            UNKNOWN_LOCATION},
+                            {SANTANDER, SARAGOSSA, ALICANTE, GRANADA, HOSPITAL_LOCATION, UNKNOWN_LOCATION},
+                            {SARAGOSSA, ALICANTE,  GRANADA,  MADRID,  UNKNOWN_LOCATION,  UNKNOWN_LOCATION}},
+                .health = {GAME_START_HUNTER_LIFE_POINTS,
+                          GAME_START_HUNTER_LIFE_POINTS,
+                          GAME_START_HUNTER_LIFE_POINTS,
+                          GAME_START_HUNTER_LIFE_POINTS ,
+                          GAME_START_BLOOD_POINTS },
+
+                .connections = connections,
+                .nConnections = 4,
         });
     }
 
     return EXIT_SUCCESS;
 
-/*
- // STUB
- {
-        location_t connections[] = {PLYMOUTH, ENGLISH_CHANNEL, LONDON};
-        testFramework("????????", "", (struct expectedData) {
-                .player = ???,
-                .score = ???,
-                .round = ???,
 
-                .location = {UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION,             UNKNOWN_LOCATION},
-                .history = {{UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
-                            {UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
-                            {UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
-                            {UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION},
-                            {UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}},
-                .health = {GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_HUNTER_LIFE_POINTS ,
-                           GAME_START_BLOOD_POINTS },
-
-                .connections = connections,
-                .nConnections = ???,
-        });
-    }
-*/
-
-
-    // { /* Whenever a Hunter is reduced to 0 or less life points they are instantly automagically teleported to the Hospital of St Joseph and St Mary */
-    // // NOTE: Not sure if MINA is at Hospital yet.. But she has lost all her health so she should be there? But it's not included within the trail.. please double check
-    //     location_t connections[] = {ZAGREB, SZEGED, BELGRADE, SARAJEVO, HOSPITAL};
-    //     testFramework("Testing Teleportation", "", (struct expectedData) {
-    //             .player = PLAYER_MINA_HARKER,
-    //             .score = 366 - 4, // Uhhh not sure if right ..
-    //             .round = 5,
-
-    //             .location = {VALONA, VARNA, ATHENS, ST_JOSEPH_AND_ST_MARYS, MADRID},
-    //             .history = {{VALONA, VALONA, VALONA, VALONA, VALONA, UNKNOWN_LOCATION},
-    //                         {VARNA, VARNA , VARNA, VARNA , VARNA, UNKNOWN_LOCATION },
-    //                         {ATHENS, ATHENS, ATHENS, ATHENS, ATHENS,UNKNOWN_LOCATION},
-    //                         {SANTANDER, SARAGOSSA, ALICANTE, GRANADA, HOSPITAL, UNKNOWN_LOCATION},
-    //                         {SARAGOSSA, ALICANTE, GRANADA, MADRID, UNKNOWN_LOCATION. UNKNOWN_LOCATION}},
-    //             .health = {GAME_START_HUNTER_LIFE_POINTS,
-    //                       GAME_START_HUNTER_LIFE_POINTS,
-    //                       GAME_START_HUNTER_LIFE_POINTS,
-    //                       GAME_START_HUNTER_LIFE_POINTS ,
-    //                       GAME_START_BLOOD_POINTS },
-
-    //             .connections = connections,
-    //             .nConnections = 4,
-    //     });
-    // }
 }
