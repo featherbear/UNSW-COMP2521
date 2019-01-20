@@ -69,7 +69,6 @@ Queue connections_get_roadways(GameView gv, location_t l, enum player p, Map m) 
 
     for (map_adj *tmp = m->connections[l]; tmp != NULL; tmp = tmp->next) {
         if (tmp->type == ROAD) {
-            printf("Road | Looking at %zu\n", tmp->v);
             if (p == PLAYER_DRACULA) {
 
                 // Dracula can't visit the hospital..

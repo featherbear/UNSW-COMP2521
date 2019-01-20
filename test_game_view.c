@@ -206,6 +206,7 @@ int main(void) {
 
         
         gv_drop(gv);
+
     } while (0);
 
     do {////////////////////////////////////////////////////////////////
@@ -726,30 +727,30 @@ int main(void) {
 */
 
 
-    { /* Whenever a Hunter is reduced to 0 or less life points they are instantly automagically teleported to the Hospital of St Joseph and St Mary */
-        // NOTE: Not sure if MINA is at Hospital yet.. But she has lost all her health so she should be there? But it's not included within the trail.. please double check
-        location_t connections[] = {ZAGREB, SZEGED, BELGRADE, SARAJEVO, HOSPITAL_LOCATION};
-        testFramework("Testing Teleportation", "", (struct expectedData) {
-                .player = PLAYER_MINA_HARKER,
-                .score = 366 - 4, // Uhhh not sure if right ..
-                .round = 5,
+    // { /* Whenever a Hunter is reduced to 0 or less life points they are instantly automagically teleported to the Hospital of St Joseph and St Mary */
+    //     // NOTE: Not sure if MINA is at Hospital yet.. But she has lost all her health so she should be there? But it's not included within the trail.. please double check
+    //     location_t connections[] = {ZAGREB, SZEGED, BELGRADE, SARAJEVO, HOSPITAL_LOCATION};
+    //     testFramework("Testing Teleportation", "", (struct expectedData) {
+    //             .player = PLAYER_MINA_HARKER,
+    //             .score = 366 - 4, // Uhhh not sure if right ..
+    //             .round = 5,
 
-                .location = {VALONA, VARNA, ATHENS, ST_JOSEPH_AND_ST_MARYS, MADRID},
-                .history = {{VALONA,    VALONA,    VALONA,   VALONA, VALONA,             UNKNOWN_LOCATION},
-                            {VARNA,     VARNA,     VARNA,    VARNA,  VARNA,              UNKNOWN_LOCATION},
-                            {ATHENS,    ATHENS,    ATHENS,   ATHENS, ATHENS,             UNKNOWN_LOCATION},
-                            {SANTANDER, SARAGOSSA, ALICANTE, GRANADA, HOSPITAL_LOCATION, UNKNOWN_LOCATION},
-                            {SARAGOSSA, ALICANTE,  GRANADA,  MADRID, UNKNOWN_LOCATION,   UNKNOWN_LOCATION}},
-                .health = {GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_HUNTER_LIFE_POINTS,
-                           GAME_START_BLOOD_POINTS},
+    //             .location = {VALONA, VARNA, ATHENS, ST_JOSEPH_AND_ST_MARYS, MADRID},
+    //             .history = {{VALONA,    VALONA,    VALONA,   VALONA, VALONA,             UNKNOWN_LOCATION},
+    //                         {VARNA,     VARNA,     VARNA,    VARNA,  VARNA,              UNKNOWN_LOCATION},
+    //                         {ATHENS,    ATHENS,    ATHENS,   ATHENS, ATHENS,             UNKNOWN_LOCATION},
+    //                         {SANTANDER, SARAGOSSA, ALICANTE, GRANADA, HOSPITAL_LOCATION, UNKNOWN_LOCATION},
+    //                         {SARAGOSSA, ALICANTE,  GRANADA,  MADRID, UNKNOWN_LOCATION,   UNKNOWN_LOCATION}},
+    //             .health = {GAME_START_HUNTER_LIFE_POINTS,
+    //                       GAME_START_HUNTER_LIFE_POINTS,
+    //                       GAME_START_HUNTER_LIFE_POINTS,
+    //                       GAME_START_HUNTER_LIFE_POINTS,
+    //                       GAME_START_BLOOD_POINTS},
 
-                .connections = connections,
-                .nConnections = 5,
-        });
-    }
+    //             .connections = connections,
+    //             .nConnections = 5,
+    //     });
+    // }
 
 
 }

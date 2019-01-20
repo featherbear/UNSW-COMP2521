@@ -25,11 +25,8 @@
 #include "_queue.h"
 
 #include "_connections.h"
-
 #include "_game_events.h"
 
-// Credits and many thanks to
-// https://stackoverflow.com/questions/10258305/how-to-implement-a-breadth-first-search-to-a-certain-depth
 
 #define max(a, b) a>b?a:b
 #define min(a, b) a<b?a:b
@@ -52,27 +49,24 @@ static bool playerRested(GameView gv, enum player p) {
     return currLocation == prevLocation;
 }
 
-/* Takes in 'non-exact' moves and returns exactly where Dracula is*/
+/* Takes in 'non-exact' moves and returns exactly where Dracula is (if not resolved to an unknown location) */
 static location_t resolveDraculaExtras(dNode draculaLocationNode) {
-
-
     location_t draculaLocation = draculaLocationNode->item;
-    while (!valid_location_p(draculaLocation)) {
 
+    while (!valid_location_p(draculaLocation)) {
         // Find the exact location for DOUBLE_BACK_N
         if (DOUBLE_BACK_1 <= draculaLocation && draculaLocation <= DOUBLE_BACK_5) {
             for (int i = 0; i <= draculaLocationNode->item - DOUBLE_BACK_1; i++)
                 draculaLocationNode = draculaLocationNode->prev;
 
-        // Find the exact location for HIDE
+            // Find the exact location for HIDE
         } else if (draculaLocation == HIDE) {
             draculaLocationNode = draculaLocationNode->prev;
         }
 
-        // J: Why is this written twice..? Does it need to be updated
         draculaLocation = draculaLocationNode->item;
 
-        // Find the exact location of UKNOWN and TELEs
+        // Handle TELEPORT and UNKNOWN cases
         switch (draculaLocation) {
             case TELEPORT:
                 return CASTLE_DRACULA;
@@ -80,6 +74,8 @@ static location_t resolveDraculaExtras(dNode draculaLocationNode) {
             case SEA_UNKNOWN:
             case UNKNOWN_LOCATION:
                 return draculaLocation;
+            default:
+                break;
         }
     }
 
@@ -191,8 +187,7 @@ GameView gv_new(char *past_plays, player_message messages[]) {
 
         dlist_push(gv->currPlayer->moves, lID);
 
-
-        printf("    Player `%c` @ `%s` (%2d) | HP: %d | %s\n", player, location, lID, gv->currPlayer->health, _event);
+//        printf("    Player `%c` @ `%s` (%2d) | HP: %d | %s\n", player, location, lID, gv->currPlayer->health, _event);
 
         ////////////////////////////////////////////////////////////////
         /* Action */
@@ -230,7 +225,7 @@ GameView gv_new(char *past_plays, player_message messages[]) {
                 event_encounter_vamp(gv);
             }
 
-        // Hunter ACTIONS: `T` && `V` && `D`; Trap, Vamp, Drac
+            // Hunter ACTIONS: `T` && `V` && `D`; Trap, Vamp, Drac
         } else {
 
             bool isAlive = true;
@@ -277,8 +272,8 @@ GameView gv_new(char *past_plays, player_message messages[]) {
             gv->score -= SCORE_LOSS_DRACULA_TURN;
             gv->currRound++;
 
-        // Hunters need to update: Health
-         } else {
+            // Hunters need to update: Health
+        } else {
 
             // Update Health: A resting player (stayed in the same city) gains 3 health
             if (playerRested(gv, currPlayer_n)) {
@@ -395,7 +390,7 @@ gv_get_connections(GameView gv, size_t *n_locations, location_t from, enum playe
         loc[0] = TELEPORT;
         *n_locations = 1;
 
-    // Put everything in the queue into the array
+        // Put everything in the queue into the array
     } else {
         loc = malloc(queueSize * sizeof(location_t));
         for (size_t i = 0; i < queueSize; i++) loc[i] = (location_t) (size_t) queue_de(validMoves);

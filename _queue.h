@@ -22,7 +22,9 @@ void queue_en(Queue q, int item);
  * Returns the value of the node */
 int queue_de(Queue q);
 
-// void queue_append(Queue q, Queue p);
+/* Appends Queue `p` to Queue `q`
+ * Drops Queue `p` */
+void queue_append(Queue q, Queue p);
 
 /* Appends Queue `p` to Queue `q`
  * Drops Queue `p`
