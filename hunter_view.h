@@ -17,6 +17,8 @@
 
 typedef struct hunter_view *HunterView;
 
+location_t hv_get_all_history(HunterView hv, enum player player, size_t *size, bool resolveSpecials);
+
 /**
  * Creates a new view to summarise the current state of the game.
  *

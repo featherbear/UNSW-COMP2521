@@ -16,6 +16,8 @@
 #include "game_view.h"
 #include "hunter_view.h"
 
+#include "_connections.h"
+
 ///
 
 typedef struct hunter_view {
@@ -25,7 +27,8 @@ typedef struct hunter_view {
 ///
 
 hunter_view *hv_new(char *past_plays, player_message messages[]) {
-    hunter_view *new = malloc(sizeof *new);
+    hunter_view *
+    new = malloc(sizeof *new);
     if (new == NULL) err(EX_OSERR, "Couldn't allocate HunterView");
 
     new->gv = gv_new(past_plays, messages);
@@ -60,6 +63,20 @@ location_t hv_get_location(hunter_view *hv, enum player player) {
 
 void hv_get_trail(hunter_view *hv, enum player player, location_t trail[TRAIL_SIZE]) {
     gv_get_history(hv->gv, player, trail);
+}
+
+
+/* Given an array, fill that array out with the given player's past moves */
+location_t hv_get_all_history(hunter_view *hv, enum player player, size_t *size, bool resolveSpecials) {
+    dNode move = hv->gv->players[player].moves->tail;
+    location_t *trail = malloc(hv->gv->players[player].moves->size * sizeof(location_t))
+    size_t i = 0;
+    while (move) {
+        trail[i++] = resolveSpecials ? resolveExtraLocations(move) : move->item;
+        move = move->prev;
+    }
+    *size = i;
+    return trail;
 }
 
 location_t *hv_get_dests(hunter_view *hv, size_t *n_locations, bool road, bool rail, bool sea) {
