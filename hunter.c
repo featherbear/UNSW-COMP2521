@@ -89,6 +89,7 @@ void decide_hunter_move(HunterView hv) {
     if (hv_get_health(hv, PLAYER_DRACULA) <= 15) {
         // Dracula needs to go back to CD, unless he's really far away then stake him rather than camp
         register_best_play("","");
+        return;
     }
 
 
