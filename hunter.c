@@ -25,6 +25,8 @@ static location_t getLastDracLocation(HunterView hv, ssize_t *distance);
 
 // Get the last known location of Dracula
 static location_t getLastDracLocation(HunterView hv, ssize_t *distance) {
+    *distance = -1;
+
     size_t nLocations;
     location_t *locations = hv_get_all_history(hv, PLAYER_DRACULA, &nLocations, true);
 
@@ -39,8 +41,6 @@ static location_t getLastDracLocation(HunterView hv, ssize_t *distance) {
                 break;
             }
         }
-    } else {
-        *distance = -1;
     }
 
     free(locations);
@@ -50,34 +50,35 @@ static location_t getLastDracLocation(HunterView hv, ssize_t *distance) {
 void decide_hunter_move(HunterView hv) {
     enum player player = hv_get_player(hv);
     round_t round = hv_get_round(hv);
+    location_t location = hv_get_location(hv, player);
 
-    {
-        // First round, spawn hunters in regions
-        if (round == 0) {
-            switch (player) {
-                case PLAYER_LORD_GODALMING:
-                    register_best_play("PL", "");
-                    return;
-                case PLAYER_DR_SEWARD:
-                    register_best_play("SN", "his%s%s%s%s");
-                    return;
-                case PLAYER_VAN_HELSING:
-                    register_best_play("LI", "");
-                    return;
-                case PLAYER_MINA_HARKER:
-                    register_best_play("SZ", "Dracula pls printf(msg) thanks");
-                    return;
-            }
+    // First round, spawn hunters in regions
+    if (round == 0) {
+        switch (player) {
+            case PLAYER_LORD_GODALMING:
+                register_best_play("PL", "");
+                return;
+            case PLAYER_DR_SEWARD:
+                register_best_play("SN", "his%s%s%s%s");
+                return;
+            case PLAYER_VAN_HELSING:
+                register_best_play("LI", "");
+                return;
+            case PLAYER_MINA_HARKER:
+                register_best_play("SZ", "Dracula pls printf(msg) thanks");
+                return;
         }
     }
+
 
     ssize_t lastDracSeen;
     location_t lastDracLocation = getLastDracLocation(hv, &lastDracSeen);
 
+    printf("lastDracSeen for player %d is: %d\nCurrent loc is %s (%s)\nCurrent round is: %d\n", player, lastDracSeen, location_get_abbrev(location), location_get_name(location), round);
     if (lastDracSeen == -1
         && (round == 6 || round == 7)) {
         // Perform collaborative research
-        register_best_play(location_get_abbrev(hv_get_location(hv, player)), "Reeeeeeee");
+        register_best_play(location_get_abbrev(location), "Reeeeeeee");
         return;
     }
 
@@ -87,7 +88,7 @@ void decide_hunter_move(HunterView hv) {
     }
 
     if (hv_get_health(hv, player) <= 4) {
-        register_best_play(location_get_abbrev(hv_get_location(hv, player)), "Rest up bois");
+        register_best_play(location_get_abbrev(location), "F5. zzz");
         return;
     }
 
@@ -98,8 +99,9 @@ void decide_hunter_move(HunterView hv) {
 
 
     size_t nPossibleLocations;
-    location_t *possibleLocations = hv_get_dests(hv, &nPossibleLocations, true, true, true);
-    register_best_play(location_get_abbrev(possibleLocations[(size_t)rand() % nPossibleLocations]),
+    location_t *possibleLocations = hv_get_dests_player(hv, &nPossibleLocations, player, true, true, true);
+    srand(time(NULL));
+    register_best_play(location_get_abbrev(possibleLocations[(size_t) rand() % nPossibleLocations]),
                        "rand()");
 
     // hv_get_trail()

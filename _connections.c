@@ -172,12 +172,12 @@ Queue connections_get_railways(location_t l, enum player p, Map m, round_t round
                     break;
 
                 case 2:  // Can move up to two stations
-                    k = connections_rail_bfs(tmp->v, m, 1);
+                    k = connections_rail_bfs(tmp->v, m, 0);
                     queue_append_unique(q, k);
                     break;
 
                 case 3: // Can move up to three stations
-                    k = connections_rail_bfs(tmp->v, m, 2);
+                    k = connections_rail_bfs(tmp->v, m, 1);
                     queue_append_unique(q, k);
                     break;
             };
