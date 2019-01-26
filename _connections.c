@@ -67,7 +67,8 @@ Queue connections_get_extras(GameView gv, location_t l, enum player player) {
     // Dracula: HIDE
     location_t lastLoc = resolveExtraLocations(gv->players[PLAYER_DRACULA].moves->tail);
     if (!location_in_trail(gv, PLAYER_DRACULA, HIDE) && location_get_type(lastLoc) != SEA) {
-        queue_en(q, lastLoc);
+//        queue_en(q, lastLoc);
+        queue_en(q, HIDE);
     }
 
     // Dracula: DOUBLE_BACK_N
@@ -77,11 +78,12 @@ Queue connections_get_extras(GameView gv, location_t l, enum player player) {
         round_t rounds = gv_get_round(gv);
         rounds = rounds < 5 ? rounds : 5;
 
-        dNode doubleBackCursor = gv->players[PLAYER_DRACULA].moves->tail;
+        // dNode doubleBackCursor = gv->players[PLAYER_DRACULA].moves->tail;
 
         for (int i = 0; i < (int)rounds; i++) {
-            queue_en(q, resolveExtraLocations(doubleBackCursor));
-            doubleBackCursor = doubleBackCursor->prev;
+            queue_en(q, doubleBacks[i]);
+            // queue_en(q, resolveExtraLocations(doubleBackCursor));
+            // doubleBackCursor = doubleBackCursor->prev;
         }
     }
     return q;

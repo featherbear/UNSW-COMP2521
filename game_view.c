@@ -178,8 +178,8 @@ GameView gv_new(char *past_plays, player_message messages[]) {
             if (_event[2] == 'M') {
 
                 // Remove trap
-                assert(gv->encounters.traps[lID] > 0);
-                event_remove_trap(gv, lID);
+//                assert(gv->encounters.traps[lID] > 0);
+                if (valid_location_p(lID)) event_remove_trap(gv, lID);
 
             } else if (_event[2] == 'V') {
 
