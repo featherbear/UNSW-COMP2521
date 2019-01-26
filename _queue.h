@@ -36,6 +36,7 @@ size_t queue_size(Queue q);
 /* Drops an entire queue */
 void queue_drop(Queue q);
 
-
+bool queue_has(Queue q, int value);
+Queue convert_aTOq(int *a, size_t size);
 
 #endif //ASS02_QUEUE_H

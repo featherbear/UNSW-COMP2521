@@ -27,19 +27,24 @@ static location_t getLastDracLocation(HunterView hv, ssize_t *distance);
 static location_t getLastDracLocation(HunterView hv, ssize_t *distance) {
     size_t nLocations;
     location_t *locations = hv_get_all_history(hv, PLAYER_DRACULA, &nLocations, true);
-    if (!nLocations) return UNKNOWN_LOCATION;
 
-    size_t i;
-    for (i = 0; i < nLocations; i++) {
-        if (valid_location_p(locations[i])) {
-            *distance = (ssize_t) i;
-            free(locations);
-            return locations[i];
+    location_t lastLocation = UNKNOWN_LOCATION;
+
+    if (nLocations) {
+        size_t i;
+        for (i = 0; i < nLocations; i++) {
+            if (valid_location_p(locations[i])) {
+                *distance = (ssize_t) i;
+                lastLocation = locations[i];
+                break;
+            }
         }
+    } else {
+        *distance = -1;
     }
 
-    *distance = -1;
-    return UNKNOWN_LOCATION;
+    free(locations);
+    return lastLocation;
 }
 
 void decide_hunter_move(HunterView hv) {
@@ -51,16 +56,16 @@ void decide_hunter_move(HunterView hv) {
         if (round == 0) {
             switch (player) {
                 case PLAYER_LORD_GODALMING:
-                    register_best_play("", "");
+                    register_best_play("PL", "");
                     return;
                 case PLAYER_DR_SEWARD:
-                    register_best_play("", "");
+                    register_best_play("SN", "his%s%s%s%s");
                     return;
                 case PLAYER_VAN_HELSING:
-                    register_best_play("", "");
+                    register_best_play("LI", "");
                     return;
                 case PLAYER_MINA_HARKER:
-                    register_best_play("", "");
+                    register_best_play("SZ", "Dracula pls printf(msg) thanks");
                     return;
             }
         }
@@ -88,14 +93,14 @@ void decide_hunter_move(HunterView hv) {
 
     if (hv_get_health(hv, PLAYER_DRACULA) <= 15) {
         // Dracula needs to go back to CD, unless he's really far away then stake him rather than camp
-        register_best_play("","");
-        return;
+//        register_best_play("","");
     }
 
 
     size_t nPossibleLocations;
     location_t *possibleLocations = hv_get_dests(hv, &nPossibleLocations, true, true, true);
-    register_best_play(location_get_abbrev(possibleLocations[rand() % nPossibleLocations]), "PSEUDO RANDOM LOCATIONS WOO");
+    register_best_play(location_get_abbrev(possibleLocations[(size_t)rand() % nPossibleLocations]),
+                       "rand()");
 
     // hv_get_trail()
     // if an actual location is in the trail, start making our way to the latest location

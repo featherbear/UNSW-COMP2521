@@ -43,7 +43,8 @@ Queue queue_new(void) {
 
 /* Creates a new node */
 static qNode node_new(int item) {
-    qNode new = malloc(sizeof(*new));
+    qNode
+    new = malloc(sizeof(*new));
     assert(new != NULL);
     (*new) = (struct queue_node) {
             .next = NULL,
@@ -122,3 +123,18 @@ void queue_drop(Queue q) {
     free(q);
 }
 
+//
+
+// Check if a value exists within a queue
+bool queue_has(Queue q, int value) {
+    for (qNode n = q->head; n != NULL; n = n->next) {
+        if (n->item == value) return true;
+    }
+    return false;
+}
+
+Queue convert_aTOq(int *a, size_t size) {
+    Queue q = queue_new();
+    for (size_t i = 0; i < size; i++) queue_en(q, a[i]);
+    return q;
+}
