@@ -14,22 +14,20 @@
 #include <stdlib.h>
 
 void decide_dracula_move(DraculaView dv) {
-
     if (dv_get_round(dv) == 0) {
         // See if we can spawn at CD, then HI and DB -> gain 30 health -> 70HP
         // - Only do so if there aren't any hunters around - as Dracula is the last player, we can check if CD is safe.
-
-        // S
 
         // First round
         register_best_play("CF", "R U N (insert song here)");
         return;
     }
 
-    if (dv_get_health(dv, PLAYER_DRACULA) < )
-    /// @todo Replace this with something better!
-    size_t nPossibleLocations;
+    if (dv_get_health(dv, PLAYER_DRACULA) <= 15 ) {
+        // move to CD / or avoid if not safe
+    }
 
+    size_t nPossibleLocations;
     // Priority to use road than sea...
     location_t *possibleLocations = dv_get_dests(dv, &nPossibleLocations, true, false);
 
@@ -41,9 +39,10 @@ void decide_dracula_move(DraculaView dv) {
     if (nPossibleLocations == 0) {
         register_best_play("CD", "I DUN GUF AND HAVE TO GO CASTLE DRAC CYA BOIS");
     } else {
-        register_best_play(location_get_abbrev(possibleLocations[0]),
-                           "[0]");
+        register_best_play(location_get_abbrev(possibleLocations[rand() % nPossibleLocations]), "PSEUDO RANDOM LOCATIONS WOO");
+//        register_best_play(location_get_abbrev(possibleLocations[0]),                           "[0]");
     }
     // Okay so if nPossibleLocations is still zero we have seriously screwed up
 
+    free(possibleLocations);
 }

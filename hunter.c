@@ -14,10 +14,17 @@
 
 #include "_structures.h"
 
-static location_t getLastDracLocation(HunterView hv, size_t *distance);
+
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wswitch"
+#pragma clang diagnostic ignored "-Wincompatible-pointer-types-discards-qualifiers"
+#endif
+
+static location_t getLastDracLocation(HunterView hv, ssize_t *distance);
 
 // Get the last known location of Dracula
-static location_t getLastDracLocation(HunterView hv, size_t *distance) {
+static location_t getLastDracLocation(HunterView hv, ssize_t *distance) {
     size_t nLocations;
     location_t *locations = hv_get_all_history(hv, PLAYER_DRACULA, &nLocations, true);
     if (!nLocations) return UNKNOWN_LOCATION;
@@ -25,7 +32,7 @@ static location_t getLastDracLocation(HunterView hv, size_t *distance) {
     size_t i;
     for (i = 0; i < nLocations; i++) {
         if (valid_location_p(locations[i])) {
-            *distance = i;
+            *distance = (ssize_t) i;
             free(locations);
             return locations[i];
         }
@@ -59,13 +66,13 @@ void decide_hunter_move(HunterView hv) {
         }
     }
 
-    size_t lastDracSeen;
+    ssize_t lastDracSeen;
     location_t lastDracLocation = getLastDracLocation(hv, &lastDracSeen);
 
     if (lastDracSeen == -1
         && (round == 6 || round == 7)) {
         // Perform collaborative research
-        register_best_play(location_get_abbrev(hv_get_location(hv, player)), "Rest up bois");
+        register_best_play(location_get_abbrev(hv_get_location(hv, player)), "Reeeeeeee");
         return;
     }
 
@@ -81,14 +88,13 @@ void decide_hunter_move(HunterView hv) {
 
     if (hv_get_health(hv, PLAYER_DRACULA) <= 15) {
         // Dracula needs to go back to CD, unless he's really far away then stake him rather than camp
-        register_best_play
+        register_best_play("","");
     }
 
 
     size_t nPossibleLocations;
     location_t *possibleLocations = hv_get_dests(hv, &nPossibleLocations, true, true, true);
-    register_best_play(location_get_abbrev(possibleLocations[rand() % nPossibleLocations]),
-                       "PSEUDO RANDOM LOCATIONS WOO");
+    register_best_play(location_get_abbrev(possibleLocations[rand() % nPossibleLocations]), "PSEUDO RANDOM LOCATIONS WOO");
 
     // hv_get_trail()
     // if an actual location is in the trail, start making our way to the latest location

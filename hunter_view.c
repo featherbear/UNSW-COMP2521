@@ -16,6 +16,7 @@
 #include "game_view.h"
 #include "hunter_view.h"
 
+#include "_structures.h"
 #include "_connections.h"
 
 ///
@@ -67,9 +68,9 @@ void hv_get_trail(hunter_view *hv, enum player player, location_t trail[TRAIL_SI
 
 
 /* Given an array, fill that array out with the given player's past moves */
-location_t hv_get_all_history(hunter_view *hv, enum player player, size_t *size, bool resolveSpecials) {
+location_t *hv_get_all_history(HunterView hv, enum player player, size_t *size, bool resolveSpecials) {
     dNode move = hv->gv->players[player].moves->tail;
-    location_t *trail = malloc(hv->gv->players[player].moves->size * sizeof(location_t))
+    location_t *trail = malloc(hv->gv->players[player].moves->size * sizeof(location_t));
     size_t i = 0;
     while (move) {
         trail[i++] = resolveSpecials ? resolveExtraLocations(move) : move->item;

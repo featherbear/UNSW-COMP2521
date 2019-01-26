@@ -15,6 +15,11 @@
 
 #include <string.h>
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#endif
+
 /* Takes in 'non-exact' moves and returns exactly where Dracula is (if not resolved to an unknown location) */
 location_t resolveExtraLocations(dNode posNode) {
     assert(posNode);
@@ -75,6 +80,13 @@ Queue connections_get_extras(GameView gv, location_t l, enum player player) {
     location_t doubleBacks[] = {DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3, DOUBLE_BACK_4, DOUBLE_BACK_5};
 
     if (!locations_in_trail(gv, PLAYER_DRACULA, doubleBacks, 5)) {
+        location_t trail[TRAIL_SIZE];
+        gv_get_history(gv, PLAYER_DRACULA, trail);
+
+        for (int i = 0; i < TRAIL_SIZE - 1; i++) {
+            if
+        }
+
         round_t rounds = gv_get_round(gv);
         rounds = rounds < 5 ? rounds : 5;
 
@@ -249,3 +261,18 @@ Queue connections_get_seaways(GameView gv, location_t l, enum player p, Map m) {
 }
 
 
+bool connections_is_location_connected(Map m, location_t locA, location_t locB, bool road, bool rail, bool sea) {
+    assert(valid_location_p(locA));
+    assert(valid_location_p(locB));
+
+    for (map_adj *tmp = m->connections[l]; tmp; tmp = tmp->next) {
+        if (tmp->v == locB) {
+            if ()
+        }
+        return true;
+    }
+
+    return false;
+
+
+}
