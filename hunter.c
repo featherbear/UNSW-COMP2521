@@ -10,10 +10,11 @@
 #include "hunter.h"
 #include "hunter_view.h"
 
+#include <time.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "_structures.h"
-
 
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -47,6 +48,10 @@ static location_t getLastDracLocation(HunterView hv, ssize_t *distance) {
     return lastLocation;
 }
 
+// Find fastest route to a certain location
+// TODO: Refactor from _ai.h
+
+
 void decide_hunter_move(HunterView hv) {
     enum player player = hv_get_player(hv);
     round_t round = hv_get_round(hv);
@@ -56,16 +61,16 @@ void decide_hunter_move(HunterView hv) {
     if (round == 0) {
         switch (player) {
             case PLAYER_LORD_GODALMING:
-                register_best_play("PL", "");
+                register_best_play("PL", "Spawn");
                 return;
             case PLAYER_DR_SEWARD:
-                register_best_play("SN", "his%s%s%s%s");
+                register_best_play("SN", "Spawn");
                 return;
             case PLAYER_VAN_HELSING:
-                register_best_play("LI", "");
+                register_best_play("LI", "Spawn");
                 return;
             case PLAYER_MINA_HARKER:
-                register_best_play("SZ", "Dracula pls printf(msg) thanks");
+                register_best_play("SZ", "Spawn");
                 return;
         }
     }
@@ -74,11 +79,12 @@ void decide_hunter_move(HunterView hv) {
     ssize_t lastDracSeen;
     location_t lastDracLocation = getLastDracLocation(hv, &lastDracSeen);
 
-    printf("lastDracSeen for player %d is: %d\nCurrent loc is %s (%s)\nCurrent round is: %d\n", player, lastDracSeen, location_get_abbrev(location), location_get_name(location), round);
+    printf("\nlastDracSeen for player %d is: %d\nCurrent loc is %s (%s)\nCurrent round is: %d\n", player, lastDracSeen,
+           location_get_abbrev(location), location_get_name(location), round);
     if (lastDracSeen == -1
         && (round == 6 || round == 7)) {
         // Perform collaborative research
-        register_best_play(location_get_abbrev(location), "Reeeeeeee");
+        register_best_play(location_get_abbrev(location), "RESEARCH");
         return;
     }
 
@@ -87,8 +93,8 @@ void decide_hunter_move(HunterView hv) {
 
     }
 
-    if (hv_get_health(hv, player) <= 4) {
-        register_best_play(location_get_abbrev(location), "F5. zzz");
+    if (hv_get_health(hv, player) <= 5) {
+        register_best_play(location_get_abbrev(location), "REST");
         return;
     }
 
@@ -100,9 +106,10 @@ void decide_hunter_move(HunterView hv) {
 
     size_t nPossibleLocations;
     location_t *possibleLocations = hv_get_dests_player(hv, &nPossibleLocations, player, true, true, true);
+
+    //
     srand(time(NULL));
-    register_best_play(location_get_abbrev(possibleLocations[(size_t) rand() % nPossibleLocations]),
-                       "rand()");
+    register_best_play(location_get_abbrev(possibleLocations[(size_t) rand() % nPossibleLocations]), "rng");
 
     // hv_get_trail()
     // if an actual location is in the trail, start making our way to the latest location

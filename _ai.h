@@ -7,6 +7,8 @@
 
 #include <assert.h>
 #include "game.h"
+#include "places.h"
+#include <string.h>
 
 typedef size_t region_t;
 
@@ -103,8 +105,11 @@ void test_get_region()
     }
 }
 
-//location_t *QueueToArray();
-location_t fastestRoute() {
+location_t fastestRoute(location_t from, location_t to, bool road, bool rail, bool sea) {
+    // BFS Implementation
+    bool seen[NUM_MAP_LOCATIONS]= {false};
+    location_t prev[NUM_MAP_LOCATIONS];
+    memset(prev, NUM_MAP_LOCATIONS, -1);
 
 }
 
