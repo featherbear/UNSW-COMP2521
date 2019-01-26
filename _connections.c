@@ -78,26 +78,28 @@ Queue connections_get_extras(GameView gv, location_t l, enum player player) {
 
     // Dracula: DOUBLE_BACK_N
     location_t doubleBacks[] = {DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3, DOUBLE_BACK_4, DOUBLE_BACK_5};
+    Map m = map_new();
 
     if (!locations_in_trail(gv, PLAYER_DRACULA, doubleBacks, 5)) {
-        location_t trail[TRAIL_SIZE];
-        gv_get_history(gv, PLAYER_DRACULA, trail);
+        // At this point only TP, HI, and exact locations can exist
 
-        for (int i = 0; i < TRAIL_SIZE - 1; i++) {
-            if
-        }
+        dNode doubleBackCursor = gv->players[PLAYER_DRACULA].moves->tail;
 
-        round_t rounds = gv_get_round(gv);
-        rounds = rounds < 5 ? rounds : 5;
+        location_t currentLocation = resolveExtraLocations(doubleBackCursor);
 
-        // dNode doubleBackCursor = gv->players[PLAYER_DRACULA].moves->tail;
+        queue_en(q, doubleBacks[0]);
+        doubleBackCursor = doubleBackCursor->prev;
 
-        for (int i = 0; i < (int)rounds; i++) {
-            queue_en(q, doubleBacks[i]);
-            // queue_en(q, resolveExtraLocations(doubleBackCursor));
-            // doubleBackCursor = doubleBackCursor->prev;
+        for (int i = 1; i < TRAIL_SIZE - 1 && doubleBackCursor->prev; i++) {
+            location_t location = resolveExtraLocations(doubleBackCursor);
+
+            if (connections_is_location_connected(m, currentLocation, location, true, false, true)) queue_en(q, doubleBacks[i]);
+
+            doubleBackCursor = doubleBackCursor->prev;
         }
     }
+
+    map_drop(m);
     return q;
 }
 
@@ -265,14 +267,24 @@ bool connections_is_location_connected(Map m, location_t locA, location_t locB, 
     assert(valid_location_p(locA));
     assert(valid_location_p(locB));
 
-    for (map_adj *tmp = m->connections[l]; tmp; tmp = tmp->next) {
-        if (tmp->v == locB) {
-            if ()
-        }
-        return true;
+    bool createMap = false;
+    if (!m) {
+        createMap = true;
+        m = map_new();
     }
 
-    return false;
+    bool status = false;
+    for (map_adj *tmp = m->connections[locA]; tmp; tmp = tmp->next) {
+        if (tmp->v == locB) {
+            if ((tmp->type == ROAD && road)
+                || (tmp->type == RAIL && rail)
+                || (tmp->type == SEA && sea)) {
+                status = true;
+                break;
+            }
+        }
+    }
 
-
+    if (createMap) map_drop(m);
+    return status;
 }

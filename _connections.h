@@ -43,6 +43,6 @@ int connections_bfs_process(Queue q, int item, bool *hasBeenVisited, Map m);
 /* Finds all locations accessible by rail */
 Queue connections_get_seaways(GameView gv, location_t l, enum player p, Map m);
 
-
+bool connections_is_location_connected(Map m, location_t locA, location_t locB, bool road, bool rail, bool sea);
 
 #endif //ASS02_CONNECTIONS_H

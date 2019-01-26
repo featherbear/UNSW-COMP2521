@@ -348,7 +348,7 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
 
     if (player == PLAYER_DRACULA && queueSize == 0) {
         loc = malloc(1 * sizeof(location_t));
-        loc[0] = CASTLE_DRACULA;
+        loc[0] = TELEPORT;
         *n_locations = 1;
 
     // Put everything in the queue into the array
