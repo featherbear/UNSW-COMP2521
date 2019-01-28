@@ -7,10 +7,55 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Andrew Wong (z5206677)</copyright>
-    <lastBuildDate>Thu, 10 Jan 2019 12:00:00 +1100</lastBuildDate>
+    <lastBuildDate>Mon, 28 Jan 2019 19:56:24 +1100</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Lab 7 - Quick Sort Detective</title>
+      <link>/post/lab07/</link>
+      <pubDate>Mon, 28 Jan 2019 19:56:24 +1100</pubDate>
+      
+      <guid>/post/lab07/</guid>
+      <description>Overview  Pick a pivot element.</description>
+    </item>
+    
+    <item>
+      <title>Lec13</title>
+      <link>/post/lec13/</link>
+      <pubDate>Thu, 24 Jan 2019 10:27:48 +1100</pubDate>
+      
+      <guid>/post/lec13/</guid>
+      <description>Splay -</description>
+    </item>
+    
+    <item>
+      <title>Lecture Twelve - Balanced Trees</title>
+      <link>/post/___balancedtrees/</link>
+      <pubDate>Tue, 22 Jan 2019 14:42:56 +1100</pubDate>
+      
+      <guid>/post/___balancedtrees/</guid>
+      <description>Weight balance (size(l) - height&amp;reg;| &amp;lt; 2 Height balance |height(l) - height&amp;reg;| &amp;lt; 2</description>
+    </item>
+    
+    <item>
+      <title>Lab 6 - Sort Detective Report</title>
+      <link>/post/lab06/</link>
+      <pubDate>Tue, 15 Jan 2019 18:19:48 +1100</pubDate>
+      
+      <guid>/post/lab06/</guid>
+      <description>Lol well this was all wrong xd but das okay</description>
+    </item>
+    
+    <item>
+      <title>Lecture 9 - Sorting</title>
+      <link>/post/lec09/</link>
+      <pubDate>Tue, 15 Jan 2019 14:19:20 +1100</pubDate>
+      
+      <guid>/post/lec09/</guid>
+      <description>Sorting is arranging a collection of items in order, based on some key</description>
+    </item>
     
     <item>
       <title>Practice Exam</title>

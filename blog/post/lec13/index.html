@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Lec13 - COMP2521 Summer Fun</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="z5206677" /><meta name="description" content="Splay -" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.52 with even 4.0.0" />
+
+
+<link rel="canonical" href="../../post/lec13/" />
+<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+<link rel="manifest" href="../../manifest.json">
+<link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
+
+
+<link href="../../dist/even.93844dae.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Lec13" />
+<meta property="og:description" content="Splay -" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/lec13/" /><meta property="article:published_time" content="2019-01-24T10:27:48&#43;11:00"/>
+<meta property="article:modified_time" content="2019-01-24T10:27:48&#43;11:00"/>
+
+<meta itemprop="name" content="Lec13">
+<meta itemprop="description" content="Splay -">
+
+
+<meta itemprop="datePublished" content="2019-01-24T10:27:48&#43;11:00" />
+<meta itemprop="dateModified" content="2019-01-24T10:27:48&#43;11:00" />
+<meta itemprop="wordCount" content="430">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Lec13"/>
+<meta name="twitter:description" content="Splay -"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="../../" class="logo">COMP2521 Musings</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="../../">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="https://github.com/featherbear/UNSW-COMP2521">
+        <li class="mobile-menu-item">GitHub</li>
+      </a><a href="../../categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="../../" class="logo">COMP2521 Musings</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="../../">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://github.com/featherbear/UNSW-COMP2521">GitHub</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="../../categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Lec13</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-01-24 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    
+  </div>
+</div>
+    <div class="post-content">
+      <p>Splay -</p>
+
+<p>Splay tree</p>
+
+<p>Amortisation - more work now less work later</p>
+
+<p>Splay</p>
+
+<p>For a LL,  rotate root right a, rotate right at E</p>
+
+<p>Amortisation, increasedescrease the average cost.. TH EAVERAGE</p>
+
+<p>for left right, rotate child left, rotate at R</p>
+
+<p>LL -&gt; RR
+LR -&gt; LR
+RR -&gt; LL
+RL -&gt; RL</p>
+
+<p>Inserting into a splay</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">btree_node</span>  <span class="o">*</span><span class="nf">btree_rotate_left</span><span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="p">);</span>
+<span class="n">btree_node</span> <span class="o">*</span><span class="nf">btree_rotate_right</span><span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="p">);</span>
+
+<span class="n">btree_node</span> <span class="o">*</span><span class="nf">btree_insert_splay</span><span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="n">tree</span><span class="p">,</span> <span class="n">Item</span> <span class="n">it</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">tree</span><span class="p">)</span> <span class="k">return</span> <span class="n">btree_node_new</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">cmp</span> <span class="o">=</span> <span class="n">item_cmp</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">);</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">cmp</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">btree_node_new</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+      <span class="k">return</span> <span class="n">tree</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">int</span> <span class="n">ldiff</span> <span class="o">=</span> <span class="n">item_cmp</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ldiff</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// left left
+</span><span class="c1"></span>        <span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">btree_insert_splay</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+        <span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">btree_rotate_right</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">btree_insert_splay</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+        <span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">btree_rotate_left</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+      <span class="c1">// left right
+</span><span class="c1"></span>    <span class="p">}</span>
+
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">btree_rotate_right</span><span class="p">(</span><span class="n">tree</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">tree</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">cmp</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">btree_node_new</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+      <span class="k">return</span> <span class="n">tree</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kt">int</span> <span class="n">rdiff</span> <span class="o">=</span> <span class="n">item_cmp</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">rdiff</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// right left
+</span><span class="c1"></span>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="c1">// right right
+</span><span class="c1"></span>
+    <span class="p">}</span>
+    <span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">btree_insert_splay</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">else</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">value</span> <span class="o">=</span> <span class="n">it</span><span class="p">;</span>
+
+<span class="c1">// Searching is now optimised
+</span><span class="c1"></span><span class="n">btree_node</span> <span class="o">*</span><span class="n">btree_search_splay</span><span class="p">(</span><span class="n">btree_node</span> <span class="o">**</span><span class="n">root</span><span class="p">,</span> <span class="n">Item</span> <span class="n">it</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">tree</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!*</span><span class="n">root</span><span class="p">)</span> <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+  <span class="o">*</span><span class="n">root</span> <span class="o">=</span> <span class="n">btree_splay</span><span class="p">(</span><span class="o">*</span><span class="n">root</span><span class="p">,</span> <span class="n">it</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">item_cmp</span><span class="p">((</span><span class="o">*</span><span class="n">root</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="o">*</span><span class="n">root</span><span class="p">;</span>
+  <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>Average O((N+M) log(N+M))
+N nodes
+M inserts/searches</p>
+
+<p>2-3-4 Trees
+2-nodes - one node, two children
+3-nodes - two value, three chldren
+4-nodes - three values, four children</p>
+
+<p>Depth O(logn)
+Worst case - all 2 nodes
+Best case - all 4 nodes</p>
+
+<p>Insertion
+- find leaf node (search)
+- check if not full; then insert
+  - else split two 2nodes
+  - promote middle to parent
+  - if parent is a 4node, split/promote again</p>
+
+<p>[][][]
+===&gt; []
+    [][]</p>
+
+<p>Redblack Trees
+Redblack trees are a method of representing a 2-3-4 tree with standard BST nodes, with the addition of adding extra meta info into the BST <code>struct</code>ure.</p>
+
+<p>Uses plain BST nodes (just with extra meta || encoded link type)
+Uses 2-3-4 rules</p>
+
+<p>black links - normal
+red links - sibling</p>
+
+<p>No two red on a path
+All paths need the same number of black links</p>
+
+<p>4 node
+1r2r3
+b1br2rb3b</p>
+
+<p>painful. :(</p>
+
+<p>&ldquo;Hashing&rdquo; in C</p>
+
+<p>-&gt; strlen
+-&gt; sum of characters</p>
+
+<p>struct hash_table {
+  size_t N;
+  struct { char*key; Item value; } item[];
+}</p>
+
+    </div>
+
+    <footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="../../post/___balancedtrees/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Lecture Twelve - Balanced Trees</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="../../post/lab07/">
+            <span class="next-text nav-default">Lab 7 - Quick Sort Detective</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:z5206677@student.unsw.edu.au" class="iconfont icon-email" title="email"></a>
+      <a href="https://www.linkedin.com/in/andrewjinmengwong/" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="https://github.com/featherbear" class="iconfont icon-github" title="github"></a>
+      <a href="https://www.instagram.com/_andrewjwong/" class="iconfont icon-instagram" title="instagram"></a>
+  <a href="../../index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Andrew Wong (z5206677)</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="../../dist/even.ece58db6.min.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
