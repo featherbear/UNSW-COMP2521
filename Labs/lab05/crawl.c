@@ -114,6 +114,7 @@ int main(int argc, char **argv) {
         url_fclose(handle);
         sleep(1);
     }
+    showGraph(g,1);
     return 0;
 }
 
