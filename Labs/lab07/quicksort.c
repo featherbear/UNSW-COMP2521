@@ -8,9 +8,9 @@
 
 static const int MODE_QUIET = 8; // 0b1000
 
-static int checkArguments(int argc, char **argv);
+static int handleArguments(int argc, char **argv);
 
-static int checkArguments(int argc, char **argv) {
+static int handleArguments(int argc, char **argv) {
     int result = 0;
     bool status = true;
 
@@ -23,7 +23,18 @@ static int checkArguments(int argc, char **argv) {
             else if (strcmp(argv[i], "-pm") == 0) (modeFlagSelected = true) && (result |= MODE_MEDIAN);
             else if (strcmp(argv[i], "-pr") == 0) (modeFlagSelected = true) && (result |= MODE_RANDOM);
             else if (strcmp(argv[i], "-q") == 0) result |= MODE_QUIET;
-            else {
+            else if (strncmp(argv[i], "-sa", 3) == 0) {
+                if (strlen(argv[i]) == 3) {
+                    status = false;
+                    break;
+                } else insertionThreshold = atoi(argv[i] + 3);
+
+            } else if (strncmp(argv[i], "-sb", 3) == 0) {
+                if (strlen(argv[i]) == 3) {
+                    status = false;
+                    break;
+                } else postInsertionThreshold = atoi(argv[i] + 3);
+            } else {
                 status = false;
                 break;
             }
@@ -37,9 +48,9 @@ static int checkArguments(int argc, char **argv) {
 }
 
 int main(int argc, char **argv) {
-    int mode = checkArguments(argc, argv);
+    int mode = handleArguments(argc, argv);
     if (!mode) {
-        printf("Usage: %s -p<n/m/r> [-q]\n", argv[0]);
+        printf("Usage: %s -p<n/m/r> [-q] [-saN] [-sbN]\n", argv[0]);
         return -1;
     }
 
