@@ -18,11 +18,11 @@ while True:
 
     nums = list(range(n))                            # Ascending
     if sys.argv[1] == "D": nums = nums[::-1]         # Descending
-    elif sys.argv[1] == "R": shuffle(nums)             # Random
-    string = "\n".join(map(str, [n] + nums)).encode()
 
     times = []
-    for x in range(5):
+    for x in range(10):
+        if sys.argv[1] == "R": shuffle(nums)         # Random
+        string = "\n".join(map(str, [n] + nums)).encode()
         with subprocess.Popen(["/usr/bin/time", "-f%U", "./quicksort", "-pr", "-q"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as process:
             comm = process.communicate(string)
             times.append(float(comm[1].decode().strip()))

@@ -15,6 +15,11 @@ sequenceDiagrams:
 
 ---
 
+> **Resources:**  
+- [GitHub](https://github.com/featherbear/UNSW-COMP2521/tree/gh-pages/Labs/lab07) (Sort code, data.py)  
+- [Timing Data](Timings.xlsx)  
+- [Raw Timing Data](https://github.com/featherbear/UNSW-COMP2521/tree/gh-pages/blog/__hugo/static/post/lab07) (CSV files)  
+
 # Overview  
 
 * Pick a **pivot** element.
@@ -61,11 +66,14 @@ while True:
 
     nums = list(range(n))                              # Ascending
     if sys.argv[1] == "D": nums = nums[::-1]           # Descending
-    elif sys.argv[1] == "R": shuffle(nums)             # Random
-    string = "\n".join(map(str, [n] + nums)).encode()
 
     times = []
     for x in range(10):
+        
+        # Fixed from last time, where the shuffled order was always the same!
+        if sys.argv[1] == "R": shuffle(nums)           # Random
+        string = "\n".join(map(str, [n] + nums)).encode()
+        
         with subprocess.Popen(["/usr/bin/time", "-f%U", "./quicksort", "-p<INSERTYOURMODEFLAGHERE>", "-q"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as process:
             comm = process.communicate(string)
             times.append(float(comm[1].decode().strip()))
@@ -89,30 +97,56 @@ This script will generate the timings for lots of numbers (_0-10000 in increment
 
 # Analysis
 ![](Snipaste_2019-01-28_20-02-34.png)
+***Note: The x-axis increases by increments of 100, and then increments of 2000 after 10000 items***  
+&nbsp;  
+
 This graph was made from the timings of a randomised array from each of the sort methods.
 
-The graph above suggests that all three sorts perform very similarly
-In the data set, the naive method was marginally more performant than that of the random and median sort.  
-This could possibly be as a result of the random and median methods requiring more operations (to compare, generate a random number, and switch)
+The graph above suggests that all three sorts perform very similarly.
+
+In the data set, the <span style="color:royalblue">random</span> method was more performant than that of the <span style="color:red">naive</span> and <span style="color:forestgreen">median</span> method.  
+
+This could be as a result of the <span style="color:red">naive</span> and <span style="color:forestgreen">median</span> methods requiring more operations _(nature of a <span style="color:red">naive</span> sort, and to compare and switch values for a <span style="color:forestgreen">median</span> sort)_
+
+The timings for the <span style="color:forestgreen">median</span> method were (surprisingly) more inconsistent, than the <span style="color:red">naive</span> sort, evident in the visible timing spikes
+
+For a dataset of about 364,000 items, both the <span style="color:red">naive</span> and <span style="color:forestgreen">median</span> sort methods spiked up in sort times
+
+_// Aside: It would have been better to perform the same tests with the same randomised numbers_
 
 ## Naive Pivot
 ![](Snipaste_2019-01-28_19-55-08.png)  
-This algorithm uses the right-most value of an array as the pivot index.  
+***Note: The x-axis increases by increments of 100, and then increments of 2000 after 10000 items***  
+&nbsp;  
+
+This algorithm uses the left/right-most value of an array as the pivot index.  
 It is naive as there is no thought given into which value to pick as the pivot.
 
-As seen, this algorithm reaches its worst-case time complexity when sorting an already sorted array.
+This algorithm reaches its worst-case time complexity when sorting an already sorted array.
 
 ## Median of Three Pivot
 ![](Snipaste_2019-01-28_19-55-41.png)  
-The median of three pivot algorithm compares the first, middle and last values of an array, and uses the median value as the pivot index - whilst also sorting the three values in place.  This poses the advantage of the sort always pivoting around a value where there are most likely lesser and greater values
+***Note: The x-axis increases by increments of 100, and then increments of 2000 after 10000 items***  
+&nbsp;  
 
-In comparing the best, average and worst cases for this algorithm's time complexity, the Median of Three method is marginally more performant in sorting a nearly sorted descending array, than that of a random array.
+The median of three pivot algorithm compares the first, middle and last values of an array, and uses the median value as the pivot index - whilst also sorting the three values (lo, mi, hi) in place.  This poses the advantage of the sort always pivoting around a value where there are most likely lesser and greater values.
+
+Sorting a randomised array of numbers takes (expectedly) more time than an already sorted ascending array.  
+
+The performance of a median sort on descending items is interesting - as in my head it should perform similar to a randomised array.  
+Overall the median method has a better overall sort performance than the naive sort, which bottlenecks for an (as/des)cending array.
 
 ## Random Pivot
 ![](Snipaste_2019-01-28_19-56-05.png)  
-Upon not knowing the nature of the values in an array, the Random Pivot method generates the best average case operation.  
+***Note: The x-axis increases by increments of 100, and then increments of 2000 after 10000 items***  
+&nbsp;  
+
+Albeit not knowing the nature of the values in an array, the random pivot method generates the best average case operation.  
 This algorithm selects a random value in an array as the pivot index.  
-It can sort an array of 500,000 random values in roughly `0.1s` (on my laptop at least)
+It can sort an array of 500,000 random values in roughly `0.11s` (on my laptop at least).  
+
+For a quick sort on an (as/des)cending array of numbers), the random pivot sort takes slightly longer than a median method - which is to be expected as there is no thought given into picking a pivot, hence on average more partitions will be performed.  
+Like the median sort, the random pivot sort is faster than the naive sort
 
 # Gotta go faster!
 By implementing a different sorting algorithim within another algorithm, for instance an Insertion Sort within the Quick Sort - we can optimise the performance of our sort. Such is because an Insertion Sort may perform fewer comparisons, swaps and recursions (for a small number of values).

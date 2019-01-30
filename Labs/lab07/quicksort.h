@@ -59,8 +59,6 @@ void quicksort_random(Item items[], size_t size) {
 static void quicksort_naive_do(Item items[], size_t lo, size_t hi) {
     if (hi <= lo) return;
 
-    if (less(items[hi], items[lo])) swap_idx(items, hi, lo);
-
     size_t n_items = hi - lo + 1;
     if (n_items < insertionThreshold || n_items < postInsertionThreshold) {
         if (n_items < insertionThreshold) sort_insertion(items, lo, hi);
@@ -80,6 +78,7 @@ static void quicksort_median_do(Item items[], size_t lo, size_t hi) {
     if (more(items[lo], items[mid])) swap_idx(items, lo, mid);
     if (more(items[mid], items[hi])) swap_idx(items, mid, hi);
     if (more(items[lo], items[mid])) swap_idx(items, lo, mid);
+    swap_idx(items, lo, mid);
 
     size_t n_items = hi - lo + 1;
     if (n_items < insertionThreshold || n_items < postInsertionThreshold) {
@@ -99,7 +98,7 @@ static void quicksort_random_do(Item items[], size_t lo, size_t hi) {
     if (hi <= lo) return;
 
     size_t randIndex = lo + (((size_t) rand() % (hi - lo + 1)));
-    if (less(items[randIndex], items[lo])) swap_idx(items, randIndex, lo);
+    swap_idx(items, randIndex, lo);
 
     size_t n_items = hi - lo + 1;
     if (n_items < insertionThreshold || n_items < postInsertionThreshold) {
