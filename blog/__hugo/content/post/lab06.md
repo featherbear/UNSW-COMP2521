@@ -1,6 +1,7 @@
 ---
 title: "Lab 6 - Sort Detective Report"
 date: 2019-01-15T18:19:48+11:00
+categories: ["Tutorial / Labs"]
 
 description: "A compulsory voluntarial analysis and algorithm identification of two programs of unknown sorting algorithm"
 hiddenFromHomePage: false
@@ -404,6 +405,6 @@ The stability sort passed, as the program output the correct order **CAB**
 `sortA` is an Insertion Sort.  
 `sortB` is a Shell Sort.
 
-EDIT: I dun guf.
-`sortA` was a shell sort - unstable.  --> not enough input
-`sortB` was a bubble sort - it has an early exit boi (best case)
+EDIT: I dun guf.  
+`sortA` was a shell sort - unstable.  --> not enough input  
+`sortB` was a bubble sort - it has an early exit boi (best case)  

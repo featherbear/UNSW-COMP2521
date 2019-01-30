@@ -24,8 +24,15 @@
   </url>
   
   <url>
-    <loc>/post/___balancedtrees/</loc>
+    <loc>/post/lec12/</loc>
     <lastmod>2019-01-22T14:42:56+11:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>/post/lec10/</loc>
+    <lastmod>2019-01-17T10:20:58+11:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -185,7 +192,7 @@
   </url>
   
   <url>
-    <loc>/categories/assignments/</loc>
+    <loc>/categories/assessments/</loc>
     <lastmod>2019-01-10T12:00:00+11:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
@@ -207,7 +214,7 @@
   
   <url>
     <loc>/categories/lectures/</loc>
-    <lastmod>2019-01-08T14:00:00+11:00</lastmod>
+    <lastmod>2019-01-29T14:35:02+11:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -234,7 +241,7 @@
   
   <url>
     <loc>/categories/tutorial-labs/</loc>
-    <lastmod>2019-01-08T17:09:10+11:00</lastmod>
+    <lastmod>2019-01-28T19:56:24+11:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

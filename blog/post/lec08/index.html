@@ -50,7 +50,7 @@
 
 <meta itemprop="datePublished" content="2019-01-08T14:00:00&#43;11:00" />
 <meta itemprop="dateModified" content="2019-01-08T14:00:00&#43;11:00" />
-<meta itemprop="wordCount" content="499">
+<meta itemprop="wordCount" content="498">
 
 
 
@@ -191,8 +191,6 @@
 <li><p><strong>strongly-connected component</strong> - maximal strongly-connected subgraph</p></li>
 </ul>
 
-<p>///////////</p>
-
 <h2 id="methods-of-representation">Methods of representation</h2>
 
 <p>Adjacency matrix - asymmetric, spare, less space efficient<br />
@@ -259,13 +257,13 @@ DAGs are a type of tree/graph, where nodes don&rsquo;t go back</p>
 <li>Find minimum cost path</li>
 </ul>
 
-<p>source-target - shortest from v-&gt;w
-single-source - from v to all
+<p>source-target - shortest from v-&gt;w<br />
+single-source - from v to all<br />
 all-pairs - (v,w) [ minimum for all pairs ]</p>
 
 <h3 id="single-source-shortest-path-search">Single Source Shortest Path Search</h3>
 
-<p>O(nlogv) - adjaceny matrix and heap
+<p>O(nlogv) - adjaceny matrix and heap<br />
 for an adjacency matrix (O(V^2))</p>
 
 <p><strong>Given a counter; the first time a node is visited is the earliest time it could be visited</strong></p>
@@ -277,21 +275,22 @@ A minimum spanning tree is the smallest representation of this subgraph.</p>
 
 <h2 id="kruskal-apos-s-algorithm">Kruskal&apos;s Algorithm</h2>
 
-<p>= take all edges, sorted according to their weight; and for each add it to the prototype MST unless it will introduce a cycle
-[A, B, C, D, E, F, G, H]
+<p>= take all edges, sorted according to their weight; and for each add it to the prototype MST unless it will introduce a cycle</p>
+
+<p>[A, B, C, D, E, F, G, H]<br />
 {A, B, C, -, E, -, -, H}</p>
 
-<p>** Cycle checking is expensive - (dfs everything!?)
+<p>** Cycle checking is expensive - (dfs everything!?)<br />
 &ndash;&gt; O(ElogE)</p>
 
 <h2 id="prim-apos-s-algorithm">Prim&apos;s Algorithm</h2>
 
 <p>(Prim, Jarnik and Dijkstra)</p>
 
-<p>Start from any vertex with an MST
-Choose an edge not already in the MST, that
-- does not cause a cycle
-- connects to a vertex on the mst (&lsquo;on the fringe&rsquo;)
+<p>Start from any vertex with an MST<br />
+Choose an edge not already in the MST, that<br />
+- does not cause a cycle<br />
+- connects to a vertex on the mst (&lsquo;on the fringe&rsquo;)<br />
 - minimum possible edge</p>
 
 <p>&ndash;&gt; Choose the smallest edge from any of the vertices in the MST that does not cause a cycle</p>
@@ -303,7 +302,7 @@ Choose an edge not already in the MST, that
 
 <h2 id="demo">Demo</h2>
 
-<p>&ndash;&gt; redblobgames.com/pathfinding/a-star/introduction.html</p>
+<p>&ndash;&gt; <a href="//redblobgames.com/pathfinding/a-star/introduction.html">redblobgames.com</a></p>
 
     </div>
 
@@ -312,7 +311,7 @@ Choose an edge not already in the MST, that
       <nav class="post-nav">
         <a class="prev" href="../../post/tut04/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Tutorial 4 - Heaps and Graphs</span>
+            <span class="prev-text nav-default">Tutorial Four - Heaps and Graphs</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         <a class="next" href="../../post/tut05/">

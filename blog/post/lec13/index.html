@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Lec13 - COMP2521 Summer Fun</title>
+  <title>Lecture 13 - Splay Trees, 2-3-4 Trees, Redblack Trees - COMP2521 Summer Fun</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="z5206677" /><meta name="description" content="Splay -" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="z5206677" /><meta name="description" content="Splay Trees Amortisation is the process of decreasing the average cost of an operation." /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -38,26 +38,26 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="Lec13" />
-<meta property="og:description" content="Splay -" />
+<meta property="og:title" content="Lecture 13 - Splay Trees, 2-3-4 Trees, Redblack Trees" />
+<meta property="og:description" content="Splay Trees Amortisation is the process of decreasing the average cost of an operation." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/lec13/" /><meta property="article:published_time" content="2019-01-24T10:27:48&#43;11:00"/>
 <meta property="article:modified_time" content="2019-01-24T10:27:48&#43;11:00"/>
 
-<meta itemprop="name" content="Lec13">
-<meta itemprop="description" content="Splay -">
+<meta itemprop="name" content="Lecture 13 - Splay Trees, 2-3-4 Trees, Redblack Trees">
+<meta itemprop="description" content="Splay Trees Amortisation is the process of decreasing the average cost of an operation.">
 
 
 <meta itemprop="datePublished" content="2019-01-24T10:27:48&#43;11:00" />
 <meta itemprop="dateModified" content="2019-01-24T10:27:48&#43;11:00" />
-<meta itemprop="wordCount" content="430">
+<meta itemprop="wordCount" content="422">
 
 
 
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Lec13"/>
-<meta name="twitter:description" content="Splay -"/>
+<meta name="twitter:title" content="Lecture 13 - Splay Trees, 2-3-4 Trees, Redblack Trees"/>
+<meta name="twitter:description" content="Splay Trees Amortisation is the process of decreasing the average cost of an operation."/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -116,11 +116,13 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Lec13</h1>
+      <h1 class="post-title">Lecture 13 - Splay Trees, 2-3-4 Trees, Redblack Trees</h1>
 
       <div class="post-meta">
         <span class="post-time"> 2019-01-24 </span>
-        
+        <div class="post-category">
+            <a href="../../categories/lectures/"> Lectures </a>
+            </div>
         
       </div>
     </header>
@@ -128,30 +130,48 @@
     <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content always-active">
-    
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#splay-trees">Splay Trees</a>
+<ul>
+<li><a href="#inserting-into-a-splay-tree">Inserting into a Splay Tree</a></li>
+<li><a href="#searching-a-splay-tree">Searching a Splay Tree</a></li>
+</ul></li>
+<li><a href="#2-3-4-trees">2-3-4 Trees</a></li>
+<li><a href="#redblack-trees">Redblack Trees</a></li>
+</ul>
+</nav>
   </div>
 </div>
     <div class="post-content">
-      <p>Splay -</p>
+      
 
-<p>Splay tree</p>
+<h1 id="splay-trees">Splay Trees</h1>
 
-<p>Amortisation - more work now less work later</p>
+<p>Amortisation is the process of decreasing the average cost of an operation.<br />
+Though it might take more computation time to perform the amortisation, the results are favourable</p>
 
-<p>Splay</p>
-
-<p>For a LL,  rotate root right a, rotate right at E</p>
-
-<p>Amortisation, increasedescrease the average cost.. TH EAVERAGE</p>
-
-<p>for left right, rotate child left, rotate at R</p>
-
-<p>LL -&gt; RR
-LR -&gt; LR
-RR -&gt; LL
+<p>LL -&gt; RR<br />
+LR -&gt; LR<br />
+RR -&gt; LL<br />
 RL -&gt; RL</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">btree_node</span> <span class="o">*</span><span class="nf">btree_rotate_left</span><span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="p">);</span>
+<span class="n">btree_node</span> <span class="o">*</span><span class="nf">btree_rotate_right</span><span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="p">);</span>
 
-<p>Inserting into a splay</p>
+<span class="n">btree_node</span> <span class="o">*</span><span class="nf">btree_insert_splay</span><span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="n">tree</span><span class="p">,</span> <span class="n">Item</span> <span class="n">it</span><span class="p">);</span>
+<span class="n">btree_node</span> <span class="o">*</span><span class="nf">btree_search_splay</span><span class="p">(</span><span class="n">btree_node</span> <span class="o">**</span><span class="n">root</span><span class="p">,</span> <span class="n">Item</span> <span class="n">it</span><span class="p">);</span></code></pre></td></tr></table>
+</div>
+</div>
+<h2 id="inserting-into-a-splay-tree">Inserting into a Splay Tree</h2>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
@@ -200,20 +220,9 @@ RL -&gt; RL</p>
 </span><span class="lnt">44
 </span><span class="lnt">45
 </span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span><span class="lnt">51
-</span><span class="lnt">52
-</span><span class="lnt">53
-</span><span class="lnt">54
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">btree_node</span>  <span class="o">*</span><span class="nf">btree_rotate_left</span><span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="p">);</span>
-<span class="n">btree_node</span> <span class="o">*</span><span class="nf">btree_rotate_right</span><span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="p">);</span>
-
-<span class="n">btree_node</span> <span class="o">*</span><span class="nf">btree_insert_splay</span><span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="n">tree</span><span class="p">,</span> <span class="n">Item</span> <span class="n">it</span><span class="p">)</span> <span class="p">{</span>
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">btree_node</span> <span class="o">*</span><span class="nf">btree_insert_splay</span><span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="n">tree</span><span class="p">,</span> <span class="n">Item</span> <span class="n">it</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">tree</span><span class="p">)</span> <span class="k">return</span> <span class="n">btree_node_new</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
   <span class="kt">int</span> <span class="n">cmp</span> <span class="o">=</span> <span class="n">item_cmp</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">);</span>
 
@@ -247,85 +256,89 @@ RL -&gt; RL</p>
     <span class="kt">int</span> <span class="n">rdiff</span> <span class="o">=</span> <span class="n">item_cmp</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">);</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">rdiff</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
       <span class="c1">// right left
-</span><span class="c1"></span>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class="c1"></span>        <span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">btree_insert_splay</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+        <span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">btree_rotate_left</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
       <span class="c1">// right right
-</span><span class="c1"></span>
+</span><span class="c1"></span>      <span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">btree_insert_splay</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+      <span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">btree_rotate_right</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+
     <span class="p">}</span>
     <span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">btree_insert_splay</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
   <span class="p">}</span>
   <span class="k">else</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">value</span> <span class="o">=</span> <span class="n">it</span><span class="p">;</span>
-
-<span class="c1">// Searching is now optimised
-</span><span class="c1"></span><span class="n">btree_node</span> <span class="o">*</span><span class="n">btree_search_splay</span><span class="p">(</span><span class="n">btree_node</span> <span class="o">**</span><span class="n">root</span><span class="p">,</span> <span class="n">Item</span> <span class="n">it</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div>
+<h2 id="searching-a-splay-tree">Searching a Splay Tree</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="c1">// Searching is now optimised
+</span><span class="c1"></span><span class="n">btree_node</span> <span class="o">*</span><span class="nf">btree_search_splay</span><span class="p">(</span><span class="n">btree_node</span> <span class="o">**</span><span class="n">root</span><span class="p">,</span> <span class="n">Item</span> <span class="n">it</span><span class="p">)</span> <span class="p">{</span>
   <span class="n">assert</span><span class="p">(</span><span class="n">tree</span><span class="p">);</span>
   <span class="k">if</span> <span class="p">(</span><span class="o">!*</span><span class="n">root</span><span class="p">)</span> <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
   <span class="o">*</span><span class="n">root</span> <span class="o">=</span> <span class="n">btree_splay</span><span class="p">(</span><span class="o">*</span><span class="n">root</span><span class="p">,</span> <span class="n">it</span><span class="p">);</span>
   <span class="k">if</span> <span class="p">(</span><span class="n">item_cmp</span><span class="p">((</span><span class="o">*</span><span class="n">root</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="o">*</span><span class="n">root</span><span class="p">;</span>
   <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-
 <span class="p">}</span></code></pre></td></tr></table>
 </div>
 </div>
+<hr />
+
 <p>Average O((N+M) log(N+M))
 N nodes
 M inserts/searches</p>
 
-<p>2-3-4 Trees
-2-nodes - one node, two children
-3-nodes - two value, three chldren
+<h1 id="2-3-4-trees">2-3-4 Trees</h1>
+
+<p>2-nodes - one node, two children<br />
+3-nodes - two value, three chldren<br />
 4-nodes - three values, four children</p>
 
-<p>Depth O(logn)
-Worst case - all 2 nodes
+<p>Depth O(logn)<br />
+Worst case - all 2 nodes<br />
 Best case - all 4 nodes</p>
 
-<p>Insertion
-- find leaf node (search)
-- check if not full; then insert
-  - else split two 2nodes
-  - promote middle to parent
+<p><strong>Insertion</strong><br />
+- find leaf node (search)<br />
+- check if not full; then insert<br />
+  - else split two 2nodes<br />
+  - promote middle to parent<br />
   - if parent is a 4node, split/promote again</p>
 
-<p>[][][]
-===&gt; []
-    [][]</p>
+<h1 id="redblack-trees">Redblack Trees</h1>
 
-<p>Redblack Trees
-Redblack trees are a method of representing a 2-3-4 tree with standard BST nodes, with the addition of adding extra meta info into the BST <code>struct</code>ure.</p>
+<p>Redblack trees are a method of representing a 2-3-4 tree with standard BST nodes, with the addition of adding extra meta info into the BST <code>struct</code>ure.</p>
 
-<p>Uses plain BST nodes (just with extra meta || encoded link type)
+<p>Uses plain BST nodes (just with extra meta || encoded link type)<br />
 Uses 2-3-4 rules</p>
 
-<p>black links - normal
+<p>black links - normal<br />
 red links - sibling</p>
 
-<p>No two red on a path
+<p>No two red on a path<br />
 All paths need the same number of black links</p>
 
-<p>4 node
-1r2r3
-b1br2rb3b</p>
-
 <p>painful. :(</p>
-
-<p>&ldquo;Hashing&rdquo; in C</p>
-
-<p>-&gt; strlen
--&gt; sum of characters</p>
-
-<p>struct hash_table {
-  size_t N;
-  struct { char*key; Item value; } item[];
-}</p>
 
     </div>
 
     <footer class="post-footer">
       
       <nav class="post-nav">
-        <a class="prev" href="../../post/___balancedtrees/">
+        <a class="prev" href="../../post/lec12/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Lecture Twelve - Balanced Trees</span>
+            <span class="prev-text nav-default">Lecture 12 - Balanced Trees</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         <a class="next" href="../../post/lab07/">

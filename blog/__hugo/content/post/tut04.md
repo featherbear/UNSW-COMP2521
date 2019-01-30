@@ -1,5 +1,5 @@
 ---
-title: "Tutorial 4 - Heaps and Graphs"
+title: "Tutorial Four - Heaps and Graphs"
 date: 2019-01-03T14:10:18+11:00
 categories: ["Tutorial / Labs"]
 
@@ -17,7 +17,7 @@ sequenceDiagrams:
 ---
 
 # Heaps
-Heaps are a form of data representation, often for priority queues - where the max (or min) value is at the top of the tree
+[Heaps](../binary-heaps) are a form of data representation, often for priority queues - where the max (or min) value is at the top of the tree
 
 ## Representation
 ```

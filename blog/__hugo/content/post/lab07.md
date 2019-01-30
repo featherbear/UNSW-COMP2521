@@ -1,6 +1,7 @@
 ---
 title: "Lab 7 - Quick Sort Detective"
 date: 2019-01-28T19:56:24+11:00
+categories: ["Tutorial / Labs"]
 
 hiddenFromHomePage: false
 postMetaInFooter: false

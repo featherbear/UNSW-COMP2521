@@ -1,6 +1,7 @@
 ---
 title: "Lecture 14 - Hashing"
 date: 2019-01-29T14:35:02+11:00
+categories: ["Lectures"]
 
 hiddenFromHomePage: false
 postMetaInFooter: false
@@ -14,7 +15,7 @@ sequenceDiagrams:
   options: ""
 
 ---
-http://cr.yp.to/
+http://cr.yp.to/  
 http://www.cse.unsw.edu.au/~cs2521/18x1/exams/Algos/
 
 # Why

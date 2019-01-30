@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Assignments on COMP2521 Summer Fun</title>
-    <link>/categories/assignments/</link>
-    <description>Recent content in Assignments on COMP2521 Summer Fun</description>
+    <title>Assessments on COMP2521 Summer Fun</title>
+    <link>/categories/assessments/</link>
+    <description>Recent content in Assessments on COMP2521 Summer Fun</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Andrew Wong (z5206677)</copyright>
     <lastBuildDate>Thu, 10 Jan 2019 12:00:00 +1100</lastBuildDate>
     
-	<atom:link href="/categories/assignments/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/categories/assessments/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Practice Exam</title>
+      <title>Class Exam 1</title>
       <link>/post/test01/</link>
       <pubDate>Thu, 10 Jan 2019 12:00:00 +1100</pubDate>
       
@@ -27,7 +27,7 @@
       <pubDate>Thu, 03 Jan 2019 10:25:05 +1100</pubDate>
       
       <guid>/post/ass02/</guid>
-      <description>Objectives  to implement the engine and some AIs for a game to give you experience working in a team to give you further practice with C and data structures  Ramblings Map Representing the map data Resources Dracula Map Viewer</description>
+      <description>The second assignment of this course was a group assignment to make a game parser, as well as an AI to the game.</description>
     </item>
     
     <item>

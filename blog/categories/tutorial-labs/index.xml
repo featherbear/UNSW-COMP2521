@@ -7,10 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>Andrew Wong (z5206677)</copyright>
-    <lastBuildDate>Tue, 08 Jan 2019 17:09:10 +1100</lastBuildDate>
+    <lastBuildDate>Mon, 28 Jan 2019 19:56:24 +1100</lastBuildDate>
     
 	<atom:link href="/categories/tutorial-labs/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Lab 7 - Quick Sort Detective</title>
+      <link>/post/lab07/</link>
+      <pubDate>Mon, 28 Jan 2019 19:56:24 +1100</pubDate>
+      
+      <guid>/post/lab07/</guid>
+      <description>Resources:</description>
+    </item>
+    
+    <item>
+      <title>Lab 6 - Sort Detective Report</title>
+      <link>/post/lab06/</link>
+      <pubDate>Tue, 15 Jan 2019 18:19:48 +1100</pubDate>
+      
+      <guid>/post/lab06/</guid>
+      <description>Lol well this was all wrong xd but das okay</description>
+    </item>
     
     <item>
       <title>Tutorial Five</title>
@@ -22,7 +40,7 @@
     </item>
     
     <item>
-      <title>Tutorial 4 - Heaps and Graphs</title>
+      <title>Tutorial Four - Heaps and Graphs</title>
       <link>/post/tut04/</link>
       <pubDate>Thu, 03 Jan 2019 14:10:18 +1100</pubDate>
       

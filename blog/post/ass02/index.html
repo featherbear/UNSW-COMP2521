@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="z5206677" /><meta name="description" content="Objectives  to implement the engine and some AIs for a game to give you experience working in a team to give you further practice with C and data structures  Ramblings Map Representing the map data Resources Dracula Map Viewer" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="z5206677" /><meta name="description" content="The second assignment of this course was a group assignment to make a game parser, as well as an AI to the game." /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -39,25 +39,25 @@
 
 
 <meta property="og:title" content="Assignment Two - Fury of Dracula" />
-<meta property="og:description" content="Objectives  to implement the engine and some AIs for a game to give you experience working in a team to give you further practice with C and data structures  Ramblings Map Representing the map data Resources Dracula Map Viewer" />
+<meta property="og:description" content="The second assignment of this course was a group assignment to make a game parser, as well as an AI to the game." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/ass02/" /><meta property="article:published_time" content="2019-01-03T10:25:05&#43;11:00"/>
 <meta property="article:modified_time" content="2019-01-03T10:25:05&#43;11:00"/>
 
 <meta itemprop="name" content="Assignment Two - Fury of Dracula">
-<meta itemprop="description" content="Objectives  to implement the engine and some AIs for a game to give you experience working in a team to give you further practice with C and data structures  Ramblings Map Representing the map data Resources Dracula Map Viewer">
+<meta itemprop="description" content="The second assignment of this course was a group assignment to make a game parser, as well as an AI to the game.">
 
 
 <meta itemprop="datePublished" content="2019-01-03T10:25:05&#43;11:00" />
 <meta itemprop="dateModified" content="2019-01-03T10:25:05&#43;11:00" />
-<meta itemprop="wordCount" content="104">
+<meta itemprop="wordCount" content="91">
 
 
 
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Assignment Two - Fury of Dracula"/>
-<meta name="twitter:description" content="Objectives  to implement the engine and some AIs for a game to give you experience working in a team to give you further practice with C and data structures  Ramblings Map Representing the map data Resources Dracula Map Viewer"/>
+<meta name="twitter:description" content="The second assignment of this course was a group assignment to make a game parser, as well as an AI to the game."/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -121,7 +121,7 @@
       <div class="post-meta">
         <span class="post-time"> 2019-01-03 </span>
         <div class="post-category">
-            <a href="../../categories/assignments/"> Assignments </a>
+            <a href="../../categories/assessments/"> Assessments </a>
             </div>
         
       </div>
@@ -132,14 +132,9 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
 <ul>
-<li><a href="#objectives">Objectives</a></li>
-<li><a href="#ramblings">Ramblings</a>
-<ul>
-<li><a href="#map">Map</a>
-<ul>
-<li><a href="#representing-the-map-data">Representing the map data</a></li>
-</ul></li>
-</ul></li>
+<li><a href="#part-one-game-view">Part One | Game View</a></li>
+<li><a href="#part-two-player">Part Two | Player</a></li>
+<li><a href="#comments">Comments</a></li>
 <li><a href="#resources">Resources</a></li>
 </ul>
 </nav>
@@ -148,39 +143,32 @@
     <div class="post-content">
       
 
-<h1 id="objectives">Objectives</h1>
+<p>The second assignment of this course was a group assignment to make a game parser, as well as an AI to the game.</p>
+
+<blockquote>
+<p><strong>Objectives</strong></p>
 
 <ul>
 <li>to implement the engine and some AIs for a game</li>
 <li>to give you experience working in a team</li>
 <li>to give you further practice with C and data structures</li>
 </ul>
+</blockquote>
 
-<h1 id="ramblings">Ramblings</h1>
+<h1 id="part-one-game-view">Part One | Game View</h1>
 
-<h2 id="map">Map</h2>
+<p>A few of the instructions weren&rsquo;t clear.
+For example for dv_get_dests - should moves be given as their action move, or a resolved exact location</p>
 
-<h3 id="representing-the-map-data">Representing the map data</h3>
+<h1 id="part-two-player">Part Two | Player</h1>
+
+<hr />
+
+<h1 id="comments">Comments</h1>
 
 <h1 id="resources">Resources</h1>
 
 <p><a href="https://he-lium.github.io/dracula-map/">Dracula Map Viewer</a></p>
-
-<ul>
-<li><p>If Dracula and Hunter are in the same location - dracula loses HEALTH</p></li>
-
-<li><p>Trail - History of D&rsquo;s last 6 turns</p></li>
-
-<li><p>Hunters (Team) - score of 366</p></li>
-
-<li><p>Traps and Baby Vampires - lose a few life points</p></li>
-
-<li><p>Every thirteen rounds -&gt; Baby Vampire -&gt; On 6th round, wake up, subtract points - reduce?</p></li>
-
-<li><p>If a hunter reaches the baby by 5 rounds (inc) kill</p></li>
-
-<li><p>On</p></li>
-</ul>
 
     </div>
 
@@ -189,11 +177,11 @@
       <nav class="post-nav">
         <a class="prev" href="../../post/lec07/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Lecture 7 - </span>
+            <span class="prev-text nav-default">Lecture 7 - Paths and Tours</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         <a class="next" href="../../post/tut04/">
-            <span class="next-text nav-default">Tutorial 4 - Heaps and Graphs</span>
+            <span class="next-text nav-default">Tutorial Four - Heaps and Graphs</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>

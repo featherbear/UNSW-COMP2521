@@ -50,7 +50,7 @@
 
 <meta itemprop="datePublished" content="2019-01-15T14:19:20&#43;11:00" />
 <meta itemprop="dateModified" content="2019-01-15T14:19:20&#43;11:00" />
-<meta itemprop="wordCount" content="370">
+<meta itemprop="wordCount" content="380">
 
 
 
@@ -120,7 +120,9 @@
 
       <div class="post-meta">
         <span class="post-time"> 2019-01-15 </span>
-        
+        <div class="post-category">
+            <a href="../../categories/lectures/"> Lectures </a>
+            </div>
         
       </div>
     </header>
@@ -135,19 +137,15 @@
 <li><a href="#the-sorts">The Sorts</a>
 <ul>
 <li><a href="#bubble-sort">Bubble Sort</a></li>
-<li><a href="#bubble-sort-1">Bubble Sort</a></li>
-<li><a href="#bubble-sort-evolved-adaptive">Bubble Sort EVOLVED (Adaptive)</a></li>
-<li><a href="#selection-sort">Selection Sort</a>
+<li><a href="#bubble-sort-early-exit">Bubble Sort (Early Exit)</a></li>
+<li><a href="#selection-sort">Selection Sort</a></li>
+<li><a href="#insertion-sort">Insertion Sort</a>
 <ul>
 <li><a href="#complexity-1">Complexity</a></li>
 </ul></li>
-<li><a href="#insertion-sort">Insertion Sort</a>
-<ul>
-<li><a href="#complexity-2">Complexity</a></li>
-</ul></li>
 <li><a href="#shell-sort">Shell Sort</a>
 <ul>
-<li><a href="#complexity-3">Complexity</a></li>
+<li><a href="#complexity-2">Complexity</a></li>
 <li><a href="#code">Code.</a></li>
 </ul></li>
 </ul></li>
@@ -167,61 +165,49 @@
 <li>Intermediary for other algorithms)</li>
 </ul>
 
-<p>&lsquo;stable sort&rsquo; - ordering is preserved for equivalent data
-&lsquo;adaptive sorting&rsquo; - sorting is differently affected by properties of the input (size, already sorted?)
+<p>&lsquo;stable sort&rsquo; - ordering is preserved for equivalent data<br />
+&lsquo;adaptive sorting&rsquo; - sorting is differently affected by properties of the input (size, already sorted?)<br />
 &lsquo;in-place sort&rsquo; - modifying the items in an array directly</p>
 
 <h1 id="complexity">Complexity</h1>
 
-<p>N - number of items (hi - lo + 1)
-C - number of comparisons between items
+<p>N - number of items (hi - lo + 1)<br />
+C - number of comparisons between items<br />
 S - number of swaps</p>
 
-<p><s>Random - avg case
-Sort ASC - best
-Sort DESC - worst</s></p>
+<p><s>
+Random - avg case<br />
+Sort ASC - best<br />
+Sort DESC - worst<br />
+</s></p>
 
 <h1 id="the-sorts">The Sorts</h1>
 
 <h2 id="bubble-sort">Bubble Sort</h2>
 
-<p>Compares two adjacent items, swap if necessary
+<p>Compares two adjacent items, swap if necessary.<br />
 Repeat until all items are adjacent</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"></code></pre></td></tr></table>
-</div>
-</div>
-<h2 id="bubble-sort-1">Bubble Sort</h2>
 
-<p>Complexity</p>
-
-<p>Loop: n + n-1 + n-2 + n-3 + &hellip; + 2 etc
-(N^2 + N)/2 - 1     (Arithmetic Progression!)</p>
-
-<p>Comparison: (N^2 - N)/2</p>
-
-<p>Swaps: (N^2 - N)/2</p>
+<p>Complexity<br />
+(N^2 + N)/2 - 1     (Arithmetic Progression -&gt; S_n = n/2 * (a+l))<br />
+Comparison: (N^2 - N)/2<br />
+Swaps: (N^2 - N)/2</p>
 
 <p>O(n^2)</p>
 
-<p>// Stable, in-place, non-adaptive ()</p>
+<p>// Stable, in-place, non-adaptive ()
+Bubble sort will always be N^2 regardless of the nature of the data</p>
 
-<p>Bubble sort will always be N^2 regardless of the nature of the data</p>
+<h2 id="bubble-sort-early-exit">Bubble Sort (Early Exit)</h2>
 
-<h2 id="bubble-sort-evolved-adaptive">Bubble Sort EVOLVED (Adaptive)</h2>
-
-<p>// flag to check if a sort was performed</p>
+<p>After a pass, if no items were sorted in that pass - the sort can exit.<br />
+(No items being sorted indicate that the array is in order)</p>
 
 <h2 id="selection-sort">Selection Sort</h2>
 
-<p>Pick the smallest, swap with 0th
-Pick the second smallest, swap with 1st
+<p>Pick the smallest, swap with 0th item.<br />
+Pick the second smallest, swap with 1st item.<br />
 etc</p>
-
-<h3 id="complexity-1">Complexity</h3>
 
 <p>N + N-1 + N-2 + &hellip; + !
 <sup>1</sup>&frasl;<sub>2</sub> N(N+1)</p>
@@ -234,10 +220,10 @@ etc</p>
 
 <p>Find the item and figure out where to put it (&lt; n)</p>
 
-<h3 id="complexity-2">Complexity</h3>
+<h3 id="complexity-1">Complexity</h3>
 
-<p>Tworst(N) = 1 + 2+ 3+ &hellip; + N = N/2 (N+1)
-Tbest(N) = 1 + 1 + 1 + 1 = N</p>
+<p>worst(N) = 1 + 2+ 3+ &hellip; + N = N/2 (N+1)
+best(N) = 1 + 1 + 1 + 1 = N</p>
 
 <p>Stable!</p>
 
@@ -251,7 +237,7 @@ etc</p>
 
 <p>What h to start on?</p>
 
-<h3 id="complexity-3">Complexity</h3>
+<h3 id="complexity-2">Complexity</h3>
 
 <p>&lt; O(n^2)</p>
 
@@ -309,7 +295,7 @@ etc</p>
       <nav class="post-nav">
         <a class="prev" href="../../post/test01/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Practice Exam</span>
+            <span class="prev-text nav-default">Class Exam 1</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
         <a class="next" href="../../post/lab06/">

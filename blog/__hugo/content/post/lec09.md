@@ -1,6 +1,7 @@
 ---
 title: "Lecture 9 - Sorting"
 date: 2019-01-15T14:19:20+11:00
+categories: ["Lectures"]
 
 hiddenFromHomePage: false
 postMetaInFooter: false
@@ -15,59 +16,52 @@ sequenceDiagrams:
 
 ---
 
+
 Sorting is arranging a collection of items in order, based on some key
 
 # Uses
 * Speeds up searches
 * Intermediary for other algorithms)
 
-'stable sort' - ordering is preserved for equivalent data
-'adaptive sorting' - sorting is differently affected by properties of the input (size, already sorted?)
-'in-place sort' - modifying the items in an array directly
+'stable sort' - ordering is preserved for equivalent data  
+'adaptive sorting' - sorting is differently affected by properties of the input (size, already sorted?)  
+'in-place sort' - modifying the items in an array directly  
 
 # Complexity
-N - number of items (hi - lo + 1)
-C - number of comparisons between items
-S - number of swaps
+N - number of items (hi - lo + 1)  
+C - number of comparisons between items  
+S - number of swaps  
 
-<s>Random - avg case
-Sort ASC - best
-Sort DESC - worst</s>
+<s>
+Random - avg case  
+Sort ASC - best  
+Sort DESC - worst  
+</s>
+
 # The Sorts
 ## Bubble Sort
-Compares two adjacent items, swap if necessary
-Repeat until all items are adjacent
+Compares two adjacent items, swap if necessary.    
+Repeat until all items are adjacent  
 
-```c
-
-```
-
-## Bubble Sort
-
-Complexity
-
-Loop: n + n-1 + n-2 + n-3 + ... + 2 etc
-(N^2 + N)/2 - 1     (Arithmetic Progression!)
-
-Comparison: (N^2 - N)/2
-
-Swaps: (N^2 - N)/2
+Complexity  
+(N^2 + N)/2 - 1     (Arithmetic Progression -> S_n = n/2 * (a+l))  
+Comparison: (N^2 - N)/2  
+Swaps: (N^2 - N)/2  
 
 O(n^2)
 
 // Stable, in-place, non-adaptive ()
-
 Bubble sort will always be N^2 regardless of the nature of the data
 
-## Bubble Sort EVOLVED (Adaptive)
-// flag to check if a sort was performed
+## Bubble Sort (Early Exit)
+After a pass, if no items were sorted in that pass - the sort can exit.  
+(No items being sorted indicate that the array is in order)
 
 ## Selection Sort
-Pick the smallest, swap with 0th
-Pick the second smallest, swap with 1st
-etc
+Pick the smallest, swap with 0th item.  
+Pick the second smallest, swap with 1st item.  
+etc 
 
-### Complexity
 N + N-1 + N-2 + ... + !
 1/2 N(N+1)
 
@@ -79,8 +73,8 @@ Unstable!
 Find the item and figure out where to put it (< n)
 
 ### Complexity
-Tworst(N) = 1 + 2+ 3+ ... + N = N/2 (N+1)
-Tbest(N) = 1 + 1 + 1 + 1 = N
+worst(N) = 1 + 2+ 3+ ... + N = N/2 (N+1)
+best(N) = 1 + 1 + 1 + 1 = N
 
 
 Stable!

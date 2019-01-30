@@ -22,6 +22,7 @@ sequenceDiagrams:
 * **directed graphs** - only one direction | self loops!?
 
 ## Keywords
+
 * **transitive closure** - Directed path from **s** to **t**
 * **shortest path search** - Shortest path from **s** to **t**
 * **strong connectivity** - vertices mutually reachable
@@ -37,8 +38,6 @@ sequenceDiagrams:
 
 * **strong connectivity** - every vertex reachable from every other vertex
 * **strongly-connected component** - maximal strongly-connected subgraph
-
-///////////
 
 ## Methods of representation
 Adjacency matrix - asymmetric, spare, less space efficient  
@@ -74,12 +73,12 @@ Linked data structure - links become link/weight pairs
 ### Shortest Path Search
 - Find minimum cost path
 
-source-target - shortest from v->w
-single-source - from v to all
-all-pairs - (v,w) [ minimum for all pairs ]
+source-target - shortest from v->w  
+single-source - from v to all  
+all-pairs - (v,w) [ minimum for all pairs ]  
 
 ### Single Source Shortest Path Search
-O(nlogv) - adjaceny matrix and heap
+O(nlogv) - adjaceny matrix and heap  
 for an adjacency matrix (O(V^2))
 
 **Given a counter; the first time a node is visited is the earliest time it could be visited**
@@ -89,21 +88,22 @@ Reminder: A spanning tree is a acyclic graph with all vertices of a graph.
 A minimum spanning tree is the smallest representation of this subgraph.
 
 ## Kruskal&apos;s Algorithm
-= take all edges, sorted according to their weight; and for each add it to the prototype MST unless it will introduce a cycle
-[A, B, C, D, E, F, G, H]
-{A, B, C, -, E, -, -, H}
+= take all edges, sorted according to their weight; and for each add it to the prototype MST unless it will introduce a cycle  
 
-** Cycle checking is expensive - (dfs everything!?)
+[A, B, C, D, E, F, G, H]  
+{A, B, C, -, E, -, -, H}  
+
+** Cycle checking is expensive - (dfs everything!?)  
 --> O(ElogE)
 
 ## Prim&apos;s Algorithm
-(Prim, Jarnik and Dijkstra)
+(Prim, Jarnik and Dijkstra)  
 
-Start from any vertex with an MST
-Choose an edge not already in the MST, that
-- does not cause a cycle
-- connects to a vertex on the mst ('on the fringe')
-- minimum possible edge
+Start from any vertex with an MST  
+Choose an edge not already in the MST, that  
+- does not cause a cycle  
+- connects to a vertex on the mst ('on the fringe')  
+- minimum possible edge  
 
 --> Choose the smallest edge from any of the vertices in the MST that does not cause a cycle
 
@@ -113,5 +113,5 @@ Choose an edge not already in the MST, that
 (pick a new edge, minimum, no cycle)
 
 ## Demo
---> redblobgames.com/pathfinding/a-star/introduction.html
+--> [redblobgames.com](//redblobgames.com/pathfinding/a-star/introduction.html)
 

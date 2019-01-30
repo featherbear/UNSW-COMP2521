@@ -2,7 +2,7 @@
 title: "Assignment Two - Fury of Dracula"
 
 date: 2019-01-03T10:25:05+11:00
-categories: ["Assignments"]
+categories: ["Assessments"]
 
 hiddenFromHomePage: false
 postMetaInFooter: false
@@ -16,31 +16,23 @@ sequenceDiagrams:
   options: ""
 ---
 
+The second assignment of this course was a group assignment to make a game parser, as well as an AI to the game.
 
-
-# Objectives
+> **Objectives**  
+>
 * to implement the engine and some AIs for a game
 * to give you experience working in a team
 * to give you further practice with C and data structures
 
-# Ramblings
+# Part One | Game View
+A few of the instructions weren't clear.
+For example for dv_get_dests - should moves be given as their action move, or a resolved exact location
 
-## Map
-### Representing the map data
+# Part Two | Player
+
+---
+
+# Comments
 
 # Resources
 [Dracula Map Viewer](https://he-lium.github.io/dracula-map/)
-
-
-* If Dracula and Hunter are in the same location - dracula loses HEALTH
-
-* Trail - History of D's last 6 turns
-
-* Hunters (Team) - score of 366
-
-* Traps and Baby Vampires - lose a few life points
-
-* Every thirteen rounds -> Baby Vampire -> On 6th round, wake up, subtract points - reduce?
-* If a hunter reaches the baby by 5 rounds (inc) kill
-
-* On 

@@ -1,8 +1,9 @@
 ---
-title: "Practice Exam"
+title: "Class Exam 1"
 date: 2019-01-10T12:00:00+11:00
-description: "Questions and solutions to the 19T0 practice exam"
-categories: ["Assignments"]
+description: "Questions and solutions to the 19T0 first class exam"
+categories: ["Assessments"]
+
 hiddenFromHomePage: false
 postMetaInFooter: false
 
@@ -42,6 +43,9 @@ bool search_p (int xs[], int l, int r) {
 ```
 
 # Fibonacci Linked List
+
+> Uhm I lost 0.1 marks from this question...
+
 **Task**  
 Write a function that generates a linked list of `n` Fibonacci numbers.
 _This question had a quirk... fib(0) -> NULL, and fib(1) -> item(0)_
@@ -188,6 +192,9 @@ bool bst_valid(Node tree) {
 ```
 
 # BST Prune
+
+> I lost 3 marks from this question, not sure where since they don't release the solutions
+
 **Task**  
 Write a function that drops the nodes past a given depth
 

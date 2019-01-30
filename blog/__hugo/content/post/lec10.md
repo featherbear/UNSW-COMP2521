@@ -1,7 +1,18 @@
 ---
-title: "Lec10"
+title: "Lecture 10 - More sorting!"
 date: 2019-01-17T10:20:58+11:00
-draft: true
+categories: ["Lectures"]
+
+hiddenFromHomePage: false
+postMetaInFooter: false
+
+flowchartDiagrams:
+  enable: false
+  options: ""
+
+sequenceDiagrams: 
+  enable: false
+  options: ""
 ---
 
 Sorted Merge

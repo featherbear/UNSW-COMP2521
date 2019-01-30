@@ -1,5 +1,5 @@
 ---
-title: "Lecture 7 - "
+title: "Lecture 7 - Paths and Tours"
 date: 2019-01-03T10:00:00+11:00
 categories: ["Lectures"]
 
@@ -16,51 +16,25 @@ sequenceDiagrams:
 
 ---
 
-Edge Lists
+A **Hamilton Path** visits every **vertice** once
 
-# Hamilton Paths and Tours
-A **Hamilton Path** is a simple path connecting two vertices that visits each vertex in the graph exactly once.  
+A **Hamilton Tour** visits every **vertice** once (and comes back to itself)  
 
-A **Hamilton Tour** is a cycle that visits each vertex in the graph exactly once (and comes back to itself)
-^ [OneTouch Drawing - Ecapyc](https://play.google.com/store/apps/details?id=com.ecapycsw.onetouchdrawing)
+An **Euler Path** visits every **edge** once and it has exactly two vertices of odd degree
 
-> How do we check if such a path or tour exists
+An **Euler Tour** visits every **edge** once and all of its vertices are of even degree!
 
-> How do we check how many paths exist
+---
 
+// reminder: tractable - polynomial time / intracatable - exponential time  
 
+• tractable: can we find a simple path connecting two vertices in a graph?  
+tractable: what’s the shortest such path?  
+intractable: what’s the longest such path?  
 
-idea brute force!
-enumerate every possible path, and check each one.
-hack a bfs or dfs to do it:
-keep a counter of vertices visited in the current path;
-only accept a path only if count is
-equal to the number of vertices.
-problem how many paths?
-given a simple path:
-no path from t to w implies no path from v to w via t…
-so there’s no point visiting a vertex twice on a simple search
-… but that’s not true for a Hamilton path
+• tractable: is there a clique in a given graph?  
+intractable: what’s the largest clique?  
 
-we must inspect every possible path in the graph.
-in a complete graph, we have V! different paths (≈ (V/e)^V
-)
-there are well-known, well-defined subsets of this problem
-which are easy to solve (Dirac, Ore) … but in general
-this is a non-deterministic polynomial, or np problem
-
-
-An **Euler Path** visits every edge once if the graph is connected, and it has exactly two vertices of odd degree
-
-An **Euler Tour** visits every edge once if the graph is connected, and all of its vertices are of even degree!
-
-• tractable: can we find a simple path connecting two vertices in a graph?
-tractable: what’s the shortest such path?
-intractable: what’s the longest such path?
-
-• tractable: is there a clique in a given graph?
-intractable: what’s the largest clique?
-
-• tractable: given two colours, can we colour every vertex in a graph
-such that no two adjacent vertices are the same colour?
-intractable: what about three colours?
+• tractable: given two colours, can we colour every vertex in a graph  
+such that no two adjacent vertices are the same colour?  
+intractable: what about three colours?  

@@ -1,8 +1,7 @@
 ---
 title: "Assignment One - Textbuffer"
 date: 2018-11-30T18:33:40+11:00
-
-categories: ["Assignments"]
+categories: ["Assessments"]
 
 hiddenFromHomePage: false
 postMetaInFooter: false
