@@ -1,0 +1,416 @@
+Question One
+    The mkwords 1000000 3 command produces 857424 distinct words.
+    What is the maximum chain length if a hash table size of 85711 is used?
+        -> 857424, if they all had the same hash
+    How does the chain length distribution change if the hash table size is 100000? 214283? 400000? 400837? 857144? 857137?
+        -> More and more sparse
+
+    $> ./mkwords 100000 3 | ./words2 - 50033
+        Reading words from -
+        Read in 100000 words
+        Hash Table Stats:
+        Number of slots = 50033
+        Number of unique items = 90936
+        Chain length distribution
+          Length  #Chains
+               0     8091
+               1    14804
+               2    13443
+               3     8143
+               4     3654
+               5     1356
+               6      414
+               7       94
+               8       28
+               9        5
+              10        1
+
+Question Two
+    Every other number above (i.e. 85711, 214283, 400837, 857137) is prime.
+    It is often noted that using prime numbers appropriately in the hash function leads to a better distribution of hash values, and thus generally shorter chains.
+    Does this appear to be the case for the hash table sizes in the previous question?
+        -> Yep
+
+        Hash Table Stats:
+        Number of slots = 30001
+        Number of unique items = 90936
+        Chain length distribution
+          Length  #Chains
+               0     1508
+               1     4417
+               2     6629
+               3     6608
+               4     5049
+               5     3103
+               6     1616
+               7      692
+               8      257
+               9       91
+              10       30
+              11        1
+
+        ./mkwords 100000 3 | ./words2 - 85711
+        Reading words from -
+        Read in 100000 words
+        Hash Table Stats:
+        Number of slots = 85711
+        Number of unique items = 90936
+        Chain length distribution
+          Length  #Chains
+               0    29604
+               1    31464
+               2    16896
+               3     5768
+               4     1591
+               5      323
+               6       59
+               7        5
+               8        1
+
+        ./mkwords 100000 3 | ./words2 - 214283
+        Reading words from -
+        Read in 100000 words
+        Hash Table Stats:
+        Number of slots = 214283
+        Number of unique items = 90936
+        Chain length distribution
+          Length  #Chains
+               0   140304
+               1    59384
+               2    12498
+               3     1857
+               4      217
+               5       21
+               6        2
+
+        ./mkwords 100000 3 | ./words2 - 400837
+        Reading words from -
+        Read in 100000 words
+        Hash Table Stats:
+        Number of slots = 400837
+        Number of unique items = 90936
+        Chain length distribution
+          Length  #Chains
+               0   319485
+               1    72458
+               2     8245
+               3      611
+               4       35
+               5        3
+
+Question Three
+    An "optimal" hash table would have all slots occupied and have all chains of length roughly (nwords/nslots).
+    In practice, this is impossible to achieve in the general case, and what we want is a table with relatively short
+    chains, with as few slots as possible (small size of hash table), and not too many empty slots.
+
+    Can you find a suitable hash table size that keeps the maximum chain length under 10,
+    and has most chains with length 1 or 2, but also uses more than 2/3 of the slots?
+        -> I could
+
+        ./mkwords 1000 3 | ./words2 - 495
+        Reading words from -
+        Read in 1000 words
+        Hash Table Stats:
+        Number of slots = 495
+        Number of unique items = 986
+        Chain length distribution
+          Length  #Chains
+               0       55
+               1      150
+               2      130
+               3       89
+               4       52
+               5       14
+               6        4
+               7        1
+
+Question Four
+    Compare both the outputs and the profiles for the two commands:
+    - ./words2 /web/cs2521/19t0/week08/lab/places 1048576
+    - ./words2 /web/cs2521/19t0/week08/lab/places 1048573
+
+    What does this tell you about hash table search performance when the hash function is significantly sub-optimal?
+        -> Degrades substantially
+
+        = ./words2 /web/cs2521/19t0/week08/lab/places 1048576 =
+            Flat profile:
+            Each sample counts as 0.01 seconds.
+              %   cumulative   self              self     total
+             time   seconds   seconds    calls   s/call   s/call  name
+             28.40      1.96     1.96 10504154     0.00     0.00  hash
+             27.24      3.84     1.88 10504154     0.00     0.00  list_search
+
+        = ./words2 /web/cs2521/19t0/week08/lab/places 1048573 =
+            Flat profile:
+            Each sample counts as 0.01 seconds.
+              %   cumulative   self              self     total
+             time   seconds   seconds    calls   s/call   s/call  name
+             36.69      2.06     2.06 10504154     0.00     0.00  hash
+             31.71      3.84     1.78 10504154     0.00     0.00  list_search
+              8.91      4.34     0.50  1048573     0.00     0.00  list_drop
+              8.55      4.83     0.48  5252075     0.00     0.00  hash_table_insert
+              8.02      5.28     0.45  1048573     0.00     0.00  list_length
+
+
+        Reading words from /web/cs2521/19t0/week08/lab/places
+        Read in 5252075 words
+        Hash Table Stats:
+        Number of slots = 1048576
+        Number of unique items = 5252075
+        Chain length distribution
+          Length  #Chains
+               0     9588
+               1    43338
+               2    99412
+               3   152536
+               4   180767
+               5   174163
+               6   141906
+               7   101423
+               8    64806
+               9    37443
+              10    20312
+              11    10093
+              12     5076
+              13     2535
+              14     1345
+              15      778
+              16      489
+              17      365
+              18      279
+              19      229
+              20      176
+              21      143
+              22      115
+              23       97
+              24       81
+              25       77
+              26       57
+              27       51
+              28       53
+              29       51
+              30       43
+              31       35
+              32       29
+              33       34
+              34       28
+              35       22
+              36       30
+              37       20
+              38       11
+              39       19
+              40       14
+              41       11
+              42       12
+              43       12
+              44       16
+              45        9
+              46       13
+              47        8
+              48        8
+              49        5
+              50        5
+              51       11
+              52        5
+              53        7
+              54        8
+              55        3
+              56        7
+              57        3
+              58        6
+              59        6
+              60        7
+              61        5
+              62        7
+              63        1
+              64        6
+              65        6
+              66        7
+              67        6
+              68        7
+              69        4
+              70        7
+              71        9
+              72       12
+              73        6
+              74        5
+              75        1
+              76        2
+              77        5
+              78       10
+              79        1
+              80        5
+              81        6
+              82        3
+              83        5
+              84        6
+              85        6
+              86        4
+              87        7
+              88        4
+              89        6
+              90        5
+              91        2
+              93        3
+              94        1
+              95        5
+              96        3
+              97        4
+              98        2
+              99        1
+             100        1
+             101        4
+             102        3
+             103        2
+             104        1
+             105        3
+             106        4
+             107        3
+             108        2
+             112        2
+             114        3
+             115        1
+             116        3
+             117        3
+             118        1
+             119        3
+             121        1
+             122        2
+             123        4
+             124        1
+             125        2
+             126        3
+             127        2
+             129        1
+             130        2
+             131        1
+             132        2
+             133        1
+             134        3
+             136        3
+             137        1
+             138        1
+             141        1
+             142        2
+             143        2
+             145        2
+             146        1
+             147        3
+             148        2
+             149        2
+             150        1
+             151        2
+             153        3
+             155        1
+             158        1
+             160        2
+             161        1
+             162        1
+             163        2
+             164        1
+             166        3
+             167        1
+             168        3
+             169        1
+             170        1
+             173        2
+             174        1
+             175        1
+             179        2
+             180        1
+             181        1
+             182        1
+             183        1
+             184        2
+             187        2
+             189        1
+             190        1
+             192        1
+             193        1
+             195        1
+             197        1
+             203        1
+             206        1
+             208        1
+             210        1
+             211        3
+             213        1
+             214        1
+             215        1
+             219        1
+             224        1
+             231        1
+             235        1
+             241        1
+             248        2
+             257        1
+             264        1
+             273        1
+             275        1
+             294        1
+             325        1
+             349        1
+             351        1
+             364        1
+             365        1
+             393        1
+             401        1
+             416        1
+             423        1
+             457        1
+
+        Reading words from /web/cs2521/19t0/week08/lab/places
+        Read in 5252075 words
+        Hash Table Stats:
+        Number of slots = 1048573
+        Number of unique items = 5252075
+        Chain length distribution
+          Length  #Chains
+               0     7326
+               1    35921
+               2    88645
+               3   146946
+               4   182893
+               5   182555
+               6   152505
+               7   109036
+               8    69271
+               9    38743
+              10    19490
+              11     9057
+              12     3773
+              13     1482
+              14      606
+              15      231
+              16       64
+              17       23
+              18        5
+              19        1
+
+Question Five
+    Examine the profiles from running the command:
+    ./mkwords 1000000 | ./words2 - N
+    for a number of different values of N. What are the most costly functions (in terms of overall time)?
+        --> list_search and hash
+
+            $> ./mkwords 1000000 | ./words2 - 100000 | gprof words2 | head
+            Flat profile:
+
+            Each sample counts as 0.01 seconds.
+              %   cumulative   self              self     total
+             time   seconds   seconds    calls  ms/call  ms/call  name
+             37.88      0.28     0.28  2000004     0.00     0.00  list_search
+             24.35      0.46     0.18  2000004     0.00     0.00  hash
+              8.12      0.52     0.06   100000     0.00     0.00  list_drop
+              8.12      0.58     0.06                             cmp
+              6.76      0.63     0.05   100000     0.00     0.00  list_length
+
+Question Six
+    How could the individual functions be improved? How could the overall performance be improved?
+        --> Better hash algorithm
+        --> oPtImIsAtIoN
+        --> chaining could be implemented with a BST or something rather than a linked list
+
+Question Seven
+    Implement your suggestions and then give a new profile to show the improvement, and explain how the profile shows the improvement.
+        --> Thank you, next.

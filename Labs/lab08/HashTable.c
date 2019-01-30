@@ -17,88 +17,100 @@
 
 typedef struct hash_table hash_table;
 struct hash_table {
-	List *lists;
-	size_t nslots; // # elements in array
-	size_t nitems; // # items stored in HashTable
+    List *lists;
+    size_t nslots; // # elements in array
+    size_t nitems; // # items stored in HashTable
 };
 
-static inline size_t hash (Key, size_t);
+static inline size_t hash(Key, size_t);
 
 // Interface functions for HashTable ADT
 
 // Create an empty HashTable.
-hash_table *hash_table_new (size_t n)
-{
-	hash_table *new = malloc (sizeof *new);
-	if (new == NULL) err (EX_OSERR, "couldn't allocate hashtable");
-	*new = (hash_table) {
-		.nslots = n,
-		.nitems = 0,
-		.lists = calloc (n, sizeof (List))
-	};
+hash_table *hash_table_new(size_t n) {
+    hash_table *
+    new = malloc(sizeof *new);
+    if (new == NULL) err(EX_OSERR, "couldn't allocate hashtable");
+    *new = (hash_table) {
+            .nslots = n,
+            .nitems = 0,
+            .lists = calloc(n, sizeof(List))
+    };
 
-	for (size_t i = 0; i < n; i++)
-		new->lists[i] = list_new ();
-	return new;
+    for (size_t i = 0; i < n; i++)
+        new->lists[i] = list_new();
+    return new;
 }
 
 // Free the memory associated with the HashTable.
-void hash_table_drop (hash_table *ht)
-{
-	assert (ht != NULL);
-	for (size_t i = 0; i < ht->nslots; i++)
-		list_drop (ht->lists[i]);
-	free (ht->lists);
-	free (ht);
+void hash_table_drop(hash_table *ht) {
+    assert(ht != NULL);
+    for (size_t i = 0; i < ht->nslots; i++) list_drop(ht->lists[i]);
+    free(ht->lists);
+    free(ht);
 }
 
 // Display HashTable stats.
-void hash_table_print_stats (hash_table *ht)
-{
-	assert (ht != NULL);
-	printf ("Hash Table Stats:\n");
-	printf ("Number of slots = %d\n", 0); // TODO
-	printf ("Number of items = %d\n", 0); // TODO
-	printf ("Chain length distribution\n");
-	printf ("%8s %8s\n", "Length", "#Chains");
-	// TODO .. rest of function to show length/freq pairs
+void hash_table_print_stats(hash_table *ht) {
+    assert(ht != NULL);
+    printf("Hash Table Stats:\n");
+    printf("Number of slots = %d\n", ht->nslots);
+    printf("Number of unique items = %d\n", ht->nitems);
+    printf("Chain length distribution\n");
+    printf("%8s %8s\n", "Length", "#Chains");
+
+    size_t maxLength = 0;
+    size_t *sizes = malloc(ht->nslots * sizeof(size_t));
+    for (size_t i = 0; i < ht->nslots; i++) {
+        sizes[i] = list_length(ht->lists[i]);
+        if (sizes[i] > maxLength) maxLength = sizes[i];
+    }
+
+    for (size_t i = 0; i <= maxLength; i++) {
+        size_t count = 0;
+        for (size_t j = 0; j < ht->nslots; j++) {
+            if (sizes[j] == i) count++;
+        }
+        if (count) printf("%8d %8d\n", i, count);
+    }
+
+    free(sizes);
+
 }
 
 // Insert a new value into the HashTable.
-void hash_table_insert (hash_table *ht, Item it)
-{
-	assert (ht != NULL);
-	size_t i = hash (key (it), ht->nslots);
-	if (list_search (ht->lists[i], key (it)) == NULL) {
-		list_insert (ht->lists[i], it);
-		ht->nitems++;
-	}
+void hash_table_insert(hash_table *ht, Item it) {
+    assert(ht != NULL);
+    size_t i = hash(key (it), ht->nslots);
+    if (list_search(ht->lists[i], key (it)) == NULL) {
+        list_insert(ht->lists[i], it);
+        ht->nitems++;
+    } else {
+        item_drop(it); // Provided code has memory leaks :|
+    }
 }
 
 // Delete a value from the HashTable.
-void hash_table_delete (hash_table *ht, Key k)
-{
-	assert (ht != NULL);
-	size_t h = hash (k, ht->nslots);
-	list_delete (ht->lists[h], k);
+void hash_table_delete(hash_table *ht, Key k) {
+    assert(ht != NULL);
+    size_t h = hash(k, ht->nslots);
+    list_delete(ht->lists[h], k);
 }
 
 // Get an Item from the HashTable using the specified Key.
-Item *hash_table_search (hash_table *ht, Key k)
-{
-	assert (ht != NULL);
-	size_t i = hash (k, ht->nslots);
-	return list_search (ht->lists[i], k);
+Item *hash_table_search(hash_table *ht, Key k) {
+    assert(ht != NULL);
+    size_t i = hash(k, ht->nslots);
+    return list_search(ht->lists[i], k);
 }
 
 // Convert key into index (from Sedgewick)
-static inline size_t hash (Key k, size_t table_size)
-{
-	register size_t h = 0;
-	register unsigned a = 31415, b = 27183;
-	for (; *k != '\0'; k++) {
-		a = a * b % (table_size - 1);
-		h = (a * h + (unsigned)*k) % table_size;
-	}
-	return h % table_size;
+static inline size_t hash(Key k, size_t table_size) {
+    register size_t h = 0;
+    register unsigned a = 31415, b = 27183;
+    for (; *k != '\0'; k++) {
+        a = a * b % (table_size - 1);
+        h = (a * h + (unsigned) *k) % table_size;
+    }
+    return h % table_size;
 }

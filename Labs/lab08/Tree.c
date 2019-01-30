@@ -88,7 +88,6 @@ tree *tree_new(enum tree_strategy balance_strategy) {
 }
 
 
-// TODO: YOU NEED TO MODIFY THIS FOR TASK 2
 //
 // Insert an item into a binary tree and balance the tree,
 // depending on the defined rebalance strategy.
@@ -97,12 +96,28 @@ tree *tree_new(enum tree_strategy balance_strategy) {
 void tree_insert(tree *tree, Item it) {
     assert(tree != NULL);
 
-//    // Duplicate Item (which is a string)
-//    it = strdup(it);
-
     switch (tree->strategy) {
         case NO_REBALANCE:
             tree->root = insert_normal(tree->root, it);
+            break;
+
+        case REBALANCE_1:
+        case REBALANCE_100:
+        case REBALANCE_1000:
+            tree->root = insert_normal(tree->root, it); // TODO !?
+
+            if (tree->strategy == REBALANCE_1) tree->root = balance(tree->root);
+            else if (tree->strategy == REBALANCE_100 && tree_count(tree) % 100 == 0) tree->root = balance(tree->root);
+            else if (tree->strategy == REBALANCE_1000 && tree_count(tree) % 1000 == 0) tree->root = balance(tree->root);
+
+            break;
+
+        case RANDOMISED:
+            tree->root = insert_random(tree->root, it);
+            break;
+
+        case SPLAY:
+            tree->root = insert_splay(tree->root, it);
             break;
 
         default:
@@ -333,6 +348,7 @@ static tree_node *rotate_right(tree_node *curr) {
 // Tree balancing functions
 
 static tree_node *balance(tree_node *tree) {
+    if (tree == NULL) return NULL;
     if (tree->size < 2) return tree;
 
     tree = partition(tree, tree->size / 2);
@@ -344,8 +360,6 @@ static tree_node *balance(tree_node *tree) {
 // partition tree at node with position pos (counting from 0) in the
 // sorted sequence of all items, node become new root node.
 static tree_node *partition(tree_node *curr, size_t pos) {
-    if (curr == NULL) return curr;
-
     size_t left_subtree_size = curr->left->size;
     if (left_subtree_size > pos) {
         curr->left = partition(curr->left, pos);
@@ -432,6 +446,8 @@ static tree_node *search_splay(tree_node *n, Key k, bool *found) {
     // If the node was not found, the last node on the search
     // path should be rotated up to the root of the tree
     // and found should be set to 0
+
+
 
     return return_val;
 }
