@@ -4,7 +4,8 @@
 #
 # 2018-12-31	v1.0	Team Dracula <cs2521@cse.unsw.edu.au>
 
-CC	= 2521 3c
+#CC	= 2521 3c
+CC = clang
 
 # do not change the following line
 BINS	= dracula hunter

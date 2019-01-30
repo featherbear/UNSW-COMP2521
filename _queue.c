@@ -123,9 +123,8 @@ void queue_drop(Queue q) {
     free(q);
 }
 
-//
 
-// Check if a value exists within a queue
+/* Check if a value exists within a queue */
 bool queue_has(Queue q, int value) {
     for (qNode n = q->head; n != NULL; n = n->next) {
         if (n->item == value) return true;
@@ -133,7 +132,8 @@ bool queue_has(Queue q, int value) {
     return false;
 }
 
-Queue convert_aTOq(int *a, size_t size) {
+/* Converts an array into a queue */
+Queue queue_convertArray(int *a, size_t size) {
     Queue q = queue_new();
     for (size_t i = 0; i < size; i++) queue_en(q, a[i]);
     return q;

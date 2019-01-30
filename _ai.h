@@ -10,7 +10,18 @@
 #include "places.h"
 #include <string.h>
 
+#define NUM_REGIONS 4
+
 typedef size_t region_t;
+
+/** Region */
+enum region {
+	REGION_1,
+	REGION_2,
+	REGION_3,
+	REGION_4 
+};
+
 
 region_t get_region(location_t loc);
 region_t get_region(location_t loc) {
@@ -21,15 +32,16 @@ region_t get_region(location_t loc) {
         case SOFIA:
         case BELGRADE:
         case SZEGED:
-        case KALUSENBURG:
+        case KLAUSENBURG:
         case CONSTANTA:
         case SALONICA:
         case VALONA:
         case ATHENS:
         case BLACK_SEA:
         case IONIAN_SEA:
-            return 0;
-        case ST_JOSEPH_AND_ST_MARY:
+            return REGION_1;
+
+        case ST_JOSEPH_AND_ST_MARYS:
         case SARAJEVO:
         case BUDAPEST:
         case VIENNA:
@@ -38,13 +50,12 @@ region_t get_region(location_t loc) {
         case NUREMBURG:
         case FRANKFURT:
         case BERLIN:
-        case LEIPZIEG:
+        case LEIPZIG:
         case COLOGNE:
         case STRASBOURG:
         case ZURICH:
         case GENEVA:
         case MILAN:
-        case MUREMBURG:
         case BRUSSELS:
         case PARIS:
         case CLERMONT_FERRAND:
@@ -57,11 +68,11 @@ region_t get_region(location_t loc) {
         case CAGLIARI:
         case TYRRHENIAN_SEA:
         case ADRIATIC_SEA:
-            return 1;
+            return REGION_2;
 
         case MANCHESTER:
         case GALWAY:
-        case DULIN:
+        case DUBLIN:
         case SWANSEA:
         case PLYMOUTH:
         case LONDON:
@@ -72,8 +83,8 @@ region_t get_region(location_t loc) {
         case ENGLISH_CHANNEL:
         case NORTH_SEA:
         case IRISH_SEA:
-        case ATLANTIC_SEA:
-            return 2;
+        case ATLANTIC_OCEAN:
+            return REGION_3;
 
         case MADRID:
         case SARAGOSSA:
@@ -87,30 +98,11 @@ region_t get_region(location_t loc) {
         case ALICANTE:
         case BARCELONA:
         case MEDITERRANEAN_SEA:
-            return 3;
+            return REGION_4;
+        default: return -1;
     }
 
     assert(0);
-}
-
-/* Function to test that we have all the locations */
-void test_get_region()
-{
-    for (location_t i = 0; i < MAX_MAP_LOCATIONS; i++)
-    {
-        printf("Location: %d is in region %d\n", i, get_region(i));
-        assert(get_region(i) > 0);
-        assert(get_region(i) <= 4);
-        // If it can't find the location, it should return -1 by default
-    }
-}
-
-location_t fastestRoute(location_t from, location_t to, bool road, bool rail, bool sea) {
-    // BFS Implementation
-    bool seen[NUM_MAP_LOCATIONS]= {false};
-    location_t prev[NUM_MAP_LOCATIONS];
-    memset(prev, NUM_MAP_LOCATIONS, -1);
-
 }
 
 

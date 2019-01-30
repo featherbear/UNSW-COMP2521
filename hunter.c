@@ -49,7 +49,21 @@ static location_t getLastDracLocation(HunterView hv, ssize_t *distance) {
 }
 
 // Find fastest route to a certain location
-// TODO: Refactor from _ai.h
+/*
+
+// location_t fastestRoute(location_t from, location_t to, bool road, bool rail, bool sea) {
+//     // BFS Implementation
+//     bool seen[NUM_MAP_LOCATIONS]= {false};
+//     location_t prev[NUM_MAP_LOCATIONS];
+//     memset(prev, NUM_MAP_LOCATIONS, -1);
+
+//     //
+
+
+//     //
+// }
+
+*/
 
 
 void decide_hunter_move(HunterView hv) {
