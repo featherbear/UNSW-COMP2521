@@ -43,6 +43,9 @@ _dlist.o:       _dlist.c _dlist.h
 _connections.o: _connections.c _connections.h
 
 
+test_drac_ai:       test_drac_ai.o dracula_view.o map.o places.o _queue.o dracula.o
+test_drac_ai.o:     test_drac_ai.c dracula_view.h places.h dracula.h
+
 test_game_view:		test_game_view.o game_view.o map.o places.o _queue.o _dlist.o _connections.o
 test_game_view.o:	test_game_view.c game_view.h map.h places.h game.h
 
@@ -51,7 +54,6 @@ test_hunter_view.o:	test_hunter_view.c hunter_view.h game_view.h map.h places.h 
 
 test_dracula_view:	test_dracula_view.o dracula_view.o ${OBJS}
 test_dracula_view.o:	test_dracula_view.c dracula_view.h game_view.h map.h places.h game.h
-
 
 .PHONY: clean
 clean:
