@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="z5206677" /><meta name="description" content="Overview  Pick a pivot element." /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="z5206677" /><meta name="description" content="Resources:" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -39,25 +39,25 @@
 
 
 <meta property="og:title" content="Lab 7 - Quick Sort Detective" />
-<meta property="og:description" content="Overview  Pick a pivot element." />
+<meta property="og:description" content="Resources:" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/lab07/" /><meta property="article:published_time" content="2019-01-28T19:56:24&#43;11:00"/>
 <meta property="article:modified_time" content="2019-01-28T19:56:24&#43;11:00"/>
 
 <meta itemprop="name" content="Lab 7 - Quick Sort Detective">
-<meta itemprop="description" content="Overview  Pick a pivot element.">
+<meta itemprop="description" content="Resources:">
 
 
 <meta itemprop="datePublished" content="2019-01-28T19:56:24&#43;11:00" />
 <meta itemprop="dateModified" content="2019-01-28T19:56:24&#43;11:00" />
-<meta itemprop="wordCount" content="1077">
+<meta itemprop="wordCount" content="1322">
 
 
 
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Lab 7 - Quick Sort Detective"/>
-<meta name="twitter:description" content="Overview  Pick a pivot element."/>
+<meta name="twitter:description" content="Resources:"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -156,6 +156,13 @@
     <div class="post-content">
       
 
+<blockquote>
+<p><strong>Resources:</strong><br />
+- <a href="https://github.com/featherbear/UNSW-COMP2521/tree/gh-pages/Labs/lab07">GitHub</a> (Sort code, data.py)<br />
+- <a href="Timings.xlsx">Timing Data</a><br />
+- <a href="https://github.com/featherbear/UNSW-COMP2521/tree/gh-pages/blog/__hugo/static/post/lab07">Raw Timing Data</a> (CSV files)</p>
+</blockquote>
+
 <h1 id="overview">Overview</h1>
 
 <ul>
@@ -233,6 +240,9 @@ For sorting, this would mean a randomised array of values.</p>
 </span><span class="lnt">35
 </span><span class="lnt">36
 </span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-python3" data-lang="python3"><span class="ch">#!/bin/python3</span>
@@ -254,11 +264,14 @@ For sorting, this would mean a randomised array of values.</p>
 
     <span class="n">nums</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>                              <span class="c1"># Ascending</span>
     <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;D&#34;</span><span class="p">:</span> <span class="n">nums</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>           <span class="c1"># Descending</span>
-    <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;R&#34;</span><span class="p">:</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>             <span class="c1"># Random</span>
-    <span class="n">string</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+</span> <span class="n">nums</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
 
     <span class="n">times</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        
+        <span class="c1"># Fixed from last time, where the shuffled order was always the same!</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;R&#34;</span><span class="p">:</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>           <span class="c1"># Random</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">+</span> <span class="n">nums</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+        
         <span class="k">with</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="s2">&#34;/usr/bin/time&#34;</span><span class="p">,</span> <span class="s2">&#34;-f%U&#34;</span><span class="p">,</span> <span class="s2">&#34;./quicksort&#34;</span><span class="p">,</span> <span class="s2">&#34;-p&lt;INSERTYOURMODEFLAGHERE&gt;&#34;</span><span class="p">,</span> <span class="s2">&#34;-q&#34;</span><span class="p">],</span> <span class="n">stdin</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span> <span class="k">as</span> <span class="n">process</span><span class="p">:</span>
             <span class="n">comm</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">communicate</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
             <span class="n">times</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">comm</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()))</span>
@@ -284,33 +297,59 @@ For sorting, this would mean a randomised array of values.</p>
 <h1 id="analysis">Analysis</h1>
 
 <p><img src="Snipaste_2019-01-28_20-02-34.png" alt="" />
-This graph was made from the timings of a randomised array from each of the sort methods.</p>
+<strong><em>Note: The x-axis increases by increments of 100, and then increments of 2000 after 10000 items</em></strong><br />
+&nbsp;</p>
 
-<p>The graph above suggests that all three sorts perform very similarly
-In the data set, the naive method was marginally more performant than that of the random and median sort.<br />
-This could possibly be as a result of the random and median methods requiring more operations (to compare, generate a random number, and switch)</p>
+<p>This graph was made from the timings of a randomised array from each of the sort methods.</p>
+
+<p>The graph above suggests that all three sorts perform very similarly.</p>
+
+<p>In the data set, the <span style="color:royalblue">random</span> method was more performant than that of the <span style="color:red">naive</span> and <span style="color:forestgreen">median</span> method.</p>
+
+<p>This could be as a result of the <span style="color:red">naive</span> and <span style="color:forestgreen">median</span> methods requiring more operations <em>(nature of a <span style="color:red">naive</span> sort, and to compare and switch values for a <span style="color:forestgreen">median</span> sort)</em></p>
+
+<p>The timings for the <span style="color:forestgreen">median</span> method were (surprisingly) more inconsistent, than the <span style="color:red">naive</span> sort, evident in the visible timing spikes</p>
+
+<p>For a dataset of about 364,000 items, both the <span style="color:red">naive</span> and <span style="color:forestgreen">median</span> sort methods spiked up in sort times</p>
+
+<p><em>// Aside: It would have been better to perform the same tests with the same randomised numbers</em></p>
 
 <h2 id="naive-pivot">Naive Pivot</h2>
 
 <p><img src="Snipaste_2019-01-28_19-55-08.png" alt="" /><br />
-This algorithm uses the right-most value of an array as the pivot index.<br />
+<strong><em>Note: The x-axis increases by increments of 100, and then increments of 2000 after 10000 items</em></strong><br />
+&nbsp;</p>
+
+<p>This algorithm uses the left/right-most value of an array as the pivot index.<br />
 It is naive as there is no thought given into which value to pick as the pivot.</p>
 
-<p>As seen, this algorithm reaches its worst-case time complexity when sorting an already sorted array.</p>
+<p>This algorithm reaches its worst-case time complexity when sorting an already sorted array.</p>
 
 <h2 id="median-of-three-pivot">Median of Three Pivot</h2>
 
 <p><img src="Snipaste_2019-01-28_19-55-41.png" alt="" /><br />
-The median of three pivot algorithm compares the first, middle and last values of an array, and uses the median value as the pivot index - whilst also sorting the three values in place.  This poses the advantage of the sort always pivoting around a value where there are most likely lesser and greater values</p>
+<strong><em>Note: The x-axis increases by increments of 100, and then increments of 2000 after 10000 items</em></strong><br />
+&nbsp;</p>
 
-<p>In comparing the best, average and worst cases for this algorithm&rsquo;s time complexity, the Median of Three method is marginally more performant in sorting a nearly sorted descending array, than that of a random array.</p>
+<p>The median of three pivot algorithm compares the first, middle and last values of an array, and uses the median value as the pivot index - whilst also sorting the three values (lo, mi, hi) in place.  This poses the advantage of the sort always pivoting around a value where there are most likely lesser and greater values.</p>
+
+<p>Sorting a randomised array of numbers takes (expectedly) more time than an already sorted ascending array.</p>
+
+<p>The performance of a median sort on descending items is interesting - as in my head it should perform similar to a randomised array.<br />
+Overall the median method has a better overall sort performance than the naive sort, which bottlenecks for an (as/des)cending array.</p>
 
 <h2 id="random-pivot">Random Pivot</h2>
 
 <p><img src="Snipaste_2019-01-28_19-56-05.png" alt="" /><br />
-Upon not knowing the nature of the values in an array, the Random Pivot method generates the best average case operation.<br />
+<strong><em>Note: The x-axis increases by increments of 100, and then increments of 2000 after 10000 items</em></strong><br />
+&nbsp;</p>
+
+<p>Albeit not knowing the nature of the values in an array, the random pivot method generates the best average case operation.<br />
 This algorithm selects a random value in an array as the pivot index.<br />
-It can sort an array of 500,000 random values in roughly <code>0.1s</code> (on my laptop at least)</p>
+It can sort an array of 500,000 random values in roughly <code>0.11s</code> (on my laptop at least).</p>
+
+<p>For a quick sort on an (as/des)cending array of numbers), the random pivot sort takes slightly longer than a median method - which is to be expected as there is no thought given into picking a pivot, hence on average more partitions will be performed.<br />
+Like the median sort, the random pivot sort is faster than the naive sort</p>
 
 <h1 id="gotta-go-faster">Gotta go faster!</h1>
 
@@ -682,7 +721,11 @@ It can sort an array of 500,000 random values in roughly <code>0.1s</code> (on m
             <span class="prev-text nav-default">Lec13</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        
+        <a class="next" href="../../post/lec14/">
+            <span class="next-text nav-default">Lecture 14 - Hashing</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
       </nav>
     </footer>
   </article>
