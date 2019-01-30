@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "Item.h"
 
@@ -37,9 +38,11 @@ ssize_t tree_height(Tree t);
 void tree_destroy(Tree t);
 
 // Display the tree.
-void tree_display(Tree t);
+void tree_display(Tree t, FILE *stream);
 
 // Print out some statistics about the tree.
 void tree_print_stats(Tree t);
+
+void tree_whitebox_tests(void);
 
 #endif

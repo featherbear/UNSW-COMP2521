@@ -51,7 +51,7 @@ void list_show (list *list)
 	list_node *curr = list->first;
 	printf ("[");
 	while (curr != NULL) {
-		item_show (curr->value);
+		item_show (stdout, curr->value);
 		if (curr->next != NULL)
 			printf (", ");
 	}

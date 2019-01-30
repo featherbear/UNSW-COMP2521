@@ -14,7 +14,7 @@
 #include "Item.h"
 #include "Tree.h"
 
-#define WORD_FILE "/usr/share/dict/words"
+#define WORD_FILE "/usr/share/dict/cracklib-small"
 #define MAX_WORD_SIZE BUFSIZ
 
 int read_words_into_tree(FILE *, Tree t);
@@ -50,7 +50,7 @@ int main (int argc, char **argv)
 	tree_print_stats (word_tree);
 
 	// Note: you may wish to comment this out for large trees!
-	tree_display (word_tree);
+	tree_display (word_tree, stdout);
 
 	tree_destroy (word_tree);
 	fclose (f);

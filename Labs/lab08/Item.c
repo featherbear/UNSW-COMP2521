@@ -7,19 +7,16 @@
 #include <string.h>
 
 // display an Item
-void item_show (Item it)
-{
-	printf ("%s", it);
+int item_show(Item it, FILE *stream) {
+    return fprintf(stream, "%s", it);
 }
 
 // free memory for an Item
-void item_drop (Item it)
-{
-	free (it);
+void item_drop(Item it) {
+    free(it);
 }
 
 // compare two Items
-int cmp (Key k1, Key k2)
-{
-	return strcmp (k1, k2);
+int cmp(Key k1, Key k2) {
+    return strcmp(k1, k2);
 }

@@ -13,7 +13,7 @@
 #include "HashTable.h"
 #include "Item.h"
 
-#define WORD_FILE "/usr/share/dict/words"
+#define WORD_FILE "/usr/share/dict/cracklib-small"
 #define MAX_WORD_SIZE BUFSIZ
 
 int read_words_into_hash_table(FILE *f, HashTable hash_table);

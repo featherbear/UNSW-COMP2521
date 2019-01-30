@@ -15,5 +15,6 @@ int cmp(Key, Key);
 #define less(k1, k2) (cmp(k1, k2) < 0)
 #define greater(k1, k2) (cmp(k1, k2) > 0)
 
-void item_show(Item it);
+#include <stdio.h>
+int item_show(Item it, FILE *stream);
 void item_drop(Item it);
