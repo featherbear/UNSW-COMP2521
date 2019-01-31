@@ -57,5 +57,5 @@ test_dracula_view.o:	test_dracula_view.c dracula_view.h game_view.h map.h places
 
 .PHONY: clean
 clean:
-	-rm -f ${BINS} *.o core
+	-rm -f ${BINS} *.o core test_drac_ai
 
