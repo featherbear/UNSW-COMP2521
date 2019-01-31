@@ -18,7 +18,7 @@ OBJS	= game_view.o map.o places.o   _queue.o _dlist.o _connections.o
 # add whatever system libraries you need here (e.g. -lm)
 LIBS	=
 
-all: ${BINS}
+all: ${BINS} test_drac_ai
 
 dracula:	player_dracula.o dracula.o dracula_view.o ${OBJS} ${LIBS}
 hunter:		player_hunter.o hunter.o hunter_view.o ${OBJS} ${LIBS}

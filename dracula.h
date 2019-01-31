@@ -282,15 +282,26 @@ Queue dracula_getSafeMoves(DraculaView dv)
 {
     size_t size;
     location_t *moves = dv_get_dests(dv, &size, true, true);
+
+    ///////////////////////////
+    /// Debugging
+    printf("The moves given by DraculaView: { ");
+    for (size_t i = 0; i < size; i++) printf("%d, ", moves[i]);
+    puts("}")
+    //////////////////////////////
     Queue moves_q = queue_convertArray(moves, size);
     Queue dracMoves = queue_new();
 
     while(queue_size(moves_q) != 0){
         int location = queue_de(moves_q);
+        printf("Checkking location: %d\n", location);
 
         // Making sure that the queue isn't empty
-        if (queue_size(moves_q) == 0 && queue_size(dracMoves) == 0) queue_en(dracMoves, location);
-
+        int counter = 0;
+        if (queue_size(moves_q) == 0 && queue_size(dracMoves) == 0) {
+            queue_en(dracMoves, location);
+            printf("Queue is empty so we've enqueued %d\n", location);
+        }
          // Delete extra moves (DB && HI)
          switch (location)
          {
@@ -300,16 +311,25 @@ Queue dracula_getSafeMoves(DraculaView dv)
             case DOUBLE_BACK_4:
             case DOUBLE_BACK_5:
             case HIDE:
+                printf("Location is a double_back or hide\n");
                 continue;
          };
 
         // Delete move if hunter are at it
-        if (dracula_isHunterLocation(dv, location)) continue;
+        if (dracula_isHunterLocation(dv, location)) {
+            printf("Hunter is at location %d\n", location);
+            continue;
+        }
 
         // Delete locations that the hunter can get to in the next move
-        if (dracula_isHunterPossbleLocation(dv, location)) continue;
-
+        if (dracula_isHunterPossbleLocation(dv, location)) {
+            printf("Hunter can get to location %d\n", location);
+            continue;
+        }
         queue_en(dracMoves, location);
+        printf("Successfully enqueued %d\n", location);
+        printf("Added %d locations\n", counter);
+
     }
     queue_drop(moves_q);
     free(moves);

@@ -52,7 +52,7 @@ static location_t getLastDracLocation(HunterView hv, ssize_t *distance) {
 #include "_queue.h"
 #include "map.h"
 
-location_t fastestRoute(location_t from, location_t to) { //, bool road, bool rail, bool sea) {
+location_t fastestRoute(location_t from, location_t to) {
     Map m = map_new();
 
     // BFS Implementation
@@ -116,6 +116,8 @@ void decide_hunter_move(HunterView hv) {
     enum player player = hv_get_player(hv);
     round_t round = hv_get_round(hv);
     location_t location = hv_get_location(hv, player);
+
+    printf("I am at %d\n", location);
 
     // First round, spawn hunters in regions
     if (round == 0) {
