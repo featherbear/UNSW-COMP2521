@@ -54,7 +54,7 @@ bool event_player_hurt(GameView gv, enum player player, int damage) {
             *health = 0;
             result = false;
             gv->score -= SCORE_LOSS_HUNTER_HOSPITAL;
-//            printf_yellow("    > Player %d dun guf. he ded. rip m9\n", player);
+            printf_yellow("    > Player %d dun guf. he ded. rip m9\n", player);
         }
     }
 

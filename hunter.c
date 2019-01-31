@@ -49,13 +49,59 @@ static location_t getLastDracLocation(HunterView hv, ssize_t *distance) {
 }
 
 // Find fastest route to a certain location
+#include "_queue.h"
+#include "map.h"
+
+location_t fastestRoute(location_t from, location_t to) { //, bool road, bool rail, bool sea) {
+    Map m = map_new();
+
+    // BFS Implementation
+
+    bool seen[NUM_MAP_LOCATIONS] = {false};
+
+    int prev[NUM_MAP_LOCATIONS];
+    for (int i = 0; i < NUM_MAP_LOCATIONS; i++) prev[i] = -1;
+
+    Queue q = queue_new();
+    queue_en(q, from);
+
+    printf("Going from %d to %d\n", from, to);
+
+    while (queue_size(q) > 0) {
+        location_t item = queue_de(q);
+        seen[item] = true;
+
+        if (item == to) {
+            puts("  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND");
+            break;
+        }
+
+        for (map_adj *curr = m->connections[item]; curr; curr = curr->next) {
+            if (!seen[curr->v]) {
+                prev[curr->v] = item;
+                queue_en(q, curr->v);
+            }
+        }
+    }
+
+    queue_drop(q);
+    map_drop(m);
+
+    puts("  Resolve now");
+    if (prev[to] == -1) return NOWHERE;
+
+    location_t resolve = prev[to];
+    while (resolve) {
+        printf("  Resolve %d\n", resolve);
+        if (prev[resolve] == from) return prev[resolve];
+        resolve = prev[resolve];
+    }
+    return NOWHERE;
+}
+
 /*
 
-// location_t fastestRoute(location_t from, location_t to, bool road, bool rail, bool sea) {
-//     // BFS Implementation
-//     bool seen[NUM_MAP_LOCATIONS]= {false};
-//     location_t prev[NUM_MAP_LOCATIONS];
-//     memset(prev, NUM_MAP_LOCATIONS, -1);
+
 
 //     //
 
@@ -89,6 +135,9 @@ void decide_hunter_move(HunterView hv) {
         }
     }
 
+    register_best_play(location_get_abbrev(fastestRoute(location, CASTLE_DRACULA)), "Enroute");
+
+    return;
 
     ssize_t lastDracSeen;
     location_t lastDracLocation = getLastDracLocation(hv, &lastDracSeen);
@@ -103,6 +152,7 @@ void decide_hunter_move(HunterView hv) {
     }
 
     if (lastDracSeen > -1) {
+        register_best_play(location_get_abbrev(fastestRoute(location, lastDracLocation)), "Enroute");
         // Dracula was spotted - start pursuing
 
     }
@@ -127,4 +177,8 @@ void decide_hunter_move(HunterView hv) {
 
     // hv_get_trail()
     // if an actual location is in the trail, start making our way to the latest location
+
+
+    free(possibleLocations);
+
 }
