@@ -78,6 +78,31 @@ int main (void) {
     queue_drop(gen);
 
     /////////////////////////////////////////////////////////
+    pastPlays = "GPL.... SSN.... HSZ.... MCD.... DCD.V.. GEC.... SSR.... HKL.... MCDVD.. DD1T... GNS.... SMR.... HCDTD.. MCDD... DKLT... GHA.... SMI.... HCD.... MCD.... DSZT... GBR.... SVE.... HCD.... MCD.... DBET... GPR.... SBD.... HCD.... MCD.... DSOT... GBD.... SKLT... HKL.... MKL.... DVRT... GKL.... SKL.... HKL.... MKL.... DCNT... GKL.... SKL.... HKL.... MKL.... DBS.... GKL.... SSZT... HSZ.... MSZ.... DIO.... GSZ.... SSZ.... HSZ.... MSZ.... DVAT.M. GSZ.... SBE.... ";
+    dv = dv_new(pastPlays, msg);
+
+    // Dracula is at the same place as a hunter (MADRID)
+    A("Test_3: Testing getSafeMoves\n");
+    gen = dracula_getSafeMoves(dv);
+    A("Generated Safe location: {");
+    while (queue_size(gen) != 0) A(location_get_name(queue_de(gen)));
+    A("}\nExpected Safe location: {Santander}\n");
+
+    printf("Safe region is %d\n", dracula_getSafeRegion(dv));
+    printf("Going towards the region: %s\n", location_get_name(dracula_getMoveTowardsRegion(dv, REGION_3)));
+
+    // TEST_MSG("Test_3: Testing isSafeRegion", dracula_isSafeRegion(dv, REGION_1) == true); // 1 hunters
+    // TEST_MSG("Test_3: Testing isSafeRegion", dracula_isSafeRegion(dv, REGION_2) == true); // 0 hunter
+    // TEST_MSG("Test_3: Testing isSafeRegion", dracula_isSafeRegion(dv, REGION_3) == true);// 1 hunters
+    // TEST_MSG("Test_3: Testing isSafeRegion", dracula_isSafeRegion(dv, REGION_4) == false); // 2 hunters
+    // TEST_MSG("Test_3: Testing getSafeRegion", dracula_getSafeRegion(dv) == REGION_1);
+    // TEST_MSG("Test_3: Testing getMoveTowardsRegion", dracula_getMoveTowardsRegion(dv, REGION_1) == SANTANDER);
+    // TEST_MSG("Test_3: Testing getDraculaMove", get_dracula_move(dv) == SANTANDER);
+
+    dv_drop(dv);
+    queue_drop(gen);
+
+
     puts("All tests passed! You are awesome.");
 }
 

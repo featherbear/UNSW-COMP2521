@@ -33,7 +33,7 @@ bool dracula_canMove(DraculaView dv, location_t move);
 location_t dracula_getMoveWithinRegion(DraculaView dv, region_t r);
 location_t dracula_getMoveTowardsRegion(DraculaView dv, region_t safeRegion);
 bool dracula_isSafeRegion(DraculaView dv, region_t currRegion);
-region_t dracula_getSafeRegion(DraculaView dv);
+region_t dracula_getSafestRegion(DraculaView dv);
 
 /* Additional helper functions*/
 bool *dracula_getHunterLocations(DraculaView dv);

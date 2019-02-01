@@ -31,6 +31,11 @@
 #define max(a, b) a>b?a:b
 #define min(a, b) a<b?a:b
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wswitch-enum"
+#endif
+
 /* Checks whether a player (HUNTER) has rested */
 static bool playerRested(GameView gv, enum player p) {
 
@@ -237,7 +242,7 @@ GameView gv_new(char *past_plays, player_message messages[]) {
         } else {
 
             // Update Health: A resting player (stayed in the same city) gains 3 health
-            if (playerRested(gv, currPlayer_n)) {
+            if (gv_get_health(gv, currPlayer_n) > 0 && playerRested(gv, currPlayer_n)) {
                 event_player_heal(gv, currPlayer_n, LIFE_GAIN_REST);
             }
         }
@@ -247,24 +252,44 @@ GameView gv_new(char *past_plays, player_message messages[]) {
         gv->currPlayer = &gv->players[currPlayer_n];
     }
 
-#if 0
+#if 1
     // Game summary
     printf_blue("\n\n------------SUMMARY------------\n");
-    printf("    %d turns made. Now in round no %d\n    I am player: %d (%s)\n", gv->currTurn, gv->currRound, currPlayer_n,
+    printf("    %d turns made. Now in round no %d\n    I am player: %d (%s)\n", gv->currTurn, gv->currRound,
+           currPlayer_n,
            currPlayer_n == 4 ? "Dracula" : "Hunter");
 //    printf("    Player `%c` @ `%s` | HP: %d\n", player, location, lID, _event);
-    for(enum player i = 0; i < PLAYER_DRACULA; i++) {
+    for (enum player i = 0; i < PLAYER_DRACULA; i++) {
         printf("    Hunter %d @ %-15s | HP: %d\n", i, location_get_name(gv_get_location(gv, i)), gv->players[i].health);
     }
-    printf("    Dracula  @ %-15s | HP: %d\n", location_get_name(gv_get_location(gv, PLAYER_DRACULA)), gv->players[PLAYER_DRACULA].health);
+
+    location_t draculaLocation = gv_get_location(gv, PLAYER_DRACULA);
+    switch (draculaLocation) {
+        case DOUBLE_BACK_1:
+        case DOUBLE_BACK_2:
+        case DOUBLE_BACK_3:
+        case DOUBLE_BACK_4:
+        case DOUBLE_BACK_5:
+        case HIDE:
+            printf("    Dracula  @ %-15s | HP: %d\n",
+                   location_get_name(resolveExtraLocations(gv->players[PLAYER_DRACULA].moves->tail)),
+                   gv->players[PLAYER_DRACULA].health);
+            break;
+        default:
+            printf("    Dracula  @ %-15s | HP: %d\n", location_get_name(draculaLocation),
+                   gv->players[PLAYER_DRACULA].health);
+    }
+
+
     printf_yellow("    SCORE: %d\n", gv_get_score(gv));
     printf_blue("------------SUMMARY------------\n\n\n");
 #endif
 
-    ////////////////////////////////////////////////////////////////
-    /* Memory Management */
+////////////////////////////////////////////////////////////////
+/* Memory Management */
     free(tmp_pastPlays);
-    return gv;
+    return
+            gv;
 }
 
 void gv_drop(GameView gv) {
