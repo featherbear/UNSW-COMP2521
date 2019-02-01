@@ -4,9 +4,9 @@
 #
 # 2018-12-31	v1.0	Team Dracula <cs2521@cse.unsw.edu.au>
 
-#CC	= 2521 3c
-CC = clang
-CFLAGS = -Wall -Wextra
+CC	= 2521 3c
+#CC = clang
+#CFLAGS = -Wall -Wextra
 
 # do not change the following line
 BINS	= dracula hunter
@@ -19,7 +19,7 @@ OBJS	= game_view.o map.o places.o   _queue.o _dlist.o _connections.o
 # add whatever system libraries you need here (e.g. -lm)
 LIBS	=
 
-all: ${BINS} test_drac_ai
+all: ${BINS} # test_drac_ai
 
 dracula:	player_dracula.o dracula.o dracula_view.o ${OBJS} ${LIBS}
 hunter:		player_hunter.o hunter.o hunter_view.o ${OBJS} ${LIBS}
@@ -58,5 +58,5 @@ test_dracula_view.o:	test_dracula_view.c dracula_view.h game_view.h map.h places
 
 .PHONY: clean
 clean:
-	-rm -f ${BINS} *.o core test_drac_ai
+	-rm -f ${BINS} *.o core test_drac_ai test_game_view test_hunter_view
 

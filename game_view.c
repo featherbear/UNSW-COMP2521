@@ -247,7 +247,7 @@ GameView gv_new(char *past_plays, player_message messages[]) {
         gv->currPlayer = &gv->players[currPlayer_n];
     }
 
-#if 1
+#if 0
     // Game summary
     printf_blue("\n\n------------SUMMARY------------\n");
     printf("    %d turns made. Now in round no %d\n    I am player: %d (%s)\n", gv->currTurn, gv->currRound, currPlayer_n,

@@ -217,10 +217,18 @@ location_t dracula_getMoveTowardsRegion(DraculaView dv, region_t safeRegion) {
     Queue safeMoves = dracula_getSafeMoves(dv);
     location_t target = UNKNOWN_LOCATION;
     switch (safeRegion) {
-        case REGION_1: target = CASTLE_DRACULA; break;
-        case REGION_2: target = MUNICH; break;
-        case REGION_3: target = SARAGOSSA; break;
-        case REGION_4: target = LONDON; break;
+        case REGION_1:
+            target = CASTLE_DRACULA;
+            break;
+        case REGION_2:
+            target = MUNICH;
+            break;
+        case REGION_3:
+            target = SARAGOSSA;
+            break;
+        case REGION_4:
+            target = LONDON;
+            break;
     };
 
     // Find the move that is the fastest towards the target location
@@ -242,23 +250,22 @@ location_t dracula_getMoveTowardsRegion(DraculaView dv, region_t safeRegion) {
     return best_move;
 }
 
-/* Using an array to quickly check where the hunters are*/
-bool *dracula_getHunterPossibleLocations(DraculaView dv)
-{
-    bool *hunter_possibleLocations = calloc(NUM_MAP_LOCATIONS, sizeof (int));
+/* Using an array to quickly check where the hunters are */
+bool *dracula_getHunterPossibleLocations(DraculaView dv) {
+    bool *hunter_possibleLocations = calloc(NUM_MAP_LOCATIONS, sizeof(int));
     for (enum player i = 0; i < NUM_PLAYERS - 1; i++) {
         size_t s;
         location_t *hunter_connections = dv_get_dests_player(dv, &s, i, true, true, true);
         for (size_t j = 0; j < s; j++) hunter_possibleLocations[hunter_connections[j]] = true;
+        free(hunter_connections);
     }
     return hunter_possibleLocations;
 }
 
 /* Using an array to quicky check where the hunters can potentially get to*/
-bool *dracula_getHunterLocations(DraculaView dv)
-{
-    bool *hunter_locations = calloc(NUM_MAP_LOCATIONS, sizeof (int));
-    for (enum player i = 0; i < NUM_PLAYERS - 1; i++)  hunter_locations[dv_get_location(dv, i)] = true;
+bool *dracula_getHunterLocations(DraculaView dv) {
+    bool *hunter_locations = calloc(NUM_MAP_LOCATIONS, sizeof(int));
+    for (enum player i = 0; i < NUM_PLAYERS - 1; i++) hunter_locations[dv_get_location(dv, i)] = true;
     return hunter_locations;
 }
 
@@ -294,13 +301,13 @@ Queue dracula_getSafeMoves(DraculaView dv) {
         };
 
         // Delete move if hunters are at it
-        if (hunter_locations[(int)location] == true) {
+        if (hunter_locations[(int) location] == true) {
             // printf("==>Hunter is currently at this location, not adding..\n");
             continue;
         }
 
         // Delete move is hunters can get to it
-        if (hunter_possibleLocations[(int)location] == true) {
+        if (hunter_possibleLocations[(int) location] == true) {
             // printf("==>Hunter can get to this location, not adding..\n");
             continue;
         }
@@ -350,7 +357,8 @@ int dracula_getShortestPath(Map m, location_t src, location_t target) {
         // printf("%s, ", location_get_name(tmp));
         counter++;
     }
-   // printf("]\nFrom %s, it takes a total of %d moves to get to %s\n", location_get_name(src), counter, location_get_name(target));
+    // printf("]\nFrom %s, it takes a total of %d moves to get to %s\n", location_get_name(src), counter, location_get_name(target));
+    queue_drop(q);
     return counter;
 }
 
