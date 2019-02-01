@@ -10,11 +10,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 
 #include "dracula.h"
 #include "dracula__ai.h"
 
-#include <string.h>
 
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -108,7 +108,8 @@ region_t get_region(location_t l) {
             assert(0 && "Unknown Location");
     }
 
-    return 0; // Rip
+    return 0; // A: Rip
+              // J: Nah I wrote a testing code that confirmed I DIDN"T MISS ANYTHING! :)
 }
 
 /* Da main function */
@@ -126,6 +127,7 @@ location_t get_dracula_move(DraculaView dv) {
     bool CDIsSafe = hunter_locations[CASTLE_DRACULA] ? false : true;
     free(hunter_locations);
 
+    // Starting round.
     if (dv_get_round(dv) == 0) {
         if (CDIsSafe) return CASTLE_DRACULA;
         switch (safeRegion) {
@@ -141,6 +143,7 @@ location_t get_dracula_move(DraculaView dv) {
     currLocation = dv_get_location(dv, PLAYER_DRACULA);
     currRegion = get_region(currLocation);
 
+    // When @CD, want to stay there for as long as possible
     if (currLocation == CASTLE_DRACULA && CDIsSafe) {
         if (dracula_canMove(dv, DOUBLE_BACK_1)) return DOUBLE_BACK_1;
         if (dracula_canMove(dv, HIDE)) return HIDE;
@@ -169,11 +172,11 @@ bool dracula_canMove(DraculaView dv, location_t move) {
 
 /* Finds the safest region (least hunters) */
 region_t dracula_getSafeRegion(DraculaView dv) {
-    size_t nHunters[NUM_REGIONS] = {0};
+    size_t nHunters[NUM_REGIONS] = {false};
     for (enum player i = 0; i < NUM_PLAYERS - 1; i++) nHunters[get_region(dv_get_location(dv, i))]++;
 
     // Want to prioritise travelling to Castle Dracula
-    if (nHunters[0] <= 1) return 1;
+    if (nHunters[REGION_1] <= 1) return REGION_1;
 
     // Else find the region with the least amount of hunters
     size_t min = 4;
@@ -188,8 +191,6 @@ bool dracula_isSafeRegion(DraculaView dv, region_t r) {
     int counter = 0;
     for (enum player p = 0; p < NUM_PLAYERS - 1; p++)
         if (get_region(dv_get_location(dv, p)) == r) counter++;
-
-    // printf("There are %d hunters in region %zu\n", counter, r);
     return (counter < 2) ? true : false;
 }
 
@@ -206,7 +207,6 @@ location_t dracula_getMoveWithinRegion(DraculaView dv, region_t r) {
         if (queue_size(safeMoves) == 0) break;
         if (get_region(l) == r) break;
     }
-
     queue_drop(safeMoves);
     return l;
 }
@@ -231,7 +231,7 @@ location_t dracula_getMoveTowardsRegion(DraculaView dv, region_t safeRegion) {
             break;
     };
 
-    // Find the move that is the fastest towards the target location
+    // Find the move that is the fastest (least hops) towards the target location
     location_t from;
     location_t best_move = UNKNOWN_LOCATION;
     int min_hops = NUM_MAP_LOCATIONS;
@@ -271,7 +271,6 @@ bool *dracula_getHunterLocations(DraculaView dv) {
 
 // Get possible dracula moves which don't overlap with possible hunter moves
 Queue dracula_getSafeMoves(DraculaView dv) {
-
     size_t size;
     location_t *moves = dv_get_dests(dv, &size, true, true);
     Queue moves_q = queue_convertArray(moves, size);
@@ -279,7 +278,6 @@ Queue dracula_getSafeMoves(DraculaView dv) {
     bool *hunter_possibleLocations = dracula_getHunterPossibleLocations(dv);
 
     Queue dracMoves = queue_new();
-
     while (queue_size(moves_q) != 0) {
         int location = queue_de(moves_q);
 
@@ -302,13 +300,13 @@ Queue dracula_getSafeMoves(DraculaView dv) {
 
         // Delete move if hunters are at it
         if (hunter_locations[(int) location] == true) {
-            // printf("==>Hunter is currently at this location, not adding..\n");
+            // printf("==>Hunter is currently at this location, thank you, next.\n");
             continue;
         }
 
         // Delete move is hunters can get to it
         if (hunter_possibleLocations[(int) location] == true) {
-            // printf("==>Hunter can get to this location, not adding..\n");
+            // printf("==>Hunter can get to this location, thank you, next.\n");
             continue;
         }
 

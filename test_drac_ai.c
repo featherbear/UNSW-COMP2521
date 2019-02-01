@@ -38,10 +38,10 @@ int main (void) {
     // Can get to MI, MR
     A("Test_1: Testing getSafeMoves\n");
     gen = dracula_getSafeMoves(dv);
-    A("Generated Safe location: {");
-    while (queue_size(gen) != 0) A(location_get_name(queue_de(gen)));
-    A("}\nExpected Safe location: {Milan Marceilles}\n");
-    queue_drop(gen);
+    printf("Generated Safe location: {");
+    while (queue_size(gen) != 0) printf("%s ",location_get_name(queue_de(gen)));
+    printf("}\nExpected Safe location: {Milan Marceilles}\n");
+
 
     TEST_MSG("Test_1: Testing isSafeRegion", dracula_isSafeRegion(dv, REGION_1) == true); // 0 hunters
     TEST_MSG("Test_1: Testing isSafeRegion", dracula_isSafeRegion(dv, REGION_2) == true); // 1 hunter
@@ -52,12 +52,15 @@ int main (void) {
     TEST_MSG("Test_1: Testing getMoveTowardsRegion", dracula_getMoveTowardsRegion(dv, REGION_1) == MILAN);
     TEST_MSG("Test_1: Testing getDraculaMove", get_dracula_move(dv) == MILAN);
 
+    dv_drop(dv);
+    queue_drop(gen);
+
     /////////////////////////////////////////////////////////
     pastPlays = "GED.... SGE.... HZU.... MCA.... DCF.V.. GMN.... SCFVD.. HGE.... MLS.... DBOT... GLO.... SMR.... HCF.... MMA.... DTOT... GPL.... SMS.... HMR.... MGR.... DBAT... GLO.... SBATD.. HMS.... MMA.... DSRT... GPL.... SSJ.... HBA.... MGR.... DALT... GPL.... SSJ.... HBA.... MGR.... DMAT... GLO.... SBE.... HMS.... MMATD..";
     dv = dv_new(pastPlays, msg);
 
-    // Dracula is at the same place as a hunter
-    A("Test_1: Testing getSafeMoves\n");
+    // Dracula is at the same place as a hunter (MADRID)
+    A("Test_2: Testing getSafeMoves\n");
     gen = dracula_getSafeMoves(dv);
     A("Generated Safe location: {");
     while (queue_size(gen) != 0) A(location_get_name(queue_de(gen)));
@@ -71,7 +74,11 @@ int main (void) {
     TEST_MSG("Test_2: Testing getMoveTowardsRegion", dracula_getMoveTowardsRegion(dv, REGION_1) == SANTANDER);
     TEST_MSG("Test_2: Testing getDraculaMove", get_dracula_move(dv) == SANTANDER);
 
+    dv_drop(dv);
+    queue_drop(gen);
+
     /////////////////////////////////////////////////////////
+    puts("All tests passed! You are awesome.");
 }
 
 

@@ -1,3 +1,5 @@
+# But why.
+
 #!/bin/python3
 import re
 
@@ -16,3 +18,11 @@ while True:
 
     except:
         break
+
+"""
+function p(inputArr) {
+  for (var i = 0; i < inputArr.length; i += 5) {
+    console.log(inputArr.slice(i, i+5))
+  }
+}
+"""
