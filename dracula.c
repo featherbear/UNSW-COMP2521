@@ -9,6 +9,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <assert.h>
 
 #include "dracula.h"
 #include "dracula__ai.h"
@@ -19,16 +20,15 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wswitch"
 #pragma clang diagnostic ignored "-Wincompatible-pointer-types-discards-qualifiers"
+#pragma clang diagnostic ignored "-Wswitch-enum"
 #endif
 
-
-
-//region_t get_region(location_t loc);
-region_t get_region(location_t loc) {
-    switch (loc) {
+region_t get_region(location_t l) {
+    switch (l) {
         case CASTLE_DRACULA:
         case GALATZ:
         case VARNA:
+        case BUCHAREST:
         case SOFIA:
         case BELGRADE:
         case SZEGED:
@@ -63,6 +63,7 @@ region_t get_region(location_t loc) {
         case NAPLES:
         case ROME:
         case VENICE:
+        case FLORENCE:
         case GENOA:
         case MARSEILLES:
         case CAGLIARI:
@@ -74,11 +75,13 @@ region_t get_region(location_t loc) {
         case GALWAY:
         case DUBLIN:
         case SWANSEA:
+        case LIVERPOOL:
         case PLYMOUTH:
         case LONDON:
         case EDINBURGH:
         case AMSTERDAM:
         case HAMBURG:
+        case PRAGUE:
         case LE_HAVRE:
         case ENGLISH_CHANNEL:
         case NORTH_SEA:
@@ -98,9 +101,14 @@ region_t get_region(location_t loc) {
         case ALICANTE:
         case BARCELONA:
         case MEDITERRANEAN_SEA:
+        case BAY_OF_BISCAY:
             return REGION_4;
-        default: return -1;
+        default:
+            printf("Couldn't find %s\n", location_get_name(l));
+            assert(0 && "Unknown Location");
     }
+
+    return 0; // Rip
 }
 
 /* Da main function */
@@ -128,23 +136,23 @@ location_t get_dracula_move(DraculaView dv) {
             case REGION_4:
                 return LONDON;
         };
-
-    } else {
-        currLocation = dv_get_location(dv, PLAYER_DRACULA);
-        currRegion = get_region(currLocation);
-
-        if (currLocation == CASTLE_DRACULA && CDIsSafe) {
-            if (dracula_canMove(dv, DOUBLE_BACK_1)) return DOUBLE_BACK_1;
-            if (dracula_canMove(dv, HIDE)) return HIDE;
-        }
-
-        // Travel within same region
-        if (dracula_isSafeRegion(dv, currRegion)) return dracula_getMoveWithinRegion(dv, currRegion);
-
-        // Region is not safe, so get a new region
-        return dracula_getMoveTowardsRegion(dv, safeRegion);
-
     }
+
+    currLocation = dv_get_location(dv, PLAYER_DRACULA);
+    currRegion = get_region(currLocation);
+
+    if (currLocation == CASTLE_DRACULA && CDIsSafe) {
+        if (dracula_canMove(dv, DOUBLE_BACK_1)) return DOUBLE_BACK_1;
+        if (dracula_canMove(dv, HIDE)) return HIDE;
+    }
+
+    // Travel within same region
+    if (dracula_isSafeRegion(dv, currRegion)) return dracula_getMoveWithinRegion(dv, currRegion);
+
+    // Region is not safe, so get a new region
+    return dracula_getMoveTowardsRegion(dv, safeRegion);
+    assert(0);
+
 }
 
 /* Checks if a certain move is possible for Dracula
@@ -160,15 +168,15 @@ bool dracula_canMove(DraculaView dv, location_t move) {
 
 
 /* Finds the safest region (least hunters) */
-int dracula_getSafeRegion(DraculaView dv) {
-    int nHunters[NUM_REGIONS];
-    for (int i = 0; i < NUM_PLAYERS - 1; i++) nHunters[get_region(dv_get_location(dv, i))]++;
+region_t dracula_getSafeRegion(DraculaView dv) {
+    size_t nHunters[NUM_REGIONS] = {0};
+    for (enum player i = 0; i < NUM_PLAYERS - 1; i++) nHunters[get_region(dv_get_location(dv, i))]++;
 
     // Want to prioritise travelling to Castle Dracula
     if (nHunters[0] <= 1) return 1;
 
     // Else find the region with the least amount of hunters
-    int min = 4;
+    size_t min = 4;
     for (int i = 0; i < NUM_REGIONS; i++) {
         if (nHunters[i] < min) min = nHunters[i];
     }
@@ -176,10 +184,12 @@ int dracula_getSafeRegion(DraculaView dv) {
 }
 
 /* Determines if a region is safe*/
-bool dracula_isSafeRegion(DraculaView dv, region_t currRegion) {
+bool dracula_isSafeRegion(DraculaView dv, region_t r) {
     int counter = 0;
-    for (int i = 0; i < NUM_PLAYERS - 1; i++)
-        if (get_region(dv_get_location(dv, i)) == currRegion) counter++;
+    for (enum player p = 0; p < NUM_PLAYERS - 1; p++)
+        if (get_region(dv_get_location(dv, p)) == r) counter++;
+
+    // printf("There are %d hunters in region %zu\n", counter, r);
     return (counter < 2) ? true : false;
 }
 
@@ -187,62 +197,52 @@ bool dracula_isSafeRegion(DraculaView dv, region_t currRegion) {
 /* Checks the safe moves and moves within the 'safeRegion' */
 location_t dracula_getMoveWithinRegion(DraculaView dv, region_t r) {
 
-    location_t location;
-    bool flag = false;
-    location_t loc;
-    bool *dracula_safeLocations = dracula_getSafeMoves(dv);
-    for (int i = 0; i < NUM_MAP_LOCATIONS; i++) {
-        if (dracula_safeLocations[i] == false) continue;
-        if (get_region(i) == r) {
-            flag = true;
-            return i;
+    location_t l = UNKNOWN_LOCATION;
+    Queue safeMoves = dracula_getSafeMoves(dv);
+    while (queue_size(safeMoves) != 0) {
+        l = queue_de(safeMoves);
 
-        }
+        // If there's only one item left, return it;
+        if (queue_size(safeMoves) == 0) break;
+        if (get_region(l) == r) break;
     }
 
-    //////////////////////////////////
-    // Preventative measures
-    if (flag == false) {
-        for (int i = 0; i < NUM_MAP_LOCATIONS; i++)
-            if (dracula_safeLocations[i] == true) return i;
-    }
-    //////////////////////////////////
+    queue_drop(safeMoves);
+    return l;
 }
 
 /* Given a safeRegion and a currLocation, figure out how to get to a particular region */
 location_t dracula_getMoveTowardsRegion(DraculaView dv, region_t safeRegion) {
     Map m = map_new();
-    bool *dracula_safeLocations = dracula_getSafeMoves(dv);
-    Queue dracula_moves = queue_new();
-    for (int i = 0; i < NUM_MAP_LOCATIONS; i++) if (dracula_safeLocations[i]) queue_en(dracula_moves, i);
-
-    location_t l;
+    Queue safeMoves = dracula_getSafeMoves(dv);
+    location_t target = UNKNOWN_LOCATION;
     switch (safeRegion) {
-        case REGION_1:
-            puts("Getting move towards region 1 (CASTLE_DRACULA)");
-            l = dracula_getShortestPath(dv, m, dracula_moves, CASTLE_DRACULA);
-            break;
-        case REGION_2:
-            puts("Getting move towards region 2 (MUNICH)");
-            l = dracula_getShortestPath(dv, m, dracula_moves, MUNICH);
-            break;
-        case REGION_3:
-            puts("Getting move towards region 3 (SARAGOSSA)");
-            l = dracula_getShortestPath(dv, m, dracula_moves, SARAGOSSA);
-            break;
-        case REGION_4:
-            puts("Getting move towards region 4 (LONDON)");
-            l = dracula_getShortestPath(dv, m, dracula_moves, LONDON);
-            break;
+        case REGION_1: target = CASTLE_DRACULA; break;
+        case REGION_2: target = MUNICH; break;
+        case REGION_3: target = SARAGOSSA; break;
+        case REGION_4: target = LONDON; break;
+    };
+
+    // Find the move that is the fastest towards the target location
+    location_t from;
+    location_t best_move = UNKNOWN_LOCATION;
+    int min_hops = NUM_MAP_LOCATIONS;
+    while (queue_size(safeMoves) != 0) {
+        from = queue_de(safeMoves);
+        int tmp = dracula_getShortestPath(m, from, target);
+        if (tmp < min_hops) {
+            min_hops = tmp;
+            best_move = from;
+        }
     }
 
     map_drop(m);
-    queue_drop(dracula_moves);
-    free(dracula_safeLocations);
-    printf("Concluded %d to get to to region %ld\n", l, safeRegion + 1);
-    return l;
+    queue_drop(safeMoves);
+    // printf("Concluded %s to get to to region %ld\n", location_get_name(best_move), safeRegion + 1);
+    return best_move;
 }
 
+/* Using an array to quickly check where the hunters are*/
 bool *dracula_getHunterPossibleLocations(DraculaView dv)
 {
     bool *hunter_possibleLocations = calloc(NUM_MAP_LOCATIONS, sizeof (int));
@@ -253,6 +253,8 @@ bool *dracula_getHunterPossibleLocations(DraculaView dv)
     }
     return hunter_possibleLocations;
 }
+
+/* Using an array to quicky check where the hunters can potentially get to*/
 bool *dracula_getHunterLocations(DraculaView dv)
 {
     bool *hunter_locations = calloc(NUM_MAP_LOCATIONS, sizeof (int));
@@ -261,19 +263,24 @@ bool *dracula_getHunterLocations(DraculaView dv)
 }
 
 // Get possible dracula moves which don't overlap with possible hunter moves
-bool *dracula_getSafeMoves(DraculaView dv) {
+Queue dracula_getSafeMoves(DraculaView dv) {
 
     size_t size;
     location_t *moves = dv_get_dests(dv, &size, true, true);
     Queue moves_q = queue_convertArray(moves, size);
     bool *hunter_locations = dracula_getHunterLocations(dv);
     bool *hunter_possibleLocations = dracula_getHunterPossibleLocations(dv);
-    bool *dracula_safeLocations = calloc (NUM_MAP_LOCATIONS, sizeof (int));
+
+    Queue dracMoves = queue_new();
 
     while (queue_size(moves_q) != 0) {
         int location = queue_de(moves_q);
-        char *l = location_get_name(location);
-        printf("The location we're checking is %s\n\n", l);
+
+        // Preventative measures.
+        if (queue_size(moves_q) == 0 && queue_size(dracMoves) == 0) {
+            queue_en(dracMoves, moves[0]);
+            break;
+        }
 
         // Delete extra moves (DB && HI) This function works.
         switch (location) {
@@ -288,69 +295,63 @@ bool *dracula_getSafeMoves(DraculaView dv) {
 
         // Delete move if hunters are at it
         if (hunter_locations[(int)location] == true) {
-            printf("==>Hunter is currently at this location, not adding..\n");
+            // printf("==>Hunter is currently at this location, not adding..\n");
             continue;
         }
 
         // Delete move is hunters can get to it
         if (hunter_possibleLocations[(int)location] == true) {
-            printf("==>Hunter can get to this location, not adding..\n");
+            // printf("==>Hunter can get to this location, not adding..\n");
             continue;
         }
 
-        dracula_safeLocations[location] = true;
-        printf("==>Added %s\n", l);
+        queue_en(dracMoves, location);
+        // printf("==>Added %s\n", l);
     }
-
-    ///////////////////////////////////////////////
-    // Preventative measures
-    bool flag = false;
-    for (int i = 0; i < NUM_MAP_LOCATIONS; i++) {
-        if (dracula_safeLocations[i]) {
-            flag = true;
-            break;
-        }
-    }
-
-    if (flag == false) dracula_safeLocations[0] = moves[0];
-    ///////////////////////////////////////////////
 
     queue_drop(moves_q);
     free(moves);
     free(hunter_locations);
     free(hunter_possibleLocations);
-    return dracula_safeLocations;
+    return dracMoves;
 }
 
 /* Find the shortest path to a location
-* Uses a minimum spanning tree */
-location_t dracula_getShortestPath(DraculaView dv, Map m, Queue dMoves, location_t target) {
-    printf("==> Getting shortest path towards %d\n", target);
+ * Uses a minimum spanning tree
+ * Returns the number of hops required */
+int dracula_getShortestPath(Map m, location_t src, location_t target) {
     bool hasSeen[NUM_MAP_LOCATIONS] = {false};
     location_t from[NUM_MAP_LOCATIONS];
     for (size_t i = 0; i < NUM_MAP_LOCATIONS; i++) from[i] = -1;
 
     Queue q = queue_new();
-    queue_en(q, queue_de(dMoves));
+    queue_en(q, src);
 
-    while (queue_size(dMoves) != 0) {
-        int l = queue_de(dMoves);
+    // Begin the bfs
+    while (queue_size(q) != 0) {
+        int l = queue_de(q);
         for (map_adj *n = m->connections[l]; n != NULL; n = n->next) {
-            if (hasSeen[n->v] == false) {
 
+            // Check if we've seen the location before
+            if (hasSeen[n->v] == false) {
                 hasSeen[n->v] = true;
                 from[n->v] = l;
                 if (n->v == target) break;
+                queue_en(q, n->v);
             }
         }
     }
-    int tmp = (int) target;
-    while (from[tmp] != -1) {
-        printf("%d", tmp);
-        tmp = from[tmp];
-    }
-    return tmp;
 
+    int counter = 0;
+    location_t tmp = target;
+    // printf("Path for %s is as follows: [", location_get_name(target));
+    while (from[tmp] != src) {
+        tmp = from[tmp];
+        // printf("%s, ", location_get_name(tmp));
+        counter++;
+    }
+   // printf("]\nFrom %s, it takes a total of %d moves to get to %s\n", location_get_name(src), counter, location_get_name(target));
+    return counter;
 }
 
 

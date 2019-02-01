@@ -66,9 +66,9 @@ typedef HunterView view_t;
 # define xmsgs { "", "", "" }
 #endif
 
-int main (void)
+int main (int argc, char** argv)
 {
-	char *trail = xtrail;
+	char *trail = argc == 2 ? argv[1] : xtrail;
 	player_message msgs[] = xmsgs;
 
 	view_t state = view_new (trail, msgs);

@@ -15,6 +15,11 @@
 #include <stdlib.h>
 
 #include "_structures.h"
+#include "map.h"
+#include <assert.h>
+#include "_connections.h"
+#include "_queue.h"
+#include "map.h"
 
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -22,13 +27,23 @@
 #pragma clang diagnostic ignored "-Wincompatible-pointer-types-discards-qualifiers"
 #endif
 
-// GLOBALS
-location_t *draculaResolvedHistory;
-size_t *draculaResolvedHistory_size;
-Map m;
 //
 
+// GLOBALS
+static Map m = NULL;
+static location_t *draculaResolvedHistory = NULL;
+static size_t draculaResolvedHistory_size = 0;
+static location_t *possibleLocations = NULL;
+
+//
+
+location_t fastestRoute(location_t from, location_t to, round_t round, enum player player);
+location_t *
+connectionsFrom(size_t *n_locations, location_t from, enum player player, round_t round, bool road, bool rail,
+                bool sea);
 static location_t getLastDracLocation(HunterView hv, ssize_t *distance);
+
+void decide_hunter_move_memWrapper(HunterView hv);
 
 // Get the last known (resolved) location of Dracula
 
@@ -36,13 +51,13 @@ static location_t getLastDracLocation(HunterView hv, ssize_t *distance);
 static location_t getLastDracLocation(HunterView hv, ssize_t *distance) {
     *distance = -1;
 
-    draculaResolvedHistory = hv_get_all_history(hv, PLAYER_DRACULA, draculaResolvedHistory_size, true);
+    draculaResolvedHistory = hv_get_all_history(hv, PLAYER_DRACULA, &draculaResolvedHistory_size, true);
 
     location_t lastLocation = UNKNOWN_LOCATION;
 
-    if (*draculaResolvedHistory_size) {
+    if (draculaResolvedHistory_size) {
         size_t i;
-        for (i = 0; i < *draculaResolvedHistory_size; i++) {
+        for (i = 0; i < draculaResolvedHistory_size; i++) {
             if (valid_location_p(draculaResolvedHistory[i])) {
                 *distance = (ssize_t) i;
                 lastLocation = draculaResolvedHistory[i];
@@ -53,35 +68,17 @@ static location_t getLastDracLocation(HunterView hv, ssize_t *distance) {
 
     return lastLocation;
 }
-//
-//static bool draculaTrailKnown(HunterView hv) {
-//    location_t trail[TRAIL_SIZE];
-//    hv_get_trail(hv, PLAYER_DRACULA, trail);
-//    for (size_t i = 0; i < TRAIL_SIZE; i++) if (valid_location_p(trail[i])) return true;
-//    return false;
-//}
-
-// Find fastest route to a certain location
-#include "_queue.h"
-#include "map.h"
-
-size_t distanceTo(location_t from, location_t to) {
-
-}
-
-#include "_connections.h"
 
 location_t *
-connectionsFrom(HunterView hv, size_t *n_locations, location_t from, enum player player, round_t round, bool road,
-                bool rail, bool sea) {
-
+connectionsFrom(size_t *n_locations, location_t from, enum player player, round_t round, bool road, bool rail,
+                bool sea) {
     assert(valid_location_p(from));
     Queue validMoves = queue_new();
     location_t *loc;
 
     // Get all the connections: {ROAD, RAIL, SEA}
     if (road) {
-        Queue road_moves = connections_get_roadways(gv, from, player, m);
+        Queue road_moves = connections_get_roadways(NULL, from, player, m);
         queue_append_unique(validMoves, road_moves);
     }
 
@@ -92,28 +89,21 @@ connectionsFrom(HunterView hv, size_t *n_locations, location_t from, enum player
     }
 
     if (sea) {
-        Queue sea_moves = connections_get_seaways(gv, from, player, m);
+        Queue sea_moves = connections_get_seaways(NULL, from, player, m);
         queue_append_unique(validMoves, sea_moves);
     }
 
     // Consider extra moves
-    Queue extra_moves = connections_get_extras(gv, from, player);
+    Queue extra_moves = connections_get_extras(NULL, from, player);
     queue_append_unique(validMoves, extra_moves);
 
     // If dracula doesn't have moves, he must teleport back to Castle Dracula
     size_t queueSize = queue_size(validMoves);
 
-    if (player == PLAYER_DRACULA && queueSize == 0) {
-        loc = malloc(1 * sizeof(location_t));
-        loc[0] = TELEPORT;
-        *n_locations = 1;
 
-        // Put everything in the queue into the array
-    } else {
-        loc = malloc(queueSize * sizeof(location_t));
-        for (size_t i = 0; i < queueSize; i++) loc[i] = (location_t) (size_t) queue_de(validMoves);
-        *n_locations = queueSize;
-    }
+    loc = malloc(queueSize * sizeof(location_t));
+    for (size_t i = 0; i < queueSize; i++) loc[i] = (location_t) (size_t) queue_de(validMoves);
+    *n_locations = queueSize;
 
     // Memory Management
     queue_drop(validMoves);
@@ -122,111 +112,73 @@ connectionsFrom(HunterView hv, size_t *n_locations, location_t from, enum player
 }
 
 
-location_t **getRoutes(location_t from, location_t, enum player player, size_t *nRoutes) {
-    *nRoutes = 0;
-    location_t **routes = NULL;
-
-    int shortestDistance = -1;
-
-    size_t nPossibleLocations = 0;
-    location_t * startingPoints = connectionsFrom(hv, &nPossibleLocations, player, round, true, true, true)
-
-
-    routes = realloc(routes, ++(*nRoutes) * sizeof(*location_t));
-    routes[nRoutes - 1] = route;
-
-    return routes;
-
-
-}
-
-location_t fastestRoute(location_t from, location_t to, round_t round, location_t avoid[], size_t avoid_size) {
+location_t fastestRoute(location_t from, location_t to, round_t round, enum player player) {
     if (from == to) {
-        printf("Tried to get from %d to %d, but was already there\n", from, to);
+//        printf("Tried to get from %d to %d, but was already there\n", from, to);
         return from;
     }
 
-    if (avoid) {
+    bool seen[NUM_MAP_LOCATIONS] = {false};
+    int prev[NUM_MAP_LOCATIONS];
+    for (int i = 0; i < NUM_MAP_LOCATIONS; i++) prev[i] = UNKNOWN_LOCATION;
 
-        // Avoidance -> low priority
+    Queue q = queue_new();
+    queue_en(q, from);
+    prev[from] = from;
 
-        for (int a = 0; a < avoid_size; a++) {
-            // avoid[a];
+    printf("GM> Going from %d [%s] to %d [%s]\n", from, location_get_name(from), to, location_get_name(to));
+
+    int order;
+
+    while (queue_size(q) > 0) {
+        location_t item = queue_de(q);
+
+        if (seen[item]) continue;
+
+        seen[item] = true;
+        order = prev[item];
+
+        if (item == to) {
+            puts("GM>  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND");
+            break;
         }
 
+
+        size_t nPossibleLocations = 0;
+        location_t *locs = connectionsFrom(&nPossibleLocations, item, player, round + order, true, true, true);
+
+        for (size_t i = 0; i < nPossibleLocations; i++) {
+            if (!seen[locs[i]]) {
+                prev[locs[i]] = item;
+                queue_en(q, locs[i]);
+            }
+        }
+
+        free(locs);
     }
 
+    queue_drop(q);
 
-    size_t nPossibleLocations;
-    *possibleLocations = hv_get_dests_player_round(hv, &nPossibleLocations, player, round, true, true, true);
-
-    for (size_t n = 0; n < nPossibleLocations; n++) {
-        size_t mPossibleLocations;
-        location_t *locations = hv_get_dests_player(hv, &mPossibleLocations, player, round + 1, true, true, true);
-
+    puts("GM>  Resolve now");
+    if (prev[to] == -1) {
+        puts("GM> ERROR: Did not find connection");
+        return UNKNOWN_LOCATION;
     }
-//    Map m = map_new();
-//
-//    // BFS Implementation
-//
-//    bool seen[NUM_MAP_LOCATIONS] = {false};
-//
-//    int prev[NUM_MAP_LOCATIONS];
-//    for (int i = 0; i < NUM_MAP_LOCATIONS; i++) prev[i] = -1;
-//
-//    Queue q = queue_new();
-//    queue_en(q, from);
-//
-//    printf("Going from %d to %d\n", from, to);
-//
-//    while (queue_size(q) > 0) {
-//        location_t item = queue_de(q);
-//        seen[item] = true;
-//
-//        if (item == to) {
-//            puts("  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND");
-//            break;
-//        }
-//
-//        for (map_adj *curr = m->connections[item]; curr; curr = curr->next) {
-//            if (!seen[curr->v]) {
-//                prev[curr->v] = item;
-//                queue_en(q, curr->v);
-//            }
-//        }
-//    }
-//
-//    queue_drop(q);
-//    map_drop(m);
-//
-//    puts("  Resolve now");
-//    if (prev[to] == -1) {
-//        printf("Did not find connection");
-//        return NOWHERE;
-//    }
-//
-//    location_t resolve = prev[to];
-//    while (resolve) {
-//        printf("  Resolve %d\n", resolve);
-//        if (prev[resolve] == from) return prev[resolve];
-//        resolve = prev[resolve];
-//    }
-//    return NOWHERE;
+
+    location_t resolve = to;
+    printf("GM>  prev[to] = %d = %s\n", resolve, location_get_name(resolve));
+    while (resolve != UNKNOWN_LOCATION) {
+        if (prev[resolve] == from) break;
+        resolve = prev[resolve];
+        printf("GM>  Now looking at %d (%s)\n", resolve, location_get_name(resolve));
+    }
+
+//    printf("  Returning %d (%s)\n", resolve, location_get_name(resolve));
+    return resolve;
 }
 
-/*
 
-
-
-//     //
-
-
-//     //
-// }
-
-*/
-
-void ceebsToFreeMemoryOnEveryCodeExitSoRunThisInstead(HunterView hv, location_t **possibleLocations) {
+void decide_hunter_move_memWrapper(HunterView hv) {
     enum player player = hv_get_player(hv);
     round_t round = hv_get_round(hv);
     location_t location = hv_get_location(hv, player);
@@ -244,7 +196,7 @@ void ceebsToFreeMemoryOnEveryCodeExitSoRunThisInstead(HunterView hv, location_t 
                 register_best_play("LI", "Spawn");
                 return;
             case PLAYER_MINA_HARKER:
-                register_best_play("SZ", "Spawn");
+                register_best_play("CD", "Spawn");
                 return;
         }
     }
@@ -252,8 +204,12 @@ void ceebsToFreeMemoryOnEveryCodeExitSoRunThisInstead(HunterView hv, location_t 
     ssize_t lastDracSeen; // last seen `n` moves ago
     location_t lastDracLocation = getLastDracLocation(hv, &lastDracSeen);
 
-    printf("\nlastDracSeen for player %d is: %d\nCurrent loc is %s (%s)\nCurrent round is: %d\n", player, lastDracSeen,
-           location_get_abbrev(location), location_get_name(location), round);
+    if (player == 3) printf("GM> Player %d is at: %d (%s)\n"
+                            "GM> Dracula seen at: %d (%s) `%d` moves ago\n"
+                            "GM> Current round is: %d\n",
+                            player, location, location_get_name(location),
+                            lastDracLocation, location_get_name(lastDracLocation), lastDracSeen,
+                            round);
 
     if (lastDracSeen == -1 && (round == 6 || round == 7)) {
         // Perform collaborative research if Dracula's move history not known
@@ -261,15 +217,20 @@ void ceebsToFreeMemoryOnEveryCodeExitSoRunThisInstead(HunterView hv, location_t 
         return;
     }
 
-    // TODO ???
-//    if (hv_get_health(hv, player) > 2 && lastDracSeen == 0) {
-//        register_best_play(location_get_abbrev(lastDracLocation), "Go for the sui-kill");
-//        return;
-//    }
+    if (lastDracSeen > 10 && round % 13 == 0) {
+        register_best_play(location_get_abbrev(location), "RESEARCH + REST");
+        return;
+    }
+
+    if (hv_get_health(hv, player) > 4 && lastDracSeen == 0 && location == lastDracLocation) {
+        register_best_play(location_get_abbrev(lastDracLocation), "Go for the sui-kill");
+        return;
+    }
 
     if (hv_get_health(hv, PLAYER_DRACULA) <= 15) {
         // Dracula needs to go back to CD, unless he's really far away then stake him rather than camp
-        register_best_play(location_get_abbrev(fastestRoute(location, CASTLE_DRACULA)), "To Dracula's Spawn");
+        register_best_play(location_get_abbrev(fastestRoute(location, CASTLE_DRACULA, round, player)),
+                           "To Dracula's Spawn");
         return;
     }
 
@@ -289,29 +250,25 @@ void ceebsToFreeMemoryOnEveryCodeExitSoRunThisInstead(HunterView hv, location_t 
         // case 4 - pick a destination that is four step away
         // case 5 - pick a destination that is five step away
         // case 6 - pick a destination that is six step away
-        register_best_play(location_get_abbrev(fastestRoute(location, lastDracLocation)), "Enroute");
+        register_best_play(location_get_abbrev(fastestRoute(location, lastDracLocation, round, player)), "Enroute");
         return;
 
     }
 
     // Do random
+    srand((unsigned int) time(NULL));
     size_t nPossibleLocations;
-    *possibleLocations = hv_get_dests_player(hv, &nPossibleLocations, player, true, true, true);
+    possibleLocations = hv_get_dests_player(hv, &nPossibleLocations, player, true, true, true);
 
-    srand(time(NULL));
-    register_best_play(location_get_abbrev((*possibleLocations)[(size_t) rand() % nPossibleLocations]), "rng");
-
+    register_best_play(location_get_abbrev(possibleLocations[(size_t) rand() % nPossibleLocations]), "RNG");
 }
 
 void decide_hunter_move(HunterView hv) {
-    void *possibleLocations = NULL;
-
     m = map_new();
 
-    ceebsToFreeMemoryOnEveryCodeExitSoRunThisInstead(hv, (location_t **) &possibleLocations);
+    decide_hunter_move_memWrapper(hv);
 
     map_drop(m);
-
     if (possibleLocations) free(possibleLocations);
     if (draculaResolvedHistory) free(draculaResolvedHistory);
 

@@ -139,4 +139,6 @@ location_t *hv_get_dests_player (
 	HunterView hv, size_t *n_locations,
 	enum player player, bool road, bool rail, bool sea);
 
+GameView HVtoGV(HunterView hv);
+
 #endif // !defined (FOD__HUNTER_VIEW_H_)

@@ -55,6 +55,7 @@ static bool playerRested(GameView gv, enum player p) {
  * Not doing anything with msgs for now
  */
 GameView gv_new(char *past_plays, player_message messages[]) {
+    if (messages) {}
 
     GameView gv = malloc(sizeof *gv);
     if (gv == NULL) err(EX_OSERR, "couldn't allocate GameView");
@@ -187,7 +188,7 @@ GameView gv_new(char *past_plays, player_message messages[]) {
                 event_encounter_vamp(gv);
             }
 
-        // Hunter ACTIONS: `T` && `V` && `D`; Trap, Vamp, Drac
+            // Hunter ACTIONS: `T` && `V` && `D`; Trap, Vamp, Drac
         } else {
 
             bool isAlive = true;
@@ -246,17 +247,19 @@ GameView gv_new(char *past_plays, player_message messages[]) {
         gv->currPlayer = &gv->players[currPlayer_n];
     }
 
-//    // Game summary
-//    printf_blue("\n\n------------SUMMARY------------\n");
-//    printf("    %d turns made. Now in round no %d\n    I am player: %d (%s)\n", gv->currTurn, gv->currRound, currPlayer_n,
-//           currPlayer_n == 4 ? "Dracula" : "Hunter");
-////    printf("    Player `%c` @ `%s` | HP: %d\n", player, location, lID, _event);
-//    for(enum player i = 0; i < PLAYER_DRACULA-1; i++) {
-//        printf("    Hunter %d @ %-15s | HP: %d\n", i, location_get_name(gv_get_location(gv, i)), gv->players[i].health);
-//    }
-//    printf("    Dracula  @ %-15s | HP: %d\n", location_get_name(gv_get_location(gv, PLAYER_DRACULA)), gv->players[PLAYER_DRACULA].health);
-//    printf_yellow("    SCORE: %d\n", gv_get_score(gv));
-//    printf_blue("------------SUMMARY------------\n\n\n");
+#if 1
+    // Game summary
+    printf_blue("\n\n------------SUMMARY------------\n");
+    printf("    %d turns made. Now in round no %d\n    I am player: %d (%s)\n", gv->currTurn, gv->currRound, currPlayer_n,
+           currPlayer_n == 4 ? "Dracula" : "Hunter");
+//    printf("    Player `%c` @ `%s` | HP: %d\n", player, location, lID, _event);
+    for(enum player i = 0; i < PLAYER_DRACULA; i++) {
+        printf("    Hunter %d @ %-15s | HP: %d\n", i, location_get_name(gv_get_location(gv, i)), gv->players[i].health);
+    }
+    printf("    Dracula  @ %-15s | HP: %d\n", location_get_name(gv_get_location(gv, PLAYER_DRACULA)), gv->players[PLAYER_DRACULA].health);
+    printf_yellow("    SCORE: %d\n", gv_get_score(gv));
+    printf_blue("------------SUMMARY------------\n\n\n");
+#endif
 
     ////////////////////////////////////////////////////////////////
     /* Memory Management */
@@ -306,7 +309,9 @@ void gv_get_history(GameView gv, enum player player, location_t trail[TRAIL_SIZE
     }
 }
 
-location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from, enum player player, round_t round, bool road, bool rail, bool sea) {
+location_t *
+gv_get_connections(GameView gv, size_t *n_locations, location_t from, enum player player, round_t round, bool road,
+                   bool rail, bool sea) {
 
     // Need to find the exact location
     if (round == gv->currRound && player == PLAYER_DRACULA) {
@@ -318,12 +323,12 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
     location_t *loc;
     Map m = map_new();
 
-     // Get all the connections: {ROAD, RAIL, SEA}
-     if (road) {
-         Queue road_moves = connections_get_roadways(gv, from, player, m);
+    // Get all the connections: {ROAD, RAIL, SEA}
+    if (road) {
+        Queue road_moves = connections_get_roadways(gv, from, player, m);
 //         printf("\nRoad Locations  | %zu\n", queue_size(road_moves));
-         queue_append_unique(validMoves, road_moves);
-     }
+        queue_append_unique(validMoves, road_moves);
+    }
 
     if (rail) {
         assert(player != PLAYER_DRACULA);
@@ -351,7 +356,7 @@ location_t *gv_get_connections(GameView gv, size_t *n_locations, location_t from
         loc[0] = TELEPORT;
         *n_locations = 1;
 
-    // Put everything in the queue into the array
+        // Put everything in the queue into the array
     } else {
         loc = malloc(queueSize * sizeof(location_t));
         for (size_t i = 0; i < queueSize; i++) loc[i] = (location_t) (size_t) queue_de(validMoves);

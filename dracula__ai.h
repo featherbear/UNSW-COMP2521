@@ -23,6 +23,8 @@ enum region {
     REGION_4
 };
 
+region_t get_region(location_t l);
+
 // Function to get the move
 location_t get_dracula_move(DraculaView dv);
 
@@ -31,11 +33,11 @@ bool dracula_canMove(DraculaView dv, location_t move);
 location_t dracula_getMoveWithinRegion(DraculaView dv, region_t r);
 location_t dracula_getMoveTowardsRegion(DraculaView dv, region_t safeRegion);
 bool dracula_isSafeRegion(DraculaView dv, region_t currRegion);
-int dracula_getSafeRegion(DraculaView dv);
+region_t dracula_getSafeRegion(DraculaView dv);
 
 /* Additional helper functions*/
 bool *dracula_getHunterLocations(DraculaView dv);
 bool *dracula_getHunterPossibleLocations(DraculaView dv);
-bool *dracula_getSafeMoves(DraculaView dv);
-location_t dracula_getShortestPath(DraculaView dv, Map m, Queue dMoves, location_t target);
+Queue dracula_getSafeMoves(DraculaView dv);
+int dracula_getShortestPath(Map m, location_t from, location_t target);
 #endif //ASS02_DRACULA_AI_H
