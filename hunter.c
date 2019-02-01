@@ -204,8 +204,7 @@ void decide_hunter_move_memWrapper(HunterView hv) {
     }
 
     ssize_t lastDracSeen; // last seen `n` moves ago
-    location_t
-            lastDracLocation = getLastDracLocation(hv, &lastDracSeen);
+    location_t lastDracLocation = getLastDracLocation(hv, &lastDracSeen);
 
 //    if (player == 3)
 //        printf("GM> Player %d is at: %d (%s)\n"
