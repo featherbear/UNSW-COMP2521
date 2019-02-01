@@ -89,3 +89,4 @@ location_t *hv_get_dests_player(hunter_view *hv, size_t *n_locations, enum playe
     return gv_get_connections(hv->gv, n_locations, hv_get_location(hv, player), player, hv_get_round(hv), road, rail,
                               sea);
 }
+
