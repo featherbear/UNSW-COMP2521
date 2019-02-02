@@ -8,7 +8,6 @@
 #include "game.h"
 #include "hunter.h"
 #include "hunter_view.h"
-#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "_structures.h"
@@ -17,6 +16,7 @@
 #include "_connections.h"
 #include "_queue.h"
 #include "map.h"
+#include <sys/time.h>
 
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -40,8 +40,16 @@ location_t
 fastestRoute(location_t from, location_t to, round_t round, enum player player, location_t avoid[], size_t avoid_size);
 static location_t *
 connectionsFrom(size_t *n_locations, location_t from, enum player player, round_t round);
+location_t *connectionsFrom_dracula(HunterView hv, size_t *n_locations, location_t from);
 static location_t getLastDracLocation(HunterView hv, ssize_t *distance);
 static void decide_hunter_move_memWrapper(HunterView hv);
+int checkVamp(struct game_view *gv, location_t *location);
+location_t *yetAnotherDraculaBFS(location_t from, size_t distance, size_t *nLocations);
+
+int checkVamp(struct game_view *gv, location_t *location) {
+    *location = gv->encounters.vamp_location;
+    return gv->timers.vampFlyTime;
+}
 
 // Get the last known (resolved) location of Dracula
 // Run-once
@@ -100,6 +108,82 @@ connectionsFrom(size_t *n_locations, location_t from, enum player player, round_
     return loc;
 }
 
+
+location_t *
+connectionsFrom_dracula(HunterView hv, size_t *n_locations, location_t from) {
+    GameView gv = HVtoGV(hv);
+
+    enum player player = PLAYER_DRACULA;
+
+    assert(valid_location_p(from));
+    Queue validMoves = queue_new();
+    location_t *loc;
+
+    Queue road_moves = connections_get_roadways(gv, from, player, m);
+    queue_append_unique(validMoves, road_moves);
+
+    Queue sea_moves = connections_get_seaways(gv, from, player, m);
+    queue_append_unique(validMoves, sea_moves);
+
+    size_t queueSize = queue_size(validMoves);
+
+    loc = malloc(queueSize * sizeof(location_t));
+    for (size_t i = 0; i < queueSize; i++) loc[i] = (location_t) (size_t) queue_de(validMoves);
+    *n_locations = queueSize;
+
+    queue_drop(validMoves);
+
+    return loc;
+}
+
+// find locations (exactly) n moves away
+location_t *yetAnotherDraculaBFS(location_t from, size_t distance, size_t *nLocations) {
+    *nLocations = 0;
+
+    bool seen[NUM_MAP_LOCATIONS] = {false};
+    int order[NUM_MAP_LOCATIONS];
+    for (int i = 0; i < NUM_MAP_LOCATIONS; i++) order[i] = -1;
+
+    Queue q = queue_new();
+    queue_en(q, from);
+    order[from] = 0;
+
+
+    while (queue_size(q) > 0) {
+        location_t item = queue_de(q);
+
+        // Found the first item with order n, means we have finished all items of order n-1
+        if (order[item] > (signed) distance) break;
+        if (order[item] == (signed) distance) {
+            // Add weight on LAND
+            if (location_get_type(item) == LAND) (*nLocations)++;
+            (*nLocations)++;
+            continue;
+        }
+
+        for (struct map_adj *curr = m->connections[item]; curr; curr = curr->next) {
+            if (curr->type != RAIL && !seen[curr->v]) {
+                seen[curr->v] = true;
+                order[curr->v] = order[item] + 1;
+                queue_en(q, curr->v);
+            }
+        }
+    }
+
+    queue_drop(q);
+
+    location_t *res = malloc(*nLocations * sizeof(location_t));
+
+    size_t i = 0;
+    for (int j = 0; j < NUM_MAP_LOCATIONS; j++) {
+        if (order[j] == (signed) distance) {
+            if (location_get_type(j) == LAND) res[i++] = j;
+            res[i++] = j;
+        }
+    }
+
+    return res;
+}
 
 location_t
 fastestRoute(location_t from, location_t to, round_t round, enum player player, location_t avoid[], size_t avoid_size) {
@@ -203,24 +287,31 @@ void decide_hunter_move_memWrapper(HunterView hv) {
     ssize_t lastDracSeen; // last seen `n` moves ago
     location_t lastDracLocation = getLastDracLocation(hv, &lastDracSeen);
 
+//    location_t vampLoc;
+//    size_t vampturns = checkVamp(HVtoGV(hv), &vampLoc);
+
     printf("GM> Player %d is at: %d (%s) | Dracula at: %d (%s) `%d` moves ago\n",
            player, location, location_get_name(location),
            lastDracLocation, location_get_name(lastDracLocation), lastDracSeen);
+
+//    if (vampturns) {
+//        printf("Vampire at %d (%s) - flies in %d\n\n", vampLoc, location_get_name(vampLoc), vampturns);
+//    }
 
     if (lastDracSeen == -1 && (round == 6 || round == 7)) {
         // Perform collaborative research if Dracula's move history not known
         register_best_play(
                 location_get_abbrev(location),
-                "RESEARCH + REST"
+                "RR"
         );
         return;
     }
 
-    if (lastDracSeen > 9 && round % 13 == 0) {
-        // TODO Do a vampire check?
+    // TODO Do a vampire check?
+    if (lastDracSeen > 9 && round % 14 == 0) {
         register_best_play(
                 location_get_abbrev(location),
-                "RESEARCH + REST"
+                "RESEARCH"
         );
         return;
     }
@@ -247,7 +338,7 @@ void decide_hunter_move_memWrapper(HunterView hv) {
         if (lastDracSeen == 0 && lastDracLocation == CASTLE_DRACULA) {
             register_best_play(
                     location_get_abbrev(fastestRoute(location, CASTLE_DRACULA, round, player, NULL, 0)),
-                    "To Castle Dracula"
+                    "To CD"
             );
             return;
         }
@@ -260,13 +351,13 @@ void decide_hunter_move_memWrapper(HunterView hv) {
             if (locations_mapHunter[KLAUSENBURG]) {
                 register_best_play(
                         location_get_abbrev(fastestRoute(location, GALATZ, round, player, avoid, 1)),
-                        "Spread from Castle Dracula"
+                        "Spread from CD"
                 );
                 return;
             } else if (locations_mapHunter[GALATZ]) {
                 register_best_play(
                         location_get_abbrev(fastestRoute(location, KLAUSENBURG, round, player, avoid, 1)),
-                        "Spread from Castle Dracula"
+                        "Spread from CD"
                 );
                 return;
             } else {
@@ -281,7 +372,7 @@ void decide_hunter_move_memWrapper(HunterView hv) {
                 while (dest == location) dest = RNG[rand() % 11]; // Ensure we're not sitting still
                 register_best_play(
                         location_get_abbrev(fastestRoute(location, dest, round, player, avoid, 1)),
-                        "Spread"
+                        "Scatter"
                 );
                 return;
             }
@@ -307,26 +398,101 @@ void decide_hunter_move_memWrapper(HunterView hv) {
         // case 4 - pick a destination that is four step away
         // case 5 - pick a destination that is five step away
         // case 6 - pick a destination that is six step away
-        register_best_play(
-                location_get_abbrev(fastestRoute(location, lastDracLocation, round, player, locations_hunterMap, 4)),
-                "Enroute"
-        );
-        return;
+        if (lastDracSeen == 0) {
+            register_best_play(
+                    location_get_abbrev(
+                            fastestRoute(location, lastDracLocation, round, player, locations_hunterMap, 4)),
+                    "Enroute Direct"
+            );
+            return;
+
+        } else if (lastDracSeen < 4) {
+            size_t nPossibleLocations;
+//            location_t *locs = yetAnotherDraculaBFS(lastDracLocation, 1, &nPossibleLocations);
+            location_t *locs = connectionsFrom_dracula(hv, &nPossibleLocations, lastDracLocation);
+
+            register_best_play(
+                    location_get_abbrev(fastestRoute(location,
+                                                     locs[(unsigned int) rand() % nPossibleLocations],
+                                                     round,
+                                                     player,
+                                                     locations_hunterMap, 4)),
+                    "Enroute Surround"
+            );
+            free(locs);
+            return;
+        } else {
+            // Naive check - doesn't account for HIDEs and DOUBLE BACKs
+            size_t nPossibleLocations;
+            location_t *locs = yetAnotherDraculaBFS(lastDracLocation, 4, &nPossibleLocations);
+
+            register_best_play(
+                    location_get_abbrev(fastestRoute(location,
+                                                     locs[(unsigned int) rand() % nPossibleLocations],
+                                                     round,
+                                                     player,
+                                                     locations_hunterMap, 4)),
+                    "Enroute Scatter"
+            );
+            free(locs);
+            return;
+        }
     }
 
-    // Do random
-    size_t nPossibleLocations;
-    possibleLocations = hv_get_dests_player(hv, &nPossibleLocations, player, true, true, true);
-    register_best_play(
-            location_get_abbrev(possibleLocations[(size_t) rand() % nPossibleLocations]),
-            "RNG"
-    );
+    // drac not seen yet... probably start of the game
+    {
+// Do random
+        bool doRandom = (unsigned int) rand() % 3 == 2; // 33% to random move
+
+        if (!doRandom) {
+            switch (player) {
+                case PLAYER_LORD_GODALMING:
+                    if (location == VIENNA) break;
+                    register_best_play(
+                            location_get_abbrev(
+                                    fastestRoute(location, VIENNA, round, player, locations_hunterMap, 4)),
+                            "Wander"
+                    );
+                    return;
+                case PLAYER_DR_SEWARD:
+                    if (location == FLORENCE) break;
+                    register_best_play(
+                            location_get_abbrev(
+                                    fastestRoute(location, FLORENCE, round, player, locations_hunterMap, 4)),
+                            "Wander"
+                    );
+                    return;
+                case PLAYER_VAN_HELSING:
+                    if (location == STRASBOURG) break;
+                    register_best_play(
+                            location_get_abbrev(
+                                    fastestRoute(location, STRASBOURG, round, player, locations_hunterMap, 4)),
+                            "Wander"
+                    );
+                    return;
+                case PLAYER_MINA_HARKER:
+                    break;
+            }
+        }
+        size_t nPossibleLocations;
+        possibleLocations = hv_get_dests_player(hv, &nPossibleLocations, player, true, true, true);
+
+        register_best_play(
+                location_get_abbrev(possibleLocations[(size_t) rand() % nPossibleLocations]),
+                "RNG"
+        );
+
+    }
 }
 
 void decide_hunter_move(HunterView hv) {
-    srand((unsigned int) time(NULL));
+    // Seed the rand() function - Damn you time(NULL) - returns only seconds..
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    srand((unsigned) (tv.tv_sec) * 1000 + (unsigned) (tv.tv_usec) / 1000);
 
     m = map_new();
+
     decide_hunter_move_memWrapper(hv);
 
     map_drop(m);

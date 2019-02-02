@@ -101,7 +101,8 @@ void dv_get_trail(dracula_view *dv, enum player player, location_t trail[TRAIL_S
 
 /* Get the available locations for DRACULA */
 location_t *dv_get_dests(dracula_view *dv, size_t *n_locations, bool road, bool sea) {
-    return gv_get_connections(dv->gv, n_locations, dv_get_location(dv, PLAYER_DRACULA), PLAYER_DRACULA, dv_get_round(dv), road, false, sea);
+    location_t *locs = gv_get_connections(dv->gv, n_locations, dv_get_location(dv, PLAYER_DRACULA), PLAYER_DRACULA, dv_get_round(dv), road, false, sea);
+    return locs;
 }
 
 /* Get the available connections for EVERY PLAYER */

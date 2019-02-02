@@ -16,7 +16,7 @@
 #include "dracula__ai.h"
 
 #define NUM_HUNTERS 4
-
+//
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wswitch"
@@ -116,11 +116,12 @@ region_t get_region(location_t l) {
 /* Da main function */
 void decide_dracula_move(DraculaView dv) {
     location_t move = get_dracula_move(dv);
-    register_best_play(location_get_abbrev(move), "Ya'll need to calm calm. I'm right here!");
+    register_best_play(location_get_abbrev(move),"NO.");
 }
 
 
 location_t get_dracula_move(DraculaView dv) {
+    printf("Deciding dracula's move: \n");
     bool *hunter_locations = dracula_getHunterLocations(dv);
     bool CDIsSafe = !hunter_locations[CASTLE_DRACULA];
     free(hunter_locations);
@@ -128,11 +129,12 @@ location_t get_dracula_move(DraculaView dv) {
     // Starting round.
     region_t safestRegion = dracula_getSafestRegion(dv);
     if (dv_get_round(dv) == 0) {
+        printf(">>> It is currently round 0, deciding to go to somewhere in region %d\n", safestRegion);
         if (CDIsSafe) return CASTLE_DRACULA;
 
         switch (safestRegion) {
             case REGION_1:
-                return VARNA;
+                return BELGRADE;
             case REGION_2:
                 return BERLIN;
             case REGION_3:
@@ -144,18 +146,34 @@ location_t get_dracula_move(DraculaView dv) {
 
     location_t currLocation = dv_get_location(dv, PLAYER_DRACULA);
     region_t currRegion = get_region(currLocation);
+    printf(">>> Got Dracula's current location (%s) and current region (%d)\n", location_get_name(currLocation), currRegion);
 
     // When @CD, want to stay there for as long as possible
     if (currLocation == CASTLE_DRACULA && CDIsSafe) {
-        if (dracula_canMove(dv, DOUBLE_BACK_1)) return DOUBLE_BACK_1;
-        if (dracula_canMove(dv, HIDE)) return HIDE;
+        printf(">>> CD is safe\n");
+        if (dracula_canMove(dv, DOUBLE_BACK_1)) {
+            printf("CONCLUDED: DOUBLE_BACK_1\n");
+            return DOUBLE_BACK_1;
+        }
+
+        if (dracula_canMove(dv, HIDE)) {
+            printf("CONCLUDED: HIDE\n");
+            return HIDE;
+        }
     }
 
     // Travel within same region
-    if (dracula_isSafeRegion(dv, currRegion)) return dracula_getMoveWithinRegion(dv, currRegion);
-
+    if (dracula_isSafeRegion(dv, currRegion)) {
+        printf(">>> Decided to stay in the same region \n");
+        printf("CONCLUDED: %s\n", location_get_name(dracula_getMoveWithinRegion(dv, currRegion)));
+        return dracula_getMoveWithinRegion(dv, currRegion);
+    }
     // Region is not safe, so get a new region
+    printf(">>> Decided to move towards region %d\n", safestRegion);
+    printf("CONCLUDED: %s\n", location_get_name(dracula_getMoveTowardsRegion(dv, currRegion)));
     return dracula_getMoveTowardsRegion(dv, safestRegion);
+
+    // printf("___ERROR___: Code should not reach here.\n");
 }
 
 /* Checks if a certain move is possible for Dracula
@@ -200,12 +218,24 @@ location_t dracula_getMoveWithinRegion(DraculaView dv, region_t r) {
 
     location_t l = UNKNOWN_LOCATION;
     Queue safeMoves = dracula_getSafeMoves(dv);
-    while (queue_size(safeMoves) != 0) {
-        l = queue_de(safeMoves);
+    if (r == REGION_1) {
+        l = dracula_getMoveTowardsRegion(dv, r);
+        printf(">>> In region %zu and getting move towards CASTLE_DRACULA via %s\n", r, location_get_name(l));
+    } else {
 
-        // If there's only one item left, return it;
-        if (queue_size(safeMoves) == 0) break;
-        if (get_region(l) == r) break;
+        while (queue_size(safeMoves) != 0) {
+            l = queue_de(safeMoves);
+
+            if (queue_size(safeMoves) == 0) {
+                printf(">>> There is only one available move left (getMoveWithinRegion) %s\n", location_get_name(l));
+                break;
+            }
+            if (get_region(l) == r) {
+                printf(">>> %s is in region %zu\n", location_get_name(l), r);
+                break;
+            }
+            printf(">>> %s is not in region %zu\n", location_get_name(l), r);
+        }
     }
     queue_drop(safeMoves);
     return l;
@@ -213,8 +243,16 @@ location_t dracula_getMoveWithinRegion(DraculaView dv, region_t r) {
 
 /* Given a safeRegion and a currLocation, figure out how to get to a particular region */
 location_t dracula_getMoveTowardsRegion(DraculaView dv, region_t safeRegion) {
-    Map m = map_new();
+
+    // Early Exit if there's only one available move
     Queue safeMoves = dracula_getSafeMoves(dv);
+    if (queue_size(safeMoves) == 1) {
+        location_t j = queue_de(safeMoves);
+        printf(">>> There's only one safe move available: %s\n", location_get_name(j));
+        queue_drop(safeMoves);
+        return j;
+    }
+
     location_t target = UNKNOWN_LOCATION;
     switch (safeRegion) {
         case REGION_1:
@@ -231,13 +269,16 @@ location_t dracula_getMoveTowardsRegion(DraculaView dv, region_t safeRegion) {
             break;
     };
 
+    printf(">>> Finding fastest move towards %s\n", location_get_name(target));
     // Find the move that is the fastest (least hops) towards the target location
     location_t from;
     location_t best_move = UNKNOWN_LOCATION;
     int min_hops = NUM_MAP_LOCATIONS;
+    Map m = map_new();
     while (queue_size(safeMoves) != 0) {
         from = queue_de(safeMoves);
         int tmp = dracula_getShortestPath(m, from, target);
+        printf(">>> Checking to see if %s is the fastest.. it takes %d hops\n", location_get_name(from), tmp);
         if (tmp < min_hops) {
             min_hops = tmp;
             best_move = from;
@@ -246,7 +287,7 @@ location_t dracula_getMoveTowardsRegion(DraculaView dv, region_t safeRegion) {
 
     map_drop(m);
     queue_drop(safeMoves);
-    // printf("Concluded %s to get to to region %ld\n", location_get_name(best_move), safeRegion + 1);
+    printf(">>> Concluded %s to get to to region %zu\n", location_get_name(best_move), safeRegion + 1);
     return best_move;
 }
 
@@ -275,11 +316,41 @@ bool *dracula_getHunterLocations(DraculaView dv) {
 Queue dracula_getSafeMoves(DraculaView dv) {
     size_t size;
     location_t *moves = dv_get_dests(dv, &size, true, true);
+
+    //////////////////////////////
+    printf("Moves given by DraculaView: [");
+    for (size_t i = 0; i < size; i++) printf("%s, ", location_get_name(moves[i]));
+    printf("] Which is %d locations\n", size);
+    //////////////////////////////
+
+    Queue dracMoves = queue_new();
+    // Check if DB or HI is the only move available
+    // We use the fact that DB and HI is always the last ones within the array to check this
+    if (moves[0] > NUM_MAP_LOCATIONS) {
+        printf(">>> The only moves available are DB || HI\n");
+
+        // If there's no other moves, moves[0] is probably DOUBLE_BACK_1
+        if (size == 1) {
+            printf(">>> There's only one move available (%s)\n", location_get_name(moves[0]));
+            queue_en(dracMoves, moves[0]);
+        }
+
+        // We want to avoid DOUBLE_BACK_1 --> DB_N, where n != 1
+        printf(">>> Enqueuing %s\n", location_get_name(moves[1]));
+        queue_en(dracMoves, moves[1]);
+
+         //////////////////////////////
+        printf("Queue size of available moves: %d\n", queue_size(dracMoves));
+        //////////////////////////////
+
+        return dracMoves;
+    }
+
     Queue moves_q = queue_convertArray(moves, size);
     bool *hunter_locations = dracula_getHunterLocations(dv);
     bool *hunter_possibleLocations = dracula_getHunterPossibleLocations(dv);
 
-    Queue dracMoves = queue_new();
+
     while (queue_size(moves_q) != 0) {
         int location = queue_de(moves_q);
 
@@ -289,7 +360,7 @@ Queue dracula_getSafeMoves(DraculaView dv) {
             break;
         }
 
-        // Delete extra moves (DB && HI) This function works.
+        // Delete extra moves (DB && HI)
         switch (location) {
             case DOUBLE_BACK_1:
             case DOUBLE_BACK_2:
@@ -316,10 +387,14 @@ Queue dracula_getSafeMoves(DraculaView dv) {
         // printf("==>Added %s\n", l);
     }
 
+    //////////////////////////////
+    printf("Queue size of available moves: %d\n", queue_size(dracMoves));
+    //////////////////////////////
     queue_drop(moves_q);
     free(moves);
     free(hunter_locations);
     free(hunter_possibleLocations);
+
     return dracMoves;
 }
 

@@ -178,7 +178,7 @@ GameView gv_new(char *past_plays, player_message messages[]) {
                 assert(gv->timers.vampFlyTime == 0);
 
                 gv->encounters.vamp_location = lID;
-                gv->timers.vampFlyTime = 6; // or 7
+                gv->timers.vampFlyTime = 7; // or 7 or 5
             }
 
             if (_event[2] == 'M') {
