@@ -24,6 +24,8 @@
 #pragma clang diagnostic ignored "-Wincompatible-pointer-types-discards-qualifiers"
 #endif
 
+#define NUM_HUNTERS (NUM_PLAYERS - 1)
+
 //
 
 // GLOBALS
@@ -168,8 +170,7 @@ void decide_hunter_move_memWrapper(HunterView hv) {
 
     enum player player = hv_get_player(hv);
     round_t round = hv_get_round(hv);
-    location_t
-            location = hv_get_location(hv, player);
+    location_t location = hv_get_location(hv, player);
 
     // First round, spawn hunters in regions
     if (round == 0) {
@@ -189,6 +190,16 @@ void decide_hunter_move_memWrapper(HunterView hv) {
         }
     }
 
+    location_t locations_hunterMap[NUM_HUNTERS] = {
+            hv_get_location(hv, PLAYER_LORD_GODALMING),
+            hv_get_location(hv, PLAYER_DR_SEWARD),
+            hv_get_location(hv, PLAYER_VAN_HELSING),
+            hv_get_location(hv, PLAYER_MINA_HARKER),
+    };
+
+    size_t locations_mapHunter[NUM_MAP_LOCATIONS] = {0};
+    for (size_t i = 0; i < NUM_HUNTERS; i++) locations_mapHunter[locations_hunterMap[i]]++;
+
     ssize_t lastDracSeen; // last seen `n` moves ago
     location_t lastDracLocation = getLastDracLocation(hv, &lastDracSeen);
 
@@ -198,34 +209,90 @@ void decide_hunter_move_memWrapper(HunterView hv) {
 
     if (lastDracSeen == -1 && (round == 6 || round == 7)) {
         // Perform collaborative research if Dracula's move history not known
-        register_best_play(location_get_abbrev(location), "RESEARCH + REST");
+        register_best_play(
+                location_get_abbrev(location),
+                "RESEARCH + REST"
+        );
         return;
     }
 
-    if (lastDracSeen > 10 && round % 13 == 0) {
-        register_best_play(location_get_abbrev(location), "RESEARCH + REST");
+    if (lastDracSeen > 9 && round % 13 == 0) {
+        // TODO Do a vampire check?
+        register_best_play(
+                location_get_abbrev(location),
+                "RESEARCH + REST"
+        );
         return;
     }
 
     if (draculaResolvedHistory[0] == SEA_UNKNOWN) {
         location_t cityPoints[] = {MARSEILLES, VENICE, HAMBURG, CONSTANTA, SANTANDER};
-        register_best_play(location_get_abbrev(cityPoints[rand() % 5]), "Sea Split");
+        register_best_play(
+                location_get_abbrev(fastestRoute(location, cityPoints[rand() % 5], round, player, NULL, 0)),
+                "Sea Split"
+        );
     }
 
-    if (hv_get_health(hv, player) > 4 && lastDracSeen == 0 && location == lastDracLocation) {
-        register_best_play(location_get_abbrev(lastDracLocation), "Go for the sui-kill");
+    if (hv_get_health(hv, player) > 4 && lastDracSeen == 0 && location == lastDracLocation &&
+        lastDracLocation != CASTLE_DRACULA) {
+        register_best_play(
+                location_get_abbrev(lastDracLocation),
+                "Attack"
+        );
         return;
     }
 
     if (hv_get_health(hv, PLAYER_DRACULA) <= 15) {
         // Dracula needs to go back to CD, unless he's really far away then stake him rather than camp
-        register_best_play(location_get_abbrev(fastestRoute(location, CASTLE_DRACULA, round, player, NULL, 0)),
-                           "To Dracula's Spawn");
-        return;
+        if (lastDracSeen == 0 && lastDracLocation == CASTLE_DRACULA) {
+            register_best_play(
+                    location_get_abbrev(fastestRoute(location, CASTLE_DRACULA, round, player, NULL, 0)),
+                    "To Castle Dracula"
+            );
+            return;
+        }
+
+        if (lastDracSeen == 1 && (lastDracLocation == CASTLE_DRACULA)) {
+
+            // Avoid going through CD, even though this shouldn't ever. happen.
+            location_t avoid[1] = {CASTLE_DRACULA};
+
+            if (locations_mapHunter[KLAUSENBURG]) {
+                register_best_play(
+                        location_get_abbrev(fastestRoute(location, GALATZ, round, player, avoid, 1)),
+                        "Spread from Castle Dracula"
+                );
+                return;
+            } else if (locations_mapHunter[GALATZ]) {
+                register_best_play(
+                        location_get_abbrev(fastestRoute(location, KLAUSENBURG, round, player, avoid, 1)),
+                        "Spread from Castle Dracula"
+                );
+                return;
+            } else {
+                // No hunters are on Klausenberg or Galatz so check around
+
+                // Weighted for Klausenberg and Galatz
+                location_t RNG[11] = {BUDAPEST, ZAGREB, SARAJEVO, SOFIA, BUCHAREST,
+                                      KLAUSENBURG, KLAUSENBURG, KLAUSENBURG,
+                                      GALATZ, GALATZ, GALATZ};
+
+                location_t dest = location;
+                while (dest == location) dest = RNG[rand() % 11]; // Ensure we're not sitting still
+                register_best_play(
+                        location_get_abbrev(fastestRoute(location, dest, round, player, avoid, 1)),
+                        "Spread"
+                );
+                return;
+            }
+        }
     }
 
     if (hv_get_health(hv, player) <= 5) {
-        register_best_play(location_get_abbrev(location), "REST");
+        register_best_play(
+                location_get_abbrev(location),
+                "REST"
+        );
         return;
     }
 
@@ -240,17 +307,20 @@ void decide_hunter_move_memWrapper(HunterView hv) {
         // case 4 - pick a destination that is four step away
         // case 5 - pick a destination that is five step away
         // case 6 - pick a destination that is six step away
-        register_best_play(location_get_abbrev(fastestRoute(location, lastDracLocation, round, player, NULL, 0)),
-                           "Enroute");
+        register_best_play(
+                location_get_abbrev(fastestRoute(location, lastDracLocation, round, player, locations_hunterMap, 4)),
+                "Enroute"
+        );
         return;
-
     }
 
     // Do random
     size_t nPossibleLocations;
     possibleLocations = hv_get_dests_player(hv, &nPossibleLocations, player, true, true, true);
-
-    register_best_play(location_get_abbrev(possibleLocations[(size_t) rand() % nPossibleLocations]), "RNG");
+    register_best_play(
+            location_get_abbrev(possibleLocations[(size_t) rand() % nPossibleLocations]),
+            "RNG"
+    );
 }
 
 void decide_hunter_move(HunterView hv) {
