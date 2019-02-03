@@ -1,0 +1,10 @@
+/.floo
+/.flooignore
+*.o
+/test_dracula_view
+/test_game_view
+/test_hunter_view
+/test_connections
+/dracula
+/hunter
+/test_drac_ai
