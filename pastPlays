@@ -1,0 +1,152 @@
+//////////////////////////////////////////////////////////////
+Samples from Game #0:
+
+// Tested
+GMN.... SPL.... HAM.... MPA.... DC?.V..
+Round 1: PLAYER_GODALMING (0) @ MANCHESTER; 4 locations: {MANCHESTER, EDINBURGH, LIVERPOOL, LONDON}
+
+// Tested
+GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV....
+Round 1: PLAYER_SEWARD (1) @ PLYMOUTH; 3 locations: {PLYMOUTH, LONDON, ENGLISH_CHANNEL}
+
+// Tested
+GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO....
+Round 1: PLAYER_VAN_HELSING (2) @ AMSTERDAM; 4 locations: {AMSTERDAM, NORTRTH_SEA, BRUSSELS, COLOGNE}
+
+// Tested
+GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO.... HNS....
+Round 1: PLAYER_MINA_HARKER (3) @ PARIS; 7 locations: {PARIS, GENEVA, CLERMONT_FERRAND, NANTES, LE_HAVRE, BRUSSELS, STRASBOURG}
+
+// TODO, J: Changed HIDE to ZURICH
+GMN.... SPL.... HAM.... MPA.... DZU.V.. GLV.... SLO.... HNS.... MST....
+Round 1: PLAYER_DRACULA (4) @ ZURICH; 5 locations: {STRASBOURG, GENEVA, MARCEILLES,  MILAN, MUNICH, ZURICH}
+
+// Tested
+GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO.... HNS.... MST.... DC?T...
+Round 2: PLAYER_GODALMING (0) @ LIVERPOOL; 6 locations: {LIVERPOOL, SWANSEA, MANCHESTER, IRISH_SEA, EDINBURGH, LONDON}
+
+// Tested
+pastPlays string given to Seward:
+GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO.... HNS.... MST.... DC?T... GIR....
+Round 2: PLAYER_SEWARD (1) @ LONDON; 7 locations: {LONDON, MANCHESTER, EDINBURGH, LIVERPOOL, SWANSEA, ENGLISH_CHANNEL, PLYMOUTH}
+
+////////////////////////////////////////////////////////////////
+Samples from Game #1:
+
+// Tested
+GMN.... SPL.... HAM.... MPA.... DC?.V.. GLV.... SLO.... HNS.... MST.... DC?T... GIR.... SPL.... HAO.... MZU.... DCDT... GSW.... SLO.... HNS.... MFR.... DC?T... GLV.... SPL.... HAO.... MZU.... DC?T... GSW.... SLO.... HNS....
+Round 5: PLAYER_MINA_HARKER (3) @ ZURICH; 6 locations: {STRASBOURG, MUNICH, MILAN, MARSEILLES, GENEVA, ZURICH}
+
+// Tested J: Changed DOUBLE_BACK_N to Locations
+GMN.... SPL.... HAM.... MPA.... DGA.V.. GLV.... SLO.... HNS.... MST.... DHIT... GIR.... SPL.... HAO.... MZU.... DCDT... GSW.... SLO....HNS.... MFR.... DKLT... GLV.... SPL.... HAO.... MZU.... DBCT... GSW.... SLO.... HNS.... MMR....
+Round 5: PLAYER_DRACULA (4) @ BUCHAREST; 7 locations: {CONSTANTA, BELGRADE, SOFIA, BUCHAREST, KLAUSENBURG, CASTLE_DRACULA, GALATZ}
+trail = {BUCHAREST, KLAUSENBURG, CASTLE_DRACULA, GALATZ, GALATZ, UNKNOWN_LOCATION}
+ 
+
+////////////////////////////////////////////////////////////////
+Samples from Game #2:
+
+// Tested
+GED.... SGE.... HZU.... MCA.... DCF.V.. GMN.... SCFVD.. HGE.... MLS.... DBOT... GLO.... SMR.... HCF.... MMA.... DC?T... GPL.... SMS.... HMR.... MGR.... DBAT... GLO.... SBATD.. HMS.... MMA.... DC?T... GPL.... SSJ.... HBA.... MGR.... DC?T... GPL.... SSJ.... HBA.... MGR.... DC?T...
+round 7: PLAYER_GOLDALMING (0) @ PLYMOUTH; 3 locations: {PLYMOUTH, ENGLISH_CHANNEL, LONDON}
+
+// Changed Double backs to locations
+GED.... SGE.... HZU.... MCA.... DCF.V.. GMN.... SCFVD.. HGE.... MLS.... DBOT... GLO.... SMR.... HCF.... MMA.... DTOT... GPL.... SMS.... HMR.... MGR.... DBAT... GLO.... SBATD.. HMS.... MMA.... DSRT... GPL.... SSJ.... HBA.... MGR.... DALT... GPL.... SSJ.... HBA.... MGR.... DMAT... GLO.... SBE.... HMS.... MMATD..
+Round 7: PLAYER_DRACULA (4) @ MADRID; 10 locations: {GRANADA, CADIZ, LISBON, SANTANDER, ALICANTE, SARAGOSSA, BARCELONA, TOULOUSE, DORDEAUX, MADRID}
+Past Trail: {MADRID, ALICANTE, SARAGOSSA, BARCELONA, TOULOUSE, BORDEAUX}
+
+////////////////////////////////////////////////////////////////
+// Extra Cases:
+// Created by Jennifer 17/8/19
+//
+////////////////////////////////////////////////////////////////
+/*If there is no legal move possible for Dracula he automagically Teleports to Castle Dracula as his MOVE*/
+
+GVA.... SVR.... HAT.... MSA.... DLO.V..
+GVA.... SVR.... HAT.... MSA.... D(MANCHESTER)T...
+GVA.... SVR.... HAT.... MSA.... D(EDINBUR)T...
+GVA.... SVR.... HAT.... MSA.... D(MANCHESTER)T... // Does a DOUBLE_BACK_2
+GVA.... SVR.... HAT.... MSA.... D(HIDE)LT... // Does a HIDE
+GVA.... SVR.... HAT.... MSA.... D(LIVERPOOL)T...
+GVA.... SVR.... HAT.... MSA.... D(SWANSEA)T...
+GVA.... SVR.... HAT.... MSA.... D(LIVERPOOL)T...
+GVA.... SVR.... HAT.... MSA....
+
+// String to use 
+"GVA.... SVR.... HAT.... MSA.... DLE.V.. GVA.... SVR.... HAT.... MSA.... DECT... GVA.... SVR.... HAT.... MSA.... DLOT... GVA.... SVR.... HAT.... MSA.... DMNT... GVA.... SVR.... HAT.... MSA.... DHILT... GVA.... SVR.... HAT.... MSA.... DLVT... GVA.... SVR.... HAT.... MSA.... DSWT... GVA.... SVR.... HAT.... MSA.... DD1T... GVA.... SVR.... HAT.... MSA...."
+
+Round 9: PLAYER_DRACULA (4) @ LIVERPOOL; 1 Locations; {TELEPORT}
+Past Trail: {LIVERPOOL, SWANSEA, LIVERPOOL, MANCHESTER, MANCHESTER, LONDON}
+
+////////////////////////////////////////////////////////////////
+/* Dracula cannot make a DOUBLE_BACK move of 'n' if he hasn't had 'n' moves */ 
+GVA.... SVR.... HAT.... MSA.... DLE.V.. 
+GVA.... SVR.... HAT.... MSA.... D(PARIS)T... 
+GVA.... SVR.... HAT.... MSA.... D(NANTES)T... 
+GVA.... SVR.... HAT.... MSA.... 
+
+// String to use
+"GVA.... SVR.... HAT.... MSA.... DLE.V.. GVA.... SVR.... HAT.... MSA.... DPAT... GVA.... SVR.... HAT.... MSA.... DNAT... GVA.... SVR.... HAT.... MSA...."
+
+Round 3: PLAYER_DRACULA (4) @ NANTES; 7 locations: {HIDE, PARIS, LE_HAVRE, NANTES, BORDEAUX, CLERMONT_FERRAND, BAY_OF_BISCAY}
+Past Trail: {NANTES, PARIS, LE_HAVRE, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}
+
+////////////////////////////////////////////////////////////////
+// Added this one in Dracula_view_tests
+/* Dracula cannot HIDE at sea */
+GVA.... SVR.... HAT.... MSA.... DLE.V.. 
+GVA.... SVR.... HAT.... MSA.... D(PARIS)T... 
+GVA.... SVR.... HAT.... MSA.... D(NANTES)T... 
+GVA.... SVR.... HAT.... MSA.... D(BAY_OF_BISCAY)T...
+GVA.... SVR.... HAT.... MSA....
+
+Round 4: PLAYER_DRACULA (4) @ BAY_OF_BISCAY; locations: {DOUBLE_BACK_1, DOUBLE_BACK_2, DOUBLE_BACK_3, BORDEAUX, SANTANDER}
+Past Trail: {BAY_OF_BISCAY, NANTES, PARIS, LE_HAVRE, UNKNOWN_LOCATION, UNKNOWN_LOCATION}
+
+////////////////////////////////////////////////////////////////
+//  Added this into test_dracula_view.c
+/* Dracula cannot make a DOUBLE_BACK move if he already has a DOUBLE_BACK move in his trail */
+GVA.... SVR.... HAT.... MSA.... DLE.V..
+GVA.... SVR.... HAT.... MSA.... D(PARIS)T... 
+GVA.... SVR.... HAT.... MSA.... D(CLERMONT_FERRAND)T... 
+GVA.... SVR.... HAT.... MSA.... D(MARSEILLES)T... 
+GVA.... SVR.... HAT.... MSA.... D(GENOA)T... 
+GVA.... SVR.... HAT.... MSA.... D(MILAN)T... 
+GVA.... SVR.... HAT.... MSA.... D(ZURICH)T...  // Does DOUBLE_BACK_2
+GVA.... SVR.... HAT.... MSA.... D(GENOA)T...
+GVA.... SVR.... HAT.... MSA....
+
+Round 9: PLAYER_DRACULA (4) @ GENOA; 3 locations: {FLORENCE, VENICE, TYRRHENIAN_SEA}
+Past Trail: {GENOA, ZURICH, MILAN, GENOA, MARSEILLES, CLERMONT_FERRANT, PARIS}
+
+////////////////////////////////////////////////////////////////
+// Added into tests_drac_view.c
+/* Dracula can never move to the hospital of St Joseph and St Mary */
+GVA.... SVR.... HAT.... MSA.... D(SZEGED).V.. 
+GVA.... SVR.... HAT.... MSA.... 
+
+Round 2: PLAYER_DRACULA (4) @ SZEGED; 4 locations: {BUDAPEST, KLAUSENBURG, BELGRADE, ZAGREB} 
+Past Trail: {SZEGED, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION, UNKNOWN_LOCATION}
+
+
+
+////////////////////////////////////////////////////////////////
+// Added into hunter_view_tests.c
+/* Whenever a Hunter is reduced to 0 or less life points they are instantly automagically teleported to the Hospital of St Joseph and St Mary */
+
+Poor MINA keeps following Dracula losing health 
+GVA.... SVR.... HAT.... M(SANTANDER).... D(SARAGOSSA).V.. 
+GVA.... SVR.... HAT.... M(SARAGOSSA).... D(ALICANTE)T... // -4 health
+GVA.... SVR.... HAT.... M(ALICANTE).... D(GRANADA)T... // -4 health
+GVA.... SVR.... HAT.... M(GRANADA).... D(MADRID)T... // -4 health
+GVA.... SVR.... HAT....
+
+// String to use
+"GVA.... SVR.... HAT.... MSN.... DSR.V.. GVA.... SVR.... HAT.... MSR.... DALT... GVA.... SVR.... HAT.... MAL.... DGRT... GVA.... SVR.... HAT.... MGR.... DMAT...GVA.... SVR.... HAT...."
+
+Round 5: PLAYER_MINA_HARKER (3) @ HOSPITAL; 5 locations: {ZAGREB, SZEGED, BELGRADE, SARAJEVO, HOSPITAL}
+
+////////////////////////////////////////////////////////////////
+
+
+

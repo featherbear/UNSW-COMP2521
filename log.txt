@@ -1,0 +1,2736 @@
+clang    -c -o dracula.o dracula.c
+clang  -DI_AM_DRACULA -c player.c -o player_dracula.o
+clang    -c -o dracula_view.o dracula_view.c
+clang    -c -o game_view.o game_view.c
+clang    -c -o map.o map.c
+clang    -c -o places.o places.c
+clang    -c -o _queue.o _queue.c
+clang    -c -o _dlist.o _dlist.c
+clang    -c -o _connections.o _connections.c
+clang   dracula.o player_dracula.o dracula_view.o game_view.o map.o places.o _queue.o _dlist.o _connections.o /usr/lib/i386-linux-gnu/libdl.so /usr/lib/i386-linux-gnu/libjansson.so   -o dracula
+clang    -c -o hunter.o hunter.c
+clang  -c player.c -o player_hunter.o
+clang    -c -o hunter_view.o hunter_view.c
+clang   hunter.o player_hunter.o hunter_view.o game_view.o map.o places.o _queue.o _dlist.o _connections.o /usr/lib/i386-linux-gnu/libdl.so /usr/lib/i386-linux-gnu/libjansson.so   -o hunter
+   The FURY of DRACULA   
+          _..._          
+        .'     '.        
+       ; __   __ ;       
+       |/  \ /  \|       
+     |\| -- ' -- |/|     
+     |(| \o| |o/ |)|     
+     _\|    U    |/_     
+  .-'  | ,.___., |  '-.  
+  \    ;  V'-'V  ;    /  
+   `\   \       /   /`   
+     `\  '-...-'  /`     
+       `\  / \  /`       
+         `\\_//`         
+...........................
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": ""
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "message": "Spawn",
+  "move": "PL",
+  "timer": 9
+}
+> Game score: 366
+> Moving from: undefined
+> Life Points: 9
+> Player 0 made move:
+> +++
+  message: Spawn
+  move: PL
+  timer: 9
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "SN",
+  "timer": 7,
+  "message": "Spawn"
+}
+> Game score: 366
+> Moving from: undefined
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SN
+  timer: 7
+  message: Spawn
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GPL.... SSN...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "LI",
+  "message": "Spawn",
+  "timer": 7
+}
+> Game score: 366
+> Moving from: undefined
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: LI
+  message: Spawn
+  timer: 7
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "message": "Spawn",
+  "move": "SZ",
+  "timer": 8
+}
+> Game score: 366
+> Moving from: undefined
+> Life Points: 9
+> Player 3 made move:
+> +++
+  message: Spawn
+  move: SZ
+  timer: 8
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ...."
+==============================================================
+Program Output (0): 
+==============================================================
+Move:  {
+  "move": "BR",
+  "message": "Ya'll need to calm calm. I'm right here!",
+  "timer": 10
+}
+> Game score: 366
+> Moving from: undefined
+> Blood Points: 40
+> Player 4 made move:
+> +++
+  move: BR
+  message: Ya'll need to calm calm. I'm right here!
+  timer: 10
+> ---
+> End of Round:  0
+> Starting Round:  1
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DC?.V.."
+==============================================================
+Program Output (274): Going from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "timer": 148,
+  "move": "PL",
+  "message": "Enroute"
+}
+> Game score: 365
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  timer: 148
+  move: PL
+  message: Enroute
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DC?.V.. GPL...."
+==============================================================
+Program Output (313): Going from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "timer": 175,
+  "move": "SN",
+  "message": "Enroute"
+}
+> Game score: 365
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  timer: 175
+  move: SN
+  message: Enroute
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DC?.V.. GPL.... SSN...."
+==============================================================
+Program Output (235): Going from 36 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+
+==============================================================
+Move:  {
+  "move": "LI",
+  "message": "Enroute",
+  "timer": 168
+}
+> Game score: 365
+> Moving from: LI
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: LI
+  message: Enroute
+  timer: 168
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DC?.V.. GPL.... SSN.... HLI...."
+==============================================================
+Program Output (183): Going from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "move": "SZ",
+  "message": "Enroute",
+  "timer": 75
+}
+> Game score: 365
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SZ
+  message: Enroute
+  timer: 75
+> ---
+--------------------------------------------------------------------------
+> Running player 4... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ...."
+Program exited with code: null
+Received signal: SIGSEGV
+==============================================================
+Program Output (0): 
+==============================================================
+Move data parse error: ""
+SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>)
+    at ChildProcess.<anonymous> (/tmp_amd/kamen/export/kamen/2/cs2521ass/19t0/19t0.dracula/game_runner/runGame.js:199:24)
+    at ChildProcess.emit (events.js:188:13)
+    at maybeClose (internal/child_process.js:978:16)
+    at Process.ChildProcess._handle.onexit (internal/child_process.js:265:5)
+This usually means your program crashed before making a move.
+Move:  {}
+> Legal Drac moves: HA LI PR D1 HI
+> Player 4 disqualified for illegal move.
+> +++ 
+> --- 
+Default Dracula Move: "LI"
+> End of Round:  1
+> Starting Round:  2
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DC?.V.. GPL.... SSN.... HLI.... MSZ.... DLIT..."
+==============================================================
+Program Output (274): Going from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "move": "PL",
+  "timer": 147,
+  "message": "Enroute"
+}
+> Game score: 364
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: PL
+  timer: 147
+  message: Enroute
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DC?.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL...."
+==============================================================
+Program Output (313): Going from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "move": "SN",
+  "message": "Enroute",
+  "timer": 191
+}
+> Game score: 364
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SN
+  message: Enroute
+  timer: 191
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DC?.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN...."
+==============================================================
+Program Output (235): Going from 36 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+
+==============================================================
+Move:  {
+  "move": "LI",
+  "timer": 167,
+  "message": "Enroute"
+}
+> Game score: 364
+> Moving from: LI
+> Life Points: 9
+> Player 2 made move:
+> +++
+  move: LI
+  timer: 167
+  message: Enroute
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DC?.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.."
+==============================================================
+Program Output (183): Going from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "timer": 80,
+  "move": "SZ",
+  "message": "Enroute"
+}
+> Game score: 364
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  timer: 80
+  move: SZ
+  message: Enroute
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.4
+Default Dracula Move: "HI"
+> End of Round:  2
+> Starting Round:  3
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DC?.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT..."
+==============================================================
+Program Output (274): Going from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "message": "Enroute",
+  "move": "PL",
+  "timer": 155
+}
+> Game score: 363
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  message: Enroute
+  move: PL
+  timer: 155
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DC?.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL...."
+==============================================================
+Program Output (313): Going from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "move": "SN",
+  "message": "Enroute",
+  "timer": 181
+}
+> Game score: 363
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SN
+  message: Enroute
+  timer: 181
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DC?.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN...."
+==============================================================
+Program Output (235): Going from 36 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+
+==============================================================
+Move:  {
+  "move": "LI",
+  "message": "Enroute",
+  "timer": 167
+}
+> Game score: 363
+> Moving from: LI
+> Life Points: 6
+> Player 2 made move:
+> +++
+  move: LI
+  message: Enroute
+  timer: 167
+> ---
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DC?.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.."
+==============================================================
+Program Output (233): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "timer": 78,
+  "move": "SZ",
+  "message": "Enroute"
+}
+> Game score: 357
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  timer: 78
+  move: SZ
+  message: Enroute
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.4
+Default Dracula Move: "D1"
+> End of Round:  3
+> Starting Round:  4
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DC?.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T..."
+==============================================================
+Program Output (324): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "move": "PL",
+  "message": "Enroute",
+  "timer": 163
+}
+> Game score: 356
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: PL
+  message: Enroute
+  timer: 163
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DC?.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL...."
+==============================================================
+Program Output (363): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "move": "SN",
+  "message": "Enroute",
+  "timer": 181
+}
+> Game score: 356
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SN
+  message: Enroute
+  timer: 181
+> ---
+--------------------------------------------------------------------------
+> Running player 2... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DC?.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN...."
+==============================================================
+Program Output (285): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 36 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+
+==============================================================
+Move:  {
+  "move": "LI",
+  "message": "Enroute",
+  "timer": 171
+}
+> Player 2 disqualified for illegal move.
+> +++ 
+  move: LI
+  message: Enroute
+  timer: 171
+> --- 
+Default Hunter Move "JM"
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DC?.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM...."
+==============================================================
+Program Output (233): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "move": "SZ",
+  "message": "Enroute",
+  "timer": 79
+}
+> Game score: 356
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SZ
+  message: Enroute
+  timer: 79
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.4
+Default Dracula Move: "HA"
+> End of Round:  4
+> Starting Round:  5
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DC?.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DC?T..."
+==============================================================
+Program Output (324): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "timer": 155,
+  "move": "PL",
+  "message": "Enroute"
+}
+> Game score: 355
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  timer: 155
+  move: PL
+  message: Enroute
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DC?.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL...."
+==============================================================
+Program Output (363): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "message": "Enroute",
+  "move": "SN",
+  "timer": 180
+}
+> Game score: 355
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  message: Enroute
+  move: SN
+  timer: 180
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.2
+Default Hunter Move "JM"
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DC?.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM...."
+==============================================================
+Program Output (233): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "move": "SZ",
+  "message": "Enroute",
+  "timer": 84
+}
+> Game score: 355
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SZ
+  message: Enroute
+  timer: 84
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.4
+Default Dracula Move: "CO"
+> End of Round:  5
+> Starting Round:  6
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DC?.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T..."
+==============================================================
+Program Output (324): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "move": "PL",
+  "message": "Enroute",
+  "timer": 162
+}
+> Game score: 354
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: PL
+  message: Enroute
+  timer: 162
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL...."
+==============================================================
+Program Output (363): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "move": "SN",
+  "message": "Enroute",
+  "timer": 186
+}
+> Game score: 354
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SN
+  message: Enroute
+  timer: 186
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.2
+Default Hunter Move "JM"
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM...."
+==============================================================
+Program Output (233): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "move": "SZ",
+  "message": "Enroute",
+  "timer": 84
+}
+> Game score: 354
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SZ
+  message: Enroute
+  timer: 84
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.4
+Default Dracula Move: "ST"
+> End of Round:  6
+> Starting Round:  7
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T.V."
+==============================================================
+Program Output (324): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "move": "PL",
+  "message": "Enroute",
+  "timer": 161
+}
+> Game score: 340
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: PL
+  message: Enroute
+  timer: 161
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T.V. GPL...."
+==============================================================
+Program Output (363): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "move": "SN",
+  "message": "Enroute",
+  "timer": 182
+}
+> Game score: 340
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SN
+  message: Enroute
+  timer: 182
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.2
+Default Hunter Move "JM"
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T.V. GPL.... SSN.... HJM...."
+==============================================================
+Program Output (233): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "move": "SZ",
+  "timer": 88,
+  "message": "Enroute"
+}
+> Game score: 340
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SZ
+  timer: 88
+  message: Enroute
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.4
+Default Dracula Move: "FR"
+> End of Round:  7
+> Starting Round:  8
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T.V. GPL.... SSN.... HJM.... MSZ.... DC?T..."
+==============================================================
+Program Output (324): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "move": "PL",
+  "message": "Enroute",
+  "timer": 162
+}
+> Game score: 339
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: PL
+  message: Enroute
+  timer: 162
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T.V. GPL.... SSN.... HJM.... MSZ.... DC?T... GPL...."
+==============================================================
+Program Output (363): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "move": "SN",
+  "message": "Enroute",
+  "timer": 190
+}
+> Game score: 339
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SN
+  message: Enroute
+  timer: 190
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.2
+Default Hunter Move "JM"
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T.V. GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM...."
+==============================================================
+Program Output (233): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "move": "SZ",
+  "message": "Enroute",
+  "timer": 88
+}
+> Game score: 339
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SZ
+  message: Enroute
+  timer: 88
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.4
+Default Dracula Move: "HI"
+> End of Round:  8
+> Starting Round:  9
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T.V. GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T..."
+==============================================================
+Program Output (324): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "message": "Enroute",
+  "move": "PL",
+  "timer": 163
+}
+> Game score: 338
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  message: Enroute
+  move: PL
+  timer: 163
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T.V. GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL...."
+==============================================================
+Program Output (363): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "move": "SN",
+  "message": "Enroute",
+  "timer": 191
+}
+> Game score: 338
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SN
+  message: Enroute
+  timer: 191
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.2
+Default Hunter Move "JM"
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T.V. GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM...."
+==============================================================
+Program Output (233): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "move": "SZ",
+  "message": "Enroute",
+  "timer": 96
+}
+> Game score: 338
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SZ
+  message: Enroute
+  timer: 96
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.4
+Default Dracula Move: "D3"
+> End of Round:  9
+> Starting Round:  10
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T.V. GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DD3T.M."
+==============================================================
+Program Output (324): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "message": "Enroute",
+  "move": "PL",
+  "timer": 163
+}
+> Game score: 337
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  message: Enroute
+  move: PL
+  timer: 163
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T.V. GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL...."
+==============================================================
+Program Output (363): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "move": "SN",
+  "message": "Enroute",
+  "timer": 197
+}
+> Game score: 337
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SN
+  message: Enroute
+  timer: 197
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.2
+Default Hunter Move "JM"
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T.V. GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM...."
+==============================================================
+Program Output (233): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "move": "SZ",
+  "timer": 95,
+  "message": "Enroute"
+}
+> Game score: 337
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SZ
+  timer: 95
+  message: Enroute
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.4
+Default Dracula Move: "BU"
+> End of Round:  10
+> Starting Round:  11
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T.V. GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M."
+==============================================================
+Program Output (324): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "move": "PL",
+  "message": "Enroute",
+  "timer": 171
+}
+> Game score: 336
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: PL
+  message: Enroute
+  timer: 171
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DC?T.V. GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL...."
+==============================================================
+Program Output (363): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "move": "SN",
+  "message": "Enroute",
+  "timer": 204
+}
+> Game score: 336
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SN
+  message: Enroute
+  timer: 204
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.2
+Default Hunter Move "JM"
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DC?T.V. GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM...."
+==============================================================
+Program Output (233): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "move": "SZ",
+  "message": "Enroute",
+  "timer": 98
+}
+> Game score: 336
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SZ
+  message: Enroute
+  timer: 98
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.4
+Default Dracula Move: "LE"
+> End of Round:  11
+> Starting Round:  12
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DC?T.V. GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M."
+==============================================================
+Program Output (324): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "message": "Enroute",
+  "move": "PL",
+  "timer": 170
+}
+> Game score: 335
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  message: Enroute
+  move: PL
+  timer: 170
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL...."
+==============================================================
+Program Output (363): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "move": "SN",
+  "message": "Enroute",
+  "timer": 194
+}
+> Game score: 335
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SN
+  message: Enroute
+  timer: 194
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.2
+Default Hunter Move "JM"
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM...."
+==============================================================
+Program Output (233): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "move": "SZ",
+  "message": "Enroute",
+  "timer": 96
+}
+> Game score: 335
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SZ
+  message: Enroute
+  timer: 96
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.4
+Default Dracula Move: "NA"
+> End of Round:  12
+> Starting Round:  13
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M."
+==============================================================
+Program Output (324): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "move": "PL",
+  "message": "Enroute",
+  "timer": 171
+}
+> Game score: 334
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: PL
+  message: Enroute
+  timer: 171
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL...."
+==============================================================
+Program Output (363): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "move": "SN",
+  "message": "Enroute",
+  "timer": 199
+}
+> Game score: 334
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SN
+  message: Enroute
+  timer: 199
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.2
+Default Hunter Move "JM"
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DC?T... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM...."
+==============================================================
+Program Output (233): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "message": "Enroute",
+  "move": "SZ",
+  "timer": 94
+}
+> Game score: 334
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  message: Enroute
+  move: SZ
+  timer: 94
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.4
+Default Dracula Move: "BB"
+> End of Round:  13
+> Starting Round:  14
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?..M."
+==============================================================
+Program Output (324): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "move": "PL",
+  "message": "Enroute",
+  "timer": 170
+}
+> Game score: 333
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: PL
+  message: Enroute
+  timer: 170
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL...."
+==============================================================
+Program Output (363): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "move": "SN",
+  "message": "Enroute",
+  "timer": 195
+}
+> Game score: 333
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SN
+  message: Enroute
+  timer: 195
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.2
+Default Hunter Move "JM"
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM...."
+==============================================================
+Program Output (233): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "move": "SZ",
+  "message": "Enroute",
+  "timer": 101
+}
+> Game score: 333
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SZ
+  message: Enroute
+  timer: 101
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.4
+Default Dracula Move: "AO"
+> End of Round:  14
+> Starting Round:  15
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M."
+==============================================================
+Program Output (324): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "message": "Enroute",
+  "move": "PL",
+  "timer": 177
+}
+> Game score: 332
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  message: Enroute
+  move: PL
+  timer: 177
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL...."
+==============================================================
+Program Output (363): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "message": "Enroute",
+  "move": "SN",
+  "timer": 203
+}
+> Game score: 332
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  message: Enroute
+  move: SN
+  timer: 203
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.2
+Default Hunter Move "JM"
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM...."
+==============================================================
+Program Output (233): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "move": "SZ",
+  "timer": 100,
+  "message": "Enroute"
+}
+> Game score: 332
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SZ
+  timer: 100
+  message: Enroute
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.4
+Default Dracula Move: "EC"
+> End of Round:  15
+> Starting Round:  16
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M."
+==============================================================
+Program Output (324): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "move": "PL",
+  "message": "Enroute",
+  "timer": 178
+}
+> Game score: 331
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: PL
+  message: Enroute
+  timer: 178
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL...."
+==============================================================
+Program Output (363): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "move": "SN",
+  "timer": 201,
+  "message": "Enroute"
+}
+> Game score: 331
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SN
+  timer: 201
+  message: Enroute
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.2
+Default Hunter Move "JM"
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM...."
+==============================================================
+Program Output (233): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "move": "SZ",
+  "message": "Enroute",
+  "timer": 101
+}
+> Game score: 331
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SZ
+  message: Enroute
+  timer: 101
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.4
+Default Dracula Move: "LO"
+> End of Round:  16
+> Starting Round:  17
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DC?T.M."
+==============================================================
+Program Output (324): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "move": "PL",
+  "message": "Enroute",
+  "timer": 179
+}
+> Game score: 330
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: PL
+  message: Enroute
+  timer: 179
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DLET.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL...."
+==============================================================
+Program Output (363): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "move": "SN",
+  "message": "Enroute",
+  "timer": 200
+}
+> Game score: 330
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SN
+  message: Enroute
+  timer: 200
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.2
+Default Hunter Move "JM"
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DLET.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM...."
+==============================================================
+Program Output (233): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "move": "SZ",
+  "message": "Enroute",
+  "timer": 109
+}
+> Game score: 330
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SZ
+  message: Enroute
+  timer: 109
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.4
+Default Dracula Move: "SW"
+> End of Round:  17
+> Starting Round:  18
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DLET.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M."
+==============================================================
+Program Output (324): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "move": "PL",
+  "message": "Enroute",
+  "timer": 181
+}
+> Game score: 329
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: PL
+  message: Enroute
+  timer: 181
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DLET.M. GPL.... SSN.... HJM.... MSZ.... DNAT.M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL...."
+==============================================================
+Program Output (363): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "move": "SN",
+  "message": "Enroute",
+  "timer": 205
+}
+> Game score: 329
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SN
+  message: Enroute
+  timer: 205
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.2
+Default Hunter Move "JM"
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DLET.M. GPL.... SSN.... HJM.... MSZ.... DNAT.M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM...."
+==============================================================
+Program Output (233): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "move": "SZ",
+  "message": "Enroute",
+  "timer": 104
+}
+> Game score: 329
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SZ
+  message: Enroute
+  timer: 104
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.4
+Default Dracula Move: "LV"
+> End of Round:  18
+> Starting Round:  19
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DLET.M. GPL.... SSN.... HJM.... MSZ.... DNAT.M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M."
+==============================================================
+Program Output (324): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "move": "PL",
+  "message": "Enroute",
+  "timer": 180
+}
+> Game score: 328
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: PL
+  message: Enroute
+  timer: 180
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DLET.M. GPL.... SSN.... HJM.... MSZ.... DNAT.M. GPL.... SSN.... HJM.... MSZ.... DBB..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL...."
+==============================================================
+Program Output (363): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "move": "SN",
+  "message": "Enroute",
+  "timer": 212
+}
+> Game score: 328
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SN
+  message: Enroute
+  timer: 212
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.2
+Default Hunter Move "JM"
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DLET.M. GPL.... SSN.... HJM.... MSZ.... DNAT.M. GPL.... SSN.... HJM.... MSZ.... DBB..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM...."
+==============================================================
+Program Output (233): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "timer": 117,
+  "message": "Enroute",
+  "move": "SZ"
+}
+> Game score: 328
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  timer: 117
+  message: Enroute
+  move: SZ
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.4
+Default Dracula Move: "IR"
+> End of Round:  19
+> Starting Round:  20
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DLET.M. GPL.... SSN.... HJM.... MSZ.... DNAT.M. GPL.... SSN.... HJM.... MSZ.... DBB..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?...."
+==============================================================
+Program Output (324): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "move": "PL",
+  "message": "Enroute",
+  "timer": 182
+}
+> Game score: 327
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: PL
+  message: Enroute
+  timer: 182
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DLET.M. GPL.... SSN.... HJM.... MSZ.... DNAT.M. GPL.... SSN.... HJM.... MSZ.... DBB..M. GPL.... SSN.... HJM.... MSZ.... DAO..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?.... GPL...."
+==============================================================
+Program Output (363): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "move": "SN",
+  "timer": 217,
+  "message": "Enroute"
+}
+> Game score: 327
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SN
+  timer: 217
+  message: Enroute
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.2
+Default Hunter Move "JM"
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DLET.M. GPL.... SSN.... HJM.... MSZ.... DNAT.M. GPL.... SSN.... HJM.... MSZ.... DBB..M. GPL.... SSN.... HJM.... MSZ.... DAO..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?.... GPL.... SSN.... HJM...."
+==============================================================
+Program Output (233): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "move": "SZ",
+  "message": "Enroute",
+  "timer": 107
+}
+> Game score: 327
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  move: SZ
+  message: Enroute
+  timer: 107
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.4
+Default Dracula Move: "AO"
+> End of Round:  20
+> Starting Round:  21
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DLET.M. GPL.... SSN.... HJM.... MSZ.... DNAT.M. GPL.... SSN.... HJM.... MSZ.... DBB..M. GPL.... SSN.... HJM.... MSZ.... DAO..M. GPL.... SSN.... HJM.... MSZ.... DS?..M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?.... GPL.... SSN.... HJM.... MSZ.... DS?...."
+==============================================================
+Program Output (324): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "move": "PL",
+  "message": "Enroute",
+  "timer": 187
+}
+> Game score: 326
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: PL
+  message: Enroute
+  timer: 187
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DLET.M. GPL.... SSN.... HJM.... MSZ.... DNAT.M. GPL.... SSN.... HJM.... MSZ.... DBB..M. GPL.... SSN.... HJM.... MSZ.... DAO..M. GPL.... SSN.... HJM.... MSZ.... DEC..M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?.... GPL.... SSN.... HJM.... MSZ.... DS?.... GPL...."
+==============================================================
+Program Output (363): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "move": "SN",
+  "message": "Enroute",
+  "timer": 208
+}
+> Game score: 326
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SN
+  message: Enroute
+  timer: 208
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.2
+Default Hunter Move "JM"
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DLET.M. GPL.... SSN.... HJM.... MSZ.... DNAT.M. GPL.... SSN.... HJM.... MSZ.... DBB..M. GPL.... SSN.... HJM.... MSZ.... DAO..M. GPL.... SSN.... HJM.... MSZ.... DEC..M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?.... GPL.... SSN.... HJM.... MSZ.... DS?.... GPL.... SSN.... HJM...."
+==============================================================
+Program Output (233): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "timer": 112,
+  "move": "SZ",
+  "message": "Enroute"
+}
+> Game score: 326
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  timer: 112
+  move: SZ
+  message: Enroute
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.4
+Default Dracula Move: "BB"
+> End of Round:  21
+> Starting Round:  22
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DLET.M. GPL.... SSN.... HJM.... MSZ.... DNAT.M. GPL.... SSN.... HJM.... MSZ.... DBB..M. GPL.... SSN.... HJM.... MSZ.... DAO..M. GPL.... SSN.... HJM.... MSZ.... DEC..M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?.... GPL.... SSN.... HJM.... MSZ.... DS?.... GPL.... SSN.... HJM.... MSZ.... DS?...."
+==============================================================
+Program Output (324): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "move": "PL",
+  "message": "Enroute",
+  "timer": 187
+}
+> Game score: 325
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  move: PL
+  message: Enroute
+  timer: 187
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DLET.M. GPL.... SSN.... HJM.... MSZ.... DNAT.M. GPL.... SSN.... HJM.... MSZ.... DBB..M. GPL.... SSN.... HJM.... MSZ.... DAO..M. GPL.... SSN.... HJM.... MSZ.... DEC..M. GPL.... SSN.... HJM.... MSZ.... DLOT.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?.... GPL.... SSN.... HJM.... MSZ.... DS?.... GPL.... SSN.... HJM.... MSZ.... DS?.... GPL...."
+==============================================================
+Program Output (363): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "move": "SN",
+  "message": "Enroute",
+  "timer": 209
+}
+> Game score: 325
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SN
+  message: Enroute
+  timer: 209
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.2
+Default Hunter Move "JM"
+--------------------------------------------------------------------------
+> Running player 3... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DLET.M. GPL.... SSN.... HJM.... MSZ.... DNAT.M. GPL.... SSN.... HJM.... MSZ.... DBB..M. GPL.... SSN.... HJM.... MSZ.... DAO..M. GPL.... SSN.... HJM.... MSZ.... DEC..M. GPL.... SSN.... HJM.... MSZ.... DLOT.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?.... GPL.... SSN.... HJM.... MSZ.... DS?.... GPL.... SSN.... HJM.... MSZ.... DS?.... GPL.... SSN.... HJM...."
+==============================================================
+Program Output (233): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 62 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 34
+  Resolve 8
+  Resolve 13
+
+==============================================================
+Move:  {
+  "timer": 114,
+  "move": "SZ",
+  "message": "Enroute"
+}
+> Game score: 325
+> Moving from: SZ
+> Life Points: 9
+> Player 3 made move:
+> +++
+  timer: 114
+  move: SZ
+  message: Enroute
+> ---
+--------------------------------------------------------------------------
+Player is currently disqualified. Making a move on their behalf.4
+Default Dracula Move: "SN"
+> End of Round:  22
+> Starting Round:  23
+--------------------------------------------------------------------------
+> Running player 0... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DLET.M. GPL.... SSN.... HJM.... MSZ.... DNAT.M. GPL.... SSN.... HJM.... MSZ.... DBB..M. GPL.... SSN.... HJM.... MSZ.... DAO..M. GPL.... SSN.... HJM.... MSZ.... DEC..M. GPL.... SSN.... HJM.... MSZ.... DLOT.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?.... GPL.... SSN.... HJM.... MSZ.... DS?.... GPL.... SSN.... HJM.... MSZ.... DS?.... GPL.... SSN.... HJM.... MSZ.... DSNT.M."
+==============================================================
+Program Output (324): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 51 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 36
+  Resolve 9
+  Resolve 31
+  Resolve 48
+  Resolve 23
+
+==============================================================
+Move:  {
+  "timer": 191,
+  "move": "PL",
+  "message": "Enroute"
+}
+> Game score: 324
+> Moving from: PL
+> Life Points: 9
+> Player 0 made move:
+> +++
+  timer: 191
+  move: PL
+  message: Enroute
+> ---
+--------------------------------------------------------------------------
+> Running player 1... 
+Running with input: "past_plays": "GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DLET.M. GPL.... SSN.... HJM.... MSZ.... DNAT.M. GPL.... SSN.... HJM.... MSZ.... DBB..M. GPL.... SSN.... HJM.... MSZ.... DAO..M. GPL.... SSN.... HJM.... MSZ.... DEC..M. GPL.... SSN.... HJM.... MSZ.... DLOT.M. GPL.... SSN.... HJM.... MSZ.... DSWT.M. GPL.... SSN.... HJM.... MSZ.... DC?T.M. GPL.... SSN.... HJM.... MSZ.... DS?.... GPL.... SSN.... HJM.... MSZ.... DS?.... GPL.... SSN.... HJM.... MSZ.... DS?.... GPL.... SSN.... HJM.... MSZ.... DSNT.M. GPL...."
+==============================================================
+Program Output (363): [1;33m    > Player 2 dun guf. he ded. rip m9
+[0mGoing from 55 to 17
+  FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND FOUND
+  Resolve now
+  Resolve 26
+  Resolve 13
+  Resolve 62
+  Resolve 69
+  Resolve 45
+  Resolve 49
+  Resolve 25
+  Resolve 19
+  Resolve 12
+  Resolve 35
+  Resolve 50
+  Resolve 11
+  Resolve 46
+  Resolve 7
+
+==============================================================
+Move:  {
+  "move": "SN",
+  "timer": 216,
+  "message": "Enroute"
+}
+> Game score: 324
+> Moving from: SN
+> Life Points: 9
+> Player 1 made move:
+> +++
+  move: SN
+  timer: 216
+  message: Enroute
+> ---
+--------------------------------------------------------------------------
+> End of game: 
+> +++
+  score: 324
+  revealedPastPlays: GPL.... SSN.... HLI.... MSZ.... DBR.V.. GPL.... SSN.... HLI.... MSZ.... DLIT... GPL.... SSN.... HLITD.. MSZ.... DHIT... GPL.... SSN.... HLITD.. MSZ.... DD1T... GPL.... SSN.... HJM.... MSZ.... DHAT... GPL.... SSN.... HJM.... MSZ.... DCOT... GPL.... SSN.... HJM.... MSZ.... DSTT.V. GPL.... SSN.... HJM.... MSZ.... DFRT... GPL.... SSN.... HJM.... MSZ.... DHIT... GPL.... SSN.... HJM.... MSZ.... DD3T.M. GPL.... SSN.... HJM.... MSZ.... DBUT.M. GPL.... SSN.... HJM.... MSZ.... DLET.M. GPL.... SSN.... HJM.... MSZ.... DNAT.M. GPL.... SSN.... HJM.... MSZ.... DBB..M. GPL.... SSN.... HJM.... MSZ.... DAO..M. GPL.... SSN.... HJM.... MSZ.... DEC..M. GPL.... SSN.... HJM.... MSZ.... DLOT.M. GPL.... SSN.... HJM.... MSZ.... DSWT.M. GPL.... SSN.... HJM.... MSZ.... DLVT.M. GPL.... SSN.... HJM.... MSZ.... DIR.... GPL.... SSN.... HJM.... MSZ.... DAO.... GPL.... SSN.... HJM.... MSZ.... DBB.... GPL.... SSN.... HJM.... MSZ.... DSNT.M. GPL.... SSNTD..
+  messages: ["Spawn","Spawn","Spawn","Spawn","Ya'll need to calm calm. I'm right here!","Enroute","Enroute","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute","===== Generating default move...player disqualified... =====","Enroute","===== Generating default move...player disqualified... =====","Enroute","Enroute"]
+> ---
+> Game Over
+324
+23
+Player 2 was disqualified? true
+Player 4 was disqualified? true

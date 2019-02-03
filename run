@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo Running game... please wait
+echo "(game output trimmed)"
+echo 
+2521 dryrun assign2hunt Makefile *.[ch] | tee log.txt | tail | python3 messageRunner.py
+echo 
+echo Game log at: http://www.cse.unsw.edu.au/~z5206677/log.txt
+
