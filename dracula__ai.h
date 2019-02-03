@@ -29,7 +29,6 @@ region_t get_region(location_t l);
 location_t get_dracula_move(DraculaView dv);
 
 /* Functions called to get move .c */
-bool dracula_canMove(DraculaView dv, location_t move);
 location_t dracula_getMoveWithinRegion(DraculaView dv, region_t r);
 location_t dracula_getMoveTowardsRegion(DraculaView dv, region_t safeRegion);
 bool dracula_isSafeRegion(DraculaView dv, region_t currRegion);
