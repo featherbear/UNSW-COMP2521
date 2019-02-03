@@ -104,12 +104,13 @@ void tree_insert(tree *tree, Item it) {
         case REBALANCE_1:
         case REBALANCE_100:
         case REBALANCE_1000:
-            tree->root = insert_normal(tree->root, it); // TODO !?
 
-            if (tree->strategy == REBALANCE_1) tree->root = balance(tree->root);
-            else if (tree->strategy == REBALANCE_100 && tree_count(tree) % 100 == 0) tree->root = balance(tree->root);
-            else if (tree->strategy == REBALANCE_1000 && tree_count(tree) % 1000 == 0) tree->root = balance(tree->root);
+            tree->root = insert_normal(tree->root, it);
 
+            if ((tree->strategy == REBALANCE_1)
+                || (tree->strategy == REBALANCE_100 && tree_count(tree) % 100 == 0)
+                || (tree->strategy == REBALANCE_1000 && tree_count(tree) % 1000 == 0))
+                tree->root = balance(tree->root);
             break;
 
         case RANDOMISED:
@@ -301,7 +302,6 @@ bool search_normal(tree_node *t, Key k) {
 ////////////////////////////////////////////////////////////////////////
 // Tree rotation functions
 
-// This function does not update size.
 static tree_node *rotate_left(tree_node *curr) {
     /*
         if (curr == NULL || curr->right == NULL) return curr;
@@ -312,14 +312,26 @@ static tree_node *rotate_left(tree_node *curr) {
         return rotated_left;
     */
 
-    if (curr == NULL || curr->right == NULL) return curr;
+    if (curr == NULL) return NULL;
+    tree_node *
+    new = curr->right;
+    if (!new) return curr;
 
-    tree_node *newRoot = curr->right;
+    size_t currSize = curr->size;
+    size_t currSize_l = curr->left ? curr->left->size : 0;
+    size_t currSize_r = curr->right ? curr->right->size : 0;
 
-    curr->right = newRoot->left;
-    newRoot->left = curr;
+    size_t    newSize = new->size;
+    size_t
+    newSize_l = new->left ? new->left->size : 0;
+    size_t
+    newSize_r = new->right ? new->right->size : 0;
 
-    return newRoot;
+    curr->right = new->left;
+    new->left = curr;
+
+    curr->size = 1 + currSize_l + newSize_l;
+    new->size = 1 + newSize_r + curr->size;
 }
 
 
@@ -334,14 +346,29 @@ static tree_node *rotate_right(tree_node *curr) {
         return rotated_right;
     */
 
-    if (curr == NULL || curr->left == NULL) return curr;
+    if (curr == NULL) return NULL;
+    tree_node *
+    new = curr->left;
+    if (!new) return curr;
 
-    tree_node *n2 = curr->left;
+    size_t currSize = curr->size;
+    size_t currSize_l = curr->left ? curr->left->size : 0;
+    size_t currSize_r = curr->right ? curr->right->size : 0;
 
-    curr->left = n2->right;
-    n2->right = curr;
+    size_t
+    newSize = new->size;
+    size_t
+    newSize_l = new->left ? new->left->size : 0;
+    size_t
+    newSize_r = new->right ? new->right->size : 0;
 
-    return n2;
+    curr->left = new->right;
+    new->right = curr;
+
+    curr->size = 1 + currSize_r + newSize_r;
+    new->size = 1 + newSize_l + curr->size;
+
+    return new;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -427,13 +454,22 @@ static tree_node *search_splay(tree_node *n, Key k, bool *found) {
     tree_node *return_val = NULL;
 
     if (n == NULL) {
-        // item not found
         *found = false;
-        return_val = n;
-    } else if (eq (key(n->item), k)) {
+        return return_val;
+    }
+
+    if (eq (key(n->item), k)) {
         *found = true; // item found, store true
         return_val = n;
-    } // else if (...) {
+    } else if (less (key(n->item), k)) {
+        n = rotate_right(n);
+        return search_splay(n->left, k, found);
+    } else if (less (k, key(n->item))) {
+        n = rotate_left(n);
+        return search_splay(n->right, k, found);
+    }
+
+    return n;
 
     // TODO: COMPLETE THE IMPLEMENTATION HERE
     // The function should perform rotations on all
@@ -446,10 +482,6 @@ static tree_node *search_splay(tree_node *n, Key k, bool *found) {
     // If the node was not found, the last node on the search
     // path should be rotated up to the root of the tree
     // and found should be set to 0
-
-
-
-    return return_val;
 }
 
 

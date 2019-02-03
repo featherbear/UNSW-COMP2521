@@ -50,7 +50,7 @@ int main (int argc, char **argv)
 	tree_print_stats (word_tree);
 
 	// Note: you may wish to comment this out for large trees!
-//	tree_display (word_tree, stdout);
+	tree_display (word_tree, stdout);
 
 	tree_destroy (word_tree);
 	fclose (f);
