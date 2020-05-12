@@ -1,0 +1,4 @@
+convenor = 'jas'
+lecturers = ['jashankj']
+tutors = ['simm', 'hsmith', 'cses186', 'z5110198', 'z5122536', 'z5161594', 'z5164705', 'z5206624']
+admins = []

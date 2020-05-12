@@ -1,0 +1,58 @@
+Question 7 ... COMP1927 14s2 Final Exam
+
+
+A.  
+
+Inserting a 2 (ie a value smaller than all other keys in the tree) would take 3 comparisons. 
+It would take 1 right rotation at 3, then a right rotation at 5 then a right rotation at 4.
+
+The resulting tree would be
+    
+     2
+      \
+       4
+      / \
+     3   5
+
+
+B.  
+
+Insert a 6 (ie a value larger than all other keys in the tree). Would take 1 comparison and 1 left rotation at 5. 
+     
+        6
+       /
+      5
+     /
+    4
+   /
+  3
+
+
+C.  
+
+In part A we have an ordered N operation, but we end up with a tree of height n/2. This means we can't have two O(n) insertions in a row.
+In part B we end up with an order 1 operation, but we may end up having to follow it with an ordered n insertion. 
+With splay trees this kind of behaviour means we can't guarantee O(log n) behaviour for any one operation. Some will be O(n), some will be O(1) and some in between. But on average if we insert n items we can expect on average nlogn time complexity.
+
+
+D.  
+After inserting 2 into the original tree we would get
+
+    2
+     \
+      5
+     /
+    4
+   /
+  3
+
+After inserting 6 into the original tree we would also get
+
+        6
+       /
+      5
+     /
+    4
+   /
+  3
+

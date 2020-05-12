@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>COMP2521 19t0 / The Fury of Dracula / The Data</title>
+
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/assignments/dracula/data/" />
+  <link rel="stylesheet" href="/~cs2521/19T0/assets/dracula.css" />
+  <style type="text/css">
+.drac-header
+  { background-image: linear-gradient(to right, #270907 40%, #3D0A07 60%)
+  ; background-color: #270907 }
+.drac-header > img { margin: 0 auto; }
+main { max-width: 80ex !important; margin-left: auto; margin-right: auto; }
+pre  { padding: .5rem; border-radius: .25rem; }
+pre, code, tt { color: #e9ecef; background-color: #343a40; }
+.faq dd { margin-left: 2rem; }
+.faq dd p:first-child { margin-bottom: 0 }
+footer.bg-dark { background-color: #343a40 !important; }
+  </style>
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+<header class="drac-header text-center mb-2">
+  <img src="/~cs2521/19T0/assignments/dracula/Pics/drac.png" alt="The Fury of Dracula" />
+</header>
+
+<main class="container">
+
+<!--
+ - COMP2521 19t0 ... Fury of Dracula spec and files
+ -
+ - 2017-11-24	Jashank Jeremy <{jashankj,z5017851}@cse.unsw.edu.au>
+ - 2018-12-30	Jashank Jeremy <{jashankj,z5017851}@cse.unsw.edu.au>
+-->
+
+<header class="text-center">
+
+  <h1 id="the-data">The Data</h1>
+
+  <p class="lead">
+— <a href="/~cs2521/19T0/assignments/dracula/">introduction</a>
+— <a href="/~cs2521/19T0/assignments/dracula/rules/">the rules</a>
+— <strong>[the data]</strong>
+— <a href="/~cs2521/19T0/assignments/dracula/faq/">faq</a>
+— <a href="/~cs2521/19T0/assignments/dracula/view/">the view</a>
+— <a href="/~cs2521/19T0/assignments/dracula/hunt/">the hunt</a> —
+<br /><small class="text-muted">
+courtesy Richard Buckland, John Shepherd, and many tutors
+</small>
+</p>
+</header>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>The major modules in the “Fury of Dracula” need to communicate, and do
+so in a controlled way. Since they do not share access to a single
+memory space, data can’t be passed by sharing in-memory data structures.
+This page describes how data is transmitted between modules.</p>
+
+<p>The data that needs to be communicated includes:</p>
+
+<ul>
+  <li>the game engine gives game history data to the AIs</li>
+  <li>the AIs pass back moves and messages to the game engine</li>
+</ul>
+
+<p>The game engine passes the game history to the View ADTs which process
+it, build a game state, and then make parts of the game state available
+to the AIs (i.e. give a “view” of the game to the AI).</p>
+
+<!-- What information is available depends on
+     the interface to the View,
+     which you will discuss in the Week XX Tutorial. -->
+
+<p>Here’s what that all looks like.</p>
+
+<figure class="text-center">
+  <p><img class="w-100 rounded" src="/~cs2521/19T0/assignments/dracula/Pics/game-processes.png" alt="[diagram]" /></p>
+
+  <p><em>the game architecture … diagram by John Shepherd</em></p>
+</figure>
+
+<h2 id="moves-and-messages">Moves (and Messages)</h2>
+
+<p>Moves are communicated from an AI to the game engine via the function:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">register_best_play</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">play</span><span class="p">,</span> <span class="n">player_message</span> <span class="n">message</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The first argument to the function is the player’s move. Each player
+move is described by a two-character string, which gives the
+abbreviation of a location on the map. The abbreviations are given in a
+table below. That is all there is to each <em>move</em>: two characters.</p>
+
+<p>Examples:
+<code class="highlighter-rouge">LO</code> = move to London,
+<code class="highlighter-rouge">CD</code> = move to Dracula’s Castle,
+<code class="highlighter-rouge">NS</code> = move onto the North Sea
+(presumably en route to somewhere else), etc.</p>
+
+<p>The second parameter to the function is a character string of length
+up to 99 characters and containing an arbitrary text message. This
+information can be made available to other players, but since it is
+plain text, may be difficult to make use of in any meaningful way.</p>
+
+<h2 id="past-plays">Past Plays</h2>
+
+<p>The Hunter AIs use the <code class="highlighter-rouge">HunterView</code> ADT to collect information about the
+game state in order to decide on a move. The Dracula AIs use the
+<code class="highlighter-rouge">DraculaView</code> ADT to collect information about the game state in order
+to decide on a move. In fact, <code class="highlighter-rouge">HunterView</code> and <code class="highlighter-rouge">DraculaView</code> are both
+instances of a more general <code class="highlighter-rouge">GameView</code> ADT that manages access to game
+information. A <code class="highlighter-rouge">GameView</code> contains a representation of the current state
+of the game and provides an interface for interrogating the game state
+in a controlled way.</p>
+
+<p>The AIs set up a game state by (ultimately) invoking the function:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">GameView</span> <span class="n">gv_new</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">past_plays</span><span class="p">,</span> <span class="n">player_message</span> <span class="n">messages</span><span class="p">[]);</span>
+</code></pre></div></div>
+
+<p>This function takes two argument:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">past_plays</code> is a string containing a history of moves and actions so far,</li>
+  <li><code class="highlighter-rouge">messages[]</code> is an array of message strings, one for each move</li>
+</ul>
+
+<p>The most important parameter is <code class="highlighter-rouge">past_plays</code>, which is a string
+representing everything that the players have observed happening in the
+game so far. It lists all the <em>plays</em> made in the game so far by all
+players (including Dracula) from the earliest turn (at the start of the
+string) to most recent turn (at the end of the string). This string is
+never accessed directly by (non-cheating) AIs; they simply pass it to
+the <code class="highlighter-rouge">GameView</code> and then use the appropriate <code class="highlighter-rouge">View</code> interface (either
+<code class="highlighter-rouge">HunterView</code> or <code class="highlighter-rouge">DraculaView</code>) to find out about it. Note that the
+<code class="highlighter-rouge">past_plays</code> strings given to the Hunters contain slightly less
+information than the <code class="highlighter-rouge">past_plays</code> string given to Dracula.</p>
+
+<p>Each play is 7 characters long (described below) and separated from any
+following play by a space, and represents what happened during one turn
+of the game. Each play begins with a single character representing the
+player whose turn it was:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">'G'</code> = Lord Godalming (turns 1,6,…)</li>
+  <li><code class="highlighter-rouge">'S'</code> = Dr. Seward (turns 2,7,…)</li>
+  <li><code class="highlighter-rouge">'H'</code> = Van Helsing (turns 3,8,…)</li>
+  <li><code class="highlighter-rouge">'M'</code> = Mina Harker (turns 4,9,…)</li>
+  <li><code class="highlighter-rouge">'D'</code> = Dracula (turns 5,10,…)</li>
+</ul>
+
+<p>For each Hunter play (starting with G, S, H, or M),
+the player character is immediately followed by 6 characters:</p>
+
+<ul>
+  <li>2 uppercase characters representing
+the new location of the hunter
+(see below for location codes)</li>
+  <li>4 letters representing, in order,
+the Encounters that occurred:
+    <ul>
+      <li>one <code class="highlighter-rouge">'T'</code> for each Trap encountered (and disarmed)</li>
+      <li><code class="highlighter-rouge">'V'</code> if an immature Vampire was encountered (and vanquished)</li>
+      <li><code class="highlighter-rouge">'D'</code> if, finally, Dracula was confronted, then</li>
+      <li><code class="highlighter-rouge">'.'</code> for the remaining 0..4 characters</li>
+    </ul>
+  </li>
+</ul>
+
+<p>For each Dracula play (starting with D),
+the player character is immediately followed by 6 characters:</p>
+
+<ul>
+  <li>2 uppercase characters representing
+the new location of Dracula,
+which may be any valid location code
+(see below) if we know Dracula’s location
+(e.g., via research or confrontation),
+or which, if we don’t know where he is, may be:
+    <ul>
+      <li><code class="highlighter-rouge">'C?'</code> = City move (unknown city)</li>
+      <li><code class="highlighter-rouge">'S?'</code> = Sea move (unknown sea)</li>
+      <li><code class="highlighter-rouge">'HI'</code> = Hide move, if we have discovered it was a hide move</li>
+      <li><code class="highlighter-rouge">'Dn'</code> = Double Back move: D followed by a single character
+number (n) from 1-5 specifying the position in his trail to which
+Dracula is doubling back (e.g., 1 means staying in his most recent
+location, 5 means returning to his location 5 moves ago)</li>
+      <li><code class="highlighter-rouge">'TP'</code> = Teleport to Castle Dracula</li>
+    </ul>
+  </li>
+  <li>2 characters representing the encounter Dracula placed:
+    <ul>
+      <li><code class="highlighter-rouge">'T'</code> if a Trap was placed, otherwise <code class="highlighter-rouge">'.'</code></li>
+      <li><code class="highlighter-rouge">'V'</code> if an immature Vampire was placed, otherwise <code class="highlighter-rouge">'.'</code></li>
+    </ul>
+  </li>
+  <li>
+    <p>1 character representing the action phase of Dracula’s turn:</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">'M'</code> if a Trap has left the trail (malfunctions due to old age),
+and vanishes without a trace. (yay!)</li>
+      <li><code class="highlighter-rouge">'V'</code> if a Vampire has matured. (eek!)</li>
+      <li><code class="highlighter-rouge">'.'</code> if nothing has occurred (e.g. early in game)</li>
+    </ul>
+  </li>
+  <li>a single ‘.’ character</li>
+</ul>
+
+<p>The <code class="highlighter-rouge">past_plays</code> string given to Dracula
+never contains <code class="highlighter-rouge">C?</code> or <code class="highlighter-rouge">S?</code>,
+since Dracula always knows exactly where he’s been.
+It will always contains exact locations
+for all players (including Dracula).</p>
+
+<h2 id="sample-past_plays-strings">Sample <code class="highlighter-rouge">past_plays</code> strings</h2>
+
+<p>After the first 5 turns (i.e. at the end of Round 0):</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GBE.... SBR.... HLO.... MCA.... DC?.V..
+</code></pre></div></div>
+
+<p>Godalming moved to Belgrade,
+Seward is in Brussels,
+van Helsing is in London,
+and Mina Harker is in Cadiz.
+Dracula has planted an immature vampire
+in whatever location he currently resides.</p>
+
+<p>Same game, after the 6th turn (i.e., after the first turn of Round 1):</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GBE.... SBR.... HLO.... MCA.... DSJ.V..
+GSJVD..
+</code></pre></div></div>
+
+<p>Godalming has stumbled onto Dracula’s location in Sarajevo,
+where he has vanquished the immature vampire,
+and encountered Dracula.</p>
+
+<p>Below are more examples, based on real game play from 15s2.
+Note that <code class="highlighter-rouge">past_plays</code> strings can contain hundreds of moves.
+Some of the <code class="highlighter-rouge">past_plays</code> strings below contain newlines.
+This is for display purposes only;
+moves are always separated by
+a single space character in real <code class="highlighter-rouge">past_plays</code> strings.</p>
+
+<h4 id="samples-from-game-0">Samples from Game #0:</h4>
+
+<p>The <code class="highlighter-rouge">past_plays</code> string at end of round 0,
+start of round 1, given to Godalming:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GMN.... SPL.... HAM.... MPA.... DC?.V..
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">past_plays</code> string then given to Seward:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GMN.... SPL.... HAM.... MPA.... DC?.V..
+GLV....
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">past_plays</code> string then given to Van Helsing:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GMN.... SPL.... HAM.... MPA.... DC?.V..
+GLV.... SLO....
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">past_plays</code> string then given to Mina Harker:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GMN.... SPL.... HAM.... MPA.... DC?.V..
+GLV.... SLO.... HNS....
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">past_plays</code> string then given to Dracula:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GMN.... SPL.... HAM.... MPA.... DZU.V..
+GLV.... SLO.... HNS.... MST....
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">past_plays</code> string given to Godalming at the start of round 2:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GMN.... SPL.... HAM.... MPA.... DC?.V..
+GLV.... SLO.... HNS.... MST.... DC?T...
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">past_plays</code> string then given to Seward:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GMN.... SPL.... HAM.... MPA.... DC?.V..
+GLV.... SLO.... HNS.... MST.... DC?T...
+GIR....
+</code></pre></div></div>
+
+<h4 id="samples-from-game-1">Samples from Game #1:</h4>
+
+<p>The <code class="highlighter-rouge">past_plays</code> string given to Mina Harker after several rounds:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GMN.... SPL.... HAM.... MPA.... DC?.V..
+GLV.... SLO.... HNS.... MST.... DC?T...
+GIR.... SPL.... HAO.... MZU.... DCDT...
+GSW.... SLO.... HNS.... MFR.... DC?T...
+GLV.... SPL.... HAO.... MZU.... DC?T...
+GSW.... SLO.... HNS....
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">past_plays</code> string given to Dracula after Mina’s move:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GMN.... SPL.... HAM.... MPA.... DGA.V..
+GLV.... SLO.... HNS.... MST.... DHIT...
+GIR.... SPL.... HAO.... MZU.... DCDT...
+GSW.... SLO.... HNS.... MFR.... DKLT...
+GLV.... SPL.... HAO.... MZU.... DBCT...
+GSW.... SLO.... HNS.... MMR....
+</code></pre></div></div>
+
+<h4 id="samples-from-game-2">Samples from Game #2:</h4>
+
+<p>The <code class="highlighter-rouge">past_plays</code> string given to Godalming after several rounds:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GED.... SGE.... HZU.... MCA.... DCF.V..
+GMN.... SCFVD.. HGE.... MLS.... DBOT...
+GLO.... SMR.... HCF.... MMA.... DC?T...
+GPL.... SMS.... HMR.... MGR.... DBAT...
+GLO.... SBATD.. HMS.... MMA.... DC?T...
+GPL.... SSJ.... HBA.... MGR.... DC?T...
+GPL.... SSJ.... HBA.... MGR.... DC?T...
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">past_plays</code> string given to Dracula after all other hunters have
+moved:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GED.... SGE.... HZU.... MCA.... DCF.V..
+GMN.... SCFVD.. HGE.... MLS.... DBOT...
+GLO.... SMR.... HCF.... MMA.... DTOT...
+GPL.... SMS.... HMR.... MGR.... DBAT...
+GLO.... SBATD.. HMS.... MMA.... DSRT...
+GPL.... SSJ.... HBA.... MGR.... DALT...
+GPL.... SSJ.... HBA.... MGR.... DMAT...
+GLO.... SBE.... HMS.... MMATD..
+</code></pre></div></div>
+
+<h2 id="table-of-locations">Table of Locations</h2>
+
+<table class="table table-sm">
+<thead>
+<tr><th>Location Name</th><th>Abbrev</th><th>Location ID</th><th>Type</th></tr>
+</thead>
+<tbody>
+<tr><td>Adriatic Sea</td><td>AS</td><td>ADRIATIC_SEA</td><td>SEA</td></tr>
+<tr><td>Alicante</td><td>AL</td><td>ALICANTE</td><td>LAND</td></tr>
+<tr><td>Amsterdam</td><td>AM</td><td>AMSTERDAM</td><td>LAND</td></tr>
+<tr><td>Athens</td><td>AT</td><td>ATHENS</td><td>LAND</td></tr>
+<tr><td>Atlantic Ocean</td><td>AO</td><td>ATLANTIC_OCEAN</td><td>SEA</td></tr>
+<tr><td>Barcelona</td><td>BA</td><td>BARCELONA</td><td>LAND</td></tr>
+<tr><td>Bari</td><td>BI</td><td>BARI</td><td>LAND</td></tr>
+<tr><td>Bay of Biscay</td><td>BB</td><td>BAY_OF_BISCAY</td><td>SEA</td></tr>
+<tr><td>Belgrade</td><td>BE</td><td>BELGRADE</td><td>LAND</td></tr>
+<tr><td>Berlin</td><td>BR</td><td>BERLIN</td><td>LAND</td></tr>
+<tr><td>Black Sea</td><td>BS</td><td>BLACK_SEA</td><td>SEA</td></tr>
+<tr><td>Bordeaux</td><td>BO</td><td>BORDEAUX</td><td>LAND</td></tr>
+<tr><td>Brussels</td><td>BU</td><td>BRUSSELS</td><td>LAND</td></tr>
+<tr><td>Bucharest</td><td>BC</td><td>BUCHAREST</td><td>LAND</td></tr>
+<tr><td>Budapest</td><td>BD</td><td>BUDAPEST</td><td>LAND</td></tr>
+<tr><td>Cadiz</td><td>CA</td><td>CADIZ</td><td>LAND</td></tr>
+<tr><td>Cagliari</td><td>CG</td><td>CAGLIARI</td><td>LAND</td></tr>
+<tr><td>Castle Dracula</td><td>CD</td><td>CASTLE_DRACULA</td><td>LAND</td></tr>
+<tr><td>Clermont-Ferrand</td><td>CF</td><td>CLERMONT_FERRAND</td><td>LAND</td></tr>
+<tr><td>Cologne</td><td>CO</td><td>COLOGNE</td><td>LAND</td></tr>
+<tr><td>Constanta</td><td>CN</td><td>CONSTANTA</td><td>LAND</td></tr>
+<tr><td>Dublin</td><td>DU</td><td>DUBLIN</td><td>LAND</td></tr>
+<tr><td>Edinburgh</td><td>ED</td><td>EDINBURGH</td><td>LAND</td></tr>
+<tr><td>English Channel</td><td>EC</td><td>ENGLISH_CHANNEL</td><td>SEA</td></tr>
+<tr><td>Florence</td><td>FL</td><td>FLORENCE</td><td>LAND</td></tr>
+<tr><td>Frankfurt</td><td>FR</td><td>FRANKFURT</td><td>LAND</td></tr>
+<tr><td>Galatz</td><td>GA</td><td>GALATZ</td><td>LAND</td></tr>
+<tr><td>Galway</td><td>GW</td><td>GALWAY</td><td>LAND</td></tr>
+<tr><td>Geneva</td><td>GE</td><td>GENEVA</td><td>LAND</td></tr>
+<tr><td>Genoa</td><td>GO</td><td>GENOA</td><td>LAND</td></tr>
+<tr><td>Granada</td><td>GR</td><td>GRANADA</td><td>LAND</td></tr>
+<tr><td>Hamburg</td><td>HA</td><td>HAMBURG</td><td>LAND</td></tr>
+<tr><td>Ionian Sea</td><td>IO</td><td>IONIAN_SEA</td><td>SEA</td></tr>
+<tr><td>Irish Sea</td><td>IR</td><td>IRISH_SEA</td><td>SEA</td></tr>
+<tr><td>Klausenburg</td><td>KL</td><td>KLAUSENBURG</td><td>LAND</td></tr>
+<tr><td>Leipzig</td><td>LI</td><td>LEIPZIG</td><td>LAND</td></tr>
+<tr><td>Le Havre</td><td>LE</td><td>LE_HAVRE</td><td>LAND</td></tr>
+<tr><td>Lisbon</td><td>LS</td><td>LISBON</td><td>LAND</td></tr>
+<tr><td>Liverpool</td><td>LV</td><td>LIVERPOOL</td><td>LAND</td></tr>
+<tr><td>London</td><td>LO</td><td>LONDON</td><td>LAND</td></tr>
+<tr><td>Madrid</td><td>MA</td><td>MADRID</td><td>LAND</td></tr>
+<tr><td>Manchester</td><td>MN</td><td>MANCHESTER</td><td>LAND</td></tr>
+<tr><td>Marseilles</td><td>MR</td><td>MARSEILLES</td><td>LAND</td></tr>
+<tr><td>Mediterranean Sea</td><td>MS</td><td>MEDITERRANEAN_SEA</td><td>SEA</td></tr>
+<tr><td>Milan</td><td>MI</td><td>MILAN</td><td>LAND</td></tr>
+<tr><td>Munich</td><td>MU</td><td>MUNICH</td><td>LAND</td></tr>
+<tr><td>Nantes</td><td>NA</td><td>NANTES</td><td>LAND</td></tr>
+<tr><td>Naples</td><td>NP</td><td>NAPLES</td><td>LAND</td></tr>
+<tr><td>North Sea</td><td>NS</td><td>NORTH_SEA</td><td>SEA</td></tr>
+<tr><td>Nuremburg</td><td>NU</td><td>NUREMBURG</td><td>LAND</td></tr>
+<tr><td>Paris</td><td>PA</td><td>PARIS</td><td>LAND</td></tr>
+<tr><td>Plymouth</td><td>PL</td><td>PLYMOUTH</td><td>LAND</td></tr>
+<tr><td>Prague</td><td>PR</td><td>PRAGUE</td><td>LAND</td></tr>
+<tr><td>Rome</td><td>RO</td><td>ROME</td><td>LAND</td></tr>
+<tr><td>Salonica</td><td>SA</td><td>SALONICA</td><td>LAND</td></tr>
+<tr><td>Santander</td><td>SN</td><td>SANTANDER</td><td>LAND</td></tr>
+<tr><td>Saragossa</td><td>SR</td><td>SARAGOSSA</td><td>LAND</td></tr>
+<tr><td>Sarajevo</td><td>SJ</td><td>SARAJEVO</td><td>LAND</td></tr>
+<tr><td>Sofia</td><td>SO</td><td>SOFIA</td><td>LAND</td></tr>
+<tr><td>St Joseph and St Marys</td><td>JM</td><td>ST_JOSEPH_AND_ST_MARYS</td><td>LAND</td></tr>
+<tr><td>Strasbourg</td><td>ST</td><td>STRASBOURG</td><td>LAND</td></tr>
+<tr><td>Swansea</td><td>SW</td><td>SWANSEA</td><td>LAND</td></tr>
+<tr><td>Szeged</td><td>SZ</td><td>SZEGED</td><td>LAND</td></tr>
+<tr><td>Toulouse</td><td>TO</td><td>TOULOUSE</td><td>LAND</td></tr>
+<tr><td>Tyrrhenian Sea</td><td>TS</td><td>TYRRHENIAN_SEA</td><td>SEA</td></tr>
+<tr><td>Valona</td><td>VA</td><td>VALONA</td><td>LAND</td></tr>
+<tr><td>Varna</td><td>VR</td><td>VARNA</td><td>LAND</td></tr>
+<tr><td>Venice</td><td>VE</td><td>VENICE</td><td>LAND</td></tr>
+<tr><td>Vienna</td><td>VI</td><td>VIENNA</td><td>LAND</td></tr>
+<tr><td>Zagreb</td><td>ZA</td><td>ZAGREB</td><td>LAND</td></tr>
+<tr><td>Zurich</td><td>ZU</td><td>ZURICH</td><td>LAND</td></tr>
+</tbody>
+</table>
+
+</main>
+
+<footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+</body>
+</html>

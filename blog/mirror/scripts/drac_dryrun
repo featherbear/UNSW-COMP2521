@@ -1,0 +1,297 @@
+#!/usr/bin/env zsh
+########################################################################
+# THIS IS NOT A GENERAL-PURPOSE DRYRUN SCRIPT... YOU HAVE BEEN WARNED! #
+########################################################################
+# COMP2521 18x1 -- Fury of Dracula dryrun
+# 2017-12-08	Jashank Jeremy <{jashankj,z5017851}@cse.unsw.edu.au>
+
+__get_prog_name__=$(basename "$0")
+TMPDIR=${TMPDIR:-/tmp}
+WORKDIR=$TMPDIR/dryrun.$$
+
+DRACHOME=/web/cs2521/18x1/assignments/assn2
+
+if [ "X${LLVM_ROOT}" = "X" ]
+then
+	LLVM_ROOT=/usr/lib/llvm-3.8
+fi
+path+=(${LLVM_ROOT}/bin)
+
+########################################################################
+main()
+{
+	# cripple on Mar 1, 2018...
+	# this script shouldn't be in use beyond then
+	if [ $(date +%s) -gt 1519822800 ]
+	then
+		errx EX_USAGE "why are you running me?"
+	fi
+
+	apply_limits
+
+	case "-$1" in
+	-ass2view)
+		shift
+		[ "X$1" = "X" ] && usage
+		create_workdir
+		view_cp_student_files "$@"
+		view_cp_supplied_files
+		view_do_compile
+		view_do_prove
+		cleanup_workdir
+		;;
+
+	-ass2hunt)
+		shift
+		[ "X$1" = "X" ] && usage
+		create_workdir
+		hunt_cp_student_files "$@"
+		hunt_cp_supplied_files
+		hunt_do_compile
+		hunt_do_round
+		cleanup_workdir
+		;;
+
+	*)
+		usage
+		;;
+	esac
+}
+
+usage()
+{
+	echo "usage: 2521 dryrun (ass2view|ass2hunt) <...>"
+	echo "    ass2view: Makefile GameView.c DracView.c HunterView.c ..."
+	echo "    ass2hunt: Makefile dracula.c hunter.c ..."
+	exit 64 # EX_USAGE
+}
+
+########################################################################
+# Apply ulimits.
+#
+# -S sets the "soft" limit.
+apply_limits()
+{
+	local block=512
+	local MB=1024
+	local MiB=1048576
+
+	ulimit -Sn 256				# open files
+	ulimit -St 60				# cpu time (seconds)
+	ulimit -Su 1000				# max user processes
+
+	# ASan doesn't like these at all; turn them off for now.
+	#ulimit -Sm $((1024 * $MB))		# max memory size (kBytes)
+	#ulimit -Sd $((100 * $MB))		# data seg size (kBytes)
+	#ulimit -Ss $((8 * $MB))			# stack size (kBytes)
+	#ulimit -Sv $((1024 * $MB))		# virtual memory (kBytes)
+
+	ulimit -Sc $((4 * $MiB / $block))	# core file size (blocks)
+	ulimit -Sf $((4 * $MiB / $block))	# file size (blocks)
+}
+
+########################################################################
+# 
+create_workdir()
+{
+	mkdir -p $WORKDIR || \
+		errx EX_CANTCREAT "couldn't create '$WORKDIR'"
+}
+
+require_file()
+{
+	if [ ! -f $WORKDIR/"$1" ]
+	then
+		errx EX_NOINPUT "$1: No such file or directory"
+	fi
+}
+
+replace_file_from()
+{
+	install -m 444 $DRACHOME/$2/$1 $WORKDIR
+}
+
+fetch_file_from()
+{
+	[ ! -e $WORKDIR/"$1" ] && replace_file_from $1 $2
+}
+
+# inject a file
+replace_view_file() { replace_file_from $1 dryrun.view }
+replace_hunt_file() { replace_file_from $1 dryrun.hunt }
+
+# inject a file if it's not already there 
+fetch_view_file() { fetch_file_from $1 dryrun.view }
+fetch_hunt_file() { fetch_file_from $1 dryrun.hunt }
+
+cleanup_workdir()
+{
+	rm -rf $WORKDIR
+}
+trap cleanup_workdir EXIT
+
+########################################################################
+errx()
+{
+	case "$1" in
+	EX_USAGE)	exit_code=64 ;;
+	EX_DATAERR)	exit_code=65 ;;
+	EX_NOINPUT)	exit_code=66 ;;
+	EX_NOUSER)	exit_code=67 ;;
+	EX_NOHOST)	exit_code=68 ;;
+	EX_UNAVAILABLE)	exit_code=69 ;;
+	EX_SOFTWARE)	exit_code=70 ;;
+	EX_OSERR)	exit_code=71 ;;
+	EX_OSFILE)	exit_code=72 ;;
+	EX_CANTCREAT)	exit_code=73 ;;
+	EX_IOERR)	exit_code=74 ;;
+	EX_TEMPFAIL)	exit_code=75 ;;
+	EX_PROTOCOL)	exit_code=76 ;;
+	EX_NOPERM)	exit_code=77 ;;
+	EX_CONFIG)	exit_code=78 ;;
+	*)		exit_code=1  ;;
+	esac
+	[ $exit_code -ne 1 ] && shift
+
+	echo "${__get_prog_name__}: $@"
+	exit ${exit_code}
+}
+
+########################################################################
+# hunt check code
+
+hunt_cp_student_files()
+{
+	# sanity-check files coming in
+	for file in "$@"
+	do
+		[ ! -e "${file}" ] && \
+			errx EX_NOINPUT "${file}: No such file or directory"
+		[ ! -f "${file}" ] && \
+			errx EX_NOINPUT "${file}: Not a file"
+
+		cp "${file}" $WORKDIR
+	done
+
+	cd $WORKDIR
+	require_file Makefile
+	require_file dracula.c
+	require_file hunter.c
+}
+
+hunt_cp_supplied_files()
+{
+	# grab the header files.
+	replace_hunt_file Game.h
+	replace_hunt_file Globals.h
+	replace_hunt_file hunter.h
+	replace_hunt_file dracula.h
+	replace_hunt_file player.c
+
+	# fetch the supplied view
+	view=dryrun.view
+	fetch_file_from GameView.c $view
+	fetch_file_from GameView.h $view
+	fetch_file_from DracView.c $view
+	fetch_file_from DracView.h $view
+	fetch_file_from HunterView.c $view
+	fetch_file_from HunterView.h $view
+	fetch_file_from Map.c $view
+	fetch_file_from Map.h $view
+	fetch_file_from Places.c $view
+	fetch_file_from Places.h $view
+}
+
+hunt_do_compile()
+{
+	cd $WORKDIR
+	if ! make dracula \
+		CC='~cs2521/bin/3c' \
+		LDFLAGS='-rdynamic' LIBS='-ldl -lSegFault -ljansson'
+	then
+		errx EX_SOFTWARE "couldn't compile dracula; can't proceed."
+	fi
+
+	if ! make hunter \
+		CC='~cs2521/bin/3c' \
+		LDFLAGS='-rdynamic' LIBS='-ldl -lSegFault -ljansson'
+	then
+		errx EX_SOFTWARE "couldn't compile hunter; can't proceed."
+	fi
+}
+
+hunt_do_round()
+{
+    env SEGFAULT_SIGNALS='abrt segv fpe' \
+	~cs2521ass/bin/node ~cs2521ass/18x1.dracula/game_runner/runGame.js \
+	./hunter ./hunter ./hunter ./hunter ./dracula
+}
+
+
+########################################################################
+# view check code
+
+view_cp_student_files()
+{
+	# sanity-check files coming in
+	for file in "$@"
+	do
+		[ ! -e "${file}" ] && \
+			errx EX_NOINPUT "${file}: No such file or directory"
+		[ ! -f "${file}" ] && \
+			errx EX_NOINPUT "${file}: Not a file"
+
+		cp "${file}" $WORKDIR
+	done
+
+	cd $WORKDIR
+	require_file Makefile
+	require_file GameView.c
+	require_file DracView.c
+	require_file HunterView.c
+}
+
+view_cp_supplied_files()
+{
+	replace_view_file Game.h
+	replace_view_file Globals.h
+
+	# views as specified
+	replace_view_file GameView.h
+	replace_view_file DracView.h
+	replace_view_file HunterView.h
+
+	# our own custom test suite
+	replace_view_file testGameView.c
+	replace_view_file testDracView.c
+	replace_view_file testHunterView.c
+	replace_view_file test1511.h
+
+	# other files
+	fetch_view_file Places.h
+	fetch_view_file Places.c
+	fetch_view_file Map.h
+	fetch_view_file Map.c
+}
+
+view_do_compile()
+{
+	cd $WORKDIR
+	if ! make testGameView testDracView testHunterView \
+		CC='~cs2521/bin/3c'
+	then
+		errx EX_SOFTWARE "couldn't compile views; can't proceed."
+	fi
+}
+
+view_do_prove()
+{
+	cd $WORKDIR
+	[ -x testGameView ] || return
+	[ -x testDracView ] || return
+	[ -x testHunterView ] || return
+	prove -f ./testGameView ./testDracView ./testHunterView
+}
+
+########################################################################
+main "$@"

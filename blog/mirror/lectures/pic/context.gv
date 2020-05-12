@@ -1,0 +1,13 @@
+//! dot
+digraph "context" { rankdir=LR;
+    node [fontname="Fira Sans"];
+    COMP1511 -> COMP1521;
+    COMP1511 -> COMP1531;
+    COMP1511 -> COMP2521;
+    COMP1531 -> COMP2511;
+    COMP2521 -> COMP2511;
+    COMP2521 -> COMP3121;
+    COMP2521 -> COMP3311;
+    COMP1521 -> COMP3231;
+    COMP2521 -> COMP3231;
+}

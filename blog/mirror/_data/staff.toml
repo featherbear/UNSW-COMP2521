@@ -1,0 +1,59 @@
+[[staff]]
+zid = "z9300035"
+user = "jas"
+name = "Dr John Shepherd"
+email = "jas@cse.unsw.edu.au"
+
+[[staff]]
+zid = "z5017851"
+user = "jashankj"
+name = "Jashank Jeremy"
+email = "jashank.jeremy@unsw.edu.au"
+
+[[staff]]
+zid = "z3207186"
+user = "simm"
+name = "Sim Mautner"
+email = "s.mautner@unsw.edu.au"
+
+[[staff]]
+zid = "z3418003"
+user = "hsmith"
+name = "Hayden Smith"
+email = "hayden.smith1@unsw.edu.au"
+
+[[staff]]
+zid = "z3217818"
+user = "cses186"
+name = "Clifford Sesel"
+email = "clifford@student.unsw.edu.au"
+
+[[staff]]
+zid = "z5110198"
+user = "z5110198"
+name = "Deepanjan Chakrabarty"
+email = "deepanjan.chakrabarty@unsw.edu.au"
+
+[[staff]]
+zid = "z5122536"
+user = "z5122536"
+name = "Olga Popovic"
+email = "olga.popovic@unsw.edu.au"
+
+[[staff]]
+zid = "z5161594"
+user = "z5161594"
+name = "Elizabeth Willer"
+email = "e.willer@unsw.edu.au"
+
+[[staff]]
+zid = "z5164705"
+user = "z5164705"
+name = "Gal Aharon"
+email = "g.aharon@unsw.edu.au"
+
+[[staff]]
+zid = "z5206624"
+user = "z5206624"
+name = "Kristian Nolev"
+email = "k.nolev@student.unsw.edu.au"

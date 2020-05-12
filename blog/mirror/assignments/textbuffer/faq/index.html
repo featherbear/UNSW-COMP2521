@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Assignment 1: Textbuffer FAQ — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="/~cs2521/19T0/assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/assignments/textbuffer/faq/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="/~cs2521/19T0/">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/assignments/">assignments</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/assignments/textbuffer/">Assignment 1: Textbuffer</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/assignments/textbuffer/faq/">Assignment 1: Textbuffer FAQ</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Assignment 1: Textbuffer FAQ</h1>
+</header>
+
+
+
+
+<h3 id="general-questions">general questions</h3>
+
+<dl>
+  <dt>Can I modify <code class="highlighter-rouge">textbuffer.h</code>?</dt>
+  <dd><big><big><big><big><strong>No.</strong></big></big></big></big></dd>
+  <dt>Can I add my own <code class="highlighter-rouge">struct</code>s and functions to <code class="highlighter-rouge">textbuffer.c</code>?</dt>
+  <dd>Yes!  Make sure your functions are declared <code class="highlighter-rouge">static</code>,
+and you document what the functions and structures you add are for.</dd>
+  <dt>Can I use functions from <code class="highlighter-rouge">&lt;string.h&gt;</code>?</dt>
+  <dd>Yes.  It’s much, much harder if you don’t.</dd>
+  <dt>Will I need to check my code for memory safety or memory leaks?</dt>
+  <dd>Yes.  We certainly will.</dd>
+  <dt>Can <code class="highlighter-rouge">Textbuffer</code> be defined like <code class="highlighter-rouge">link</code> in the lecture examples?</dt>
+  <dd>If <code class="highlighter-rouge">Textbuffer</code> points directly to the head of the list,
+functions like <code class="highlighter-rouge">textbuffer_merge</code> cannot function correctly,
+as they may change the head of the list.</dd>
+  <dt>If I’m about to <em>abort(3)</em>, should I <em>free(3)</em> the textbuffer?</dt>
+  <dd>It’s a bad idea to clean up after yourself
+before <em>abort(3)</em>‘ing if you have bad inputs,
+just in case the reason you got bad inputs spreads.</dd>
+</dl>
+
+<h3 id="textbuffer_new"><code class="highlighter-rouge">textbuffer_new</code></h3>
+
+<dl>
+  <dt>How does <code class="highlighter-rouge">textbuffer_new</code> work?</dt>
+  <dd>If the input text is, for example,
+<code class="highlighter-rouge">"Hi\nhow\nare\nthings\n\0"</code>,
+the buffer should contain the following lines:
+<code class="highlighter-rouge">{ "Hi", "how", "are", "things" }</code>.
+You will have to process the input string,
+extract all the substrings separated by newline,
+and copy them into the entries of your buffer structure.</dd>
+  <dt>Should I leave the <code class="highlighter-rouge">'\n'</code> characters in?</dt>
+  <dd>Depending on your approach to splitting text,
+they may already be
+The only other place you need the <code class="highlighter-rouge">'\n'</code> characters
+is in <code class="highlighter-rouge">textbuffer_to_str</code>,
+so you could probably get away without storing them.</dd>
+  <dt>Is it safe to assume that the text will always have a newline at the end?</dt>
+  <dd>Yes, text will always have a newline.</dd>
+  <dt>What should happen with multiple consecutive newlines?</dt>
+  <dd>Each newline marks a new node in the text buffer.
+You need to track empty lines.</dd>
+  <dt>Can I use <em>strtok(3)</em> or <em>strsep(3)</em>?</dt>
+  <dd>I recommend <em>strsep(3)</em>,
+but you can use either,
+though you should be
+careful about using <em>strtok(3)</em>.
+Note, however, that to use either,
+the input string needs to be mutable…
+and this isn’t guaranteed in the spec.</dd>
+</dl>
+
+<h3 id="textbuffer_drop"><code class="highlighter-rouge">textbuffer_drop</code></h3>
+
+<dl>
+  <dt>How should I write tests for <code class="highlighter-rouge">textbuffer_drop</code>?</dt>
+  <dd>You cannot.  You can’t write a black-box test for a destructor.
+
+    <p>When you <code class="highlighter-rouge">free(3)</code> memory,
+all you’re saying is that
+you no longer need the block of memory
+you had a pointer to;
+it should be irrelevant to you
+whether that memory’s value changes
+or becomes invalid in some way,
+because <em>you are absolutely forbidden
+from accessing the memory once free’d</em>.
+Use after free is an illegal and undefined operation.
+You have no way to invalidate the pointers
+(read: change any values outside your ADT,
+including outside pointer references to its state structure).</p>
+
+    <p>A good test that your <code class="highlighter-rouge">textbuffer_drop</code> worked
+is that your program is still running after you do so.</p>
+  </dd>
+</dl>
+
+<h3 id="textbuffer_to_str"><code class="highlighter-rouge">textbuffer_to_str</code></h3>
+
+<dl>
+  <dt>My textbuffer has no lines; what should <code class="highlighter-rouge">textbuffer_to_str</code> return?</dt>
+  <dd>The empty string.
+(Our tests will also accept <code class="highlighter-rouge">NULL</code>.)</dd>
+</dl>
+
+<h3 id="textbuffer_swap"><code class="highlighter-rouge">textbuffer_swap</code></h3>
+
+<dl>
+  <dt>Should I swap the string pointers or the whole nodes?</dt>
+  <dd>You should swap <strong>nodes</strong>, not the string pointers.
+
+    <p>If somewhere in your textbuffer,
+you’ve got pointers to a particular node,
+and that node’s <em>value</em> changes,
+that node’s identity is lost.
+With the exception of <code class="highlighter-rouge">textbuffer_replace</code>,
+each node’s value (in essence, the line of text it holds)
+should never, ever change.</p>
+  </dd>
+</dl>
+
+<h3 id="textbuffer_insert"><code class="highlighter-rouge">textbuffer_insert</code></h3>
+
+<dl>
+  <dt>What should happen if I <code class="highlighter-rouge">textbuffer_insert (tb1, 1, tb1)</code>?</dt>
+  <dd>Attempts to merge a textbuffer with itself should be ignored.</dd>
+  <dt>Should I call <code class="highlighter-rouge">textbuffer_drop</code> as well?</dt>
+  <dd><strong>No!</strong></dd>
+  <dt>Can I concatenate text buffers with <code class="highlighter-rouge">textbuffer_insert</code>?</dt>
+  <dd>The correct behaviour should be as follows, for
+<code class="highlighter-rouge">textbuffer_insert (dest, pos, src)</code>:
+
+    <ul>
+      <li><code class="highlighter-rouge">pos = 0</code>:
+insert <code class="highlighter-rouge">src</code> before the start of <code class="highlighter-rouge">dest</code>.</li>
+      <li><code class="highlighter-rouge">pos = textbuffer_lines(dest) - 1</code>:
+ insert <code class="highlighter-rouge">src</code> before the last line of <code class="highlighter-rouge">dest</code>.</li>
+      <li><code class="highlighter-rouge">pos = textbuffer_lines(dest)</code>:
+  append <code class="highlighter-rouge">src</code> at the end of <code class="highlighter-rouge">dest</code>.</li>
+    </ul>
+  </dd>
+</dl>
+
+<h3 id="textbuffer_cut"><code class="highlighter-rouge">textbuffer_cut</code></h3>
+
+<dl>
+  <dt>What happens if I cut the whole textbuffer?</dt>
+  <dd>You have an empty textbuffer…
+and you give back a copy of the new textbuffer.</dd>
+</dl>
+
+<h3 id="textbuffer_replace"><code class="highlighter-rouge">textbuffer_replace</code></h3>
+
+<dl>
+  <dt>Will <code class="highlighter-rouge">str1</code> and <code class="highlighter-rouge">str2</code> be the same size?</dt>
+  <dd>Not necessarily!
+You might be replacing one string with a longer string,
+and your original chunk of memory may not be big enough.
+You will need to solve this problem.</dd>
+  <dt>Should I search or replace the entire line or a substring?</dt>
+  <dd>You should search for, and replace, substrings.</dd>
+  <dt>Will the search or replacement strings include newlines?</dt>
+  <dd>No.</dd>
+  <dt>Are the search and replacement strings case-sensitive?</dt>
+  <dd>Yes.</dd>
+  <dt>What happens if I search for the empty string, <code class="highlighter-rouge">""</code>?</dt>
+  <dd>Nothing is done in this situation.  Nothing should be replaced.</dd>
+  <dt>What happens if I replace with the empty string?</dt>
+  <dd>Occurrences of the search string are removed.</dd>
+</dl>
+
+<h3 id="textbuffer_diff"><code class="highlighter-rouge">textbuffer_diff</code></h3>
+
+<dl>
+  <dt>Does <code class="highlighter-rouge">textbuffer_diff</code> change either of its textbuffer arguments?</dt>
+  <dd>No.  <code class="highlighter-rouge">textbuffer_diff</code> is non-destructive.</dd>
+</dl>
+
+<h3 id="textbuffer_undo-and-textbuffer_redo"><code class="highlighter-rouge">textbuffer_undo</code> and <code class="highlighter-rouge">textbuffer_redo</code></h3>
+
+<dl>
+  <dt>What is the effect of an undo of <code class="highlighter-rouge">textbuffer_insert</code>?</dt>
+  <dd>You don’t have to re-create the original textbuffer;
+you have no way to give it back, anyway.
+Just reverse the effects of
+adding the new lines to the textbuffer.</dd>
+</dl>
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

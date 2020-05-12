@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>COMP2521 19t0 / The Fury of Dracula</title>
+
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/assignments/dracula/" />
+  <link rel="stylesheet" href="../../assets/dracula.css" />
+  <style type="text/css">
+.drac-header
+  { background-image: linear-gradient(to right, #270907 40%, #3D0A07 60%)
+  ; background-color: #270907 }
+.drac-header > img { margin: 0 auto; }
+main { max-width: 80ex !important; margin-left: auto; margin-right: auto; }
+pre  { padding: .5rem; border-radius: .25rem; }
+pre, code, tt { color: #e9ecef; background-color: #343a40; }
+.faq dd { margin-left: 2rem; }
+.faq dd p:first-child { margin-bottom: 0 }
+footer.bg-dark { background-color: #343a40 !important; }
+  </style>
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+<header class="drac-header text-center mb-2">
+  <img src="../../assignments/dracula/Pics/drac.png" alt="The Fury of Dracula" />
+</header>
+
+<main class="container">
+
+<!--
+ - COMP2521 19t0 ... Fury of Dracula spec and files
+ -
+ - 2017-11-24	Jashank Jeremy <{jashankj,z5017851}@cse.unsw.edu.au>
+ - 2018-12-30	Jashank Jeremy <{jashankj,z5017851}@cse.unsw.edu.au>
+ - $Id$
+-->
+
+<header class="text-center">
+
+  <h1><small>Assignment 2</small><br />The Fury of Dracula</h1>
+
+  <p class="lead">
+— <strong>[introduction]</strong>
+— <a href="../../assignments/dracula/rules/">the rules</a>
+— <a href="../../assignments/dracula/data/">the data</a>
+— <a href="../../assignments/dracula/faq/">faq</a>
+— <a href="../../assignments/dracula/view/">the view</a>
+— <a href="../../assignments/dracula/hunt/">the hunt</a> —
+<br /><small class="text-muted">
+courtesy Richard Buckland, John Shepherd, and many tutors
+</small>
+</p>
+</header>
+
+<h4 id="objectives">Objectives</h4>
+
+<ul>
+  <li>to implement the engine and some AIs for a game</li>
+  <li>to give you experience working in a team</li>
+  <li>to give you further practice with C and data structures</li>
+</ul>
+
+<h4 id="admin">Admin</h4>
+
+<ul>
+  <li>worth <strong>15 marks</strong> towards your final mark in the course</li>
+  <li>deadlines for submissions are available on the relevant pages</li>
+  <li>this assignment is completed in your “Assignment 2” group</li>
+  <li>only one submission is needed for each team</li>
+</ul>
+
+<h4 id="note">Note</h4>
+
+<p>This assignment is in three parts.
+The first part is the introduction,
+where you learn about the game,
+and play with some of the data structures in the Week 4 Lab.
+The first submittable item is 
+an implementation of <a href="../../assignments/dracula/view/">the game view</a>.
+The second submittable item involves
+regularly placing your <a href="../../assignments/dracula/hunt/">game players (AIs)</a>
+in a tournament system,
+which will play submissions against each other.</p>
+
+<p>Details of the submittable items
+will be available soon.
+Marks for this assignment will be awarded
+based on each individual’s contribution to the group;
+no contribution gives no marks.</p>
+
+<h4 id="background">Background</h4>
+
+<p>This assignment is based on a real game called
+<em><a href="http://en.wikipedia.org/wiki/The_Fury_of_Dracula">The Fury of Dracula</a></em>,
+but the rules have been simplified for this assignment.
+The game might be more accurately called “Dracula Runs and Hides”,
+however, as the whole idea is that
+four Hunters are chasing Dracula and he is trying to evade them.
+Every time they catch him he loses some blood,
+and eventually, if he loses enough blood, he is vanquished.
+Dracula does the best he can to stay ahead of hunters who do the best
+they can to search for and find him.</p>
+
+<p><strong>FYI</strong>
+The game is a surprisingly good adaptation of the surprisingly good book
+<em>Dracula</em> by Bram Stoker.
+The game starts where the book leaves off.
+If you are interested,
+the book is available free from <a href="http://www.gutenberg.org/">Project Gutenberg</a>
+in <a href="http://www.gutenberg.org/ebooks/345">written form</a>
+and as a <a href="http://www.gutenberg.org/ebooks/19797">spoken novel</a>.</p>
+
+<p>In this assignment you will work in teams,
+where you will take on a Jekyll-and-Hyde split personality
+(apologies for the mixed monster metaphor).
+Part of you will be a Hunter, the other part will be Dracula himself.
+The Hunter part of you aims to hunt down and defeat Dracula.
+The Dracula part of you aims to evade the Hunters
+and regroup your dark minions so that one day
+you can wreak terrible vengeance on the world.</p>
+
+<p>You will implement your Hunter and Dracula personalities
+via two AIs that will play the game
+against the AIs of other assignment teams.</p>
+
+<h4 id="what-you-are-to-do">What you are to do</h4>
+
+<p>This assignment has three phases:
+Introduction, View development, the Hunt (tournament).
+At this stage, only information for the Introduction is available.
+Information about the View and the Hunt will be released later.</p>
+
+<dl>
+  <dt>Intro</dt>
+  <dd>In this phase, you should form your assignment team,
+read <a href="../../assignments/dracula/rules/">the Rules</a> of the game
+and practice playing it with your team.
+The aim of this phase is for you to
+develop a good understanding of the problem
+before attempting to solve it.</dd>
+  <dt>View</dt>
+  <dd>In this phase, you develop the “eyes and ears” of your AIs.
+In technical terms, you will design and build an ADT
+that will give your player AIs access to the state of the game.
+There is one ADT for the Hunters (all Hunters behave the same)
+and one ADT for Dracula.
+The player AIs must then work out
+what’s happening in the game via this ADT,
+which will give them an
+appropriately restricted view of the game state.
+For further details, see <a href="../../assignments/dracula/view/">the View</a>.</dd>
+  <dt>Hunt</dt>
+  <dd>In this phase, you implement an AI for the Hunters
+and an AI for Dracula and enter them in tournaments
+to play against other teams’ AIs.
+In each tournament, your Dracula AI will play against
+all of the other submitted Hunter AIs,
+and your Hunter AI will play against
+all of the other submitted Dracula AIs.
+After all these games, rankings will be worked out
+for Hunters and Draculas.
+For further details, see <a href="../../assignments/dracula/hunt/">the Hunt</a>.</dd>
+</dl>
+
+<h4 id="maps-of-europe">Maps of Europe</h4>
+
+<p>The game is set in Victorian (mid-late 1800’s) Europe,
+so a map of Europe from that time is
+an essential tool for playing the game.
+The critical aspects of the map are
+the cities, the seas and the road/rail/ferry links between them.</p>
+
+<p>Note that you can only move from one city to another city
+via a direct road link between them,
+or you can move directly from one city to another
+over several rail links (trains are faster).
+From a port city, you can also move to the adjacent sea;
+once in a sea, you can subsequently move to
+any port city on that sea,
+or to any other sea which borders that sea.</p>
+
+<p>Here’s a small version of a Victorian-era Europe map:</p>
+
+<p><img src="../../assignments/dracula/Pics/map0.png" class="w-100" alt="[a map of Europe]" /></p>
+
+<p>You can find larger maps at:</p>
+
+<ul>
+  <li>
+    <p><a href="http://guiltfreegames.files.wordpress.com/2010/10/europe.jpg">http://guiltfreegames.files.wordpress.com/2010/10/europe.jpg</a><br />
+<small>(credit for this map to one of the authors on the Guilt Free Games website)</small></p>
+  </li>
+  <li>
+    <p><a href="Pics/map2.png">/web/cs2521/19t0/assignments/assign2/Pics/map2.png</a><br />
+<small>(credit for this map to Ian Wong and Mohammad Ghasembeigi (COMP1927 13s2 students))</small></p>
+  </li>
+</ul>
+
+<p>You can also find visualisers for the game at:</p>
+
+<ul>
+  <li>
+    <p><a href="https://kluxa.github.io/dracula-game-viewer/">kluxa.github.io/dracula-game-viewer/</a> <br />
+<small>(credit for this visualiser to Kevin Luxa, COMP2521 18x1 student)</small></p>
+  </li>
+  <li>
+    <p><a href="https://he-lium.github.io/dracula-map/">he-lium.github.io/dracula-map</a> <br />
+<small>(credit for this visualiser to Dominic He, COMP1927 16s2 student)</small></p>
+  </li>
+</ul>
+
+</main>
+
+<footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+</body>
+</html>

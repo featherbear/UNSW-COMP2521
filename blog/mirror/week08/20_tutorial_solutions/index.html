@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Tutorial Solutions — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="../../assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/week08/20_tutorial_solutions/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="../../">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="../../webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="../../assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="../../week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../week08/">Week 8</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../week08/20_tutorial_solutions/">Tutorial Solutions</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Tutorial Solutions</h1>
+</header>
+
+
+
+
+
+<h3 id="a-question-of-balance">A Question of Balance</h3>
+
+<p>Explain how we could
+globally balance a binary search tree
+using the following partition function:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define size(tree) (tree)-&gt;size
+</span>
+<span class="n">btree_node</span> <span class="o">*</span><span class="nf">btree_partition</span> <span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="n">tree</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">k</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">tree</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="kt">size_t</span> <span class="n">lsize</span> <span class="o">=</span> <span class="n">size</span> <span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">lsize</span> <span class="o">&gt;</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">btree_partition</span> <span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">k</span><span class="p">);</span>
+		<span class="n">tree</span> <span class="o">=</span> <span class="n">btree_rotate_right</span> <span class="p">(</span><span class="n">tree</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">lsize</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">btree_partition</span> <span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">k</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">lsize</span><span class="p">);</span>
+		<span class="n">tree</span> <span class="o">=</span> <span class="n">btree_rotate_left</span> <span class="p">(</span><span class="n">tree</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">tree</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<aside class="answer">
+  <blockquote>
+    <p>We can use partition to move
+the median element of a given tree
+to the root of the tree.
+By having the median element
+at the root of the tree,
+we will end up with
+approximately the same amount of keys
+in the left and right subtrees.
+If we repeat this process
+for every subtree in the tree,
+we will have a balanced tree.</p>
+  </blockquote>
+</aside>
+
+<p>Show the result of globally rebalancing this tree:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1
+ \
+  2
+   \
+    3
+     \
+      4
+       \
+        5
+         \
+          6
+           \
+            7
+</code></pre></div></div>
+
+<aside class="answer">
+  <blockquote>
+    <p>After the first call to partition:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    4
+   / \
+  /   \
+ /     \
+1       5
+ \       \
+  2       6
+   \       \
+    3       7
+</code></pre></div>    </div>
+
+    <p>After the second call to partition:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      4
+     / \
+    /   \
+   /     \
+  2       5
+ / \       \
+1   3       6
+             \
+              7
+</code></pre></div>    </div>
+
+    <p>After the third and final call to partition:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      4
+     / \
+    /   \
+   /     \
+  2       6
+ / \     / \
+1   3   5   7
+</code></pre></div>    </div>
+  </blockquote>
+</aside>
+
+<p>Insert items with the keys <script type="math/tex">[10, 9, 8, 7, 11]</script>
+into a ‘normal’ binary search tree,
+into a binary search tree with root insertion,
+and into a splay tree.
+Draw the resulting trees.
+For each resulting tree,
+decide whether the tree is
+size balanced, height balanced, or unbalanced.</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>Into a binary search tree,
+we get this unbalanced tree:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      10
+     /  \
+    9    11
+   /
+  8
+ /
+7
+</code></pre></div>    </div>
+
+    <p>Into a binary search tree
+with root insertion,
+we get this unbalanced tree:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  11
+ /
+7
+ \
+  8
+   \
+    9
+     \
+     10
+</code></pre></div>    </div>
+
+    <p>Into a splay tree,
+we get this unbalanced tree:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    11
+   /
+  8
+ / \
+7   10
+   /
+  9
+</code></pre></div>    </div>
+
+  </blockquote>
+</aside>
+
+<p>Explain the concept of ‘amortisation’
+in the context of binary search trees and splay trees.</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>With splay trees,
+whenever a operation has to
+walk down the spine of the tree,
+it improves the balance
+of the tree by rotation.
+This makes the current operation more expensive,
+but these extra costs are amortised
+since follow up operations
+will require less time
+on this structure as a consequence.</p>
+  </blockquote>
+</aside>
+
+<p>Insert the same keys into
+a randomised binary search tree;
+get someone to flip a coin
+each time a decision needs to be made
+as to whether the node is inserted
+at the leaf or root of the given subtree.
+Heads can mean root, tails can mean leaf.
+(Note: in the actual implementation from lectures,
+the probability that it is inserted at the root
+is approx <script type="math/tex">P(n)=1/n</script>, <em>not</em> a half.)</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>… depends on coin tosses <code class="highlighter-rouge">:-)</code></p>
+  </blockquote>
+</aside>
+
+<h3 id="hashing-and-hash-tables">Hashing and Hash Tables</h3>
+
+<p>Draw a hash table of size 13.
+Use the hash function <script type="math/tex">h(k)=k\%13</script>,
+and insert the keys <script type="math/tex">[5,29,32,0,31,20,23,18]</script>
+into your table (in that order)
+using the following strategies
+for handling collisions:</p>
+
+<ul>
+  <li>chaining</li>
+  <li>linear probing</li>
+  <li>double hashing,
+with a second hash function
+<script type="math/tex">h_2(k)=7-(k\%7)</script>.
+(Why would a second hash function
+like <script type="math/tex">h_2(k)=k\%7</script>
+not be very useful?)</li>
+</ul>
+
+<aside class="answer">
+  <blockquote>
+    <p>chaining:</p>
+    <table class="table table-sm text-center">
+<thead>
+<tr><th> 0</th><th> 1</th><th> 2</th><th> 3</th><th> 4</th>
+    <th> 5</th><th> 6</th><th> 7</th><th> 8</th><th> 9</th>
+    <th>10</th><th>11</th><th>12</th></tr>
+</thead>
+<tbody>
+<tr><td> 0</td><td>  </td><td>  </td><td>29</td><td>  </td>
+    <td> 5</td><td>32</td><td>20</td><td>  </td><td>  </td>
+    <td>23</td><td>  </td><td>  </td></tr>
+<tr><td>  </td><td>  </td><td>  </td><td>  </td><td>  </td>
+    <td>31</td><td>  </td><td>  </td><td>  </td><td>  </td>
+    <td>  </td><td>  </td><td>  </td></tr>
+<tr><td>  </td><td>  </td><td>  </td><td>  </td><td>  </td>
+    <td>18</td><td>  </td><td>  </td><td>  </td><td>  </td>
+    <td>  </td><td>  </td><td>  </td></tr>
+</tbody>
+</table>
+
+    <p>linear probing:</p>
+    <table class="table table-sm text-center">
+<thead>
+<tr><th> 0</th><th> 1</th><th> 2</th><th> 3</th><th> 4</th>
+    <th> 5</th><th> 6</th><th> 7</th><th> 8</th><th> 9</th>
+    <th>10</th><th>11</th><th>12</th></tr>
+</thead>
+<tbody>
+<tr><td> 0</td><td>  </td><td>  </td><td>29</td><td>  </td>
+    <td> 5</td><td>32</td><td>31</td><td>20</td><td>18</td>
+    <td>23</td><td>  </td><td>  </td></tr>
+</tbody>
+</table>
+
+    <p>double-hashing:</p>
+    <table class="table table-sm text-center">
+<thead>
+<tr><th> 0</th><th> 1</th><th> 2</th><th> 3</th><th> 4</th>
+    <th> 5</th><th> 6</th><th> 7</th><th> 8</th><th> 9</th>
+    <th>10</th><th>11</th><th>12</th></tr>
+</thead>
+<tbody>
+<tr><td> 0</td><td>  </td><td>  </td><td>29</td><td>  </td>
+    <td> 5</td><td>32</td><td>20</td><td>18</td><td>31</td>
+    <td>23</td><td>  </td><td>  </td></tr>
+</tbody>
+</table>
+
+    <p>A hash function like <script type="math/tex">h_2(k)=k\%7</script>
+would produce values in the range 0…6.
+Values of 0 would not be very useful,
+as you would just checking an index 0 away –
+i.e., in the same spot the original collision was in.</p>
+  </blockquote>
+</aside>
+
+<p>For a hash table that uses chaining for collision resolution,
+with the chains sorted in ascending order on key value,
+what are the best case and worst case costs
+for inserting <script type="math/tex">k</script> items into the table?
+Assume that the size of the table <script type="math/tex">N=k/2</script>,
+and that the insertion cost is measured in terms of
+the number of key comparisons,
+and that the chains are sorted in key order.
+What will be average search cost
+after all the insertions are done?</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>The worst case occurs when
+the hash function returns a constant value,
+and the keys arrive in ascending order.
+In this case, there will be
+a single chain from the one entry
+in the hash table that is “hit”
+by the hash function.
+Each search of that chain will
+require us to go right to the end.
+The cost for the first insertion is 0,
+since we do no key comparisons,
+but discover that the chain is empty.
+On the second insertion, we do one key comparison;
+on the third insertion we do two key comparisons;
+and so on.
+This will give <script type="math/tex">0+1+2+\cdots+(k-1)</script> comparisons,
+which is <script type="math/tex">(k-1)\times(k-2)/2</script> total comparisons.</p>
+
+    <p>After insertion, each search requires
+a scan of the single chain of length <script type="math/tex">k</script>,
+so the average search cost will be <script type="math/tex">k/2</script>.</p>
+
+    <p>The best case occurs when
+we have a hash function that
+distributes the items uniformly
+across the table.
+In this case, we end up with
+a chain of length 2 (from <script type="math/tex">k/N</script>)
+attached to each hash table entry.
+In building these chains,
+the first entry requires no key comparisons
+(just a check for an empty chain).
+When adding the second item to each chain,
+only one comparison is needed,
+giving a total of <script type="math/tex">k/2</script> comparisons.</p>
+
+    <p>After insertion, each search requires
+a scan of a chain of length 2 and,
+on average, half the chain will be checked.
+Thus, the average search cost will be 1.</p>
+  </blockquote>
+</aside>
+
+<h3 id="digest-this">Digest This!</h3>
+
+<p>Consider the following scheme for implementing a hash function
+by treating the characters in a string as bit patterns that
+form a long integer value.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;inttypes.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+</span>
+<span class="cp">#define TABLESIZE 8191
+#define U64SIZE (sizeof (uint64_t))
+</span>
+<span class="k">static</span> <span class="kt">uint64_t</span> <span class="n">hash_short_string</span> <span class="p">(</span><span class="kt">char</span> <span class="n">v</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">N</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">printf</span> <span class="p">(</span><span class="s">"Usage: %s &lt;string&gt;</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+		<span class="n">printf</span> <span class="p">(</span><span class="s">"(&lt;string&gt; truncated after %zu characters)</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">U64SIZE</span><span class="p">);</span>
+		<span class="k">return</span> <span class="n">EXIT_FAILURE</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="kt">char</span> <span class="n">key</span><span class="p">[</span><span class="n">U64SIZE</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+	<span class="n">strncpy</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">U64SIZE</span><span class="p">);</span>
+	<span class="n">printf</span> <span class="p">(</span><span class="s">"Hash: %"</span> <span class="n">PRIu64</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">hash_short_string</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">TABLESIZE</span><span class="p">));</span>
+	<span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">uint64_t</span> <span class="nf">hash_short_string</span><span class="p">(</span><span class="kt">char</span> <span class="n">v</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">N</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">union</span> <span class="n">IntStr</span> <span class="p">{</span>
+		<span class="kt">uint64_t</span> <span class="n">ikey</span><span class="p">;</span>
+		<span class="kt">uint8_t</span>  <span class="n">skey</span><span class="p">[</span><span class="n">U64SIZE</span><span class="p">];</span>
+	<span class="p">}</span> <span class="o">*</span><span class="n">is</span> <span class="o">=</span> <span class="p">(</span><span class="k">union</span> <span class="n">IntStr</span> <span class="o">*</span><span class="p">)</span><span class="n">v</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="p">(</span><span class="n">is</span><span class="o">-&gt;</span><span class="n">ikey</span> <span class="o">%</span> <span class="n">N</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Discuss how the <code class="highlighter-rouge">hash_short_string()</code> function works.
+What is the difference between a <code class="highlighter-rouge">struct</code> and a <code class="highlighter-rouge">union</code>?
+How is the conversion achieved?</p>
+
+<p>What happens if strings are provided
+whose length is smaller or larger than <tt>U64SIZE</tt>?</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>A <code class="highlighter-rouge">struct</code> defines an object containing multiple values,
+where each value can have a different type,
+is referenced by a field name,
+and has its own memory.</p>
+
+    <p>A <code class="highlighter-rouge">union</code> defines an object which refers
+to a single piece of memory
+that can be referenced by different names
+and be interpreted differently,
+depending on the type associated with the name.</p>
+
+    <p>Consider the following similar-looking definitions:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">s</span> <span class="p">{</span> <span class="kt">int</span> <span class="n">x</span><span class="p">;</span> <span class="kt">float</span> <span class="n">y</span><span class="p">;</span> <span class="p">}</span> <span class="n">obj1</span><span class="p">;</span>
+<span class="k">union</span>  <span class="n">u</span> <span class="p">{</span> <span class="kt">int</span> <span class="n">x</span><span class="p">;</span> <span class="kt">float</span> <span class="n">y</span><span class="p">;</span> <span class="p">}</span> <span class="n">obj2</span><span class="p">;</span>
+</code></pre></div>    </div>
+
+    <p>The <code class="highlighter-rouge">struct</code> definition gives an $$|\texttt{int}|+|\texttt{float}|=4+4=8$ byte object (called <code class="highlighter-rouge">obj1</code>)
+where the first 4 bytes store an integer value by the name <code class="highlighter-rouge">x</code>,
+and where the second 4 bytes store a floating-point value by the name <code class="highlighter-rouge">y</code>.</p>
+
+    <p>The <code class="highlighter-rouge">union</code> definition gives an <script type="math/tex">\max\{|\texttt{int}|,|\texttt{float}|\}=4</script> byte object (called <code class="highlighter-rouge">obj2</code>)
+where those bytes can be referenced by two different names,
+and the bit pattern in those bytes will be interpreted
+as an <code class="highlighter-rouge">int</code> if the name <code class="highlighter-rouge">x</code> is used, and
+as a <code class="highlighter-rouge">float</code> if the name <code class="highlighter-rouge">y</code> is used.</p>
+
+    <hr />
+
+    <p>The <code class="highlighter-rouge">hash_short_string()</code> function exploits this ability
+to reinterpret the contents of a piece of memory in different ways.
+We know that a single <code class="highlighter-rouge">uint8_t</code> value will occupy 8 bits, or one byte;
+an array of eight <code class="highlighter-rouge">uint8_t</code> values will occupy 8 bytes;
+and a <code class="highlighter-rouge">uint64_t</code> value occupies 64 bits, or 8 bytes.</p>
+
+    <p>If we cast a pointer to a string into this type,
+it allows us to view the first eight bytes
+via the array <code class="highlighter-rouge">is-&gt;skey</code>.
+If the same eight bytes are referenced via <code class="highlighter-rouge">is-&gt;ikey</code>,
+they will be interpreted as a single value of type <code class="highlighter-rouge">uint64_t</code>.</p>
+
+    <p>By taking the first eight characters of the string,
+and treating it as a 64-bit unsigned integer value,
+we can take a value and produce a hash of (roughly) the string’s contents.</p>
+
+    <p>When we “fit” it into the table size using the mod operator,
+since the table size is relatively small
+compared to the space of values for the large integer,
+most of the bits will not be included in the hash value.
+For small hash table sizes – less than 65,000 or so –
+only the first two bytes of the string
+will actually contribute to the hash value.</p>
+
+    <p>Also, any characters beyond the 8th character
+will be completely ignored, regardless of the hash table size.</p>
+
+    <p>More problematic is the question of what happens with
+short strings (less than 8 characters);
+the first few bytes have defined values,
+but the bytes after that are filled with zeroes,
+and the order of the bytes is such that
+the zero bytes contribute to the hash.</p>
+
+    <p>In summary, this is not a great way to do hashing.</p>
+
+    <p>(For more on <code class="highlighter-rouge">union</code>s, <code class="highlighter-rouge">struct</code>s, endianness,
+and all sorts of other bit-reinterpretation evils,
+check out COMP1521.)</p>
+  </blockquote>
+</aside>
+
+<p>If there is any remaining time,
+use it to finish any questions
+you did not cover in previous weeks.</p>
+
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

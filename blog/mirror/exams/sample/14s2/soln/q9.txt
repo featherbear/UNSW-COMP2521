@@ -1,0 +1,26 @@
+Question 9 ... COMP1927 14s2 Final Exam
+
+
+A.  (gcc -o option)
+
+It puts the executable in the file called "trav"
+
+
+B.  (Graph.c -> Graph.o)
+
+gcc -c Graph.c
+or
+gcc -Wall -Werror -c Graph.c
+
+
+C.  (break myFun)
+
+It sets a breakpoint so that execution halts
+and control is returned to GDB as soon as the
+myFun() function is entered
+
+
+D.  (Bonus: famous nerd)
+
+Tony Hoare, who invented Quicksort
+

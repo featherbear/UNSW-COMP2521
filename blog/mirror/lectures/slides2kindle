@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -e
+
+udisksctl mount -b /dev/sdb
+rsync -Pa *.handout.pdf /run/media/jashank/Kindle/documents/cs2521.19t0
+gio mount -e file:///run/media/jashank/Kindle

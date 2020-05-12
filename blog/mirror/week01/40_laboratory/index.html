@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Laboratory — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="../../assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/week01/40_laboratory/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="../../">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="../../webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="../../assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="../../week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../week01/">Week 1</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../week01/40_laboratory/">Laboratory</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Laboratory</h1>
+</header>
+
+
+
+
+
+<h2 id="objectives">Objectives</h2>
+
+<ul>
+  <li>To practise programming linked lists</li>
+  <li>To practise programming doubly linked lists</li>
+  <li>To practise using <code class="highlighter-rouge">gdb</code>, <code class="highlighter-rouge">valgrind</code>, and <code class="highlighter-rouge">3c</code></li>
+</ul>
+
+<h2 id="assessment">Assessment</h2>
+
+<dl class="dl-horizontal">
+  <dt>Deadline</dt>
+  <dd>2 December 2018, 23:59:59</dd>
+  <dt>Marks</dt>
+  <dd>3</dd>
+  <dt>Submission</dt>
+  <dd><code class="highlighter-rouge">give cs2521 lab01</code></dd>
+</dl>
+
+<p>This lab should be done individually.</p>
+
+<p>You must get your tutor in your lab
+to mark the exercises during allocated lab time,
+or the following week
+if you submitted your lab on time using Give.
+Try to get them to mark each exercise
+as you complete it in your lab time, if possible.</p>
+
+<p>In addition to the code that the exercise calls for,
+you will of course have to write
+some additional code
+to test the correctness of your implementation.
+Your tutor may want to see your testing code, too;
+good style requires good tests!</p>
+
+<p>Code submitted by the deadline for a lab
+may be marked the following week
+at the beginning of the lab with no penalty.
+Late submissions will receive a 1 mark penalty.
+Once solutions are available, labs will be given 0.</p>
+
+<h2 id="setting-up">Setting up</h2>
+
+<p>Create a directory for this lab, change into it,
+and retrieve the files with the <code class="highlighter-rouge">fetch</code> command:</p>
+
+<pre>
+<kbd is="shell">2521 fetch lab01</kbd>
+`./lists.h' -&gt; `.../lists.h'
+./
+Makefile
+lists.c
+test_lists.c
+</pre>
+
+<p>This will have provided you with several files
+(as you may have guessed by its output):</p>
+
+<dl class="dl-horizontal">
+  <dt><a href="../files.ln/lists.h"><code class="highlighter-rouge">lists.h</code></a></dt>
+  <dd>contains linked-list definitions
+and function prototypes.
+Do not change this file.</dd>
+  <dt><a href="../files.cp/Makefile"><code class="highlighter-rouge">Makefile</code></a></dt>
+  <dd>contains build rules.</dd>
+  <dt><a href="../files.cp/lists.c"><code class="highlighter-rouge">lists.c</code></a></dt>
+  <dd>contains a <code class="highlighter-rouge">list_print</code> function,
+and stubs for functions you need to implement
+to complete this lab.</dd>
+  <dt><a href="../files.cp/test_lists.c"><code class="highlighter-rouge">test_lists.c</code></a></dt>
+  <dd>contains a <code class="highlighter-rouge">main</code> function
+to test your list implementation.
+You will need to add
+your own tests to this file.</dd>
+</dl>
+
+<p><a href="../files.tar">Download all the files</a>.</p>
+
+<p>The provided code contains
+tags marking unused variables.
+You should remove these tags
+as you implement those functions.</p>
+
+<!-- =============================================================== -->
+<h2 id="exercise-1">
+  Exercise 1: Linked Lists
+  <small class="text-muted text-nowrap">(0.5 marks)</small></h2>
+
+<p>Using the code given in the tutorial, or otherwise,
+implement the functions in <code class="highlighter-rouge">lists.c</code>:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">link</span> <span class="n">node_new</span> <span class="p">(</span><span class="n">Item</span> <span class="n">it</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">list_insert_next</span> <span class="p">(</span><span class="n">link</span> <span class="n">list</span><span class="p">,</span> <span class="n">link</span> <span class="n">node</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Modify the <code class="highlighter-rouge">test_lists.c</code> code
+to use these functions
+to create a list with 3 nodes,
+and use the <code class="highlighter-rouge">list_print</code> function to print them out.</p>
+
+<p>Compile your program –</p>
+<pre>
+<kbd is="shell">make</kbd>
+2521 3c    -c -o test_lists.o test_lists.c
+2521 3c    -c -o lists.o lists.c
+2521 3c   test_lists.o lists.o   -o test_lists
+</pre>
+
+<p>Execute your program in <code class="highlighter-rouge">gdb</code>,
+and show your tutor that you can:</p>
+
+<ol>
+  <li>set a breakpoint at the beginning of a function,
+and at a given line in the program;</li>
+  <li>inspect the elements of a list
+using the <code class="highlighter-rouge">print</code> command; and</li>
+  <li>inspect the call stack.</li>
+</ol>
+
+<p>Now implement the function <code class="highlighter-rouge">list_sum_items</code>,
+which adds all the items in a list
+and returns the resulting integer value.
+Add some tests to <code class="highlighter-rouge">test_lists.c</code>,
+for cases with zero, one, and more elements.
+Use <code class="highlighter-rouge">gdb</code> to help debug your code, if needed.</p>
+
+<!-- =============================================================== -->
+<h2 id="exercise-2">
+  Exercise 2: Six Bytes In A Leaky Boat
+  <small class="text-muted text-nowrap">(0.5 marks)</small></h2>
+
+<p>Our compiler, <code class="highlighter-rouge">3c</code>, supports memory leak checking.
+You’ll have to invoke it by hand, though,
+adding <code class="highlighter-rouge">+leak</code> as the <em>first</em> argument –</p>
+
+<pre>
+<kbd is="shell">2521 3c +leak test_lists.c lists.c -o test_lists</kbd>
+<kbd is="shell">./test_lists</kbd>
+</pre>
+
+<p>The output should show you that you have some memory leaks,
+assuming you have written some code in <code class="highlighter-rouge">test_lists.c</code>
+that actually adds some nodes to your linked list.</p>
+
+<p>Implement a function <code class="highlighter-rouge">list_drop</code>
+that frees all the memory for each node in your list.
+Once you have written the function,
+test it in your <code class="highlighter-rouge">test_lists.c</code> code.</p>
+
+<p>Run <code class="highlighter-rouge">3c +leak</code> again,
+and check that all the memory leaks have gone.
+You must be able to show this to your tutor.</p>
+
+<!-- =============================================================== -->
+<h2 id="exercise-3">
+  Exercise 3: Ouraboros!
+  <small class="text-muted text-nowrap">(1 mark)</small></h2>
+
+<p>Implement the functions</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">link</span> <span class="n">clist_new</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n_nodes</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">clist_print</span> <span class="p">(</span><span class="n">link</span> <span class="n">clist</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The first function creates a circular linked list
+with the specified number of nodes.
+The second function prints the data in each node,
+starting with the node specified.</p>
+
+<p>Test it in your <code class="highlighter-rouge">test_lists.c</code> code
+for lists with zero, one, and more elements.</p>
+
+<p>What happens if you try to run <code class="highlighter-rouge">list_sum_items</code>
+on your circular linked list?
+You must be able to explain this to your tutor,
+but you do not need to fix it.</p>
+
+<p>What happens if you try to run <code class="highlighter-rouge">list_drop</code>
+on your circular list?
+Modify <code class="highlighter-rouge">list_drop</code> so it works for
+both regular linked lists
+and circular linked lists.
+You should be able to show your tutor
+using <code class="highlighter-rouge">3c +leak</code> or Valgrind
+that no memory leaks exist.</p>
+
+<!-- =============================================================== -->
+<h2 id="exercise-4">
+  Exercise 4: Double, Double, Linked-List Trouble
+  <small class="text-muted text-nowrap">(1 mark)</small></h2>
+
+<p>Write a function <code class="highlighter-rouge">dlist_new_from_list</code> which,
+given a singly-linked list,
+creates a new doubly-linked list,
+with the same items as elements.
+You might want to write
+a <code class="highlighter-rouge">dlist_print</code> function to test it.</p>
+
+<p>You must also write a function <code class="highlighter-rouge">dlist_drop</code>,
+and make sure you can demonstrate that
+you have freed the memory correctly
+to your tutor.</p>
+
+<h2 id="submitting">Submitting</h2>
+
+<p>You must get the lab marked by your tutor in your lab.</p>
+
+<p>Submit your work with the <em>give</em> command, like so:</p>
+
+<p><samp><kbd is="shell">give cs2521 lab01 lists.c</kbd></samp></p>
+
+<p>Or, if you are working from home, upload the relevant file(s) to
+the <tt>lab01</tt> activity on
+WebCMS3 or on
+<a href="https://cgi.cse.unsw.edu.au/~give/Student/give.php">Give Online</a>.</p>
+
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

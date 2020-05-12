@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>COMP1927 13s1 Final Exam</title>
+<link rel='stylesheet' type='text/css' href='exam.css'></head>
+<body>
+<div align='center'>
+<table width='100%' border='0'>
+<tr valign='top'>
+<td align='left' width='25%'>
+  <span class='tiny'>COMP1927 13s1</span>
+</td>
+<td align='center' width='50%'>
+  <span class='heading'>COMP1927 13s1 Final Exam</span>
+</td>
+<td align='right' width='25%'>
+  <span class='tiny'>Computing 2</span>
+</td>
+</table>
+</div>
+<center><a href='index.html'>[Instructions]</a> <a target='C' href='C/index.html'>[C language]</a> <br><a href='Q01.html'>[Q1]</a> <b>[Q2]</b> <a href='Q03.html'>[Q3]</a> <a href='Q04.html'>[Q4]</a> <a href='Q05.html'>[Q5]</a> <a href='Q06.html'>[Q6]</a> <a href='Q07.html'>[Q7]</a> <a href='Q08.html'>[Q8]</a> <a href='Q09.html'>[Q9]</a> 
+</center>
+<hr>
+<div style='margin-left:40px;margin-right:40px'>
+<h3>Question 2 <span class='tiny'>(10 marks)</span></h3>
+<p>
+In the <tt>q2</tt> directory is a simple <tt>List</tt> ADT and a small
+driver which reads a sequence of integers into a List, displays the List,
+then reverses it, and finally displays the reversed List.
+To get a better idea of how this program is supposed to work,
+look at the testing examples in the <tt>q2/tests</tt> directory.
+</p>
+<p>
+The <tt>ListReverse()</tt> function in the ADT provides the functionality
+to revrese lists. The following diagram shows how it works on a sample List:
+</p>
+<center><img src="Pics/ListReverse.png"></center>
+<p>
+Implement the <tt>ListReverse()</tt> function in the file <tt>List.c</tt>.
+You may implement any additional functions that you want, but you must
+maintain the current <tt>ListReverse()</tt> function interface.
+</p>
+<p>
+The <tt>q2</tt> directory also contains a <tt>Makefile</tt> which
+has two major behaviours:
+</p>
+<pre>
+make q2    <span class="comment"># build the q2 program, which invokes the List functions</span>
+make test  <span class="comment"># apply the tests in q2/tests to the q2 program</span>
+</pre>
+<p>
+Once you are satisfied with your program, submit it using the command:
+</p>
+<pre>
+submit q2
+</pre>
+<p>
+This will make a copy of the <tt>XXX.c</tt> file from the <tt>q2</tt>
+directory as your answer for this question.
+You can run the <tt>submit</tt> command as many times as you like,
+but make sure that your final submission compiles without any errors
+or warnings.
+Test your program thoroughly, possibly using test cases additional
+to those supplied. Your program will be tested using inputs which
+are different to the examples in the <tt>q2/tests</tt> directory.
+</p>
+<p>
+If, at some stage, you need to "re-install" the files (although you
+should not need to), you can copy all of the original files
+into the <tt>q2</tt> directory by running the command:
+</p>
+<pre>
+re-start q2
+</pre>
+<p>
+Beware: this will overwrite all of your exsting files for this
+question, so only do it if you seriously mess things up.
+</p>
+
+
+</div>
+</body>
+</html>

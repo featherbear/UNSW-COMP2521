@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Example Sort Detective Report — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="../../assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/week06/41_report_template/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="../../">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="../../webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="../../assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="../../week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../week06/">Week 6</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../week06/41_report_template/">Example Sort Detective Report</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+
+
+
+<header class="text-center">
+<h1><small>— COMP2521 19T0 —</small><br />
+  Sort Detective Report</h1>
+
+<p class="lead">
+by <var>Name1</var>, <var>Name2</var>
+</p>
+</header>
+
+<p>In this lab, the aim is to measure the performance of two sorting
+programs, without access to the code, and determine which sort algorithm
+each program implements.</p>
+
+<h2 id="experimental-design">Experimental Design</h2>
+
+<p>There are two aspects to our analysis:</p>
+
+<ul>
+  <li>determine that the sort programs are actually correct, and</li>
+  <li>measure their performance over a range of inputs.</li>
+</ul>
+
+<h3 id="correctness-analysis">Correctness Analysis</h3>
+
+<p>To determine correctness, we tested each program on the following kinds of input …</p>
+
+<p>We chose these inputs because …</p>
+
+<h3 id="performance-analysis">Performance Analysis</h3>
+
+<p>In our performance analysis, we measured how each program’s execution
+time varied as the size and initial sortedness of the input varied. We
+used the following kinds of input …</p>
+
+<p>We used these test cases because …</p>
+
+<p>Because of the way timing works on Unix/Linux, it was necessary to
+repeat the same test multiple times …</p>
+
+<p>We were able to use up to quite large test cases without storage
+overhead because (a) we had a data generator that could generate
+consistent inputs to be used for multiple test runs, (b) we had already
+demonstrated that the program worked correctly, so there was no need to
+check the output.</p>
+
+<p>We also investigated the stability of the sorting programs by …</p>
+
+<p>We also investigated … <em>any other relevant properties</em> …</p>
+
+<h2 id="experimental-results">Experimental Results</h2>
+
+<h3 id="correctness-experiments">Correctness Experiments</h3>
+
+<p>An example of a test case and the results of that test is …</p>
+
+<p>On all of our test cases, …</p>
+
+<h3 id="performance-experiments">Performance Experiments</h3>
+
+<p>For Program A, we observed that …</p>
+
+<p>These observations indicate that the algorithm underlying the program
+… <em>has the following characteristics</em> …</p>
+
+<p>For Program B, we observed that …</p>
+
+<p>These observations indicate that the algorithm underlying the program
+… <em>has the following characteristics</em> …</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>On the basis of our experiments and our analysis above, we believe that</p>
+
+<ul>
+  <li>ProgramA implements the <em>uvw</em> sorting algorithm</li>
+  <li>ProgramB implements the <em>xyz</em> sorting algorithm</li>
+</ul>
+
+<h2 id="appendix">Appendix</h2>
+
+<p><em>Any large tables of data that you want to present …</em></p>
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

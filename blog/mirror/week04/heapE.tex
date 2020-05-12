@@ -1,0 +1,59 @@
+\documentclass[12pt]{minimal}
+\pagestyle{empty}
+
+\usepackage{textcomp}
+\usepackage{fontspec}
+\setmainfont{Fira Sans}
+\setsansfont{Fira Sans}
+\setmonofont{Source Code Pro}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows, calc, graphs, graphdrawing, positioning}
+
+% <https://tex.stackexchange.com/questions/453132>
+\usepackage{luacode}
+\begin{luacode*}
+function pgf_lookup_and_require(name)
+    local sep = package.config:sub(1,1)
+    local function lookup(name)
+        local sub = name:gsub('%.',sep)
+        if kpse.find_file(sub, 'lua') then
+            require(name)
+        elseif kpse.find_file(sub, 'clua') then
+            collectgarbage('stop')
+            require(name)
+            collectgarbage('restart')
+        else
+            return false
+        end
+        return true
+    end
+    return
+        lookup('pgf.gd.' .. name .. '.library') or
+        lookup('pgf.gd.' .. name) or
+        lookup(name .. '.library') or
+        lookup(name)
+end
+\end{luacode*}
+
+\usegdlibrary{trees}
+
+\begin{document}
+\begin{tikzpicture} [
+  extended binary tree layout,
+  missing nodes get space,
+  minimum number of children=2,
+  level distance=12mm,
+  sibling sep=10mm,
+  significant sep=12mm,
+  nodes={draw, circle, minimum size=8mm},
+]
+  \graph {
+    3 -- {
+      2,
+    },
+  };
+% 10 5 15 3 16 13 6 * 2 * * * * *
+
+\end{tikzpicture}
+\end{document}

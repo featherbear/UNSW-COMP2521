@@ -1,0 +1,47 @@
+Question 9 ... COMP1927 13s1 Final Exam
+
+
+A.
+
+Approach below only adds items to the queue if
+* not visited AND not already on the queue
+
+Iteration   Data     Values
+
+0           Queue    [a]
+            Current  -
+            Visited  {}
+
+1           Queue    [e, d, b]
+            Current  a
+            Visited  {a}
+
+2           Queue    [d, b, f]
+            Current  e
+            Visited  {a e}
+...
+Visiting Order:  a  e  d  b  f  g  c  j  i  h
+
+
+B.
+
+Iteration   Data     Values
+
+0           Queue    [a]
+            Current  -
+            Visited  {}
+
+1           Queue    [b, e, d]
+            Current  a
+            Visited  {a}
+
+2           Queue    [e, d, c]
+            Current  b
+            Visited  {a b}
+...
+Visiting Order:  a  b  e  d  c  f  g  h  j  i
+
+
+C. (bonus question)
+
+John Lions

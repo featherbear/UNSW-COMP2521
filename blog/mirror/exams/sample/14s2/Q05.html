@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Sample Final Exam</title>
+<link rel='stylesheet' type='text/css' href='exam.css'></head>
+<body>
+<div align='center'>
+<table width='100%' border='0'>
+<tr valign='top'>
+<td align='left' width='25%'>
+  <span class='tiny'>Sample</span>
+</td>
+<td align='center' width='50%'>
+  <span class='heading'>Sample Final Exam</span>
+</td>
+<td align='right' width='25%'>
+  <span class='tiny'>COMP2521</span>
+</td>
+</table>
+</div>
+<center><a href='index.html'>[Instructions]</a> <a target='C' href='C/index.html'>[C language]</a> <a target='Algos' href='Algos/index.html'>[Algorithms]</a> <br><a href='Q01.html'>[Q1]</a> <a href='Q02.html'>[Q2]</a> <a href='Q03.html'>[Q3]</a> <a href='Q04.html'>[Q4]</a> <b>[Q5]</b> <a href='Q06.html'>[Q6]</a> <a href='Q07.html'>[Q7]</a> <a href='Q08.html'>[Q8]</a> <a href='Q09.html'>[Q9]</a> 
+</center>
+<hr>
+<div style='margin-left:40px;margin-right:40px'>
+<h3>Question 5 <span class='tiny'>(9 marks)</span></h3>
+<p>
+Consider a scenario where we have
+</p>
+<ul>
+<li>a hash table with 7 slots,</li>
+<li>key values are positive integers,</li>
+<li>a hash function <span class="math">h(x) = x%7</span>,</li>
+<li>a secondary hash function <span class="math">h2(x) = x%5</span></li>
+</ul>
+</p>
+<p>
+Based on the above answer the following questions:
+</p>
+<ol type="A">
+<li><p>
+In the ideal case (no collisions), what is the complexity of searching for
+a key in a hash table with <span class="math">N</span> slots?
+</p></li>
+<li><p>
+Consider the scenario where the above hash table uses chaining for collision
+resolution, and has the following distribution of chain lengths:
+2 slots are empty, 2 slots have a chain of length 1,
+1 slot has a chain of length 2, 1 slot has a chain of
+length 3, and 1 slot has a chain of length 4.
+</p>
+<ol type="i">
+<li>
+What is the <em>minimum</em> number of <em>key comparisons</em> required to search
+for a key in this table?
+</li>
+<li>
+What is the <em>maximum</em> number of <em>key comparisons</em> required to search
+for a key in this table?
+</ol>
+</li>
+<li><p>
+Now consider the scenario where the hash table uses <em>linear probing</em>
+for collision resolution.
+If we start from an initially empty hash table and insert the following
+keys (in the order supplied) into the table:
+</p>
+<pre>
+11  21  31  32  12  22  24
+</pre>
+<p>
+show the state of the hash table <em>after the insertion of each key</em>.
+(The <tt>q5.txt</tt> file contains a template for how to show the table,
+and even shows the state of the table after the insertion of the first key).
+</p></li>
+<li><p>
+Now consider the scenario where the hash table uses <em>double hashing</em>
+for collision resolution,
+with <span class="math">h2</span> as the secondary hash function.
+If we start from an initially empty hash table and insert the following
+keys (in the order supplied) into the table:
+</p>
+<pre>
+11  21  31  32  12  22  24
+</pre>
+<p>
+show the state of the hash table <em>after the insertion of each key</em>.
+(The <tt>q5.txt</tt> file contains a template for how to show the table,
+and even shows the state of the table after the insertion of the first key).
+</p></li>
+</ol>
+<p>
+Type the answer to this question into the file called
+<tt>q5.txt</tt> and submit it using the command:
+</p>
+<pre>
+$ <b>submit q5</b>
+</pre>
+<p>
+The above command will make a copy of <tt>q5.txt</tt> as your answer
+for this question.
+</p>
+
+
+
+</div>
+</body>
+</html>

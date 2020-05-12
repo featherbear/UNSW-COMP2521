@@ -1,0 +1,149 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Sample Final Exam</title>
+<link rel='stylesheet' type='text/css' href='exam.css'></head>
+<body>
+<div align='center'>
+<table width='100%' border='0'>
+<tr valign='top'>
+<td align='left' width='25%'>
+  <span class='tiny'>Sample</span>
+</td>
+<td align='center' width='50%'>
+  <span class='heading'>Sample Final Exam</span>
+</td>
+<td align='right' width='25%'>
+  <span class='tiny'>COMP2521</span>
+</td>
+</table>
+</div>
+<center><a href='index.html'>[Instructions]</a> <a target='C' href='C/index.html'>[C language]</a> <a target='Algos' href='Algos/index.html'>[Algorithms]</a> <br><b>[Q1]</b> <a href='Q02.html'>[Q2]</a> <a href='Q03.html'>[Q3]</a> <a href='Q04.html'>[Q4]</a> <a href='Q05.html'>[Q5]</a> <a href='Q06.html'>[Q6]</a> <a href='Q07.html'>[Q7]</a> <a href='Q08.html'>[Q8]</a> <a href='Q09.html'>[Q9]</a> 
+</center>
+<hr>
+<div style='margin-left:40px;margin-right:40px'>
+<h3>Question 1 <span class='tiny'>(13 marks)</span></h3>
+<p>
+In the <tt>q1</tt> directory is an implementation of a simple <tt>Matrix</tt> ADT,
+along with a main program to test it.
+The ADT contains functions to create, read, and remove matrices, as well as
+addition and multiplication functions to combine pairs of compatible matrices.
+</p>
+<p>
+Your task for this question is to implement the <tt>multiply()</tt> function,
+which is currently incomplete.
+For two matrices
+<span class="math">X</span> (with dimensions <span class="math">M&times;N</span>)
+and
+<span class="math">Y</span> (with dimensions <span class="math">N&times;P</span>),
+multiplication produces a matrix
+<span class="math">Z</span> (with dimensions <span class="math">M&times;P</span>)
+whose elements are defined as follows:
+</p>
+<center>
+<img src="Pics/eqn1.gif" alt="Z=X*Y, where Z[i,j] = Sum{k=0..N-1}(X[i][k] * Y[k][j])">
+</center>
+<p>
+The <tt>multiply()</tt> function takes two matrices as parameters, checks their
+compatibility, and then multiples the two matrices, storing the result in a
+newly-created matrix, and returning the new matrix as the result.
+</p>
+<p>
+The overall structure of the <tt>multiply()</tt> function is somewhat like the
+structure of the existing <tt>add()</tt> function.
+But note that the compatibility check for matrix multiplication is <em>different</em>
+to the compatibility check for matrix addition.
+Note also that all output, including error messages, should be written to the
+standard output.
+</p>
+<p>
+The <tt>q1</tt> directory contains the following:
+</p>
+<ul>
+<li> <tt>Makefile</tt> ... handles compilation and testing
+<li> <tt>Matrix.h</tt> ... interface to the <tt>Matrix</tt> ADT
+<li> <tt>Matrix.c</tt> ... implementation of the <tt>Matrix</tt> ADT
+<li> <tt>main.c</tt> ... main program, used to produce an executable called <tt>q1</tt>
+<li> <tt>m0</tt>,<tt>m1</tt>,..,<tt>m6</tt> ... data files containing matrices to be read in
+<li> <tt>tests/</tt> ... a directory containing test scripts and expected outputs
+</ul>
+<p>
+The <tt>Makefile</tt> compiles the <tt>Matrix</tt> ADT and the main program
+in <tt>main.c</tt> to produce an executable program called <tt>q1</tt>.
+This program has three command-line arguments: an operation (<tt>add</tt>
+or <tt>mul</tt>), and the names of two files, where each file contains
+data for one matrix.
+</p>
+<p>
+As supplied, the <tt>q1</tt> program can perform matrix addition on two matrices
+which have the same number of rows and columns.
+A simple example of using this program would be:
+</p>
+<pre>
+$ <b>./q1 add m0 m0</b>
+Matrix X
+[     1     2 ]
+[     3     4 ]
+Matrix Y
+[     1     2 ]
+[     3     4 ]
+add(X,Y)
+[     2     4 ]
+[     6     8 ]
+</pre>
+<p>
+You compile and test the <tt>q1</tt> program using the following commands:
+</p>
+<pre>
+$ <b>make q1</b>   <span class="comment"># build the q1 program</span>
+$ <b>check q1</b>  <span class="comment"># apply the tests in the tests directory to the q1 program</span>
+</pre>
+<p>
+You can find out more about the behaviour of the <tt>q1</tt> program
+by looking at the files in the <tt>tests</tt> directory.
+The files named <tt>t<i>X</i></tt> are test scripts. Each test script has a
+corresponding file <tt>t<i>X</i>.exp</tt> which contains the expected
+output from running that test.
+If you want to run the tests individually, use commands like:
+</p>
+<pre>
+$ <b>sh tests/t1</b>
+</pre>
+<p>
+Note that test <tt>t3</tt> is supposed to produce an error; it is trying
+to multiply incompatible matrices.
+<p>
+After you run the tests, additional files will appear in the <tt>tests</tt>
+directory: <tt>t<i>X</i>.out</tt> contains the output of running 
+test <tt>t<i>X</i></tt>.
+</p>
+<p>
+You can add debugging code to <tt>main.c</tt> or <tt>Matrix.c</tt> if you
+want, but make sure that you remove it before testing and submitting,
+otherwise your output won't match the expected output and you'll fail all
+of the tests.
+You can also add any auxiliary functions to <tt>Matrix.c</tt>
+that you think are necessary.
+</p>
+<p>
+Once you are satisfied with your program, submit it using the command:
+</p>
+<pre>
+$ <b>submit q1</b>
+</pre>
+<p>
+This will make a copy of the <tt>Matrix.c</tt> file from the <tt>q1</tt>
+directory as your answer for this question.
+You can run the <tt>submit</tt> command as many times as you like,
+but make sure that your final submission compiles without any errors
+or warnings.
+Test your program thoroughly, possibly using test cases additional
+to those supplied. Your program will be tested using additional test
+cases to the examples in the <tt>q1/tests</tt> directory.
+</p>
+
+
+
+</div>
+</body>
+</html>

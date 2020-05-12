@@ -1,0 +1,64 @@
+activity = "textbuffer"
+assignment = 1
+when = "assignment"
+
+name = "Assignment 1: Textbuffer"
+brief = ""
+
+accept =  [ "textbuffer.c" ]
+provide = [
+    "textbuffer.h",
+    "dryrun00.c", "dryrun01.c", "dryrun02.c", "dryrun03.c",
+    "dryrun04.c", "dryrun05.c", "dryrun06.c", "dryrun07.c",
+    "dryrun08.c", "dryrun09.c", "dryrun10.c"
+]
+
+# Options for the 'compile' list are:
+#  * 'dcc': Clang + ASan + UBSan + error prettifying
+#  * 'vcc': Clang + Valgrind + error prettifying
+#  * 'dcc --valgrind': Clang + Valgrind + error prettifying
+#  * 'dcc --leak-check': Clang + Valgrind --leak-check + error prettifying
+#  * 'gcc': whetever garbage C compiler we can find
+#  * 'clang': Clang.
+compile = [ '3c' ]
+
+[deadline]
+open = '2018-11-30 00:00:00'
+due  = '2018-12-14 23:59:59'
+end  = '2018-12-19 23:59:59'
+
+[[autotest]]
+descr = "dryrun00"
+compile_flags = [ 'dryrun00.c' ]
+[[autotest]]
+descr = "dryrun01"
+compile_flags = [ 'dryrun01.c' ]
+[[autotest]]
+descr = "dryrun02"
+compile_flags = [ 'dryrun02.c' ]
+[[autotest]]
+descr = "dryrun03"
+compile_flags = [ 'dryrun03.c' ]
+[[autotest]]
+descr = "dryrun04"
+compile_flags = [ 'dryrun04.c' ]
+[[autotest]]
+descr = "dryrun05"
+compile_flags = [ 'dryrun05.c' ]
+[[autotest]]
+descr = "dryrun06"
+compile_flags = [ 'dryrun06.c' ]
+[[autotest]]
+descr = "dryrun07"
+compile_flags = [ 'dryrun07.c' ]
+[[autotest]]
+descr = "dryrun08"
+compile_flags = [ 'dryrun08.c' ]
+[[autotest]]
+descr = "dryrun09"
+compile_flags = [ 'dryrun09.c' ]
+[[autotest]]
+descr = "dryrun10"
+compile_flags = [ 'dryrun10.c' ]
+
+# EOF

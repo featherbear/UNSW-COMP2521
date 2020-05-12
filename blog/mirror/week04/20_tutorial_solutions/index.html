@@ -1,0 +1,827 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Tutorial Solutions — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="../../assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/week04/20_tutorial_solutions/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="../../">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="../../webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="../../assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="../../week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../week04/">Week 4</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../week04/20_tutorial_solutions/">Tutorial Solutions</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Tutorial Solutions</h1>
+</header>
+
+
+
+
+
+<p>The second assignment is out,
+and is to be done as a group of two.
+If you don’t have a group yet,
+see if there is anyone in your tutorial
+that you can create a group with.
+Make sure you have each others’ contact details.</p>
+
+<p>Group registration is via WebCMS 3:
+on the <a href="https://webcms3.cse.unsw.edu.au/COMP2521/19T0/groups/"><strong>Groups</strong> page</a>
+(linked in the course menu),
+and create a <em>private</em> group
+of type <em>Assignment 2</em>.</p>
+
+<h2 id="in-a-fix-up">In A Fix(-Up)</h2>
+
+<p>Consider a Heap ADT:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="k">struct</span> <span class="n">heap</span> <span class="o">*</span><span class="n">Heap</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="k">enum</span> <span class="n">heap_ordering</span> <span class="p">{</span>
+	<span class="n">HEAP_ORD_MINIMUM</span><span class="p">,</span>	<span class="cm">/**&lt; The minimum value at the root. */</span>
+	<span class="n">HEAP_ORD_MAXIMUM</span><span class="p">,</span>	<span class="cm">/**&lt; The maximum value at the root. */</span>
+<span class="p">}</span> <span class="n">heap_ordering</span><span class="p">;</span>
+<span class="n">Heap</span> <span class="n">heap_new</span> <span class="p">(</span><span class="n">heap_ordering</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">heap_drop</span> <span class="p">(</span><span class="n">Heap</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">heap_insert</span> <span class="p">(</span><span class="n">Heap</span><span class="p">,</span> <span class="n">Item</span><span class="p">);</span>
+<span class="n">Item</span> <span class="n">heap_remove</span> <span class="p">(</span><span class="n">Heap</span><span class="p">);</span>
+<span class="kt">size_t</span> <span class="n">heap_size</span> <span class="p">(</span><span class="n">Heap</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>And given an implementation using an array:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">heap</span> <span class="p">{</span>
+   <span class="kt">size_t</span> <span class="n">n_items</span><span class="p">;</span>
+   <span class="kt">size_t</span> <span class="n">capacity</span><span class="p">;</span>
+   <span class="n">Item</span> <span class="o">*</span><span class="n">items</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>If a heap is created to hold
+up to 10 integer-type <code class="highlighter-rouge">Item</code>s,
+and higher values have higher priority,
+show the state of the heap
+after each of the following operations:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Item</span> <span class="n">it</span><span class="p">;</span>
+<span class="n">Heap</span> <span class="n">h</span> <span class="o">=</span> <span class="n">heap_new</span> <span class="p">(</span><span class="n">HEAP_ORD_MAXIMUM</span><span class="p">);</span>
+<span class="n">heap_insert</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="n">heap_insert</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+<span class="n">heap_insert</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">15</span><span class="p">);</span>
+<span class="n">heap_insert</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+<span class="n">heap_insert</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">16</span><span class="p">);</span>
+<span class="n">heap_insert</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">13</span><span class="p">);</span>
+<span class="n">heap_insert</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
+<span class="n">it</span> <span class="o">=</span> <span class="n">heap_delete</span> <span class="p">(</span><span class="n">h</span><span class="p">);</span>
+<span class="n">heap_insert</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+<span class="n">it</span> <span class="o">=</span> <span class="n">heap_delete</span> <span class="p">(</span><span class="n">h</span><span class="p">);</span>
+<span class="n">it</span> <span class="o">=</span> <span class="n">heap_delete</span> <span class="p">(</span><span class="n">h</span><span class="p">);</span>
+<span class="n">it</span> <span class="o">=</span> <span class="n">heap_delete</span> <span class="p">(</span><span class="n">h</span><span class="p">);</span>
+<span class="n">it</span> <span class="o">=</span> <span class="n">heap_delete</span> <span class="p">(</span><span class="n">h</span><span class="p">);</span>
+<span class="n">it</span> <span class="o">=</span> <span class="n">heap_delete</span> <span class="p">(</span><span class="n">h</span><span class="p">);</span>
+</code></pre></div></div>
+
+<aside class="answer">
+  <blockquote>
+    <table class="table table-sm text-center">
+<thead>
+<tr><th width="40%">Operation</th>
+    <th width="10%">#items</th>
+    <th width="5%"><code>[0]</code></th>
+    <th width="5%"><code>[1]</code></th>
+    <th width="5%"><code>[2]</code></th>
+    <th width="5%"><code>[3]</code></th>
+    <th width="5%"><code>[4]</code></th>
+    <th width="5%"><code>[5]</code></th>
+    <th width="5%"><code>[6]</code></th>
+    <th width="5%"><code>[7]</code></th>
+    <th width="5%"><code>[8]</code></th>
+    <th width="5%"><code>[9]</code></th></tr>
+</thead>
+<tbody>
+<!-- generated by _heap.hs -->
+<tr><th scope="row"><code>h = new</code></th><td>0</td>
+    </tr>
+<tr><th scope="row"><code>insert (h, 10) </code></th><td>1</td>
+    <td></td><td>10</td></tr>
+<tr><th scope="row"><code>insert (h,  5) </code></th><td>2</td>
+    <td></td><td>10</td><td>5</td></tr>
+<tr><th scope="row"><code>insert (h, 15) </code></th><td>3</td>
+    <td></td><td>15</td><td>5</td><td>10</td></tr>
+<tr><th scope="row"><code>insert (h,  3) </code></th><td>4</td>
+    <td></td><td>15</td><td>5</td><td>10</td><td>3</td></tr>
+<tr><th scope="row"><code>insert (h, 16) </code></th><td>5</td>
+    <td></td><td>16</td><td>15</td><td>10</td><td>3</td><td>5</td></tr>
+<tr><th scope="row"><code>insert (h, 13) </code></th><td>6</td>
+    <td></td><td>16</td><td>15</td><td>13</td><td>3</td><td>5</td><td>10</td></tr>
+<tr><th scope="row"><code>insert (h,  6) </code></th><td>7</td>
+    <td></td><td>16</td><td>15</td><td>13</td><td>3</td><td>5</td><td>10</td><td>6</td></tr>
+<tr><th scope="row"><code>delete (h) ⇒ 16</code></th><td>6</td>
+    <td></td><td>15</td><td>6</td><td>13</td><td>3</td><td>5</td><td>10</td></tr>
+<tr><th scope="row"><code>insert (h,  2) </code></th><td>7</td>
+    <td></td><td>15</td><td>6</td><td>13</td><td>3</td><td>5</td><td>10</td><td>2</td></tr>
+<tr><th scope="row"><code>delete (h) ⇒ 15</code></th><td>6</td>
+    <td></td><td>13</td><td>6</td><td>10</td><td>3</td><td>5</td><td>2</td></tr>
+<tr><th scope="row"><code>delete (h) ⇒ 13</code></th><td>5</td>
+    <td></td><td>10</td><td>6</td><td>2</td><td>3</td><td>5</td></tr>
+<tr><th scope="row"><code>delete (h) ⇒ 10</code></th><td>4</td>
+    <td></td><td>6</td><td>5</td><td>2</td><td>3</td></tr>
+<tr><th scope="row"><code>delete (h) ⇒  6</code></th><td>3</td>
+    <td></td><td>5</td><td>3</td><td>2</td></tr>
+<tr><th scope="row"><code>delete (h) ⇒  5</code></th><td>2</td>
+    <td></td><td>3</td><td>2</td></tr>
+</tbody>
+</table>
+  </blockquote>
+</aside>
+
+<p>Repeat the above sequence of insertions and deletions,
+but this time draw the heap as a binary tree,
+with the highest value at the root,
+and the values decreasing as you move down any branch.</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>This is exactly the same heap as above.</p>
+
+    <figure>
+      <p class="text-center"><code>insert (h, 10)</code></p>
+      <p><img style="margin: 24px auto" src="../../week04/heap1.svg" /></p>
+      <p class="text-center"><code>insert (h, 5)</code></p>
+      <p><img style="margin: 24px auto" src="../../week04/heap2.svg" /></p>
+      <p class="text-center"><code>insert (h, 15)</code></p>
+      <p><img style="margin: 24px auto" src="../../week04/heap3.svg" /></p>
+      <p class="text-center"><code>insert (h, 3)</code></p>
+      <p><img style="margin: 24px auto" src="../../week04/heap4.svg" /></p>
+      <p class="text-center"><code>insert (h, 16)</code></p>
+      <p><img style="margin: 24px auto" src="../../week04/heap5.svg" /></p>
+      <p class="text-center"><code>insert (h, 13)</code></p>
+      <p><img style="margin: 24px auto" src="../../week04/heap6.svg" /></p>
+      <p class="text-center"><code>insert (h, 6)</code></p>
+      <p><img style="margin: 24px auto" src="../../week04/heap7.svg" /></p>
+      <p class="text-center"><code>delete (h) ⇒ 16</code></p>
+      <p><img style="margin: 24px auto" src="../../week04/heap8.svg" /></p>
+      <p class="text-center"><code>insert (h, 2)</code></p>
+      <p><img style="margin: 24px auto" src="../../week04/heap9.svg" /></p>
+      <p class="text-center"><code>delete (h) ⇒ 15</code></p>
+      <p><img style="margin: 24px auto" src="../../week04/heapA.svg" /></p>
+      <p class="text-center"><code>delete (h) ⇒ 13</code></p>
+      <p><img style="margin: 24px auto" src="../../week04/heapB.svg" /></p>
+      <p class="text-center"><code>delete (h) ⇒ 10</code></p>
+      <p><img style="margin: 24px auto" src="../../week04/heapC.svg" /></p>
+      <p class="text-center"><code>delete (h) ⇒ 6</code></p>
+      <p><img style="margin: 24px auto" src="../../week04/heapD.svg" /></p>
+      <p class="text-center"><code>delete (h) ⇒ 5</code></p>
+      <p><img style="margin: 24px auto" src="../../week04/heapE.svg" /></p>
+    </figure>
+  </blockquote>
+</aside>
+
+<h2 id="graphic-fundamentals">Graphic Fundamentals</h2>
+
+<p>For the following graph:</p>
+
+<figure>
+  <p><img style="margin: 24px auto" src="../../week04/graph1.svg" /></p>
+</figure>
+
+<p>Give examples of the smallest and largest
+of each of the following:</p>
+
+<ul>
+  <li>path</li>
+  <li>cycle</li>
+  <li>spanning tree</li>
+  <li>clique</li>
+</ul>
+
+<aside class="answer">
+  <blockquote>
+    <ul class="dl-horizontal">
+      <li>
+        <p><strong>path</strong>: <br />
+smallest: any path with one edge;
+e.g., <script type="math/tex">[ a, b ]</script>; <br />
+largest: some path including all nodes;
+e.g., <script type="math/tex">[ m, g, h, k, i, j, a, b, c, d, e, f ]</script>;</p>
+      </li>
+      <li>
+        <p><strong>cycle</strong>: <br />
+smallest: we need at least 3 nodes;
+e.g., <script type="math/tex">[ i, j, k, i ]</script> or <script type="math/tex">[ h, i, k, h ]</script> <br />
+largest: a path including most nodes, but without <script type="math/tex">m</script>;
+e.g., <script type="math/tex">[ g, h, k, i, j, a, b, c, d, e, f, g ]</script></p>
+      </li>
+      <li>
+        <p><strong>spanning tree</strong>: <br />
+any spanning tree must include all nodes;
+the largest path above is an example;
+the largest can be obtained by
+removing the minimum number of edges
+to eliminate cycles.</p>
+      </li>
+      <li>
+        <p><strong>clique</strong>: <br />
+smallest: any fully-connected subgraphs of size 3;
+e.g., <script type="math/tex">\{i,j,k\}</script> or <script type="math/tex">\{h,i,k\}</script> <br />
+largest: in this graph, the set of nodes <script type="math/tex">\{b,c,d,e,f\}</script></p>
+      </li>
+    </ul>
+  </blockquote>
+</aside>
+
+<h2 id="represent">Represent!</h2>
+
+<p>Consider our Graph ADT,
+a portion of which has been reproduced here.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="k">struct</span> <span class="n">graph</span> <span class="o">*</span><span class="n">Graph</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="kt">int</span> <span class="n">vertex</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">edge</span> <span class="p">{</span> <span class="n">vertex</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">;</span> <span class="p">}</span> <span class="n">edge</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>In lectures,
+we looked briefly at
+several different implementations of graphs,
+including adjacency matrices and adjacency lists.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// An unweighted graph stored as an adjacency matrix</span>
+<span class="c1">// (a V×V matrix where each edge is represented twice)</span>
+<span class="k">struct</span> <span class="n">graph</span> <span class="p">{</span>
+	<span class="kt">size_t</span> <span class="n">n_vertices</span><span class="p">,</span> <span class="n">n_edges</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="o">**</span><span class="n">adj_matrix</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// A graph stored as an adjacency list</span>
+<span class="c1">// (where each edge appears in two lists --</span>
+<span class="c1">// one for `v' and one for `w')</span>
+<span class="k">struct</span> <span class="n">graph</span> <span class="p">{</span>
+	<span class="kt">size_t</span> <span class="n">n_vertices</span><span class="p">,</span> <span class="n">n_edges</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">adjnode</span> <span class="p">{</span>
+		<span class="n">vertex</span> <span class="n">v</span><span class="p">;</span>
+		<span class="k">struct</span> <span class="n">adjnode</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span>
+	<span class="p">}</span> <span class="o">*</span><span class="n">adj_list</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">adjnode</span> <span class="n">adjnode</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Consider the types from this ADT,
+and these representations (unless told otherwise)
+when answering these questions.</p>
+
+<h3 id="disconnect">Disconnect</h3>
+
+<p>How could this graph be stored
+using an adjacency matrix?
+How about an adjacency list?</p>
+
+<figure>
+  <p><img style="margin: 24px auto" src="../../week04/graph3.svg" /></p>
+</figure>
+
+<h3 id="edgy-matters">Edgy Matters</h3>
+
+<p>Implement a function</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="n">graph_has_edge_p</span> <span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">,</span> <span class="n">edge</span> <span class="n">e</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>that tests whether a given edge is present in the graph.
+The function should return <code class="highlighter-rouge">true</code>
+if the edge exists in the graph,
+and <code class="highlighter-rouge">false</code> otherwise.</p>
+
+<p>Implement this function
+for both the adjacency-matrix
+and the adjacency-list representations.</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>With our adjacency-matrix representation:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="nf">graph_has_edge_p</span> <span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">,</span> <span class="n">edge</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">g</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">graph_has_vertex_p</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">v</span><span class="p">));</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">graph_has_vertex_p</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">));</span>
+	<span class="k">return</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">adj_matrix</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">v</span><span class="p">][</span><span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+
+    <p>With our adjacency-list representation:</p>
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="nf">graph_has_edge_p</span> <span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">,</span> <span class="n">edge</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">g</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">graph_has_vertex_p</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">v</span><span class="p">));</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">graph_has_vertex_p</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">));</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="n">adjnode</span> <span class="o">*</span><span class="n">curr</span> <span class="o">=</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">adj_list</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">v</span><span class="p">];</span>
+		 <span class="n">curr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">)</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">curr</span><span class="o">-&gt;</span><span class="n">v</span> <span class="o">==</span> <span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">)</span>
+			<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </blockquote>
+</aside>
+
+<h3 id="one-edge-ah-ah-ah">One edge, ah, ah, ah…</h3>
+
+<p>Consider a variation on the adjacency matrix above,
+where we don’t store the number of edges, <code class="highlighter-rouge">n_edges</code> –</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">graph</span> <span class="p">{</span>
+	<span class="kt">size_t</span> <span class="n">n_vertices</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="o">**</span><span class="n">adj_matrix</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>Write a C function
+to count the number of distinct edges in the graph.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">size_t</span> <span class="n">graph_num_edges</span> <span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">);</span>
+</code></pre></div></div>
+
+<aside class="answer">
+  <blockquote>
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">size_t</span> <span class="nf">graph_num_edges</span> <span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">size_t</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">n_vertices</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="c1">// Ignore edges below the leading diagonal.</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">n_vertices</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">adj_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">])</span> <span class="n">n</span><span class="o">++</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="n">n</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </blockquote>
+</aside>
+
+<h3 id="two-edge-ah-ah-ah">Two edge, ah ah ah…</h3>
+
+<p>There’s other representations of graphs,
+of course:
+we briefly mentioned the edge list,
+popular in database systems.
+Here’s a function that takes a Graph
+and produces an edge list
+and the number of edges:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">edge</span> <span class="o">*</span><span class="n">graph_to_edges</span> <span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">,</span> <span class="kt">size_t</span> <span class="o">*</span><span class="n">n_edges</span><span class="p">);</span>
+
+<span class="c1">// ... which we might use as:</span>
+<span class="kt">size_t</span> <span class="n">n</span><span class="p">;</span>  <span class="n">edge</span> <span class="o">*</span><span class="n">es</span> <span class="o">=</span> <span class="n">graph_to_edges</span> <span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>However, we’re currently storing
+an adjacency matrix and an adjacency list –
+so implement this <code class="highlighter-rouge">graph_to_edges</code> function
+for each of those representations.
+It should return the edges
+in a “normalised” or “canonical” form,
+where for all edges <script type="math/tex">e</script>, <script type="math/tex">% <![CDATA[
+e.v < e.w %]]></script>,
+so each edge appears exactly once
+in the edge list.</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>For an adjacency matrix:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">edge</span> <span class="o">*</span><span class="nf">graph_to_edges</span> <span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">,</span> <span class="kt">size_t</span> <span class="o">*</span><span class="n">n_edges</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="o">*</span><span class="n">n_edges</span> <span class="o">=</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">n_edges</span><span class="p">;</span>
+	<span class="n">edge</span> <span class="o">*</span><span class="n">list</span> <span class="o">=</span> <span class="n">calloc</span> <span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">n_edges</span><span class="p">,</span> <span class="k">sizeof</span> <span class="p">(</span><span class="n">edge</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">list</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="n">err</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">"couldn't allocate edge list"</span><span class="p">);</span>
+	<span class="kt">size_t</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">v</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">n_vertices</span><span class="p">;</span> <span class="n">v</span><span class="o">++</span><span class="p">)</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">w</span> <span class="o">=</span> <span class="n">v</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">w</span> <span class="o">&lt;</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">n_vertices</span><span class="p">;</span> <span class="n">w</span><span class="o">++</span><span class="p">)</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">adj_matrix</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">w</span><span class="p">])</span>
+				<span class="n">list</span><span class="p">[</span><span class="n">n</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">edge</span><span class="p">){</span> <span class="p">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="p">,</span> <span class="p">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">w</span> <span class="p">};</span>
+
+	<span class="k">return</span> <span class="n">list</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+
+    <p>For an adjacency list:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">edge</span> <span class="o">*</span><span class="nf">graph_to_edges</span> <span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">,</span> <span class="kt">size_t</span> <span class="o">*</span><span class="n">n_edges</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="o">*</span><span class="n">n_edges</span> <span class="o">=</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">n_edges</span><span class="p">;</span>
+	<span class="n">edge</span> <span class="o">*</span><span class="n">list</span> <span class="o">=</span> <span class="n">calloc</span> <span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">n_edges</span><span class="p">,</span> <span class="k">sizeof</span> <span class="p">(</span><span class="n">edge</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">list</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="n">err</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">"couldn't allocate edge list"</span><span class="p">);</span>
+	<span class="kt">size_t</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">v</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">n_vertices</span><span class="p">;</span> <span class="n">v</span><span class="o">++</span><span class="p">)</span>
+		<span class="k">for</span> <span class="p">(</span><span class="n">adjnode</span> <span class="o">*</span><span class="n">curr</span> <span class="o">=</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">adj_list</span><span class="p">[</span><span class="n">v</span><span class="p">];</span>
+			 <span class="n">curr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">)</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">curr</span><span class="o">-&gt;</span><span class="n">v</span> <span class="o">&gt;</span> <span class="n">v</span><span class="p">)</span>
+				<span class="n">list</span><span class="p">[</span><span class="n">n</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">edge</span><span class="p">){</span> <span class="p">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="p">,</span> <span class="p">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">v</span> <span class="p">};</span>
+
+	<span class="k">return</span> <span class="n">list</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </blockquote>
+</aside>
+
+<h3 id="costly-matters">Costly Matters</h3>
+
+<p>Given our adjacency matrix
+and adjacency list representations,
+how much memory do we need?
+Analyse the storage costs
+for the two representations,
+in terms of the number of vertices <script type="math/tex">V</script>,
+and the number of edges <script type="math/tex">E</script>,
+and determine roughly the point at which
+it is more storage efficient
+to use an adjacency matrix or
+an adjacency list representation.</p>
+
+<p>For the purposes of the analysis,
+ignore the cost of storing the <code class="highlighter-rouge">graph</code> structure.
+Assume that each pointer is 4 bytes long,
+a <code class="highlighter-rouge">vertex</code> value is 4 bytes,
+a linked list <code class="highlighter-rouge">adjnode</code> is 8 bytes long,
+that the adjacency matrix is
+a complete <script type="math/tex">V\times V</script> matrix,
+and each adjacency matrix element
+is 1 byte long.</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>The adjacency matrix representation
+always requires a <script type="math/tex">V\times V</script> matrix,
+regardless of the number of edges,
+where each element is 1 byte long.
+It also requires an array of <script type="math/tex">V</script> pointers.
+This gives a fixed size of <script type="math/tex">V^2 + 4V</script> bytes.</p>
+
+    <p>The adjacency list representation
+requires an array of <script type="math/tex">V</script> pointers –
+the start of each list –
+with each being 4 bytes long,
+and then one list node
+for each edge in each list.
+The total number of edge nodes is <script type="math/tex">2E</script>
+(each edge <script type="math/tex">(v,w)</script> is stored twice,
+once in the list for <script type="math/tex">v</script>
+and once in the list for <script type="math/tex">w</script>).
+Since each node requires 8 bytes (vertex+pointer),
+this gives a size of <script type="math/tex">V\times4+8\times2\times E</script>.
+The total storage is thus <script type="math/tex">4V+16E</script>.</p>
+
+    <p>Since both representations have <script type="math/tex">V</script> pointers,
+the difference is <script type="math/tex">V^2</script> vs <script type="math/tex">16E</script> …
+so, if <script type="math/tex">% <![CDATA[
+16E < V^2 %]]></script> (or, equivalently, <script type="math/tex">% <![CDATA[
+E<\frac{1}{16}V^2 %]]></script>),
+then the adjacency list representation
+will be more storage-efficient.
+And, conversely, if <script type="math/tex">E>\frac{1}{16}V^2</script>,
+then the adjacency matrix representation
+will be more storage-efficient.</p>
+
+    <p>Concretely, with <script type="math/tex">V=20</script>,
+if we have less than <script type="math/tex">{20}^2 / 16 = 25</script> edges,
+the adjacency list will be more storage-efficient,
+otherwise the adjacency matrix
+will be (at least) as storage-efficient.</p>
+  </blockquote>
+</aside>
+
+<h3 id="thinned-out">Thinned Out</h3>
+
+<p>The standard adjacency matrix representation
+for a graph uses a full <script type="math/tex">V\times V</script> matrix,
+and stores each edge twice (as <script type="math/tex">(v,w)</script> and <script type="math/tex">(w,v)</script>).
+This consumes a lot of space,
+and if the graph is sparse,
+<em>wastes</em> a lot of space.
+One simple way to improve the space usage
+is to choose an appropriate storage type:
+some implementations use <code class="highlighter-rouge">int</code>,
+which would use 4 bytes
+over a <code class="highlighter-rouge">bool</code>
+which would use only one byte.
+(Some compilers may magically
+compress arrays of <code class="highlighter-rouge">bool</code>
+into sequences of bits,
+but we won’t rely on this.)</p>
+
+<p>We could use even less space by storing
+just the upper (or lower) triangular
+part of the matrix,
+as shown in the diagram below:</p>
+
+<!--
+<center>tikzpicture</center>
+-->
+<figure>
+  <p><img class="w-100" src="../../week04/adj-matrix.png" /></p>
+</figure>
+
+<p>The <script type="math/tex">V\times V</script> matrix
+has been replaced by a single array
+containing just the “useful” parts of the matrix.
+This gives a new <code class="highlighter-rouge">Graph</code> representation:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Upper-triangular adjacency matrix graph representation</span>
+<span class="k">struct</span> <span class="n">graph</span> <span class="p">{</span>
+	<span class="kt">size_t</span> <span class="n">n_vertices</span><span class="p">,</span> <span class="n">n_edges</span><span class="p">;</span>
+	<span class="n">bool</span> <span class="o">*</span><span class="n">edges</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>Unfortunately,
+accessing the elements is
+no longer as simple as <code class="highlighter-rouge">edges[v][w]</code>.</p>
+
+<p>Write a function that takes
+two vertices from an edge
+and determines the corresponding index
+in the <code class="highlighter-rouge">edges</code> array,
+which holds the Boolean value for this edge.
+Start with the function template</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">size_t</span> <span class="nf">graph_utm_index_of</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">nV</span><span class="p">,</span> <span class="n">vertex</span> <span class="n">v</span><span class="p">,</span> <span class="n">vertex</span> <span class="n">w</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">v</span> <span class="o">!=</span> <span class="n">w</span><span class="p">);</span>    <span class="c1">// no self-edges</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">&gt;</span> <span class="n">w</span><span class="p">)</span> <span class="p">{</span> <span class="n">vertex</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">w</span><span class="p">;</span> <span class="n">w</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span> <span class="p">}</span>
+	<span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<aside class="answer">
+  <blockquote>
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">size_t</span> <span class="nf">graph_utm_index_of</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">nV</span><span class="p">,</span> <span class="n">vertex</span> <span class="n">v</span><span class="p">,</span> <span class="n">vertex</span> <span class="n">w</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">v</span> <span class="o">!=</span> <span class="n">w</span><span class="p">);</span>    <span class="c1">// no self-edges</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">&gt;</span> <span class="n">w</span><span class="p">)</span> <span class="p">{</span> <span class="n">vertex</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">w</span><span class="p">;</span> <span class="n">w</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span> <span class="p">}</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">v</span> <span class="o">&lt;</span> <span class="n">w</span><span class="p">);</span>     <span class="c1">// hopefully redundant</span>
+
+	<span class="c1">// `i' counts the number of iterations;</span>
+	<span class="c1">// `j' gives the increment for each iteration;</span>
+	<span class="c1">// `k' accumulates the index value.</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">nV</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">v</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">,</span> <span class="n">j</span><span class="o">--</span><span class="p">)</span>
+		<span class="n">k</span> <span class="o">+=</span> <span class="n">j</span><span class="p">;</span>
+
+	<span class="n">k</span> <span class="o">+=</span> <span class="n">w</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">k</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+
+    <p>Two quirks to note here:</p>
+
+    <ul>
+      <li>
+        <p>it’s possible to declare <em>and</em> initialise
+multiple variables at the same time:</p>
+
+        <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>the <em>comma</em> operator, <code class="highlighter-rouge">,</code>,
+lets you glue multiple expressions together
+and evaluates to the value of the last term:</p>
+
+        <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+ <span class="c1">// would do `i = i * 2`, then `i + 1`,</span>
+ <span class="c1">// giving `i = (2 * i) + 1`.</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+
+    <p>As is typical for C,
+this syntax is wonderfully powerful
+and incredibly cryptic.
+Be careful when using it.
+If you don’t like that syntax:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">size_t</span> <span class="nf">graph_utm_index_of</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">nV</span><span class="p">,</span> <span class="n">vertex</span> <span class="n">v</span><span class="p">,</span> <span class="n">vertex</span> <span class="n">w</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">v</span> <span class="o">!=</span> <span class="n">w</span><span class="p">);</span>    <span class="c1">// no self-edges</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">&gt;</span> <span class="n">w</span><span class="p">)</span> <span class="p">{</span> <span class="n">vertex</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">w</span><span class="p">;</span> <span class="n">v</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span> <span class="p">}</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">v</span> <span class="o">&lt;</span> <span class="n">w</span><span class="p">);</span>     <span class="c1">// hopefully redundant</span>
+
+	<span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>       <span class="c1">// `i' counts the number of iterations</span>
+	<span class="kt">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="n">nV</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>  <span class="c1">// `j' gives the increment for each iteration</span>
+	<span class="kt">size_t</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>       <span class="c1">// `k' accumulates the index value.</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">k</span> <span class="o">+=</span> <span class="n">j</span><span class="p">;</span>
+		<span class="n">i</span><span class="o">++</span><span class="p">;</span> <span class="n">j</span><span class="o">--</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">k</span> <span class="o">+=</span> <span class="n">w</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">k</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </blockquote>
+</aside>
+
+<h3 id="through-the-flensing-glass">Through The Flensing-Glass</h3>
+
+<p>The standard implementation
+of the adjacency list representation
+for graphs stores each edge twice.
+The edge <script type="math/tex">(v, w)</script> appears as
+a <script type="math/tex">w</script> stored in the adjacency list for <script type="math/tex">v</script>,
+and as a <script type="math/tex">v</script> stored in the adjacency list for <script type="math/tex">w</script>.
+A more storage efficient representation,
+analogous to storing just
+the top-right half of the adjacency matrix,
+would be to store information
+for each edge just once.</p>
+
+<p>Implement these functions on adjacency lists,
+but use this each-edge-stored-once variation:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void graph_insert_edge (Graph g, edge e);
+void graph_remove_edge (Graph g, edge e);
+size_t graph_vertex_degree (Graph g, vertex v);
+</code></pre></div></div>
+
+<p>You should <em>not</em> assume
+that supplied <code class="highlighter-rouge">edge</code> values
+will necessarily satisfy <script type="math/tex">% <![CDATA[
+e.v < e.w %]]></script>.</p>
+
+<aside class="answer">
+  <blockquote>
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="n">adjnode</span> <span class="o">*</span><span class="n">adjlist_insert</span> <span class="p">(</span><span class="n">adjnode</span> <span class="o">*</span><span class="n">head</span><span class="p">,</span> <span class="n">vertex</span> <span class="n">w</span><span class="p">);</span>
+<span class="k">static</span> <span class="kt">size_t</span> <span class="n">adjlist_length</span> <span class="p">(</span><span class="n">adjnode</span> <span class="o">*</span><span class="n">head</span><span class="p">);</span>
+<span class="k">static</span> <span class="n">adjnode</span> <span class="o">*</span><span class="n">adjnode_new</span> <span class="p">(</span><span class="n">vertex</span> <span class="n">v</span><span class="p">,</span> <span class="n">adjnode</span> <span class="o">*</span><span class="n">next</span><span class="p">);</span>
+<span class="k">static</span> <span class="n">edge</span> <span class="n">normalise</span> <span class="p">(</span><span class="n">edge</span> <span class="n">e</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">graph_insert_edge</span> <span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">,</span> <span class="n">edge</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">g</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">graph_has_vertex_p</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">v</span><span class="p">)</span>
+		 <span class="o">&amp;&amp;</span> <span class="n">graph_has_vertex_p</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">));</span>
+	<span class="n">e</span> <span class="o">=</span> <span class="n">normalise</span> <span class="p">(</span><span class="n">e</span><span class="p">);</span>
+
+	<span class="kt">size_t</span> <span class="n">orig</span> <span class="o">=</span> <span class="n">adjlist_length</span> <span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">adj_list</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">v</span><span class="p">]);</span>
+	<span class="n">g</span><span class="o">-&gt;</span><span class="n">adj_list</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">adjlist_insert</span> <span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">adj_list</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">v</span><span class="p">],</span> <span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">adjlist_length</span> <span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">adj_list</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">v</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">orig</span><span class="p">)</span>
+		<span class="n">g</span><span class="o">-&gt;</span><span class="n">n_edges</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">graph_remove_edge</span> <span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">,</span> <span class="n">edge</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">g</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">graph_has_vertex_p</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">v</span><span class="p">)</span>
+		 <span class="o">&amp;&amp;</span> <span class="n">graph_has_vertex_p</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">));</span>
+	<span class="n">e</span> <span class="o">=</span> <span class="n">normalise</span> <span class="p">(</span><span class="n">e</span><span class="p">);</span>
+
+	<span class="kt">size_t</span> <span class="n">orig</span> <span class="o">=</span> <span class="n">adjlist_length</span> <span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">adj_list</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">v</span><span class="p">]);</span>
+	<span class="n">g</span><span class="o">-&gt;</span><span class="n">adj_list</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">adjlist_delete</span> <span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">adj_list</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">v</span><span class="p">],</span> <span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">adjlist_length</span> <span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">adj_list</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">v</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">orig</span><span class="p">)</span>
+		<span class="n">g</span><span class="o">-&gt;</span><span class="n">n_edges</span><span class="o">--</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">size_t</span> <span class="nf">graph_vertex_degree</span> <span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">,</span> <span class="n">vertex</span> <span class="n">v</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">g</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">graph_has_vertex_p</span> <span class="p">(</span><span class="n">v</span><span class="p">));</span>
+	<span class="kt">size_t</span> <span class="n">length</span> <span class="o">=</span> <span class="n">adjlist_length</span> <span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">adj_list</span><span class="p">[</span><span class="n">v</span><span class="p">]);</span>
+	<span class="k">for</span> <span class="p">(</span><span class="n">vertex</span> <span class="n">u</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">u</span> <span class="o">&lt;</span> <span class="n">v</span><span class="p">;</span> <span class="n">u</span><span class="o">++</span><span class="p">)</span>
+		<span class="k">for</span> <span class="p">(</span><span class="n">adjnode</span> <span class="o">*</span><span class="n">curr</span> <span class="o">=</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">adj_list</span><span class="p">[</span><span class="n">u</span><span class="p">];</span>
+			 <span class="n">curr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">)</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">curr</span><span class="o">-&gt;</span><span class="n">v</span> <span class="o">==</span> <span class="n">v</span><span class="p">)</span> <span class="n">length</span><span class="o">++</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">length</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="n">edge</span> <span class="nf">normalise</span> <span class="p">(</span><span class="n">edge</span> <span class="n">e</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">v</span> <span class="o">&gt;</span> <span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">)</span>
+		<span class="k">return</span> <span class="p">(</span><span class="n">edge</span><span class="p">){</span> <span class="p">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">,</span> <span class="p">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">v</span> <span class="p">};</span>
+	<span class="k">else</span>
+		<span class="k">return</span> <span class="n">e</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+
+    <p>&lt;/aside&gt;</p>
+  </blockquote>
+
+</aside>
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

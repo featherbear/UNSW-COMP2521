@@ -1,0 +1,680 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Laboratory — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="../../assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/week06/40_laboratory/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="../../">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="../../webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="../../assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="../../week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../week06/">Week 6</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../week06/40_laboratory/">Laboratory</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Laboratory</h1>
+</header>
+
+
+
+
+
+<h2 id="objectives">Objectives</h2>
+
+<ul>
+  <li>to familiarise yourself with
+practical aspects of computationa l complexity</li>
+  <li>to practice a systematic approach to problem solving</li>
+  <li>to apply sound scientific reasoning in reaching conclusions</li>
+  <li>to hone your analysis skills</li>
+  <li>to identify algorithms from their behaviour</li>
+</ul>
+
+<h2 id="assessment">Assessment</h2>
+
+<dl class="dl-horizontal">
+  <dt>Deadline</dt>
+  <dd>20 January 2019, 23:59:59</dd>
+  <dt>Marks</dt>
+  <dd>3</dd>
+  <dt>Submission</dt>
+  <dd><code class="highlighter-rouge">give cs2521 lab06</code></dd>
+</dl>
+
+<blockquote class="alert alert-primary">
+  <h4 class="text-center">Warning!</h4>
+  <p>To be able to meaningfully compare your timing results,
+you must use the same (or same type of) computer
+to gather all your timing data.
+If you do half on a login server
+and the rest on a lab machine,
+you will not be able to compare your results.</p>
+
+  <p>In other words,
+you need to use one type of machine,
+such as a lab machine,
+a login server, a VLAB server, etc.
+for the whole task.
+It will not matter
+if you change machines within a lab,
+as those machines are all of the same type.</p>
+</blockquote>
+
+<h2 id="background">Background</h2>
+
+<p>A long time ago, in a burst of enthusiasm,
+Richard Buckland wrote a bunch of sorting programs.
+He forgot to give the programs meaningful names,
+and when he passed them on to me to use for this lab,
+he couldn’t tell me which program
+implemented which algorithm.
+All that he could remember<sup>*</sup>
+is that the algorithms he used
+came from the following list:</p>
+
+<ul>
+  <li>
+    <p><strong>Oblivious Bubble Sort</strong>,
+an unoptimised bubble sort;</p>
+  </li>
+  <li>
+    <p><strong>Bubble Sort With Early Exit</strong>,
+a bubble sort that terminates
+if there have been no exchanges in one pass;</p>
+  </li>
+  <li>
+    <p><strong>Insertion Sort</strong>,
+a standard insertion sort;</p>
+  </li>
+  <li>
+    <p><strong>Selection Sort</strong>,
+a standard in-place selection sort;</p>
+  </li>
+  <li>
+    <p><strong>Shell Sort, Powers of Four</strong>,
+a Shell sort with intervals <script type="math/tex">\ldots, 4096, 1024, 256, 64, 16, 4, 1</script>;</p>
+  </li>
+  <li>
+    <p><strong>Shell Sort, Sedgewick</strong>,
+a Shell sort with intervals <script type="math/tex">\ldots, 4193, 1073, 281, 23, 8, 1</script>;</p>
+  </li>
+  <li>
+    <p><strong>Psuedo-Bogo Sort</strong>,
+which chooses two random array elements,
+and swaps them if they’re out of order.</p>
+  </li>
+</ul>
+
+<p><small>
+<sup>*</sup>
+… which means that it’s pointless
+trying to extract the algorithm identities
+by capturing and torturing him
+</small></p>
+
+<p>Despite not knowing what algorithm was in each program,
+Richard did remember a few things about the programs:</p>
+
+<ul>
+  <li>
+    <p>all of the programs read their input from <code class="highlighter-rouge">stdin</code>,
+and write the sorted version of the data to <code class="highlighter-rouge">stdout</code>;</p>
+  </li>
+  <li>
+    <p>sorting happens line-by-line,
+like the Unix <code class="highlighter-rouge">sort</code> program does it.</p>
+  </li>
+  <li>
+    <p>there is a limit on
+the size of the input
+each program can process (1,000,000 lines),
+because they read their input
+into a fixed size array, and sort it there,
+before writing out the sorted result;</p>
+  </li>
+  <li>
+    <p>the programs all expect
+each line to start with a number,
+which acts as the sorting key –
+the sorting is numeric,
+which means that the programs
+all behave something like
+the Unix <code class="highlighter-rouge">sort</code> program,
+run with the <code class="highlighter-rouge">-n</code> option.
+If no number is present at the start of a line,
+in will be treated as a zero value.
+If the file has no numbers at all,
+the final ordering will depend on
+the stability of the sorting algorithm –</p>
+
+    <pre>
+<kbd is="shell">./sortX &lt; <var>data</var> &gt; <var>sorted_data</var></kbd>
+<span class="text-muted"># behaves like</span>
+<kbd is="shell">sort -n &lt; <var>data</var> &gt; <var>sorted_data</var></kbd>
+</pre>
+  </li>
+</ul>
+
+<p>One difference between
+Richard’s sorting programs
+and the Unix one
+is that many of his are stable,
+but the Unix sort is not (by default).
+Unless the algorithm itself is inherently unstable,
+Richard’s sorting programs are stable.</p>
+
+<p>Your task, in two stages,
+is to help us identify
+the specific sort algorithms
+used in two of these programs.
+You will not be able to view the source code:
+instead you will have to
+try to identify the algorithms
+using only the programs’ observable behaviour
+when sorting different data.
+Note that since the programs are
+only available in binary format,
+they will most likely only run on the CSE machines,
+so you’ll have to do your work there.</p>
+
+<p>In the setup phase,
+we will give you access to two different sort programs;
+each lab pair gets a different (randomly chosen) pair of programs.
+The <strong>first phase</strong> of the task is
+to design and write up the experimental framework
+that you plan to use to solve the problem.
+In the <strong>second phase</strong>,
+you should gather data on
+the execution behaviour of the two programs,
+according to your exerimental setup;
+you then add the data to your report,
+and analyse it to reach a conclusion
+on which algorithm each of the supplied programs contains.</p>
+
+<p>To make your task a little simpler, we’ve supplied a program to
+generate data in the correct format for the sorting programs to use.</p>
+
+<pre>
+<kbd is="shell">./gen</kbd>
+Not enough arguments
+Usage: gen  N  A|D|R  [S]
+       N = number of lines
+       A|D|R = Ascending|Descending|Random
+       S = seed for Random
+<kbd is="shell">./gen 5 R</kbd>
+1 nwl
+5 arz
+4 hcd
+2 rbb
+3 mqb
+<kbd is="shell"></kbd>
+</pre>
+
+<p>Use the <code class="highlighter-rouge">gen</code> program however you like, or not at all.
+Note that the <code class="highlighter-rouge">gen</code> program
+always generates a unique set of keys (from 1..N).
+This won’t enable you to test stability,
+so you’ll need to come up with
+some more data of your own.
+Note that the <em>seed</em> argument allows you
+to generate the same sequence of “random” numbers:
+if you want to test both sort programs
+on the same random sequence, use the same seed.</p>
+
+<p>Note that the <code class="highlighter-rouge">setup</code> script
+will put a copy of the <code class="highlighter-rouge">gen</code> executable
+into your lab directory,
+so you can run it as <code class="highlighter-rouge">./gen</code>,
+rather than having to type the whole file name.</p>
+
+<h2 id="setting-up">Setting up</h2>
+
+<p>Create a directory for this lab, change into it,
+and obtain your sorting programs for analysing
+by running:</p>
+
+<pre>
+<kbd is="shell">/web/cs2521/19t0/week06/lab/setup</kbd>
+</pre>
+
+<p>This must be run on the CSE lab machines,
+on one of the CSE login servers like <em>wagner</em> or <em>weill</em>,
+or on a CSE VLAB server.</p>
+
+<p>This command will set up two symbolic links
+called <code class="highlighter-rouge">sortA</code> and <code class="highlighter-rouge">sortB</code>:
+these reference executable programs under the class account,
+which you do not have read permission for,
+in order to remove the temptation
+to reverse engineer the algorithm
+from the object code.</p>
+
+<p>The <code class="highlighter-rouge">setup</code> script also makes a copy of
+the <code class="highlighter-rouge">gen</code> program and of the <code class="highlighter-rouge">runtests</code> shell script
+(see below) into your lab directory.</p>
+
+<p>You can check that the <code class="highlighter-rouge">sortA</code> and <code class="highlighter-rouge">sortB</code> programs
+actually do sorting by running
+something like the following:</p>
+
+<pre>
+<kbd is="shell">./gen 5 R</kbd>
+<span class="text-muted">... unsorted output ...</span>
+<kbd is="shell">./gen 5 R | ./sortA</kbd>
+<span class="text-muted">... sorted output ...</span>
+<kbd is="shell">./gen 5 R | ./sortB</kbd>
+<span class="text-muted">... sorted output ...</span>
+</pre>
+
+<p>Only one person in the lab pair needs to run <tt>setup</tt>.
+If you both do it,
+you’ll end up with different pairs of programs.
+Each Lab Pair should work together
+on one pair of programs.</p>
+
+<!-- =============================================================== -->
+<h2 id="phase-1">
+  Phase 1: <strong>Designing your Experiment</strong></h2>
+
+<p>Design, plan and document the set of tests which you will later use to
+deduce which sorting algorithm is used by each sort program. Once you
+have done this, show it to your tutor and explain to them how you think
+the tests will allow you to identify the algorithms.</p>
+
+<p>This is to ensure that by the time you begin investigating and
+experimenting with the actual sort programs you have thoroughly thought
+about what kind of behaviour to look for and what further
+experimentation might be necessary when analysing your findings.</p>
+
+<p>We expect this will involve coming up with numerous sequences of test
+data to use, and what differences (and why) you expect to be able to
+observe from different types of sorting algorithms. Typical properties
+to look for are execution time and output stability.</p>
+
+<p>Of course, when designing tests you cannot anticipate all possible
+results which might occur during your experiment. This is the nature of
+scientific experimentation. But by formalising what you expect to occur
+and how you will respond, you can better account for unexpected behavior
+and sensibly revise your design or create new tests once the experiment
+is under way.</p>
+
+<p>Your experimental design should detail the tests you have devised and
+explain, with clear reasons, how you will be able to distinguish each
+algorithm you might be given. You do not need to include all the
+unsorted input data you intend to use, only a description or small
+sample of it (you may put this in the appendix if you wish).</p>
+
+<p>Write up the experimental design as Part 1 of your report. You can
+produce the report using whatever tools you want (e.g. OpenOffice,
+Google Docs, raw HTML, using your WebCMS blog, etc.), but it must
+eventually be submitted as a PDF. There is no size requirement for the
+report; it is <em>content</em> not length which counts, but as a guide we
+expect the average report will be 1-2 A4 pages for the experimental
+design and 2-3 A4 pages for the experimental results and analysis. If
+you want to include detailed reporting of timing results and/or output
+checking, then put these in an appendix. Your report should be clear,
+scientific/systematic in approach, and all reasoning and assumptions
+should be explicit. Make sure you ask your tutor questions if you are
+unclear about what is expected.</p>
+
+<p>To help you get started, a <a href="../../week06/41_report_template/">template</a> for the report is
+available. Note that a fault we often see is that students simply report
+observations with attempting to analyze them or explain <em>why</em> these
+results occurred. For this lab try to get beyond saying just “This is
+what I saw” and including “These observations can be explained by …”.</p>
+
+<!-- =============================================================== -->
+<h2 id="phase-2">
+  Phase 2: <strong>Running your Experiment</strong></h2>
+
+<p>The <code class="highlighter-rouge">setup</code> command has given your lab pair two sort programs to
+identify. As noted earlier, each sort program reads from its standard
+input and writes to its standard output, and assumes that each input
+line contains a numeric key (first field) and an arbitrary string
+following the key. The output should be in ascending order, based on the
+numeric ordering of keys. All programs should produce the same output
+for a given input when the keys are unique.</p>
+
+<p>The following examples show some useful ways of running the sort
+programs, and auxiliary commands to help collect useful data on their
+behaviour:</p>
+
+<pre>
+<span class="text-muted"># generate some data, put in a file called ""mydata"</span>
+<kbd is="shell">./gen 100 R &gt; mydata</kbd>
+<span class="text-muted"># count the number of lines in the data (should be 100)</span>
+<kbd is="shell">wc -l mydata</kbd>
+<span class="text-muted"># sort the data using sortA, put the result in "sortedA"</span>
+<kbd is="shell">./sortA &lt; mydata &gt; sortedA</kbd>
+<span class="text-muted"># sort the data using sortB, put the result in "sortedB"</span>
+<kbd is="shell">./sortA &lt; mydata &gt; sortedB</kbd>
+<span class="text-muted"># count the number of lines in "sortedA" (should also be 100)</span>
+<kbd is="shell">wc -l sortedA</kbd>
+<span class="text-muted"># sort the data using Unix sort</span>
+<kbd is="shell">sort -n &lt; mydata &gt; sorted</kbd>
+<span class="text-muted"># check that the sortA and sortB programs actaully sorted</span>
+<kbd is="shell">diff sorted sortedA</kbd>    <span class="text-muted">should show no diffs</span>
+<kbd is="shell">diff sorted sortedB</kbd>    <span class="text-muted">should show no diffs</span>
+<span class="text-muted"># run a large sort and throw away the result</span>
+<kbd is="shell">./gen 100000 R | ./sortA &gt; /dev/null</kbd>
+<span class="text-muted"># repeat the above, but get timing data on sortA</span>
+<kbd is="shell">./gen 100000 R | time ./sortA &gt; /dev/null</kbd>
+<span class="text-muted"># repeat the timing, but with better output format</span>
+<kbd is="shell">./gen 100000 R | /usr/bin/time --format="%U seconds" ./sortA &gt; /dev/null</kbd>
+</pre>
+
+<p>You should now carry out the experiment you designed in Phase 1. Collect
+and record all of the data, and then summarize it in your report. You
+can use whatever tools you like to produce useful summaries (e.g. plot
+graphs of time vs data size).</p>
+
+<p>To help with the experiments, we have provided a shell script called
+<code class="highlighter-rouge">runtests</code> to (surprise!) run tests and collect timing data. As
+supplied, this script tests the built-in <code class="highlighter-rouge">sort</code> program, which is not
+helpful for you, so you’ll need to modify it to use one of your <code class="highlighter-rouge">sortA</code>
+or <code class="highlighter-rouge">sortB</code> programs. You could use it as follows:</p>
+
+<pre>
+<span class="text-muted"># set up appropriate testing for sortA</span>
+<kbd is="shell"><var>edit</var> runtests</kbd>
+<span class="text-muted"># run all specified tests and writes results to log file</span>
+<kbd is="shell">sh runtests</kbd>
+<span class="text-muted"># save a copy of the test log for sortA</span>
+<kbd is="shell">mv log logA</kbd>
+<span class="text-muted"># set up appropriate testing for sortA</span>
+<kbd is="shell"><var>edit</var> runtests</kbd>
+<span class="text-muted"># run all specified tests and writes results to log file</span>
+<kbd is="shell">sh runtests</kbd>
+<span class="text-muted"># save a copy of the test log for sortB</span>
+<kbd is="shell">mv log logB</kbd>
+</pre>
+
+<p>You can modify this script as much as you like to fit in with the tests
+that you devise. You don’t even need to use the script at all if you’re
+happy to run all of your test cases manually.</p>
+
+<p>Note that some tests will take a l-o-n-g time to run with large data.
+You can remove the large data sizes from the outer <code class="highlighter-rouge">for</code> loop if you
+can’t wait, but you should probably add more smaller sizes to get more
+data points to try to determine execution cost trends. Unfortunately,
+students cannot leave jobs running in background after logging out, so
+you’ll need to stay logged in to a CSE machine while you’re running
+tests.</p>
+
+<p>Once you’ve run the tests, you might want to edit the <code class="highlighter-rouge">log</code> files to
+clean out the irrelevant stuff.</p>
+
+<p>Tips for measuring: the Unix <code class="highlighter-rouge">time</code> command works by sampling and will
+likely produce different results for the same program run multiple times
+(the <code class="highlighter-rouge">runtests</code> script will do this for you). Take an average over a
+number of timings to account for this. Also, beware of claiming too much
+accuracy. You can’t really claim more than one or two significant digits
+on an average from the <code class="highlighter-rouge">time</code> command.</p>
+
+<p>The precise format of your report is up to you, but it must include:</p>
+
+<ul>
+  <li>a summary of the results for each program</li>
+  <li>an argument, based on the observed behaviour,
+for what each program is</li>
+</ul>
+
+<p>If you want to include detailed results,
+put them in an appendix.</p>
+
+<!-- =============================================================== -->
+<h2 id="report-tips">
+  Tips on Writing the Report</h2>
+
+<p>Note that these tips come from an assignment that was used in this
+course several years ago. Since this is a lab and not an assignment, the
+scale will be smaller.</p>
+
+<h3 id="bad-things">Bad things</h3>
+
+<ul>
+  <li>
+    <p>Not checking your spelling.</p>
+  </li>
+  <li>Not proofreading your report to check for other mistakes.
+    <ul>
+      <li>e.g. writing “sortA” when you are actually talking about sortB</li>
+    </ul>
+  </li>
+  <li>Trying to performing meaningful analysis
+using very small timing data
+    <ul>
+      <li>e.g., 0.004s vs 0.005s.  Too much noise!
+Aim for readings in seconds, not milliseconds.</li>
+    </ul>
+  </li>
+  <li>Focusing on absolute speed,
+instead of on growth rates (<script type="math/tex">O(n)</script>, <script type="math/tex">O(n^2)</script>, etc)
+    <ul>
+      <li>e.g. “this ran fast”, “this ran slow” –
+what does that tell you? how do you account for constants?</li>
+    </ul>
+  </li>
+  <li>Trying to compare the absolute speed between your sorting algorithms
+    <ul>
+      <li>e.g. “sortB was faster than sortA”:
+we could have implemented each sort in different languages
+or with differing levels of optimisation,
+so it is meaningless to compare them this way!
+You may have had (e.g.)
+a “very slow” mergesort and
+a “very fast” bubble sort.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Not being specific enough about
+how you decided on a particular sort algorithm</p>
+  </li>
+  <li>
+    <p>Writing a table full of numbers,
+and then leaving the units out
+(seconds, milliseconds, hours.. ?)</p>
+  </li>
+  <li>Assuming a sort algorithm was stable for every input,
+just because it was stable on
+a particular input you gave it
+    <ul>
+      <li>It is easy to show that
+a sort algorithm is unstable;
+just find an example.
+It is much harder to prove
+that a sort algorithm is stable
+for every possible input
+that you could give it.</li>
+    </ul>
+  </li>
+  <li>Being vague when you could be specific
+    <ul>
+      <li>e.g. “much less”, “slightly better”,
+“increase a lot”, “fast”</li>
+    </ul>
+  </li>
+  <li>
+    <p>Not being specific enough about your testing data</p>
+  </li>
+  <li>
+    <p>Not stating assumptions and reasons clearly</p>
+  </li>
+  <li>
+    <p>Making incorrect assumptions about
+the way our sorts were implemented (based on what?)</p>
+  </li>
+  <li>Not being skeptical enough
+    <ul>
+      <li>e.g. “obviously”, “clearly”, …</li>
+    </ul>
+  </li>
+  <li>Putting filler in your report
+    <ul>
+      <li>e.g. putting filler in your report</li>
+      <li>e.g. putting filler in your report</li>
+    </ul>
+  </li>
+  <li>
+    <p>Not understanding how the sorting algorithms work</p>
+  </li>
+  <li>Not taking report presentation seriously enough</li>
+</ul>
+
+<h3 id="good-things">Good things</h3>
+
+<ul>
+  <li>
+    <p>Trying to check whether an algorithm was unstable</p>
+  </li>
+  <li>Clearly stating your expectations, testing a hypothesis
+    <ul>
+      <li>e.g. “We expect …”</li>
+    </ul>
+  </li>
+  <li>Being skeptical
+    <ul>
+      <li>e.g. checking whether the sorts were
+actually sorting all your input, or dropping some?</li>
+    </ul>
+  </li>
+  <li>Trying to overcome timing accuracy errors
+    <ul>
+      <li>e.g. repeating tests and taking an average,
+using large inputs that gave times in seconds
+rather than milliseconds</li>
+    </ul>
+  </li>
+  <li>Giving reasons for claims you make
+    <ul>
+      <li>“insertion sort is stable because…”</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="submitting">Submitting</h2>
+
+<p>You must get the lab marked by your tutor in your lab.</p>
+
+<p>Submit your work with the <em>give</em> command, like so:</p>
+
+<p><samp><kbd is="shell">give cs2521 lab06</kbd></samp></p>
+
+<p>Or, if you are working from home, upload the relevant file(s) to
+the <tt>lab06</tt> activity on
+WebCMS3 or on
+<a href="https://cgi.cse.unsw.edu.au/~give/Student/give.php">Give Online</a>.</p>
+
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

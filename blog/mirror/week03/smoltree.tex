@@ -1,0 +1,33 @@
+\documentclass[12pt]{minimal}
+\pagestyle{empty}
+
+\usepackage{textcomp}
+\usepackage{fontspec}
+\setmainfont{Fira Sans}
+\setsansfont{Fira Sans}
+\setmonofont{Source Code Pro}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows, calc, graphs, graphdrawing, positioning}
+\usegdlibrary{trees}
+
+\begin{document}
+\begin{tikzpicture} [
+  extended binary tree layout,
+  missing nodes get space,
+  minimum number of children=2,
+  level distance=12mm,
+  sibling sep=10mm,
+  significant sep=12mm,
+  nodes={circle, draw}
+]
+  \graph {
+    5 -- {
+      2 -- {
+        1, 4 },
+      8
+    }
+  };
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+#!/bin/sh
+
+for file_ in provided/*
+do
+	file=${file_#provided/}
+	for target in _dryrun.hunt _dryrun.view _hunt _view # _runner/do_not_edit
+	do
+		if [ -e "${target}/${file}" ]
+		then
+			if [ "${file}" = "player.c" ]
+			then
+				echo "not nuking player"
+			else
+				unlink "${target}/${file}" && ln -sv "../provided/${file}" "${target}/${file}"
+			fi
+		fi
+	done
+done

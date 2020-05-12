@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Tutorial — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="../../assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/week05/20_tutorial/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="../../">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="../../webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="../../assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="../../week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../week05/">Week 5</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../week05/20_tutorial/">Tutorial</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Tutorial</h1>
+</header>
+
+
+
+
+
+<h2 id="depth-first-and-breadth-first">Depth-First and Breadth-First</h2>
+
+<p>Consider the following code and the following graph:</p>
+
+<ul class="nav nav-tabs" id="code-dfs-bfs-tabs" role="tablist">
+<li class="nav-item"><a class="nav-link active" id="code-dfs-tab" data-toggle="tab" href="#code-dfs" role="tab" aria-controls="code-dfs" aria-selected="true">DFS</a></li>
+<li class="nav-item"><a class="nav-link active" id="code-bfs-tab" data-toggle="tab" href="#code-bfs" role="tab" aria-controls="code-bfs" aria-selected="true">BFS</a></li>
+</ul>
+<div class="tab-content" id="code-dfs-bfs">
+  <div class="tab-pane fade show active" id="code-dfs" role="tabpanel" aria-labelledby="code-dfs-tab">
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">graph_dfs</span> <span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">,</span> <span class="n">vertex</span> <span class="n">v</span><span class="p">,</span>
+	<span class="kt">size_t</span> <span class="o">*</span><span class="n">count</span><span class="p">,</span> <span class="n">vertex</span> <span class="n">pre</span><span class="p">[],</span> <span class="n">vertex</span> <span class="n">st</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="n">Stack</span> <span class="n">s</span> <span class="o">=</span> <span class="n">stack_new</span> <span class="p">();</span>
+	<span class="n">stack_push</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="n">edge</span><span class="p">){</span> <span class="n">v</span><span class="p">,</span> <span class="n">v</span> <span class="p">});</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">stack_size</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">edge</span> <span class="n">e</span> <span class="o">=</span> <span class="n">stack_pop</span> <span class="p">(</span><span class="n">s</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">pre</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+		<span class="n">pre</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">count</span><span class="p">)</span><span class="o">++</span><span class="p">;</span> <span class="n">st</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">]</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">v</span><span class="p">;</span>
+		<span class="n">printf</span> <span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">);</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">nV</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">has_edge</span> <span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">pre</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+				<span class="n">stack_push</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="n">edge</span><span class="p">){</span> <span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">,</span> <span class="n">i</span> <span class="p">});</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </div>
+  <div class="tab-pane fade" id="code-bfs" role="tabpanel" aria-labelledby="code-bfs-tab">
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">graph_bfs</span> <span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">,</span> <span class="n">vertex</span> <span class="n">v</span><span class="p">,</span>
+	<span class="kt">size_t</span> <span class="o">*</span><span class="n">count</span><span class="p">,</span> <span class="n">vertex</span> <span class="n">pre</span><span class="p">[],</span> <span class="n">vertex</span> <span class="n">st</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="n">Queue</span> <span class="n">s</span> <span class="o">=</span> <span class="n">queue_new</span> <span class="p">();</span>
+	<span class="n">queue_en</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="n">edge</span><span class="p">){</span> <span class="n">v</span><span class="p">,</span> <span class="n">v</span> <span class="p">});</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">queue_size</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">edge</span> <span class="n">e</span> <span class="o">=</span> <span class="n">queue_de</span> <span class="p">(</span><span class="n">s</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">pre</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+		<span class="n">pre</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">count</span><span class="p">)</span><span class="o">++</span><span class="p">;</span> <span class="n">st</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">]</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">v</span><span class="p">;</span>
+		<span class="n">printf</span> <span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">);</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">nV</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">has_edge</span> <span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">pre</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+				<span class="n">queue_en</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="n">edge</span><span class="p">){</span> <span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">,</span> <span class="n">i</span> <span class="p">});</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </div>
+</div>
+
+<!-- figure -->
+<p><img style="margin: 24px auto" src="../../week05/Pic/weighted1.jpg" />
+<!-- /figure --></p>
+
+<p>Show what would be printed by
+these iterative DFS and BFS traversals
+for the following function calls:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">graph_dfs</span> <span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">count</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">st</span><span class="p">);</span>
+<span class="n">graph_dfs</span> <span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">count</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">st</span><span class="p">);</span>
+
+<span class="n">graph_bfs</span> <span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">count</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">st</span><span class="p">);</span>
+<span class="n">graph_bfs</span> <span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">count</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">st</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>You should also show the state of the stack or queue,
+and the <code class="highlighter-rouge">pre</code> and <code class="highlighter-rouge">st</code> arrays explicitly in each step.
+You should assume the <code class="highlighter-rouge">pre</code> and <code class="highlighter-rouge">st</code> arrays
+have already been initialised to -1 for all values.</p>
+
+<p>Using the relevant information
+from your DFS and/or BFS search,
+what is the shortest unweighted (least hops) path
+from <script type="math/tex">3</script> to <script type="math/tex">2</script>?</p>
+
+<h2 id="a-relaxing-time">A Relaxing Time</h2>
+
+<p>Consider the following code for Dijkstra’s algorithm:</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">dijkstra</span><span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">,</span><span class="n">Vertex</span> <span class="n">s</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">v</span><span class="p">,</span><span class="n">t</span><span class="p">;</span>
+	<span class="n">PriQ</span> <span class="n">pq</span> <span class="o">=</span> <span class="n">initPriQ</span><span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">nV</span><span class="p">);</span>
+	<span class="c1">//insert each vertex into the pq</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">v</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">v</span><span class="o">&lt;</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">nV</span><span class="p">;</span><span class="n">v</span><span class="o">++</span><span class="p">){</span>
+		<span class="n">insert</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span><span class="n">newItem</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">v</span><span class="p">],</span><span class="n">v</span><span class="p">));</span>
+	<span class="p">}</span>
+	<span class="n">dist</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span> <span class="c1">//set start veretex dist to 0</span>
+	<span class="n">increasePriority</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">dist</span><span class="p">[</span><span class="n">s</span><span class="p">]);</span> <span class="c1">// update pq</span>
+	<span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">isEmpty</span><span class="p">(</span><span class="n">pq</span><span class="p">)){</span>
+		<span class="n">v</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">delMin</span><span class="p">(</span><span class="n">pq</span><span class="p">));</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NO_EDGE</span><span class="p">){</span>
+			<span class="k">for</span><span class="p">(</span><span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="n">t</span> <span class="o">&lt;</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">nV</span><span class="p">;</span><span class="n">t</span><span class="o">++</span><span class="p">){</span>
+				<span class="k">if</span><span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">adj</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NO_EDGE</span><span class="p">){</span>
+					<span class="k">if</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">adj</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">dist</span><span class="p">[</span><span class="n">t</span><span class="p">]){</span>
+						<span class="n">dist</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">dist</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">adj</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">t</span><span class="p">];</span>
+						<span class="n">increasePriority</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">dist</span><span class="p">[</span><span class="n">t</span><span class="p">]);</span>
+						<span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
+					<span class="p">}</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>What does the <code class="highlighter-rouge">increasePriority</code> function do?</p>
+
+<p>Trace through Dijkstra’s algorithm.
+At each step show the state of the priority Queue and the <code class="highlighter-rouge">dist</code> and
+<code class="highlighter-rouge">st</code> arrays.
+What is the shortest path from 3 to 1? And what is its cost?
+Assume the <code class="highlighter-rouge">dist</code> array is initialised with the value NO_EDGE
+(a float representation of infinity) and the <code class="highlighter-rouge">st</code> array with -1s.</p>
+
+<h2 id="throw-a-spanning-tree-in-the-works">Throw a Spanning-Tree in the works</h2>
+
+<p>What is a spanning tree?
+What is a minimum spanning tree?</p>
+
+<p>Provide examples of applications
+for minimum spanning tree algorithms.
+For each example, discuss what the vertices, edges and weights represent.</p>
+
+<hr />
+
+<p>The following code gives
+a reasonably detailed view
+of Kruskal’s algorithm
+for finding a minimum spanning tree.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="n">Graph</span> <span class="n">MSTree</span><span class="p">;</span>
+
+<span class="n">MSTree</span> <span class="nf">graph_mst_kruskal</span> <span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">MSTree</span> <span class="n">mst</span> <span class="o">=</span> <span class="n">graph_new</span> <span class="p">();</span> <span class="c1">// MST initially empty</span>
+	<span class="kt">size_t</span> <span class="n">nE</span><span class="p">;</span>
+	<span class="n">edge</span> <span class="o">*</span><span class="n">elist</span> <span class="o">=</span> <span class="n">graph_edge_list</span> <span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">nE</span><span class="p">);</span>
+	<span class="n">sort_edge_list</span> <span class="p">(</span><span class="n">nE</span><span class="p">,</span> <span class="n">elist</span><span class="p">);</span>
+
+	<span class="kt">size_t</span> <span class="n">nV</span> <span class="o">=</span> <span class="n">graph_num_vertices</span> <span class="p">(</span><span class="n">g</span><span class="p">);</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">graph_num_edges</span> <span class="p">(</span><span class="n">mst</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">nV</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">edge</span> <span class="n">e</span> <span class="o">=</span> <span class="n">eList</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+		<span class="n">graph_edge_add</span> <span class="p">(</span><span class="n">mst</span><span class="p">,</span> <span class="n">e</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">graph_has_cycle_p</span> <span class="p">(</span><span class="n">mst</span><span class="p">))</span>
+			<span class="n">graph_edge_remove</span> <span class="p">(</span><span class="n">mst</span><span class="p">,</span> <span class="n">e</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="n">free</span> <span class="p">(</span><span class="n">elist</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">mst</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This algorithm effectively constructs the MST
+by gradually joining together
+the connected graphs in a forest
+that starts with each subgraph
+being a single node.
+On each iteration,
+it add a new edge to the forest,
+and reduces the number of subgraphs by one.</p>
+
+<p>Show how Kruskal’s algorithm
+would construct the MST for the graph below.
+How many edges did we have to consider?</p>
+
+<!-- figure -->
+<p><img style="margin: 24px auto" src="../../week05/Pic/graph4.png" />
+<!-- /figure --></p>
+
+<p>For a graph <script type="math/tex">G</script> with <script type="math/tex">V</script> vertices and <script type="math/tex">E</script> edges,
+what is the least number of edges
+we might need to consider?
+What is the most number of edges
+we might have to consider?</p>
+
+<p>Add another edge to the above graph
+to force Kruskal’s algorithm to the worst case.</p>
+
+<hr />
+
+<p>The following code is an implementation of Prim’s algorithm for finding a minimum spanning tree.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">prim</span><span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">){</span>
+    <span class="n">vertex</span> <span class="n">v</span><span class="p">,</span> <span class="n">i</span><span class="p">;</span>
+    <span class="n">PriQ</span> <span class="n">pq</span> <span class="o">=</span> <span class="n">initPriQ</span><span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">nV</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="o">*</span> <span class="n">visited</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="o">*</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">nV</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">v</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">v</span> <span class="o">&lt;</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">nV</span><span class="p">;</span><span class="n">v</span><span class="o">++</span><span class="p">){</span>
+        <span class="n">insert</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span><span class="n">newItem</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">v</span><span class="p">],</span><span class="n">v</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">dist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">increasePriority</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+    <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">isEmpty</span><span class="p">(</span><span class="n">pq</span><span class="p">)){</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="p">(</span><span class="n">delMin</span><span class="p">(</span><span class="n">pq</span><span class="p">))</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">;</span>
+        <span class="n">visited</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">nV</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">adj</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NO_EDGE</span> <span class="o">&amp;&amp;</span> <span class="n">visited</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">){</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">adj</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">]){</span>
+                       <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">adj</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">i</span><span class="p">];</span>
+                       <span class="n">increasePriority</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+                       <span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Trace the execution of Prim’s algorithm on the same graph you traced
+through Kruskal’s on.</p>
+
+<p>Show the state of the Priority Queue,
+the <code class="highlighter-rouge">dist</code>, <code class="highlighter-rouge">st</code> and <code class="highlighter-rouge">visited</code> arrays.</p>
+
+<p>Assume the <code class="highlighter-rouge">dist</code> array is initialised with the value
+<code class="highlighter-rouge">NO_EDGE</code> (a float representation of infinity) and the <code class="highlighter-rouge">st</code> and
+<code class="highlighter-rouge">visited</code> array with -1s.</p>
+
+<h2 id="graphs">Graphs</h2>
+
+<p>For each of the following graphs:</p>
+
+<!-- figure -->
+<p><img style="margin: 24px auto" src="../../week05/Pic/graph1.png" />
+<!-- /figure --></p>
+
+<p>Show the concrete data structures if the graph was implemented via:</p>
+
+<ol>
+  <li>adjacency matrix representation (assume full <script type="math/tex">V\times V</script> matrix)</li>
+  <li>adjacency list representation (if non-directional, include both <script type="math/tex">(v,w)</script> and <script type="math/tex">(w,v)</script>)</li>
+</ol>
+
+<h2 id="ivy-league">Ivy League</h2>
+
+<p>Consider the following map of streets in the Sydney CBD:</p>
+
+<!-- figure -->
+<p><img style="margin: 24px auto" src="../../week05/Pic/SydneyCBD.png" />
+<!-- /figure --></p>
+
+<p>Represent this as a directed graph, where intersections are
+vertices and the connecting streets are edges. Ensure that
+the directions on the edges correctly reflect any one-way streets
+(this is a driving map, not a walking map).</p>
+
+<p>You only need to make a graph which includes the intersections
+marked with red letters</p>
+
+<p>Some things that don’t show on the map: Castlereagh St is one-way
+heading south and Hunter St is one-way heading west.</p>
+
+<p>For each of the following pairs of intersections, indicate
+whether there is a path from the first to the second. If there
+is a path, enumerate it as a set of vertices. If there is more
+than one path, show two different paths.</p>
+
+<ol>
+  <li>
+    <p>from intersection “D” on Margaret St to insersection “L” on Pitt St</p>
+  </li>
+  <li>
+    <p>from intersection “J” to the corner of Margaret St and York St (intersection “A”)</p>
+  </li>
+  <li>
+    <p>from the intersection of Margaret St and York St (“A”) to the intersection of Hunter St and Castlereagh St (“M”)</p>
+  </li>
+  <li>
+    <p>from intersection “M” on Castlereagh St to intersection “H” on York St</p>
+  </li>
+</ol>
+
+<h2 id="paths-and-tours">Paths and Tours</h2>
+
+<p>What is the difference between a Euler path/tour and a Hamilton path/tour?
+Identify any Euler/Hamilton paths/tours in the following graphs:</p>
+
+<!-- figure -->
+<p><img style="margin: 24px auto" src="../../week05/Pic/euler-hamilton.png" />
+<!-- /figure --></p>
+
+<p>Write a function to check whether a path,
+supplied as an array of <code class="highlighter-rouge">edge</code>s, is an Euler path.</p>
+
+<p>Assume the function has interface:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="n">euler_path_p</span> <span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">,</span> <span class="n">edge</span> <span class="n">es</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">nE</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>where <code class="highlighter-rouge">es[]</code> is an array of <code class="highlighter-rouge">nE</code> edges, in path order.</p>
+
+<h2 id="in-russia-graph-traverses-you">In Russia, Graph Traverses You!</h2>
+
+<p>In the 18th Century, the Prussian town of Konigsberg (now Kaliningrad)
+was famous for the seven bridges connecting its two central islands
+with the banks of the River Pregel, as shown in the diagram.</p>
+
+<!-- figure -->
+<p><img style="margin: 24px auto" src="../../week05/Pic/bridges.png" />
+<!-- /figure --></p>
+
+<ol>
+  <li>Can you draw a path which crosses each bridge exactly once?</li>
+  <li>If not, which bridge would you need to remove*
+to ensure that you could draw such a path?</li>
+  <li>For each case, show the path.</li>
+</ol>
+
+<p><small>
+(* Possible methods of “removal” include: blowing up,
+weighing down with love-locks until it collapses,
+blocking permanently with Sydney Buses, etc.)
+</small></p>
+
+<h2 id="problems-of-high-power-executives">Problems of High-Power Executives</h2>
+
+<p>Your boss asks you to write a program to find a path in a graph that
+visits every vertex at least once. Your boss tells you that you may go
+to lunch after you have run your program on a graph with 100 vertices.
+Will you ever get to have your lunch?</p>
+
+<p>Your boss asks you write a program to verify whether a given path visits
+every vertex in a given graph exactly once. Your boss tells you that you
+may go to lunch after you have run your program on a graph with 100
+vertices. Will you ever get to have your lunch?</p>
+
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

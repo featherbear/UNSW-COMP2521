@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Sample Final Exam</title>
+<link rel='stylesheet' type='text/css' href='exam.css'></head>
+<body>
+<div align='center'>
+<table width='100%' border='0'>
+<tr valign='top'>
+<td align='left' width='25%'>
+  <span class='tiny'>Sample</span>
+</td>
+<td align='center' width='50%'>
+  <span class='heading'>Sample Final Exam</span>
+</td>
+<td align='right' width='25%'>
+  <span class='tiny'>COMP2521</span>
+</td>
+</table>
+</div>
+<center><a href='index.html'>[Instructions]</a> <a target='C' href='C/index.html'>[C language]</a> <a target='Algos' href='Algos/index.html'>[Algorithms]</a> <br><a href='Q01.html'>[Q1]</a> <a href='Q02.html'>[Q2]</a> <a href='Q03.html'>[Q3]</a> <a href='Q04.html'>[Q4]</a> <a href='Q05.html'>[Q5]</a> <a href='Q06.html'>[Q6]</a> <a href='Q07.html'>[Q7]</a> <b>[Q8]</b> <a href='Q09.html'>[Q9]</a> 
+</center>
+<hr>
+<div style='margin-left:40px;margin-right:40px'>
+<h3>Question 8 <span class='tiny'>(9 marks)</span></h3>
+<p>
+Consider the following graph:
+</p>
+<center><img src="Pics/graph1.png"></center>
+<p>
+Based on the above, answer the following questions:
+</p>
+<ol type="A">
+<li><p>
+Identify any subgraph(s) which form a <i>clique</i>.
+Identify any clique by giving the set of vertices it contains.
+</p></li>
+<li><p>
+Identify the vertex (or vertices) in the graph with the largest degree.
+Give both the vertex (or vertices) <em>and</em> the degree.
+</p></li>
+<li><p>
+Any <em>one</em> of three edges could be removed from this graph
+to leave a spanning tree. Which edges are they?
+</p></li>
+<li><p>
+Consider a non-recursive <em>depth-first traversal</em> of this graph
+using a stack.
+Starting from vertex 6, show the current vertex and the stack of
+to-be-visited vertices at each iteration of the traversal.
+If a vertex is connected to multiple not-yet-visited vertices,
+these vertices will be pushed onto the stack in increasing order
+of vertex number (e.g. vertex 6 is connected to vertices 5 and 7,
+so during the first iteration vertex 5 will be pushed first onto
+the stack followed by vertex 7).
+Make sure that your answer shows clearly which is the top of the stack.
+</p></li>
+<li><p>
+Consider a non-recursive <em>breadth-first traversal</em> of this graph
+using a queue.
+Starting from vertex 6, show the current vertex and the queue of
+to-be-visited vertices at each iteration of the traversal.
+If a vertex is connected to multiple not-yet-visited vertices,
+these vertices will be added onto the queue in increasing order
+of vertex number (e.g. vertex 6 is connected to vertices 5 and 7,
+so during the first iteration vertex 5 will be added first onto
+the queue followed by vertex 7).
+Make sure that your answer shows clearly which is the front of the queue.
+</p></li>
+</ol>
+<p>
+Type the answer to this question into the file called
+<tt>q8.txt</tt> and submit it using the command:
+</p>
+<pre>
+$ <b>submit q8</b>
+</pre>
+<p>
+The above command will make a copy of <tt>q8.txt</tt> as your answer
+for this question.
+</p>
+
+
+</div>
+</body>
+</html>

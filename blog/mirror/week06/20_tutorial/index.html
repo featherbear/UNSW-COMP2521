@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Tutorial — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="../../assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/week06/20_tutorial/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="../../">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="../../webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="../../assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="../../week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../week06/">Week 6</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../week06/20_tutorial/">Tutorial</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Tutorial</h1>
+</header>
+
+
+
+
+
+<h3 id="hold-your-horses">Hold Your Horses!</h3>
+
+<p>Consider the following simple table of enrolments,
+sorted by course code:</p>
+
+<center>
+<table class="table">
+<thead><tr><th>course</th><th>name</th><th>program</th></tr></thead>
+<tbody>
+<tr><td>COMP1927</td><td>Jane</td><td>3970</td></tr>
+<tr><td>COMP1927</td><td>John</td><td>3978</td></tr>
+<tr><td>COMP1927</td><td>Pete</td><td>3978</td></tr>
+<tr><td>MATH1231</td><td>John</td><td>3978</td></tr>
+<tr><td>MATH1231</td><td>Adam</td><td>3970</td></tr>
+<tr><td>PSYC1011</td><td>Adam</td><td>3970</td></tr>
+<tr><td>PSYC1011</td><td>Jane</td><td>3970</td></tr>
+</tbody>
+</table>
+</center>
+
+<p>Now we wish to sort it by student name,
+so that we can easily see
+what courses each student is studying.
+Show an example of what the final table would look like…</p>
+
+<ul>
+  <li>if we used a <em>stable</em> sorting algorithm</li>
+  <li>if we used a <em>non-stable</em> sorting algorithm</li>
+</ul>
+
+<hr />
+
+<p>It is fairly easy to write a function
+to determine whether an array of integers is sorted.
+A trickier problem is to determine
+whether the sort algorithm
+that produced a sorted array is stable.</p>
+
+<p>Assume that the array is composed of
+<code class="highlighter-rouge">Item</code>s with two fields, as in:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span> <span class="kt">int</span> <span class="n">a</span><span class="p">;</span> <span class="kt">int</span> <span class="n">b</span><span class="p">;</span> <span class="p">}</span> <span class="n">Item</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Assume also that the array
+has been sorted on the <code class="highlighter-rouge">Item.a</code> field.</p>
+
+<p>Given the final sorted array alone,
+you cannot determine whether the sort was stable.
+We also assume that the sorting client
+keeps a copy of the original array,
+which is available for checking.</p>
+
+<p>Given the above,
+write a function that takes the original array,
+the sorted array,
+and determines whether the sort was <em>stable</em>.
+Use this prototype:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="n">stable_sort_p</span> <span class="p">(</span><span class="n">Item</span> <span class="o">*</span><span class="n">unsorted</span><span class="p">,</span> <span class="n">Item</span> <span class="o">*</span><span class="n">sorted</span><span class="p">,</span> <span class="kt">int</span> <span class="n">lo</span><span class="p">,</span> <span class="kt">int</span> <span class="n">hi</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="sort-it-out-i">Sort it out! (I)</h3>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*  1 */</span>	<span class="kt">void</span> <span class="nf">sort_insertion</span> <span class="p">(</span><span class="kt">int</span> <span class="n">items</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">n</span><span class="p">)</span>
+<span class="cm">/*  2 */</span>	<span class="p">{</span>
+<span class="cm">/*  3 */</span>		<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+<span class="cm">/*  4 */</span>			<span class="kt">int</span> <span class="n">item</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="cm">/*  5 */</span>			<span class="kt">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+<span class="cm">/*  6 */</span>			<span class="k">for</span> <span class="p">(</span><span class="cm">/* j */</span><span class="p">;</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+<span class="cm">/*  7 */</span>				<span class="k">if</span> <span class="p">(</span><span class="n">item</span> <span class="o">&lt;</span> <span class="n">items</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+<span class="cm">/*  8 */</span>					<span class="c1">// item shifts along to make room</span>
+<span class="cm">/*  9 */</span>					<span class="n">items</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+<span class="cm">/* 10 */</span>				<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+<span class="cm">/* 11 */</span>					<span class="k">break</span><span class="p">;</span>
+<span class="cm">/* 12 */</span>				<span class="p">}</span>
+<span class="cm">/* 13 */</span>			<span class="p">}</span>
+<span class="cm">/* 14 */</span>			<span class="n">items</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span><span class="p">;</span>
+<span class="cm">/* 15 */</span>		<span class="p">}</span>
+<span class="cm">/* 16 */</span>	<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Show each of the following arrays
+as they are sorted by the program above.
+For each one,
+count the number of comparisons
+and number of shifts.</p>
+
+<ol>
+  <li><script type="math/tex">\{3, 2, 4, 8, 1\}</script>,</li>
+  <li><script type="math/tex">\{1, 2, 3, 4, 5\}</script>,</li>
+  <li><script type="math/tex">\{5, 4, 3, 2, 1\}</script>.</li>
+</ol>
+
+<p>For each line of code,
+determine a cost and a formula expressing
+the number of times the statement on that line
+will be executed when sorting <script type="math/tex">n</script> items,
+in the worst case.</p>
+
+<p>What is the asymptotic worst-case time complexity
+of the algorithm implemented by this program?</p>
+
+<p>What is the time complexity of the algorithm
+implemented by this program, in the best case?</p>
+
+<p>Is this sorting algorithm stable?</p>
+
+<h3 id="sort-it-out-ii">Sort it out! (II)</h3>
+
+<p>Consider the implementations of the following sorting functions.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">/// Bubble-sort.</span>
+<span class="kt">void</span> <span class="nf">sort_bubble</span> <span class="p">(</span><span class="kt">int</span> <span class="n">items</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">items</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+				<span class="n">swap_idx</span> <span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">/// Bubble-sort with early exit.</span>
+<span class="kt">void</span> <span class="nf">sort_bubble_ee</span> <span class="p">(</span><span class="kt">int</span> <span class="n">items</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">bool</span> <span class="n">no_swaps</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">no_swaps</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">no_swaps</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">items</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+				<span class="n">no_swaps</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+				<span class="n">swap_idx</span> <span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+			<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">/// Selection sort.</span>
+<span class="kt">void</span> <span class="nf">sort_selection</span> <span class="p">(</span><span class="kt">int</span> <span class="n">items</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kt">size_t</span> <span class="n">low</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">items</span><span class="p">[</span><span class="n">low</span><span class="p">])</span>
+				<span class="n">low</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
+		<span class="n">swap_idx</span> <span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">low</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Show how each of the functions behaves
+when given this array:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">nums</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span> <span class="p">};</span>
+</code></pre></div></div>
+
+<p>Which implementations are adaptive?</p>
+
+<p>Which implementations are stable?</p>
+
+<h3 id="blink-and-youll-miss-it">(b)Link, and you’ll miss it</h3>
+
+<p>Write a version of selection sort
+that builds a <em>new</em> sorted list
+from an original unsorted linked list.
+The original list should not be modified during the sorting.</p>
+
+<p>Here’s a linked list definition –</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">node</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">item</span><span class="p">;</span>
+	<span class="n">node</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>– and here’s a prototype:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">node</span> <span class="o">*</span><span class="n">list_sort_selection</span> <span class="p">(</span><span class="n">node</span> <span class="o">*</span><span class="n">ls</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Is your implementation stable?</p>
+
+<h3 id="what-the-shell">What the Shell!</h3>
+
+<p>Consider the following Shell sort algorithm,
+based on Sedgewick’s implementation:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">sort_shell</span> <span class="p">(</span><span class="kt">int</span> <span class="n">items</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="c1">// Calculate starting `h'-value</span>
+	<span class="kt">size_t</span> <span class="n">h</span><span class="p">;</span>
+	<span class="k">for</span> <span class="p">(</span><span class="n">h</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">h</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">9</span><span class="p">;</span> <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">h</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%zu "</span><span class="p">,</span> <span class="n">h</span><span class="p">);</span>
+	<span class="n">puts</span> <span class="p">(</span><span class="s">""</span><span class="p">);</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="cm">/* h */</span><span class="p">;</span> <span class="n">h</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">h</span> <span class="o">/=</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+		<span class="c1">// when `h' = 1, this is an insertion sort.</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="n">h</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="kt">int</span> <span class="n">key</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+			<span class="kt">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+			<span class="k">for</span> <span class="p">(</span><span class="cm">/* j */</span><span class="p">;</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="n">h</span> <span class="o">&amp;&amp;</span> <span class="n">key</span> <span class="o">&lt;</span> <span class="n">items</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">h</span><span class="p">];</span> <span class="n">j</span> <span class="o">-=</span> <span class="n">h</span><span class="p">)</span>
+				<span class="n">items</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">h</span><span class="p">];</span>
+			<span class="n">items</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">key</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Describe how this would sort an array
+containing the first 100 positive integers
+sorted in descending order
+(i.e. <script type="math/tex">[100,99,98,97,96,95,\cdots,1]</script>).</p>
+
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

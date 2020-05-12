@@ -1,0 +1,770 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Tutorial Solutions — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="../../assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/week01/20_tutorial_solutions/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="../../">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="../../webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="../../assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="../../week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../week01/">Week 1</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../week01/20_tutorial_solutions/">Tutorial Solutions</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Tutorial Solutions</h1>
+</header>
+
+
+
+
+
+<h2 id="bare-linked-lists">Bare Linked Lists</h2>
+
+<p>Consider this “bare” linked list definition
+from the lecture.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="kt">char</span> <span class="n">Item</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">node</span> <span class="o">*</span><span class="n">link</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">node</span> <span class="p">{</span>
+	<span class="n">Item</span> <span class="n">item</span><span class="p">;</span>
+	<span class="n">link</span> <span class="n">next</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">node</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="a-lengthy-matter">A Lengthy Matter</h3>
+
+<p>How would you write a function
+<code class="highlighter-rouge">int list_length (link l)</code>,
+that takes a link to the first element of a list
+and returns the length of the list?</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>There’s a few possible implementations for both of these,
+depending on your preferred approach.
+(I like recursive solutions!)</p>
+
+    <p>An iterative solution:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">list_length</span> <span class="p">(</span><span class="n">link</span> <span class="n">l</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">length</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="n">link</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">l</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">curr</span> <span class="o">!=</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">length</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">length</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+
+    <p>A recursive solution,
+avoiding multiple returns:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">list_length</span> <span class="p">(</span><span class="n">link</span> <span class="n">l</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">retval</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">retval</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="n">retval</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">list_length</span> <span class="p">(</span><span class="n">l</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">retval</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+
+    <p>A recursive solution,
+returning early in the base case:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">list_length</span> <span class="p">(</span><span class="n">link</span> <span class="n">l</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">return</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">list_length</span> <span class="p">(</span><span class="n">l</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+
+    <p>A recursive solution,
+using a ternary to decide where to go next:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">list_length</span> <span class="p">(</span><span class="n">link</span> <span class="n">l</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">l</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">list_length</span> <span class="p">(</span><span class="n">l</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </blockquote>
+</aside>
+
+<h3 id="duplicity">Duplicity</h3>
+
+<p>How would you write a function
+<code class="highlighter-rouge">link list_duplicate (link l)</code>,
+that takes a link to the first element of a list
+and returns a “deep copy” of the list
+(<abbr>i.e.</abbr>, a <em>new</em> list that contains
+the <em>same</em> data in the <em>same</em> order)?</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>Here’s an iterative solution:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">link</span> <span class="nf">list_duplicate</span> <span class="p">(</span><span class="n">link</span> <span class="n">l</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">link</span> <span class="n">new</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">link</span> <span class="n">curr</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">new</span> <span class="o">=</span> <span class="n">node_new</span> <span class="p">(</span><span class="n">l</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">);</span>
+		<span class="n">curr</span> <span class="o">=</span> <span class="n">new</span><span class="p">;</span>
+		<span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">l</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">list_insert_next</span> <span class="p">(</span><span class="n">curr</span><span class="p">,</span> <span class="n">node_new</span> <span class="p">(</span><span class="n">l</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">));</span>
+		<span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+		<span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">new</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+
+    <p>And a recursive solution:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">link</span> <span class="nf">list_duplicate</span> <span class="p">(</span><span class="n">link</span> <span class="n">l</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">link</span> <span class="n">new</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">new</span> <span class="o">=</span> <span class="n">node_new</span><span class="p">(</span><span class="n">ls</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">);</span>
+	<span class="n">new</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">list_duplicate</span> <span class="p">(</span><span class="n">l</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">new</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </blockquote>
+</aside>
+
+<p>Here are some prototypes and implementations
+of functions you may wish to use for this task:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Creates a new node, initialised with the item provided.</span>
+<span class="c1">// Returns pointer to node (link).</span>
+<span class="n">link</span> <span class="nf">node_new</span> <span class="p">(</span><span class="n">Item</span> <span class="n">item</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">link</span> <span class="n">n</span> <span class="o">=</span> <span class="n">malloc</span> <span class="p">(</span><span class="k">sizeof</span> <span class="p">(</span><span class="o">*</span><span class="n">n</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="n">err</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">"couldn't allocate"</span><span class="p">);</span>
+	<span class="n">n</span><span class="o">-&gt;</span><span class="n">item</span> <span class="o">=</span> <span class="n">item</span><span class="p">;</span>
+	<span class="n">n</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">n</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Insert a new node into a given non-empty list.</span>
+<span class="c1">// The node is inserted directly after the head of the list ls.</span>
+<span class="kt">void</span> <span class="nf">list_insert_next</span> <span class="p">(</span><span class="n">link</span> <span class="n">ls</span><span class="p">,</span> <span class="n">link</span> <span class="n">node</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">ls</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">node</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">ls</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="n">ls</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="lists-of-characters">Lists of Characters</h3>
+
+<p>It’s not especially efficient, nor is it particularly nice in C,
+but many languages (notably some functional languages)
+use linked lists where we would use arrays.</p>
+
+<p>Assume we have these functions:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Prints each character of the list.</span>
+<span class="kt">void</span> <span class="n">list_print</span> <span class="p">(</span><span class="n">link</span> <span class="n">l</span><span class="p">);</span>
+
+<span class="c1">// Take a regular C-style string (i.e., a `\0`-terminated array of</span>
+<span class="c1">// characters), and produce a linked list of characters.</span>
+<span class="n">link</span> <span class="n">list_from_cstr</span> <span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">);</span>
+
+<span class="c1">// Take a linked list and return it, reversed.</span>
+<span class="n">link</span> <span class="n">list_reverse</span> <span class="p">(</span><span class="n">link</span> <span class="n">l</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Here’s a simple program; what does it print?</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="n">link</span> <span class="n">ls</span> <span class="o">=</span> <span class="n">list_from_cstr</span> <span class="p">(</span><span class="s">"hello world!"</span><span class="p">);</span>
+	<span class="n">link</span> <span class="n">ls2</span> <span class="o">=</span> <span class="n">list_duplicate</span> <span class="p">(</span><span class="n">ls</span><span class="p">);</span>
+
+	<span class="n">list_print</span> <span class="p">(</span><span class="n">ls</span><span class="p">);</span>
+	<span class="n">list_print</span> <span class="p">(</span><span class="n">ls2</span><span class="p">);</span>
+	<span class="n">list_print</span> <span class="p">(</span><span class="n">list_reverse</span> <span class="p">(</span><span class="n">ls</span><span class="p">));</span>
+	<span class="n">list_print</span> <span class="p">(</span><span class="n">ls</span><span class="p">);</span>
+	<span class="n">list_print</span> <span class="p">(</span><span class="n">ls2</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<aside class="answer">
+  <blockquote>
+
+    <pre>
+<kbd is="shell">./charlist</kbd>
+<samp>List elements: hello world!
+List elements: hello world!
+List elements: !dlrow olleh
+List elements: h
+List elements: hello world!</samp>
+</pre>
+
+    <p><code class="highlighter-rouge">list_reverse</code> changes the list in-place,
+returning the head of the newly-reversed list;
+printing this gives us the list printed in reverse,
+as we would expect.
+<code class="highlighter-rouge">ls</code> still points at the same element –
+the original head of the list, the <code class="highlighter-rouge">'h'</code> –
+but it no longer has any items following.</p>
+
+    <p>We’d need to assign <code class="highlighter-rouge">ls</code> to
+the reversed list in some way;
+both of these will work.</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ls</span> <span class="o">=</span> <span class="n">list_reverse</span> <span class="p">(</span><span class="n">ls</span><span class="p">);</span>
+<span class="n">list_print</span> <span class="p">(</span><span class="n">ls</span><span class="p">);</span>
+</code></pre></div>    </div>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">list_print</span> <span class="p">(</span><span class="n">ls</span> <span class="o">=</span> <span class="n">list_reverse</span> <span class="p">(</span><span class="n">ls</span><span class="p">));</span>
+</code></pre></div>    </div>
+
+    <p><code class="highlighter-rouge">ls2</code> is totally independent of <code class="highlighter-rouge">ls</code>,
+and is not changed.</p>
+
+  </blockquote>
+</aside>
+
+<h2 id="doubly-linked-lists">Doubly-Linked Lists</h2>
+
+<p>A doubly-linked list is similar to a regular linked list,
+but each nodes has pointers to
+both the next <em>and</em> previous nodes in the list.
+Consider the following doubly linked list definition:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="kt">char</span> <span class="n">Item</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">dnode</span> <span class="n">dnode</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="n">dnode</span> <span class="p">{</span>
+	<span class="n">Item</span> <span class="n">item</span><span class="p">;</span>
+	<span class="n">dnode</span> <span class="o">*</span><span class="n">prev</span><span class="p">,</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>Write a function <code class="highlighter-rouge">append</code>
+which attaches the list <code class="highlighter-rouge">list2</code>
+at the end of <code class="highlighter-rouge">list1</code>
+and returns the resulting list.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dnode</span> <span class="o">*</span><span class="n">append</span> <span class="p">(</span><span class="n">dnode</span> <span class="o">*</span><span class="n">list1</span><span class="p">,</span> <span class="n">dnode</span> <span class="o">*</span><span class="n">list2</span><span class="p">);</span>
+</code></pre></div></div>
+
+<aside class="answer">
+  <blockquote>
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dnode</span> <span class="o">*</span><span class="nf">append</span> <span class="p">(</span><span class="n">dnode</span> <span class="o">*</span><span class="n">list1</span><span class="p">,</span> <span class="n">dnode</span> <span class="o">*</span><span class="n">list2</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">list1</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">list2</span><span class="p">;</span>
+	<span class="n">dnode</span> <span class="o">*</span><span class="n">curr</span><span class="p">;</span>
+	<span class="k">for</span> <span class="p">(</span><span class="n">curr</span> <span class="o">=</span> <span class="n">list1</span><span class="p">;</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
+	<span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">list2</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">list2</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">list2</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">curr</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">list1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </blockquote>
+</aside>
+
+<p>Is it necessary to return the resulting list?
+Could we instead get away with the following interface?</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">append</span> <span class="p">(</span><span class="n">dnode</span> <span class="o">*</span><span class="n">list1</span><span class="p">,</span> <span class="n">dnode</span> <span class="o">*</span><span class="n">list2</span><span class="p">);</span>
+</code></pre></div></div>
+
+<aside class="answer">
+  <blockquote>
+    <p>No: you need to return the resulting list,
+in case the first list is <code class="highlighter-rouge">NULL</code>.</p>
+  </blockquote>
+</aside>
+
+<h2 id="extra-c">Extra C</h2>
+<h3 id="switched-on"><code class="highlighter-rouge">switch</code>ed on</h3>
+
+<p>Here’s two <code class="highlighter-rouge">switch</code> statements.</p>
+
+<div class="row">
+  <div class="col-6">
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// S1</span>
+<span class="k">switch</span> <span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">case</span> <span class="sc">'a'</span><span class="p">:</span> <span class="n">printf</span> <span class="p">(</span><span class="s">"eh? "</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+<span class="k">case</span> <span class="sc">'e'</span><span class="p">:</span> <span class="n">printf</span> <span class="p">(</span><span class="s">"eee "</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+<span class="k">case</span> <span class="sc">'i'</span><span class="p">:</span> <span class="n">printf</span> <span class="p">(</span><span class="s">"eye "</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+<span class="k">case</span> <span class="sc">'o'</span><span class="p">:</span> <span class="n">printf</span> <span class="p">(</span><span class="s">"ohh "</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+<span class="k">case</span> <span class="sc">'u'</span><span class="p">:</span> <span class="n">printf</span> <span class="p">(</span><span class="s">"you "</span><span class="p">);</span> <span class="k">break</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">printf</span> <span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+</code></pre></div>    </div>
+  </div>
+  <div class="col-6">
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// S2</span>
+<span class="k">switch</span> <span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">case</span> <span class="sc">'a'</span><span class="p">:</span> <span class="n">printf</span> <span class="p">(</span><span class="s">"eh? "</span><span class="p">);</span>
+<span class="k">case</span> <span class="sc">'e'</span><span class="p">:</span> <span class="n">printf</span> <span class="p">(</span><span class="s">"eee "</span><span class="p">);</span>
+<span class="k">case</span> <span class="sc">'i'</span><span class="p">:</span> <span class="n">printf</span> <span class="p">(</span><span class="s">"eye "</span><span class="p">);</span>
+<span class="k">case</span> <span class="sc">'o'</span><span class="p">:</span> <span class="n">printf</span> <span class="p">(</span><span class="s">"ohh "</span><span class="p">);</span>
+<span class="k">case</span> <span class="sc">'u'</span><span class="p">:</span> <span class="n">printf</span> <span class="p">(</span><span class="s">"you "</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">printf</span> <span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+</code></pre></div>    </div>
+  </div>
+</div>
+
+<p>What differs in the behaviour
+(and the final result)
+of these <code class="highlighter-rouge">switch</code> statements?</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>The first <code class="highlighter-rouge">switch</code> statement
+ends each <code class="highlighter-rouge">case</code> with a <code class="highlighter-rouge">break</code>,
+so only the code between the two
+is executed when that <code class="highlighter-rouge">case</code> is true.</p>
+
+    <p>The second <code class="highlighter-rouge">switch</code> statement
+does not <code class="highlighter-rouge">break</code> each <code class="highlighter-rouge">case</code>,
+so execution will fall through
+from the matching case
+to all subsequent cases.</p>
+  </blockquote>
+</aside>
+
+<p>What will be printed for each of
+the following values for <code class="highlighter-rouge">ch</code>:
+<code class="highlighter-rouge">u</code>, <code class="highlighter-rouge">o</code>, <code class="highlighter-rouge">e</code>?</p>
+
+<aside class="answer">
+  <blockquote>
+    <ul>
+      <li><code class="highlighter-rouge">ch == 'u'</code>
+… <code class="highlighter-rouge">S1</code> prints <code class="highlighter-rouge">"you "</code>
+… <code class="highlighter-rouge">S2</code> prints <code class="highlighter-rouge">"you "</code></li>
+      <li><code class="highlighter-rouge">ch == 'o'</code>
+… <code class="highlighter-rouge">S1</code> prints <code class="highlighter-rouge">"ohh "</code>
+… <code class="highlighter-rouge">S2</code> prints <code class="highlighter-rouge">"ohh you "</code></li>
+      <li><code class="highlighter-rouge">ch == 'e'</code>
+… <code class="highlighter-rouge">S1</code> prints <code class="highlighter-rouge">"eee "</code>
+… <code class="highlighter-rouge">S2</code> prints <code class="highlighter-rouge">"eee eye ohh you "</code></li>
+    </ul>
+  </blockquote>
+</aside>
+
+<h3 id="caseing-the-joint"><code class="highlighter-rouge">case</code>ing the joint</h3>
+
+<p>Consider the following function
+to convert a number in the range 0..6
+into a weekday name.
+<code class="highlighter-rouge">0</code> returns <code class="highlighter-rouge">"Sun"</code>,
+<code class="highlighter-rouge">1</code> returns <code class="highlighter-rouge">"Mon"</code>,
+<code class="highlighter-rouge">2</code> returns <code class="highlighter-rouge">"Tue"</code>,
+and so on.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span> <span class="o">*</span><span class="nf">numToDay</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">n</span> <span class="o">&amp;&amp;</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">6</span><span class="p">);</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">day</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">day</span> <span class="o">=</span> <span class="s">"Sun"</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">day</span> <span class="o">=</span> <span class="s">"Mon"</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">day</span> <span class="o">=</span> <span class="s">"Tue"</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">day</span> <span class="o">=</span> <span class="s">"Wed"</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">day</span> <span class="o">=</span> <span class="s">"Thu"</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">5</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">day</span> <span class="o">=</span> <span class="s">"Fri"</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">6</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">day</span> <span class="o">=</span> <span class="s">"Sat"</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">day</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>Suggest at least two alternative,
+more concise ways of achieving the same result.
+Include the <code class="highlighter-rouge">assert(...)</code> in each case.</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>One possibility:
+use a <code class="highlighter-rouge">switch</code>!</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span> <span class="o">*</span><span class="nf">numToDay</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">n</span> <span class="o">&amp;&amp;</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">6</span><span class="p">);</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">day</span><span class="p">;</span>
+	<span class="k">switch</span> <span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="mi">0</span><span class="p">:</span> <span class="n">day</span> <span class="o">=</span> <span class="s">"Sun"</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="mi">1</span><span class="p">:</span> <span class="n">day</span> <span class="o">=</span> <span class="s">"Mon"</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="mi">2</span><span class="p">:</span> <span class="n">day</span> <span class="o">=</span> <span class="s">"Tue"</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="mi">3</span><span class="p">:</span> <span class="n">day</span> <span class="o">=</span> <span class="s">"Wed"</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="mi">4</span><span class="p">:</span> <span class="n">day</span> <span class="o">=</span> <span class="s">"Thu"</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="mi">5</span><span class="p">:</span> <span class="n">day</span> <span class="o">=</span> <span class="s">"Fri"</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="mi">6</span><span class="p">:</span> <span class="n">day</span> <span class="o">=</span> <span class="s">"Sat"</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">day</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+
+    <p>which could be done more compactly,
+and with a <code class="highlighter-rouge">default</code>, as</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span> <span class="o">*</span><span class="nf">numToDay</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">n</span> <span class="o">&amp;&amp;</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">6</span><span class="p">);</span>
+	<span class="k">switch</span> <span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="s">"Sun"</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="mi">1</span><span class="p">:</span> <span class="k">return</span> <span class="s">"Mon"</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="mi">2</span><span class="p">:</span> <span class="k">return</span> <span class="s">"Tue"</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="mi">3</span><span class="p">:</span> <span class="k">return</span> <span class="s">"Wed"</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="mi">4</span><span class="p">:</span> <span class="k">return</span> <span class="s">"Thu"</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="mi">5</span><span class="p">:</span> <span class="k">return</span> <span class="s">"Fri"</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="mi">6</span><span class="p">:</span> <span class="k">return</span> <span class="s">"Sat"</span><span class="p">;</span> <span class="k">break</span><span class="p">;</span>
+	<span class="nl">default:</span> <span class="k">return</span> <span class="s">"?"</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+
+    <p>An alternative would be
+to use a table lookup:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span> <span class="o">*</span><span class="nf">numToDay</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">n</span> <span class="o">&amp;&amp;</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">6</span><span class="p">);</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">days</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">"Sun"</span><span class="p">,</span><span class="s">"Mon"</span><span class="p">,</span><span class="s">"Tue"</span><span class="p">,</span><span class="s">"Wed"</span><span class="p">,</span><span class="s">"Thu"</span><span class="p">,</span><span class="s">"Fri"</span><span class="p">,</span><span class="s">"Sat"</span><span class="p">};</span>
+	<span class="k">return</span> <span class="n">days</span><span class="p">[</span><span class="n">n</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </blockquote>
+</aside>
+
+<h3 id="breaking-out"><code class="highlighter-rouge">break</code>ing out</h3>
+
+<p>Give an <code class="highlighter-rouge">if</code> statement equivalent to
+the following <code class="highlighter-rouge">switch</code> statement:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">assert</span> <span class="p">(</span><span class="n">islower</span> <span class="p">(</span><span class="n">ch</span><span class="p">));</span>
+<span class="k">switch</span> <span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">case</span> <span class="sc">'a'</span><span class="p">:</span>
+<span class="k">case</span> <span class="sc">'e'</span><span class="p">:</span>
+<span class="k">case</span> <span class="sc">'i'</span><span class="p">:</span>
+<span class="k">case</span> <span class="sc">'o'</span><span class="p">:</span>
+<span class="k">case</span> <span class="sc">'u'</span><span class="p">:</span>
+	<span class="n">printf</span> <span class="p">(</span><span class="s">"vowel"</span><span class="p">);</span>
+	<span class="k">break</span><span class="p">;</span>
+<span class="k">default</span><span class="o">:</span>
+	<span class="n">printf</span> <span class="p">(</span><span class="s">"consonant"</span><span class="p">);</span>
+	<span class="k">break</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<aside class="answer">
+  <blockquote>
+    <p>The following <code class="highlighter-rouge">if</code> statement
+behaves the same:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="n">ch</span> <span class="o">==</span> <span class="sc">'a'</span> <span class="o">||</span> <span class="n">ch</span> <span class="o">==</span> <span class="sc">'e'</span> <span class="o">||</span> <span class="n">ch</span> <span class="o">==</span> <span class="sc">'i'</span> <span class="o">||</span> <span class="n">ch</span> <span class="o">==</span> <span class="sc">'o'</span> <span class="o">||</span> <span class="n">ch</span> <span class="o">==</span> <span class="sc">'u'</span><span class="p">)</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"vowel"</span><span class="p">);</span>
+<span class="k">else</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"consonant"</span><span class="p">);</span>
+</code></pre></div>    </div>
+  </blockquote>
+</aside>
+
+<h3 id="one-good-ternary-deserves">One good ternary deserves…</h3>
+
+<p>Use a conditional expression (a <em>ternary</em>)
+to replace the <code class="highlighter-rouge">if</code> in the following code:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ch</span> <span class="o">=</span> <span class="n">getchar</span><span class="p">();</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">isdigit</span> <span class="p">(</span><span class="n">ch</span><span class="p">))</span>
+	<span class="n">type</span> <span class="o">=</span> <span class="s">"digit"</span><span class="p">;</span>
+<span class="k">else</span>
+	<span class="n">type</span> <span class="o">=</span> <span class="s">"non-digit"</span><span class="p">;</span>
+<span class="n">printf</span> <span class="p">(</span><span class="s">"'%c' is a %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">ch</span><span class="p">,</span> <span class="n">type</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>How should each of the variables
+(<code class="highlighter-rouge">ch</code> and <code class="highlighter-rouge">type</code>) be declared?</p>
+
+<aside class="answer">
+  <blockquote>
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">ch</span><span class="p">;</span>
+<span class="kt">char</span> <span class="o">*</span><span class="n">type</span><span class="p">;</span>
+
+<span class="n">ch</span> <span class="o">=</span> <span class="n">getchar</span> <span class="p">();</span>
+<span class="n">type</span> <span class="o">=</span> <span class="n">isdigit</span> <span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="o">?</span> <span class="s">"digit"</span> <span class="o">:</span> <span class="s">"non-digit"</span><span class="p">;</span>
+<span class="n">printf</span> <span class="p">(</span><span class="s">"'%c' is a %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">ch</span><span class="p">,</span> <span class="n">type</span><span class="p">);</span>
+</code></pre></div>    </div>
+  </blockquote>
+</aside>
+
+<h3 id="while-away-the-time"><code class="highlighter-rouge">while</code> away the time</h3>
+
+<p>What <code class="highlighter-rouge">while</code> loop is equivalent to
+the following <code class="highlighter-rouge">for</code> statement?</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="n">ch</span> <span class="o">=</span> <span class="n">getchar</span> <span class="p">();</span> <span class="n">ch</span> <span class="o">!=</span> <span class="n">EOF</span><span class="p">;</span> <span class="n">ch</span> <span class="o">=</span> <span class="n">getchar</span> <span class="p">())</span> <span class="p">{</span>
+	<span class="n">putchar</span> <span class="p">(</span><span class="n">ch</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<aside class="answer">
+  <blockquote>
+    <p>Two possibilities:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// the literal translation...</span>
+<span class="n">ch</span> <span class="o">=</span> <span class="n">getchar</span><span class="p">();</span>
+<span class="k">while</span> <span class="p">(</span><span class="n">ch</span> <span class="o">!=</span> <span class="n">EOF</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">putchar</span><span class="p">(</span><span class="n">ch</span><span class="p">);</span>
+	<span class="n">ch</span> <span class="o">=</span> <span class="n">getchar</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">// a common idiom...</span>
+<span class="k">while</span> <span class="p">((</span><span class="n">ch</span> <span class="o">=</span> <span class="n">getchar</span><span class="p">())</span> <span class="o">!=</span> <span class="n">EOF</span><span class="p">)</span>
+	<span class="n">putchar</span><span class="p">(</span><span class="n">ch</span><span class="p">);</span>
+</code></pre></div>    </div>
+  </blockquote>
+</aside>
+
+<h3 id="continue-ity"><code class="highlighter-rouge">continue</code>-ity</h3>
+
+<p>Consider a function to check whether
+the elements in an array occur
+in ascending order.
+Duplicates are allowed in the array,
+as long as they are adjacent.</p>
+
+<p>The condition we are testing for
+can be stated more formally as
+a post-condition on the function as below:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Pre:</span>
+<span class="c1">// - a[] is a valid pointer to the start of an array of ints</span>
+<span class="c1">// - n is a positive int indicating how many elements in a[]</span>
+<span class="c1">// Post:</span>
+<span class="c1">// - return value = ∀ i ∈ { 0 .. n-2 }, a[i] ≤ a[i+1]</span>
+<span class="n">bool</span> <span class="nf">is_sorted</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Implement this function in two styles:</p>
+
+<ul>
+  <li>using a <code class="highlighter-rouge">while</code> loop with no <code class="highlighter-rouge">break</code> or <code class="highlighter-rouge">return</code>, and</li>
+  <li>using <code class="highlighter-rouge">for</code>, and with a loop early-exit via <code class="highlighter-rouge">break</code> or <code class="highlighter-rouge">return</code>.</li>
+</ul>
+
+<aside class="answer">
+  <blockquote>
+    <p>Using <code class="highlighter-rouge">while</code> and no breaks or returns…</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="nf">is_sorted</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">bool</span> <span class="n">sorted</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="c1">// assume ok</span>
+	<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">sorted</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="p">{</span> <span class="c1">// or !(a[i] &lt;= a[i+1])</span>
+			<span class="n">sorted</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="n">i</span><span class="o">++</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">sorted</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+
+    <p>Using a <code class="highlighter-rouge">for</code>-loop:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="nf">is_sorted</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">bool</span> <span class="n">sorted</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span> <span class="c1">// assume ok</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+			<span class="n">sorted</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+
+    <p>In more idiomatic C:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="nf">is_sorted</span> <span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+	<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </blockquote>
+</aside>
+
+<p>When might an early-exit be undesirable?</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>When the run-time of the process can be used
+to get information about the process itself,
+or about the data.</p>
+
+    <p>For example,
+a simple comparison of two strings
+will take a length of time
+proportional to the leading common section.
+That is, for two strings</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span> <span class="o">*</span><span class="n">str1</span> <span class="o">=</span> <span class="s">"abcdefghij"</span><span class="p">;</span>
+<span class="kt">char</span> <span class="o">*</span><span class="n">str2</span> <span class="o">=</span> <span class="s">"abcdNNNNNN"</span><span class="p">;</span>
+</code></pre></div>    </div>
+
+    <p>checking whether these strings is equal
+would require four-tenths of the total time
+required to check the entire string.
+This variation can be measured,
+and if this were being used, say,
+for (really bad) password checking
+it would be possible to determine,
+by brute force, the correct password
+by watching the time taken increase.</p>
+
+    <p>This is known as a <em>timing side-channel</em>,
+and these can have all kinds of nasty consequences.
+See, for example,
+the Spectre and Meltdown vulnerabilities.</p>
+  </blockquote>
+</aside>
+
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

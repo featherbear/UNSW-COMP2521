@@ -1,0 +1,30 @@
+Question 4 ... COMP1927 14s2 Final Exam
+
+
+A.  (base cases)  [2 marks]
+
+(lo > hi)
+(lo == hi)
+(key == a[mid])
+     (or, more correctly, (lo < hi && key == a[(lo+hi)/2])
+
+i.e any condition that doesn't lead to a recursive call
+
+
+B.  (#calls to bsearch for x == {4,9,12})  [2 marks]
+
+bsearch(4,...) has 2 calls
+bsearch(9,...) has 4 calls
+bsearch(12,...) has 3 calls
+
+
+C.  (min/max #calls for a[10])  [2 marks]
+
+min #calls = 1
+max #calls = 4
+
+
+D.  (min/max #calls for a[N])  [2 marks]
+
+min #calls = 1
+max #calls = floor(log_2(N)+1), if N > 0

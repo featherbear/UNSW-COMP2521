@@ -1,0 +1,794 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Course Outline — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="../assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/outline/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="../">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="../webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="../outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="../assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="../assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="../week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="../week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="../week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="../week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="../week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="../week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="../week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="../week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../outline/">Course Outline</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+
+
+
+<header class="text-center" style="max-width: 72ex; margin: 0 auto;">
+<h1>
+  <strong>COMP2521</strong> 19T0<br />
+  Data Structures and Algorithms
+</h1>
+<p class="lead">
+  <strong>Summer Semester, 2019</strong><br />
+  6 UoC — <abbr title="Undergraduate career">UG</abbr>
+</p>
+
+<nav><ul class="list-inline">
+
+<li class="list-inline-item"><a href="#staff">Staff</a></li>
+
+<li class="list-inline-item"><a href="#summary">Summary</a></li>
+
+<li class="list-inline-item"><a href="#aims">Aims</a></li>
+
+<li class="list-inline-item"><a href="#outcomes">Outcomes</a></li>
+
+<li class="list-inline-item"><a href="#rationale-strategies">Rationale and Strategies</a></li>
+
+<li class="list-inline-item"><a href="#assessment">Assessment</a></li>
+
+<li class="list-inline-item"><a href="#schedule">Schedule</a></li>
+
+<li class="list-inline-item"><a href="#resources">Resources</a></li>
+
+<li class="list-inline-item"><a href="#conduct-integrity">Conduct and Integrity</a></li>
+
+<li class="list-inline-item"><a href="#evaluation">Evaluation</a></li>
+
+</ul></nav>
+</header>
+
+<!-- ############################################################### -->
+<section id="staff" style="max-width: 72ex; margin: 0 auto;">
+<header><h2>Course Staff</h2></header>
+
+<dl class="row">
+<dt class="col-3 text-right">Convenor</dt>
+<dd class="col-9">
+
+Dr John Shepherd<br /><small class="text-muted">&lt;jas@cse.unsw.edu.au&gt;</small>
+</dd>
+
+<dt class="col-3 text-right">Lecturer(s)</dt>
+<dd class="col-9"><ul class="list-unstyled">
+<li>Jashank Jeremy<br /><small class="text-muted">&lt;jashank.jeremy@unsw.edu.au&gt;</small></li>
+</ul></dd>
+
+<dt class="col-3 text-right">Teaching Staff</dt>
+<dd class="col-9"><ul class="list-unstyled">
+<li>Sim Mautner<br /><small class="text-muted">&lt;s.mautner@unsw.edu.au&gt;</small></li><li>Hayden Smith<br /><small class="text-muted">&lt;hayden.smith1@unsw.edu.au&gt;</small></li><li>Clifford Sesel<br /><small class="text-muted">&lt;clifford@student.unsw.edu.au&gt;</small></li><li>Deepanjan Chakrabarty<br /><small class="text-muted">&lt;deepanjan.chakrabarty@unsw.edu.au&gt;</small></li><li>Olga Popovic<br /><small class="text-muted">&lt;olga.popovic@unsw.edu.au&gt;</small></li><li>Elizabeth Willer<br /><small class="text-muted">&lt;e.willer@unsw.edu.au&gt;</small></li><li>Gal Aharon<br /><small class="text-muted">&lt;g.aharon@unsw.edu.au&gt;</small></li><li>Kristian Nolev<br /><small class="text-muted">&lt;k.nolev@student.unsw.edu.au&gt;</small></li>
+</ul></dd>
+
+
+
+</dl>
+
+<p>
+For confidential course enquiries, email
+<a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a>.
+</p>
+</section>
+
+<main style="max-width: 72ex; margin: 0 auto;">
+
+  <!-- ############################################################### -->
+  <section id="summary">
+    <header>
+      <h2>Course Summary</h2>
+    </header>
+
+    <p>The goal of this course is
+to deepen your understanding of
+data structures and algorithms
+and how these can be employed effectively
+in the design of software systems.
+It is an important course in covering
+a range of core data structures and algorithms
+that will be used in context in later courses.
+You explore these ideas in
+lectures, tutorials, lab classes, and assignments.
+Assessment involves practical lab exercises,
+assignments, and practical and theory exams.
+At the end of the course,
+we want you to be a solid programmer,
+with knowledge of a range of
+useful data structures and programming techniques,
+capable of building significant software systems
+in a team environment,
+and ready to continue with
+further specialised studies in computing.</p>
+
+    <p><strong>Topics:</strong>
+An introduction to
+the structure, analysis and usage of
+a range of fundamental data types
+and the core algorithms that operate on them,
+including:
+algorithm analysis, sorting, searching, trees,
+graphs, files, algorithmic strategies,
+analysis and measurement of programs.
+Labs and programming assignments in C,
+using a range of Unix tools.</p>
+  </section>
+
+  <!-- ############################################################### -->
+  <section id="aims">
+    <header>
+      <h2>Course Aims</h2>
+    </header>
+
+    <p>The aim of this course is
+to get you to <strong>think like a computer scientist</strong>.
+This certainly sounds like a noble goal…
+but what does it really mean?
+How does a <em>scientist</em>,
+let alone a computer scientist,
+actually think?</p>
+
+    <p>What many types of scientists try to do
+is understand natural systems and processes:
+a geologist, for example,
+tries to understand the structure of the earth;
+a biologist tries to understand living organisms;
+a chemist tries to understand materials and reactions,
+and so on.</p>
+
+    <p>Computer scientists don’t,
+as the name might suggest,
+simply try to understand
+the structure and behaviour of computers,
+but are more concerned with
+understanding software systems
+(and the interaction between
+the software and the hardware on which it runs).
+Also, unlike other scientists,
+computer scientists frequently build
+the objects that they study.</p>
+
+    <p>During this course, we’ll be looking at
+ways of creating, analysing and understanding software.
+Ultimately, you should be able to answer the question,
+<strong>“is this piece of software any good?”</strong>
+and be able to provide sound reasons to justify your answer.</p>
+
+    <p>This course follows on from introductory C programming courses:
+COMP1511, COMP1917, or COMP1921.
+We cover additional aspects of the C programming language
+that were not covered in those courses,
+and also look at some programming tools
+which were not covered (in detail) earlier.
+However, this course is not simply
+a second C programming course:
+the focus is on the ideas and abstractions
+behind the data structures and algorithms that are used.</p>
+
+    <p>COMP2521 is a critical course
+in the study of computing at UNSW,
+since it deals with many concepts that are
+central to future studies in the area.
+Whether you are studying Computer Science,
+Software Engineering, Bioinformatics,
+Computer Engineering,
+or even a discipline outside the realm of computing,
+understanding a range of algorithms and data structures
+and how to use them
+will make you a much more effective
+computing problem solver in the future.</p>
+
+  </section>
+
+  <!-- ############################################################### -->
+  <section id="assumed-knowledge">
+    <header>
+      <h2>Assumed Knowledge</h2>
+    </header>
+
+    <p>The official pre-requisite for this course is
+either COMP1511 <em>or</em> COMP1917 <em>or</em> COMP1921.</p>
+
+    <p>Whether or not you satisfy the pre-requisite,
+we assume that:</p>
+
+    <ul>
+      <li>you can program in the C programming language,
+and are familiar with arrays, strings, pointers,
+dynamic memory allocation, recursion;</li>
+      <li>you are able to design, implement,
+debug, test and document small C programs
+(up to several hundred lines of code); and</li>
+      <li>you are familiar with
+the Linux environment on CSE computers.</li>
+    </ul>
+
+    <p>Installing Linux, possibly as a virtual machine,
+on your own computer would be a major bonus.</p>
+
+  </section>
+
+  <!-- ############################################################### -->
+  <section id="outcomes">
+    <header>
+      <h2>Student Learning Outcomes</h2>
+    </header>
+
+    <p>After completing this course, students will:</p>
+
+    <ol>
+
+<li>be familiar with fundamental data structures and algorithms</li>
+
+<li>be able to analyse the performance characteristics of algorithms</li>
+
+<li>be able to measure the performance behaviour of programs</li>
+
+<li>be able to choose/develop an appropriate data structure for a given problem</li>
+
+<li>be able to choose/develop appropriate algorithms to manipulate this data structure</li>
+
+<li>be able to reason about the effectiveness of data structures and algorithms for solving a given problem</li>
+
+<li>be able to package a set of data structures and algorithms as an abstract data type</li>
+
+<li>be able to develop and maintain software systems in C that contain thousands of lines of code</li>
+
+</ol>
+
+    <p>This course contributes to the development of
+the following graduate capabilities:</p>
+
+    <table class="table table-sm">
+<thead><tr><th>graduate capability</th><th>acquired in</th></tr></thead>
+<tbody>
+
+<tr><td>scholarship: understanding of their discipline in its interdisciplinary context</td><td>lectures, assignments</td></tr>
+
+<tr><td>scholarship: capable of independent and collaborative enquiry</td><td>lab work, assignments</td></tr>
+
+<tr><td>scholarship: rigorous in their analysis, critique, and reflection</td><td>tutorials</td></tr>
+
+<tr><td>scholarship: able to apply their knowledge and skills to solving problems</td><td>tutorials, lab work, assignments</td></tr>
+
+<tr><td>scholarship: ethical practitioners</td><td>all course-work, by doing it yourself</td></tr>
+
+<tr><td>scholarship: capable of effective communication</td><td>blog, tutorials</td></tr>
+
+<tr><td>scholarship: digitally literate</td><td>everywhere in CSE</td></tr>
+
+<tr><td>leadership: enterprising, innovative and creative</td><td>assignments</td></tr>
+
+<tr><td>leadership: collaborative team workers</td><td>lab work, assignments</td></tr>
+
+<tr><td>professionalism: capable of operating within an agreed Code of Practice</td><td>all prac work</td></tr>
+
+</tbody>
+</table>
+
+  </section>
+
+  <!-- ############################################################### -->
+  <section id="rationale-strategies">
+    <header>
+      <h2>Teaching Rationale and Strategies</h2>
+    </header>
+
+    <p>Computer Science is, to a large extent, a practical discipline,
+and so COMP2521 has a large emphasis on practice.
+We uses the standard set of practice-focussed teaching strategies
+employed by most CSE foundational courses:</p>
+
+    <ul>
+      <li><strong>lectures</strong> introduce concepts and demonstrate examples;</li>
+      <li><strong>tutorials</strong> reinforce concepts and provide additional examples;</li>
+      <li><strong>lab exercises</strong> provide examples of using various technologies; and</li>
+      <li><strong>assignments</strong> allow you to solve larger problems;</li>
+    </ul>
+
+    <p>The only way to develop the skills
+to do effective software development is by practising them.
+If you slack off on the assignments and lab exercises
+(or, worse, rely on someone else to do them for you),
+you’re wasting the course’s most valuable learning opportunities.</p>
+
+    <h3 id="lectures">Lectures</h3>
+
+    <p>Lectures aim to convey
+basic information about the course content
+and to model the practices and techniques involved
+in software development,
+including demonstrations and exercises
+where we examine the practice of
+developing and analysing programs.</p>
+
+    <p>Each week, there will be five hours of lectures
+during which theory, practical demonstrations
+and case-studies will be presented.
+Lectures convey a small amount of information
+about the course content,
+but their main aim is to try to stimulate you
+to think about concepts and techniques.
+Feel free to ask questions at any stage,
+but otherwise please respect
+people around you who are trying to listen
+and (<em>shhhhhh!</em>) keep quiet.</p>
+
+    <h3 id="tutorials">Tutorials</h3>
+
+    <p>The most important components of the course,
+however, are the tutorials, labs and assignments.</p>
+
+    <p>Tutorials aim to clarify and refine the knowledge
+that you got from lectures,
+and from reading the text book and notes,
+and to develop analysis and understanding
+via practical case studies.</p>
+
+    <p>There will be a number of exercises
+set for each tutorial class;
+the aim of the time is <em>not</em>
+to simply get the tutor to give you the answers;
+instead, focus on just one or two of the exercises,
+and work through them in detail,
+discussing fine details, alternative approaches, etc.
+You can use the questions
+that weren’t examined in as much depth, or at all,
+for your own study.</p>
+
+    <p>You must be active and ask questions in tutorials!
+Ideally, students should run the entire tute themselves,
+with the tutor being a moderator,
+and occasionally providing additional explanations or clarifications.</p>
+
+    <h3 id="laboratories">Laboratories</h3>
+
+    <p>Laboratory exercises provide a venue
+to put together and explore ideas,
+and to practice problem solving,
+program development, and analysis.</p>
+
+    <p>Each week, there will be
+several small exercises to work on,
+released in the week preceding the class.
+The exercises will need to be submitted,
+and will be assessed by your tutor.
+During the lab,
+your tutor will provide feedback on
+your approach to the problem,
+and on style in your solution.</p>
+
+    <p>Except for in the first week,
+labs will be done in pairs,
+and you and you partner
+should discuss the exercises
+<em>before</em> going to the lab,
+to maximise the usefulness of the class.</p>
+
+    <h3 id="assignments">Assignments</h3>
+
+    <p>Assignments provide opportunities to work on
+substantial (hundreds of lines of code) programming exercises.</p>
+
+    <p>The first assignment is an individual assignment;
+the second will be completed in groups.
+We expect all members of a pair or group
+to contribute to the assignments;
+part of your assignment mark will be tied to this.</p>
+
+    <p>As noted above, assignments are the primary vehicle
+for learning the material in this course.
+If you don’t do them,
+or, worse, simply copy and submit someone else’s work,
+you have wasted a valuable learning opportunity.</p>
+
+  </section>
+
+  <!-- ############################################################### -->
+  <section id="assessment">
+    <header>
+      <h2>Assessment</h2>
+    </header>
+
+    <p>The University requires us to assess
+how well you have learned the course content,
+and the usual primary approach is via a final exam.
+An exam is the ultimate summative assessment tool;
+it gives you a chance, at the end of the course,
+to demonstrate everything that you’ve learned.
+Labs and assignments are a <em>learning</em> tool,
+not an assessment tool:
+in an ideal world, I would award no marks for them;
+however, to give a more concrete incentive to do them
+(in a timely fashion), there are marks tied to them.</p>
+
+    <table class="table table-sm">
+<thead>
+<tr><th>Item</th>
+    <th>Due</th>
+    <th>Marks</th>
+    <th>LOs</th>
+</tr></thead>
+
+<tbody>
+
+<tr><td>Prac Exams</td>
+    <td>weeks 5, 8</td>
+    <td>10.0%</td>
+    <td>1..8</td></tr>
+
+<tr><td>Lab Exercises</td>
+    <td>each week</td>
+    <td>10.0%</td>
+    <td>1..7</td></tr>
+
+<tr><td>Assignment 1</td>
+    <td>week 3</td>
+    <td>10.0%</td>
+    <td>1..7</td></tr>
+
+<tr><td>Assignment 2</td>
+    <td>week 8</td>
+    <td>15.0%</td>
+    <td>2..5,7,8</td></tr>
+
+<tr><td>Final Exam</td>
+    <td>exam period</td>
+    <td>55.0%</td>
+    <td>1..8</td></tr>
+
+</tbody>
+</table>
+
+  </section>
+
+  <!-- ############################################################### -->
+  <section id="schedule">
+    <header>
+      <h2>Schedule</h2>
+    </header>
+
+    <table class="table">
+<thead><tr>
+<th width="10%">Week</th>
+<th width="30%">Lectures</th>
+<th width="30%">Tutes/Labs</th>
+<th width="30%">Assessment</th>
+</tr></thead>
+<tbody>
+
+<tr>
+<th class="text-center">1</th>
+<td>introduction<br />review: linked lists<br />review: ADTs<br />review: structured data</td>
+<td>linked list revision<br />ADT revision</td>
+<td>assn1 released</td>
+</tr>
+
+<tr>
+<th class="text-center">2</th>
+<td>algorithm analysis<br />complexity<br />recursion<br />trees</td>
+<td>ADTs<br />benchmarking and profiling</td>
+<td></td>
+</tr>
+
+<tr>
+<th class="text-center">3</th>
+<td>sorting</td>
+<td>trees</td>
+<td>assn1 due</td>
+</tr>
+
+<tr>
+<th class="text-center">4</th>
+<td>graph representation<br />graph traversal</td>
+<td>algorithmic complexity<br />sorting</td>
+<td>assn2 released</td>
+</tr>
+
+<tr>
+<th class="text-center">5</th>
+<td>graph algorithms</td>
+<td>more sorting</td>
+<td>prac exam 1</td>
+</tr>
+
+<tr>
+<th class="text-center">6</th>
+<td>search trees<br />balancing trees</td>
+<td>graphs</td>
+<td></td>
+</tr>
+
+<tr>
+<th class="text-center">7</th>
+<td>hash tables<br />tries</td>
+<td>graph algorithms</td>
+<td></td>
+</tr>
+
+<tr>
+<th class="text-center">8</th>
+<td>revision</td>
+<td>balanced trees<br />hash tables</td>
+<td>assn2 due<br />prac exam 2</td>
+</tr>
+
+</tbody>
+</table>
+
+  </section>
+
+  <!-- ############################################################### -->
+  <section id="resources">
+    <header>
+      <h2>Course Resources</h2>
+    </header>
+
+    <p>COMP2521 follows the contents of the pair of books:</p>
+
+    <ul>
+      <li>Algorithms in C, Parts 1-4:
+<em>Fundamentals, Data Structures, Sorting, Searching</em> (3rd Edition)
+by Robert Sedgewick, Addison-Wesley</li>
+      <li>Algorithms in C, Part 5: <em>Graph Algorithms</em> (3rd Edition)
+by Robert Sedgewick, Addison-Wesley</li>
+    </ul>
+
+    <p>These two books are available
+as a bundle from the UNSW bookshop.
+They are expensive,
+but are useful well beyond this course,
+and will serve as a useful reference
+on the bookshelf of any serious programmer,
+despite their horrific style.</p>
+
+    <p>You may also be able to find
+on-line resources related to the text books.
+Robert Sedgewick has a series of videos
+on the topics in this course,
+but unfortunately they all seem to be in Java
+(which he has used for the new edition of his book).
+If you find any useful on-line resources, let us know;
+we’ll add them to the <em>Resources</em> section
+of the course web site (with credit to the finder).</p>
+
+    <p>This website also has links to auxiliary material/documentation
+that you’ll need for the course.
+Solutions for all tutorial questions and lab exercises
+will also be made available.
+I’ll review assignment and exam solutions in the lectures.</p>
+
+  </section>
+
+  <!-- ############################################################### -->
+  <section id="conduct-integrity">
+    <header>
+      <h2>Academic Conduct and Integrity</h2>
+    </header>
+
+    <h3 id="student-conduct">Student Conduct</h3>
+
+    <p>The <strong>Student Code of Conduct</strong>
+(<a href="https://student.unsw.edu.au/conduct">information</a>, <a href="https://www.gs.unsw.edu.au/policy/documents/studentcodepolicy.pdf">policy</a>)
+sets out what the University expects from students
+as members of the UNSW community.
+As well as the learning, teaching, and research environment,
+the University aims to provide
+an environment that enables students
+to achieve their full potential
+and to provide an experience consistent with
+the University’s values and guiding principles.
+A condition of enrolment is that
+students <em>inform themselves</em> of
+the University’s rules and policies affecting them,
+and conduct themselves accordingly.</p>
+
+    <p>In particular,
+students have the responsibility
+to observe standards of equity and respect
+in dealing with every member of the University community.
+This applies to all activities on UNSW premises,
+and all external activities related to study and research.
+This includes behaviour in person,
+as well as behaviour on social media,
+for example Facebook groups set up
+for the purpose of discussing UNSW courses or course work.</p>
+
+    <p>Behaviour that is considered in breach of
+the Student Code Policy as discriminatory,
+sexually inappropriate, bullying, harassing,
+invading another’s privacy or
+causing any person to fear for their personal safety
+is serious misconduct and can lead to severe penalties,
+up to and including suspension or exclusion from UNSW.</p>
+
+    <p>If you have any concerns, you may raise them with your
+lecturer, or approach the
+<a href="ethics-officer@cse.unsw.edu.au">School Ethics Officer</a>,
+<a href="grievance-officer@cse.unsw.edu.au">Grievance Officer</a>,
+or one of the student representatives.</p>
+
+    <h3 id="academic-honesty-and-plagiarism">Academic Honesty and Plagiarism</h3>
+
+    <p><strong>Plagiarism</strong> is <a href="https://student.unsw.edu.au/plagiarism">defined as</a>
+using the words or ideas of others,
+and presenting them as your own.
+UNSW and CSE treat plagiarism as academic misconduct,
+which means that it carries penalties
+up to and including being excluded from further study at UNSW.
+There are several on-line sources to help you understand
+what plagiarism is and how it is dealt with at UNSW:</p>
+
+    <ul>
+      <li><a href="https://student.unsw.edu.au/plagiarism">Plagiarism and Academic Integrity</a></li>
+      <li><a href="https://www.gs.unsw.edu.au/policy/documents/plagiarismprocedure.pdf">UNSW Plagiarism Procedure</a></li>
+    </ul>
+
+    <p>Please take the time to read and understand these documents.
+Ignorance is not accepted as an excuse for plagiarism.
+In particular, you are responsible for the safe-keeping
+of your assignment files such that they are
+not accessible by anyone but you by setting proper permissions
+on your CSE home directory and/or on online code repositories.</p>
+
+    <p>Note also that plagiarism includes
+paying or asking another person to do a piece of work for you
+and then submitting it as your own work.</p>
+
+    <p>UNSW has an ongoing commitment to fostering
+a culture of learning informed by academic integrity.
+All UNSW staff and students have a responsibility
+to adhere to this principle of academic integrity.
+Plagiarism undermines academic integrity,
+and is not tolerated at UNSW.</p>
+
+    <p>The pages below describe
+the policies and procedures in more detail:</p>
+
+    <ul>
+      <li><a href="https://www.gs.unsw.edu.au/policy/documents/studentcodepolicy.pdf">Student Code Policy</a></li>
+      <li><a href="https://www.gs.unsw.edu.au/policy/documents/studentmisconductprocedures.pdf">Student Misconduct Procedure</a></li>
+      <li><a href="https://www.gs.unsw.edu.au/policy/documents/plagiarismpolicy.pdf">Plagiarism Policy</a></li>
+      <li><a href="https://www.gs.unsw.edu.au/policy/documents/plagiarismprocedure.pdf">Plagiarism Procedure</a></li>
+    </ul>
+
+    <p>You should also read the following page
+which describes your rights and responsibilities
+in the CSE context:</p>
+
+    <ul>
+      <li><a href="https://www.engineering.unsw.edu.au/computer-science-engineering/about-us/organisational-structure/student-services/policies/essential-advice-for-cse-students">Essential Advice for CSE Students</a></li>
+    </ul>
+
+  </section>
+
+  <!-- ############################################################### -->
+  <section id="evaluation">
+    <header>
+      <h2>Course Evaluation and Development</h2>
+    </header>
+
+    <p>Student feedback on this course, and on the effectiveness of lectures in
+this course, is obtained via electronic survey (MyExperience) at the end
+of each semester.  Student feedback is taken seriously, and continual
+improvements are made to the course based in part on this feedback.
+Students are strongly encouraged to let the lecturer in charge know of
+any problems as soon as they arise.  Suggestions and criticisms will be
+listened to openly, and every action will be taken to correct any issue
+or improve the students’ learning experience.</p>
+
+  </section>
+</main>
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

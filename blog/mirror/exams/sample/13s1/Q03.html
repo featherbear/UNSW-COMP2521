@@ -1,0 +1,99 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>COMP1927 13s1 Final Exam</title>
+<link rel='stylesheet' type='text/css' href='exam.css'></head>
+<body>
+<div align='center'>
+<table width='100%' border='0'>
+<tr valign='top'>
+<td align='left' width='25%'>
+  <span class='tiny'>COMP1927 13s1</span>
+</td>
+<td align='center' width='50%'>
+  <span class='heading'>COMP1927 13s1 Final Exam</span>
+</td>
+<td align='right' width='25%'>
+  <span class='tiny'>Computing 2</span>
+</td>
+</table>
+</div>
+<center><a href='index.html'>[Instructions]</a> <a target='C' href='C/index.html'>[C language]</a> <br><a href='Q01.html'>[Q1]</a> <a href='Q02.html'>[Q2]</a> <b>[Q3]</b> <a href='Q04.html'>[Q4]</a> <a href='Q05.html'>[Q5]</a> <a href='Q06.html'>[Q6]</a> <a href='Q07.html'>[Q7]</a> <a href='Q08.html'>[Q8]</a> <a href='Q09.html'>[Q9]</a> 
+</center>
+<hr>
+<div style='margin-left:40px;margin-right:40px'>
+<h3>Question 3 <span class='tiny'>(11 marks)</span></h3>
+<p>
+Consider the following undirected graph, which has three <em>connected
+components</em> ({0,1,2,3} and {4,5,6} and {7,8}):
+</p>
+<center><img src="Pics/GraphComponents.png"></center>
+<p>
+In the <tt>q3</tt> directory is a simple <tt>Graph</tt> ADT and a small
+driver which reads a graph, prints information about the graph, and
+then computes and prints the number of connected components.
+To get a better idea of how this program is supposed to work,
+look at the testing examples in the <tt>q3/tests</tt> directory.
+Note that <tt>5.in</tt> corresponds to the above graph.
+</p>
+<p>
+The <tt>nComponents()</tt> function, which computes the <em>number of
+connected components</em>, is incomplete.
+Your task for this question is to complete the <tt>nComponents()</tt>
+function in the file <tt>Graph.c</tt>.
+You may introduce any global variables or extra functions that you think
+are necessary, but you must maintain the current <tt>nComponents()</tt>
+interface.
+Your functions must release any memory that they allocate once it is
+no longer needed (i.e. no memory leaks).
+</p>
+<p>
+Hint: a reminder of the overall strategy for solving this problem:
+</p>
+<pre>
+CountComponents:
+   initialise global ComponentOf[] array to all unassigned
+   while (not all vertices have been assigned to a component) {
+      find an unassigned vertex V
+      count a new component
+      do a depth first search of the graph starting from V
+   }
+
+DepthFirstSearch:
+   assign current vertex to component
+   for each unassigned neighbour N of current vertex
+      do a depth first search of the graph on N
+</pre>
+<p>
+Once you are satisfied with your program, submit it using the command:
+</p>
+<pre>
+submit q3
+</pre>
+<p>
+This will make a copy of the <tt>Graph.c</tt> file from the <tt>q3</tt>
+directory as your answer for this question.
+You can run the <tt>submit</tt> command as many times as you like,
+but make sure that your final submission compiles without any errors
+or warnings.
+Test your program thoroughly, possibly using test cases additional
+to those supplied. Your program will be tested using inputs which
+are different to the examples in the <tt>q3/tests</tt> directory.
+</p>
+<p>
+If, at some stage, you need to "re-install" the files (although you
+should not need to), you can copy all of the original files
+into the <tt>q3</tt> directory by running the command:
+</p>
+<pre>
+re-start q3
+</pre>
+<p>
+Beware: this will overwrite all of your existing files for this
+question, so only do it if you seriously mess things up.
+</p>
+
+
+</div>
+</body>
+</html>

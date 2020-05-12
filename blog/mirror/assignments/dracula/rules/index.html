@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>COMP2521 19t0 / The Fury of Dracula / The Rules</title>
+
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/assignments/dracula/rules/" />
+  <link rel="stylesheet" href="/~cs2521/19T0/assets/dracula.css" />
+  <style type="text/css">
+.drac-header
+  { background-image: linear-gradient(to right, #270907 40%, #3D0A07 60%)
+  ; background-color: #270907 }
+.drac-header > img { margin: 0 auto; }
+main { max-width: 80ex !important; margin-left: auto; margin-right: auto; }
+pre  { padding: .5rem; border-radius: .25rem; }
+pre, code, tt { color: #e9ecef; background-color: #343a40; }
+.faq dd { margin-left: 2rem; }
+.faq dd p:first-child { margin-bottom: 0 }
+footer.bg-dark { background-color: #343a40 !important; }
+  </style>
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+<header class="drac-header text-center mb-2">
+  <img src="/~cs2521/19T0/assignments/dracula/Pics/drac.png" alt="The Fury of Dracula" />
+</header>
+
+<main class="container">
+
+<!--
+ - COMP2521 19t0 ... Fury of Dracula spec and files
+ -
+ - 2017-11-24   Jashank Jeremy <{jashankj,z5017851}@cse.unsw.edu.au>
+ - 2018-12-30   Jashank Jeremy <{jashankj,z5017851}@cse.unsw.edu.au>
+ - $Id$
+-->
+
+<header class="text-center">
+
+  <h1 id="the-rules">The Rules</h1>
+
+  <p class="lead">
+— <a href="/~cs2521/19T0/assignments/dracula/">introduction</a>
+— <strong>[the rules]</strong>
+— <a href="/~cs2521/19T0/assignments/dracula/data/">the data</a>
+— <a href="/~cs2521/19T0/assignments/dracula/faq/">faq</a>
+— <a href="/~cs2521/19T0/assignments/dracula/view/">the view</a>
+— <a href="/~cs2521/19T0/assignments/dracula/hunt/">the hunt</a> —
+<br /><small class="text-muted">
+courtesy Richard Buckland, John Shepherd, and many tutors
+</small>
+</p>
+</header>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>This assignment uses is a simplified version of the game
+<a href="http://en.wikipedia.org/wiki/The_Fury_of_Dracula"><em>The Fury of Dracula</em></a>.
+The game involves the arch-vampire Dracula, four intrepid vampire
+Hunters and the splendid cities of Victorian Europe. The aim for the
+hunters is to kill Dracula before he releases hordes of vampires over
+Europe. The aim for Dracula is to evade the hunters long enough to
+realise his Grand Plan (to release hordes of vampires over Europe).</p>
+
+<h2 id="how-the-game-works">How the Game works</h2>
+
+<h3 id="overview">Overview</h3>
+
+<p>Dracula and the Hunters move around the cities and seas of
+Europe. Every time a Hunter moves into the same city as Dracula they
+have an <em>encounter</em> and Dracula loses some blood.  The catch is
+Dracula knows where the hunters are but the Hunters do not know where
+Dracula is.  But he does leave clues… for if a Hunter enters a city
+where Dracula has been in any of his last 6 turns then the Hunter
+discovers traces of his passing and can deduce precisely when he was
+there.  For this reason Dracula’s last 6 moves are called his <em>trail</em>.</p>
+
+<p>The Hunters work as a team, spreading out and hunting for Dracula.  At
+the start of the game they have a score of 366 points, every turn that
+passes the score slowly diminishes.  The Hunters need to kill Dracula
+before they are reduced to an embarrassingly small score.</p>
+
+<h3 id="the-fine-print">The fine print</h3>
+
+<p>Dracula’s primary goal is to evade the Hunters,
+and thus avoid being staked. 
+However, Dracula also leaves nasty surprises
+(<em>traps</em> and <em>immature Vampires</em>) behind him
+in every city he visits.</p>
+
+<p>Traps are slightly harmful things like
+wolves, or mysterious sugar bowls, or sinister pot plants.
+Sometimes traps are called “minions”
+(not be confused with <a href="https://en.wikipedia.org/wiki/Minions_(film)">these</a>).
+When a Hunter encounters a Trap the Hunter loses a few life points.</p>
+
+<p>Every 13 rounds Dracula leaves behind a new immature Vampire, sleeping away. 
+After 6 rounds the Vampire <em>matures</em>;
+it wakes up and flies away to wreak havoc,
+and the game score is reduced by 13 points.
+However, if any Hunter can get to the city
+where the Vampire is sleeping before it matures,
+they can stake it and save the points
+(and make the world a nicer place in which to live).</p>
+
+<p>Note that Dracula places a Trap/Vampire
+as soon as he enters a city
+(i.e. as his <em>action</em> — see below),
+not when he leaves the city.</p>
+
+<p>If a Hunter loses all their life points
+they are magically transported to
+the Hospital at St Joseph and St Mary,
+and next turn they are returned to full health.
+On the other hand,
+if Dracula loses all <em>his</em> blood, he is vanquished.</p>
+
+<p>Hunters can move by road, rail, or sea.
+Dracula can only move by road or sea; he hates trains.
+He isn’t all that keen on moving water either,
+and every turn he spends at sea loses him 2 blood points.</p>
+
+<p>Moving by road means moving from one city to another city it is directly
+connected to by a single road segment. Moving by rail is less reliable,
+sometimes Hunters can move up to 3 rail segments at a time, sometimes 2,
+1, or 0.</p>
+
+<p>Moving by sea is neat; you can rapidly travel a long way.
+Unfortunately, Hunters can never encounter Dracula while they are at
+sea.  Even if he is in the same sea as a Hunter the two always pass
+each other unknowingly, like ships in the night.  Furthermore Hunters
+are not even able to discover whether the sea they are passing through
+is in Dracula’s trail or not.  To balance this Hunters know whenever
+Dracula goes to sea and whenever he lands again at a city.</p>
+
+<h4 id="poor-dracula">Poor Dracula</h4>
+
+<p>Dracula’s movement is much more constrained than the Hunters’.</p>
+
+<p>In particular he can’t make any <strong>MOVE</strong> currently in his trail.  This
+generally means he can’t revisit any city or sea in his trail, except by
+making a <strong>HIDE</strong> or <strong>DOUBLE_BACK</strong> move:</p>
+
+<ul>
+  <li>
+    <p>he may make a <strong>HIDE</strong> move and remain in the city he is currently
+in for a second turn. He cannot <strong>HIDE</strong> at sea.  Dracula can only
+have one <strong>HIDE</strong> move in his trail at any time.</p>
+  </li>
+  <li>
+    <p>he may make a <strong>DOUBLE_BACK</strong> move and revisit one city or sea in
+his trail, however whenever he makes a <strong>DOUBLE_BACK</strong> move the
+Hunters know he has done so. Dracula can only have one
+<strong>DOUBLE_BACK</strong> move in his trail at any time.</p>
+  </li>
+</ul>
+
+<p>Once the location move has fallen off his trail he may make that move
+again (i.e. move back to that location) even if a <strong>HIDE</strong> or
+<strong>DOUBLE_BACK</strong> move for that location remains in the trail.</p>
+
+<h2 id="the-rules-of-the-game">The Rules of the Game</h2>
+
+<h3 id="score">Score</h3>
+
+<ul>
+  <li>The game score starts at <strong>366</strong> points.</li>
+  <li>The score decreases by <strong>1</strong> each time Dracula finishes a turn.</li>
+  <li>The score decreases by <strong>6</strong> each time a Hunter is teleported to the hospital.</li>
+  <li>The score decreases by <strong>13</strong> each time a Vampire matures (i.e., falls off the trail).</li>
+  <li>Dracula wants the score to be low;
+the Hunters want the score to be high.</li>
+  <li>The game will normally finish before the score reaches zero,
+however if it ever reaches 0 we say Dracula has utterly won,
+the world is doomed, the game stops at once…
+and we all look accusingly at the Hunters…</li>
+</ul>
+
+<h3 id="dracula">Dracula</h3>
+
+<ul>
+  <li>Dracula starts with <strong>40</strong> blood points.
+    <ul>
+      <li>Dracula <strong>is</strong> permitted to exceed 40 blood points.</li>
+    </ul>
+  </li>
+  <li>Dracula loses <strong>10</strong> blood points each time he encounters a Hunter.</li>
+  <li>Dracula loses <strong>2</strong> blood points if he is at sea at the end of his turn (he hates water!)</li>
+  <li>Dracula regains <strong>10</strong> blood points
+if he is in Castle Dracula at the end of his turn
+and has not yet been defeated
+(even if he has been automagically teleported there;
+see Dracula’s Turn below).</li>
+  <li>When Dracula has no blood points left, the game is over,
+and the score at that time becomes the final score.</li>
+</ul>
+
+<h3 id="hunters">Hunters</h3>
+
+<ul>
+  <li>
+    <p>There are 4 Hunters:
+<em>Lord Godalming</em>,
+<em>Dr. Seward</em>,
+<em>Van Helsing</em>, and
+<em>Mina Harker</em>.</p>
+  </li>
+  <li>Each Hunter starts with <strong>9</strong> life points.
+    <ul>
+      <li>Hunters are <strong>not</strong> permitted to exceed 9 life points.</li>
+    </ul>
+  </li>
+  <li>A Hunter loses <strong>2</strong> life points if they encounter a Trap.</li>
+  <li>A Hunter loses <strong>4</strong> life points if they encounter Dracula.</li>
+  <li>A Hunter gains <strong>3</strong> life points each time they rest in a city
+(i.e., if they end their turn in the same city
+they ended their previous turn in)</li>
+</ul>
+
+<h2 id="sequence-of-play">Sequence of play</h2>
+
+<ul>
+  <li>
+    <p>In a round of the game,
+each of the five characters has their turn in the sequence:</p>
+
+    <ul>
+      <li>Lord Godalming,</li>
+      <li>Dr. Seward,</li>
+      <li>Van Helsing,</li>
+      <li>Mina Harker,</li>
+      <li>and then Dracula has his turn.</li>
+    </ul>
+
+    <p>and then the same again for the next round, and so on.</p>
+  </li>
+  <li>
+    <p>Each character’s turn consists of
+a <strong>MOVE</strong> and then (possibly)
+some <strong>ACTION</strong>.</p>
+  </li>
+  <li>
+    <p>In the first round,
+each character can <strong>MOVE</strong> to whichever location they like,
+except that Dracula cannot move to the Hospital of St Joseph and St Mary
+(too many crucifixes).</p>
+  </li>
+  <li>
+    <p>The game finishes if and when, at the end of any turn,
+Dracula has 0 blood points (or less),
+<em>or</em> the game score is 0 points (or less).</p>
+  </li>
+</ul>
+
+<h2 id="hunters-turn">Hunter’s Turn</h2>
+
+<h3 id="hunters-move">Hunter’s Move</h3>
+
+<ul>
+  <li>
+    <p><em>Road moves</em>:
+a Hunter can move to any city directly connected to the current city by a road.</p>
+  </li>
+  <li>
+    <p><em>Sea moves</em>:
+a Hunter can move from a port to an adjacent sea,
+or a sea to an adjacent sea,
+or a sea to an adjacent port city.</p>
+  </li>
+  <li>
+    <p><em>Rail moves</em>:
+Each turn, the maximum distance via rail is determined by
+the sum of the round number (0..366) and the Hunter number (0..3)</p>
+    <ul>
+      <li>sum mod 4 is 0:
+The Hunter may not move by rail this turn.</li>
+      <li>sum mod 4 is 1:
+The Hunter may move to any city
+adjacent to the current city via a rail link
+(i.e., up to one rail hop)</li>
+      <li>sum mod 4 is 2:
+The Hunter may move to any city
+adjacent to the current city via a rail link,
+or any city adjacent via rail to such a city.
+(i.e., up to two rail hops)</li>
+      <li>sum mod 4 is 3:
+The Hunter may move to any city
+adjacent to the current city via a rail link,
+or any city adjacent via rail to such a city,
+or any city adjacent via rail to such a city.
+(i.e. up to three rail hops)</li>
+      <li>When the rail move is to a non-adjacent city,
+the Hunter does not actually enter the intermediate cities,
+so any encounters there do not occur.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="hunters-action">Hunter’s Action</h3>
+
+<p>At the start of the <strong>ACTION</strong> phase of any Hunter’s turn:</p>
+
+<ul>
+  <li>If the Hunter arrives in any city in Dracula’s trail, then …
+    <ul>
+      <li><em>all</em> Hunters can see which positions in the trail have
+<strong>MOVE</strong>s that resulted in Dracula being in that city (they
+cannot see the actual moves)</li>
+      <li>the Hunter encounters, in sequence, all Traps for that city
+which are in the current trail, then any immature Vampires, and
+then at last confronts Dracula himself if he is also in the
+city.  Each of these events occurs in turn until either the
+Hunter is reduced to 0 or less life points or all the encounters
+have occurred.
+        <ul>
+          <li>When a Trap is encountered the Hunter instantly loses 2 life
+points and the Trap is destroyed.
+            <ul>
+              <li>If there is more than one Trap at a location the Hunter
+encounters the Traps one at a time until either the
+Hunter is reduced to 0 or less life points, or until all
+the Traps are encountered, whichever occurs first.</li>
+            </ul>
+          </li>
+          <li>When an immature Vampire is encountered it is killed
+instantly with no effect to the Hunter. (well done!)</li>
+          <li>If Dracula is encountered then he instantly loses 10 blood
+points and the Hunter instantly loses 4 life points.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Whenever a Hunter is reduced to 0 or less life points they are
+instantly automagically teleported to the Hospital of St Joseph and
+St Mary (and can do nothing else for the remainder of their turn)
+    <ul>
+      <li>while in the hospital, they have zero life points</li>
+      <li>on their next turn,
+they have 9 life points again and can leave the hospital</li>
+      <li>the magical teleportation to the hospital
+does not show up in the game history;
+players will have to deduce that they are in the hospital.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>At the end of the <strong>ACTION</strong> phase of any Hunter’s turn:</p>
+
+<ul>
+  <li>If the Hunter is in the same city or sea they were in last turn,
+they are treated as resting, researching or recovering from combat.
+The Hunter gains 3 life points by doing this (up to a maximum of
+9 points).</li>
+</ul>
+
+<h2 id="draculas-turn">Dracula’s Turn</h2>
+
+<ul>
+  <li>The Hunters can see Dracula’s location whenever he ends his turn in
+his castle, or in a city currently occupied by a Hunter
+    <ul>
+      <li>this holds even if his most recent move was a <strong>HIDE</strong></li>
+      <li>even if a Hunter is already at the location Dracula has moved
+to, no encounter occurs at this time, as dealing with encounters
+only happens in the action part of a <em>Hunter’s</em> turn</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="draculas-move">Dracula’s move</h3>
+
+<ul>
+  <li>
+    <p>If the trail is already full (i.e. has 6 moves in it), then the oldest
+<strong>MOVE</strong> in the trail is first removed from the trail</p>
+
+    <ul>
+      <li>when a <strong>MOVE</strong> leaves the trail its corresponding encounter is
+treated as follows:
+        <ul>
+          <li>if it was a Trap it just vanishes without a trace (yay!)</li>
+          <li>if it was a Vampire it has <em>matured</em> (eek!)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>If there is no legal move possible for Dracula he automagically
+Teleports to Castle Dracula as his <strong>MOVE</strong></p>
+  </li>
+  <li>
+    <p>Each non-teleport <strong>MOVE</strong> by Dracula is either a <strong>LOCATION</strong>, a
+<strong>HIDE</strong>, or a <strong>DOUBLE_BACK</strong></p>
+
+    <ul>
+      <li>
+        <p>Any <strong>LOCATION</strong> move must be to a location that is <em>adjacent</em> to his
+current location, except that …</p>
+
+        <ul>
+          <li>it <em>cannot</em> be a location in his most recent 5 moves</li>
+          <li><em>adjacent</em> does not include by rail (Dracula never travels by rail)</li>
+          <li>he can never move to the hospital of St Joseph and St Mary</li>
+        </ul>
+      </li>
+      <li>
+        <p>A <strong>HIDE</strong> move means he stays in the same city he was in at the start
+of his turn, except …</p>
+
+        <ul>
+          <li>he <em>cannot</em> make a <strong>HIDE</strong> move if he already has a <strong>HIDE</strong> move
+in his trail</li>
+          <li>he <em>cannot</em> <strong>HIDE</strong> at sea</li>
+        </ul>
+      </li>
+      <li>
+        <p>A <strong>DOUBLE_BACK</strong> move is a move to a location adjacent to his current
+location and which is currently in his trail, except …</p>
+
+        <ul>
+          <li>he <em>cannot</em> make a <strong>DOUBLE_BACK</strong> move if he already has a
+<strong>DOUBLE_BACK</strong> move in his trail</li>
+          <li>if he makes a <strong>DOUBLE_BACK</strong> move, the Hunters know …
+            <ul>
+              <li>that his most recent move is a <strong>DOUBLE_BACK</strong></li>
+              <li>the position in the trail of the location he has doubled back to</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="draculas-action">Dracula’s Action</h3>
+
+<ul>
+  <li>Dracula’s current <strong>MOVE</strong> is placed in the trail.</li>
+  <li>If Dracula is at sea he loses two blood points.
+    <ul>
+      <li>Hunters know whenever Dracula is at sea.</li>
+    </ul>
+  </li>
+  <li>If he is in a city Dracula places an <em>Encounter</em> in that city.
+    <ul>
+      <li>An Encounter is either an Trap or an immature Vampire.</li>
+      <li>Dracula places an immature Vampire if he is in a city AND if the
+number of the round is divisible by 13 (ie in round 0, then in
+round 13, then 26, and so on).</li>
+      <li>Otherwise, if there are currently less than 3 Traps in that
+city, he places a Trap.</li>
+      <li>Dracula cannot place an Encounter at sea.</li>
+      <li>Dracula <em>can</em> place an encounter for a <strong>HIDE</strong> or
+<strong>DOUBLE_BACK</strong> or teleport move to a city location (possibly
+making two or more Encounters for that city so long as the
+previous <strong>MOVE</strong>(s) remain in the trail).</li>
+    </ul>
+  </li>
+  <li>The game score is reduced by 1 point.</li>
+</ul>
+
+<h2 id="special-rules">Special Rules</h2>
+
+<h3 id="research">Research</h3>
+
+<ul>
+  <li>If a Hunter rests, and each of the other Hunters rested in their
+most recent turn, then we say they have been doing <em>collaborative
+research</em>, and the 6th move in Dracula’s trail is
+immediately revealed.
+    <ul>
+      <li>nothing is revealed if there are not yet 6 moves in the trail</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="hide-or-double_back-moves">HIDE or DOUBLE_BACK moves</h3>
+
+<ul>
+  <li>If a Hunter enters a city for which a <strong>HIDE</strong> or <strong>DOUBLE_BACK</strong>
+is still in the trail, then all Hunters learn that the move was a
+<strong>HIDE</strong> or <strong>DOUBLE_BACK</strong>, and they also learn (recursively if
+doubling back to a <strong>HIDE</strong>, etc.) the nature of the move to which
+the <strong>HIDE</strong> or <strong>DOUBLE_BACK</strong> relates.</li>
+  <li>If the Hunters research a <strong>HIDE</strong> or <strong>DOUBLE_BACK</strong> move, then
+all Hunters learn that the move was a <strong>HIDE</strong> or <strong>DOUBLE_BACK</strong>,
+and they also learn (recursively if doubling back to a
+<strong>HIDE</strong>, etc.) the nature of the move to which the <strong>HIDE</strong> or
+<strong>DOUBLE_BACK relates</strong>.</li>
+  <li>The Hunters can see whenever the sixth move in the trail is a
+<strong>HIDE</strong> move, but this does not mean that they learn the nature of
+the move to which it relates (because that move is no longer in
+the trail)</li>
+</ul>
+
+<h3 id="no-more-secrets">No more secrets</h3>
+
+<ul>
+  <li>The Hunters can co-operate using messages to rid the world of
+Dracula as swiftly as possible.</li>
+  <li>Sadly Dracula gets to hear everything the Hunters say to each other.</li>
+</ul>
+
+<h3 id="extra-rules">Extra Rules</h3>
+
+<ul>
+  <li>Dracula cannot place an Encounter in a city if there are already 3
+Encounters in that city.</li>
+</ul>
+
+
+</main>
+
+<footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+</body>
+</html>

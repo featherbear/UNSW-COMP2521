@@ -1,0 +1,140 @@
+# This file describes the settings to be used by
+# the documentation system Doxygen (www.doxygen.org).
+#
+# All text after a single hash (#) is a comment.
+# The general syntax is:
+#     TAG = value [value, ...]
+# For lists, items can also be appended using:
+#     TAG += value [value, ...]
+# Values that contain spaces should be placed between quotes (\" \").
+
+# Project related configuration options
+
+DOXYFILE_ENCODING	= UTF-8
+PROJECT_NAME		= "The Fury of Dracula"
+PROJECT_BRIEF		= "The Fury of Dracula"
+PROJECT_NUMBER		= 19t0
+OUTPUT_DIRECTORY	= doc/
+CREATE_SUBDIRS		= NO
+ALLOW_UNICODE_NAMES	= NO
+OUTPUT_LANGUAGE		= English
+
+BRIEF_MEMBER_DESC	= YES
+REPEAT_BRIEF		= YES
+ALWAYS_DETAILED_SEC	= NO
+
+TAB_SIZE		= 4
+
+SHORT_NAMES		= NO
+JAVADOC_AUTOBRIEF	= YES
+QT_AUTOBRIEF		= YES
+MULTILINE_CPP_IS_BRIEF	= NO
+
+OPTIMIZE_OUTPUT_FOR_C	= YES
+OPTIMIZE_OUTPUT_JAVA	= NO
+OPTIMIZE_FOR_FORTRAN	= NO
+OPTIMIZE_OUTPUT_VHDL	= NO
+MARKDOWN_SUPPORT	= YES
+TOC_INCLUDE_HEADINGS	= 0
+AUTOLINK_SUPPORT	= YES
+
+FULL_PATH_NAMES		= YES
+SEPARATE_MEMBER_PAGES	= NO
+
+BUILTIN_STL_SUPPORT	= NO
+CPP_CLI_SUPPORT		= NO
+SIP_SUPPORT		= NO
+IDL_PROPERTY_SUPPORT	= YES
+DISTRIBUTE_GROUP_DOC	= NO
+GROUP_NESTED_COMPOUNDS	= NO
+SUBGROUPING		= YES
+INLINE_GROUPED_CLASSES	= NO
+INLINE_SIMPLE_STRUCTS	= NO
+TYPEDEF_HIDES_STRUCT	= NO
+INLINE_INHERITED_MEMB	= NO
+INHERIT_DOCS		= YES
+
+LOOKUP_CACHE_SIZE	= 0
+
+# Build related configuration options
+
+EXTRACT_ALL		= YES
+EXTRACT_PRIVATE		= YES
+EXTRACT_PACKAGE		= YES
+EXTRACT_STATIC		= YES
+EXTRACT_LOCAL_CLASSES	= YES
+INTERNAL_DOCS		= YES
+CASE_SENSE_NAMES	= YES
+
+GENERATE_TODOLIST	= YES
+GENERATE_TESTLIST	= YES
+GENERATE_BUGLIST	= YES
+GENERATE_DEPRECATEDLIST	= YES
+SHOW_USED_FILES		= YES
+SHOW_FILES		= YES
+
+# Configuration options related to warning and progress messages
+
+QUIET			= NO
+WARNINGS		= YES
+WARN_IF_UNDOCUMENTED	= YES
+WARN_IF_DOC_ERROR	= YES
+WARN_NO_PARAMDOC	= NO
+WARN_AS_ERROR		= NO
+
+# Configuration options related to the input files
+
+INPUT			= ./
+INPUT_ENCODING		= UTF-8
+RECURSIVE		= YES
+EXCLUDE			=
+EXCLUDE_SYMLINKS	= NO
+EXCLUDE_PATTERNS	=
+
+# Configuration options related to source browsing
+
+SOURCE_BROWSER		= YES
+INLINE_SOURCES		= YES
+STRIP_CODE_COMMENTS	= YES
+
+# Configuration options related to the HTML output
+
+GENERATE_HTML		= YES
+HTML_OUTPUT		= html
+HTML_FILE_EXTENSION	= .html
+
+HTML_COLORSTYLE_HUE	= 20
+HTML_COLORSTYLE_SAT	= 100
+HTML_COLORSTYLE_GAMMA	= 80
+
+HTML_TIMESTAMP		= NO
+HTML_DYNAMIC_MENUS	= NO
+HTML_DYNAMIC_SECTIONS	= NO
+
+GENERATE_TREEVIEW	= YES
+USE_MATHJAX		= YES
+MATHJAX_FORMAT		= HTML-CSS
+MATHJAX_RELPATH		= https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/
+
+# Configuration options related to the LaTeX output
+
+GENERATE_LATEX		= NO
+
+# Configuration options related to the preprocessor
+
+ENABLE_PREPROCESSING	= YES
+
+# Configuration options related to the dot tool
+
+CLASS_DIAGRAMS		= YES
+HAVE_DOT		= YES
+
+CLASS_GRAPH		= YES
+INCLUDE_GRAPH		= YES
+INCLUDED_BY_GRAPH	= YES
+GRAPHICAL_HIERARCHY	= YES
+DIRECTORY_GRAPH		= YES
+
+DOT_IMAGE_FORMAT	= svg
+INTERACTIVE_SVG		= YES
+DOT_CLEANUP		= YES

@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>COMP2521 19t0 / The Fury of Dracula / The Hunt</title>
+
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/assignments/dracula/hunt/" />
+  <link rel="stylesheet" href="/~cs2521/19T0/assets/dracula.css" />
+  <style type="text/css">
+.drac-header
+  { background-image: linear-gradient(to right, #270907 40%, #3D0A07 60%)
+  ; background-color: #270907 }
+.drac-header > img { margin: 0 auto; }
+main { max-width: 80ex !important; margin-left: auto; margin-right: auto; }
+pre  { padding: .5rem; border-radius: .25rem; }
+pre, code, tt { color: #e9ecef; background-color: #343a40; }
+.faq dd { margin-left: 2rem; }
+.faq dd p:first-child { margin-bottom: 0 }
+footer.bg-dark { background-color: #343a40 !important; }
+  </style>
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+<header class="drac-header text-center mb-2">
+  <img src="/~cs2521/19T0/assignments/dracula/Pics/drac.png" alt="The Fury of Dracula" />
+</header>
+
+<main class="container">
+
+<!--
+ - COMP2521 19t0 ... Fury of Dracula spec and files
+ -
+ - 2017-11-24	Jashank Jeremy <{jashankj,z5017851}@cse.unsw.edu.au>
+ - 2017-12-30	Jashank Jeremy <{jashankj,z5017851}@cse.unsw.edu.au>
+-->
+
+<header class="text-center">
+
+  <h1>The Hunt
+</h1>
+
+  <p class="lead">
+— <a href="/~cs2521/19T0/assignments/dracula/">introduction</a>
+— <a href="/~cs2521/19T0/assignments/dracula/rules/">the rules</a>
+— <a href="/~cs2521/19T0/assignments/dracula/data/">the data</a>
+— <a href="/~cs2521/19T0/assignments/dracula/faq/">faq</a>
+— <a href="/~cs2521/19T0/assignments/dracula/view/">the view</a>
+— <strong>[the hunt]</strong> —
+<br /><small class="text-muted">
+courtesy Richard Buckland, John Shepherd, and many tutors
+</small>
+</p>
+
+  <p><strong>Marks:</strong> 100 (worth 7%) <br />
+<strong>Due:</strong> 23:59 Sunday 3th February 2019 <br />
+<strong>Submit:</strong> <code class="highlighter-rouge">give cs2521 assn2hunt</code></p>
+
+</header>
+
+<h2 id="objectives">Objectives</h2>
+
+<ul>
+  <li>to give you experience in implementing Graph-based ADTs</li>
+  <li>to give you practice in implementing a heuristic game strategy</li>
+</ul>
+
+<h2 id="background">Background</h2>
+
+<p>The aim for this part of the Assignment is to write AIs that can play
+the “Fury of Dracula” game. The interface for the AIs is very simple:
+the Game Engine invokes the AI, giving it an appropriate <em>View</em>, waits
+for a certain amount of time while the AI thinks about its move
+(possibly suggesting several moves), and then takes the last move
+suggested by the AI. The Game Engine then takes the move, records it,
+updates its own game state, and then move on to the next AI (in the
+order specified in <a href="/~cs2521/19T0/assignments/dracula/rules/">the Rules</a>). The interface for your AIs
+is very simple: they take a View as input, and send a new location and
+a message as their output.</p>
+
+<h2 id="setting-up">Setting Up</h2>
+
+<p>Make a directory for working on this Assignment,
+change into that directory, and run the command:</p>
+
+<pre>
+<kbd is="shell">2521 fetch assign2hunt</kbd>
+</pre>
+
+<blockquote class="alert alert-danger">
+  <h4 class="text-center">IMPORTANT NOTE</h4>
+
+  <p>The <code class="highlighter-rouge">GameView</code>, <code class="highlighter-rouge">DraculaView</code> and <code class="highlighter-rouge">HunterView</code> ADTs
+supplied in this package don’t actually do anything;
+they’re the skeleton versions we supplied in Phase 1.
+If you want to preserve your current versions of these,
+copy them somewhere safe before running this command.</p>
+</blockquote>
+
+<p>If you’re working from home,
+you can download the <a href="../hunt.zip"><em>hunt.zip</em></a> file
+and then work on your local machine.</p>
+
+<p>This will extract the following files in your directory:</p>
+
+<dl class="dl-horizontal">
+  <dt><code class="highlighter-rouge">Makefile</code></dt>
+  <dd>a set of dependencies used to control compilation</dd>
+  <dt><code class="highlighter-rouge">player.c</code></dt>
+  <dd>a very simple main program to drive your AIs</dd>
+  <dt><code class="highlighter-rouge">dracula.h</code></dt>
+  <dd>interface to the Dracula AI</dd>
+  <dt><code class="highlighter-rouge">dracula.c</code></dt>
+  <dd>skeleton implementation of the Dracula AI</dd>
+  <dt><code class="highlighter-rouge">hunter.h</code></dt>
+  <dd>interface to the Hunter AI</dd>
+  <dt><code class="highlighter-rouge">hunter.c</code></dt>
+  <dd>skeleton implementation of the Hunter AI</dd>
+  <dt><code class="highlighter-rouge">game_view.h</code></dt>
+  <dd>interface to the GameView ADT</dd>
+  <dt><code class="highlighter-rouge">game_view.c</code></dt>
+  <dd>skeleton implementation of the GameView ADT</dd>
+  <dt><code class="highlighter-rouge">dracula_view.h</code></dt>
+  <dd>interface to the DraculaView ADT</dd>
+  <dt><code class="highlighter-rouge">dracula_view.c</code></dt>
+  <dd>skeleton implementation of the DraculaView ADT</dd>
+  <dt><code class="highlighter-rouge">hunter_view.h</code></dt>
+  <dd>interface to the HunterView ADT</dd>
+  <dt><code class="highlighter-rouge">hunter_view.c</code></dt>
+  <dd>skeleton implementation of the HunterView ADT</dd>
+  <dt><code class="highlighter-rouge">places.h</code></dt>
+  <dd>interface to the Places ADT</dd>
+  <dt><code class="highlighter-rouge">places.c</code></dt>
+  <dd>partial implementation of the Places ADT</dd>
+  <dt><code class="highlighter-rouge">map.h</code></dt>
+  <dd>interface to the Map/graph ADT</dd>
+  <dt><code class="highlighter-rouge">map.c</code></dt>
+  <dd>partial implementation of the Map ADT</dd>
+</dl>
+
+<p>The <code class="highlighter-rouge">GameView</code>, <code class="highlighter-rouge">DraculaView</code> and <code class="highlighter-rouge">HunterView</code> ADTs
+supplied in this package don’t actually do anything;
+they’re the skeleton versions we supplied in Phase 1.
+If you want to preserve your current versions of these,
+copy them somewhere safe before running this command.</p>
+
+<p>If you have working Views
+from the first part of the assignment
+that you’re happy with, use them.
+If you didn’t get the Views working,
+or if you’d prefer to use ours:</p>
+
+<pre>
+<kbd is="shell">2521 fetch assign2huntviews</kbd>
+</pre>
+
+<p>This will provide you updated versions of
+GameView, HunterView, DracView, and Map.
+These views are provided as-is;
+if it breaks, you get to keep the pieces.
+(These were written by students of COMP1927 14s2,
+but we’re pretty confident they work:
+we’ve used them for a few years,
+and most of the kinks have been ironed out.)</p>
+
+<p>Note that many of above files are provided simply as a convenience, and
+you can replace them with your own versions if you want. The only
+interfaces that you need to honour precisely as given are those for the
+AIs (i.e. <code class="highlighter-rouge">hunter.h</code> and <code class="highlighter-rouge">dracula.h</code>. If you plan to include other ADTs
+with your code, you’ll need to add dependencies to the <code class="highlighter-rouge">Makefile</code> to
+ensure that they’re compiled.</p>
+
+<p>If you run <code class="highlighter-rouge">make</code> after copying your own View ADTs into place you should
+see something like the following:</p>
+
+<pre>
+<kbd is="shell">make</kbd>
+2521 3c    -c -o dracula.o dracula.c
+2521 3c  -DI_AM_DRACULA -c player.c -o player_dracula.o
+2521 3c    -c -o dracula_view.o dracula_view.c
+2521 3c    -c -o game_view.o game_view.c
+2521 3c    -c -o map.o map.c
+2521 3c    -c -o places.o places.c
+2521 3c   dracula.o player_dracula.o dracula_view.o game_view.o map.o places.o   -o dracula
+2521 3c    -c -o hunter.o hunter.c
+2521 3c  -c player.c -o player_hunter.o
+2521 3c    -c -o hunter_view.o hunter_view.c
+2521 3c   hunter.o player_hunter.o hunter_view.o game_view.o map.o places.o   -o hunter
+</pre>
+
+<p>Ultimately, it produces two executable files:
+<code class="highlighter-rouge">./dracula</code>, which contains the Dracula AI; and
+<code class="highlighter-rouge">./hunter</code>, which contains the Hunter AI.
+They both work similarly
+(not surprising, since they come from the same source code file):
+they create a View based on a pastPlays string,
+they then invoke the decide-a-move function,
+and finally print out the last move and message
+that function produced.  For example:</p>
+
+<pre>
+<kbd is="shell">./dracula</kbd>
+Move: CD, Message: Mwuhahahaha
+<kbd is="shell">./hunter</kbd>
+Move: TO, Message: Have we nothing Toulouse?
+</pre>
+
+<p>Note that we supply our own <code class="highlighter-rouge">player.c</code>
+when we run your AIs in the tournament.
+It does essentially the same thing as above,
+but additionally knows how to communicate with the Game Engine,
+and enforces a time limit on the AI.
+You can modify the supplied <code class="highlighter-rouge">player.c</code> as much as you want.
+In particular, you could change the pastPlays and messages
+that are used to build the View
+to test out how your AI will respond.</p>
+
+<h2 id="what-to-do">What to Do</h2>
+
+<p>The interface you need to deal with is very simple: there are two
+functions to decide the next move that a player should make:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void decide_hunter_move (HunterView state);
+void decide_dracula_move (DraculaView state);
+</code></pre></div></div>
+
+<p>… along with a function to register potential moves:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void register_best_play (char *play, player_message message);
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">register_best_play()</code> function is already written for you,
+so all you need to do is implement the <code class="highlighter-rouge">decide_..._move()</code> functions,
+along with any auxiliary functions and ADTs that they require.
+The <code class="highlighter-rouge">play</code> is the two-letter code
+for some place on the Map of Europe (e.g. <code class="highlighter-rouge">LO</code> for London);
+the <code class="highlighter-rouge">message</code> can be any text string
+up to length <code class="highlighter-rouge">MESSAGE_SIZE-1</code> chars.</p>
+
+<p>First, think about a strategy for each kind of player
+and what info is needed to use that strategy.
+If that information is already provided by your existing View ADTs,
+simply use them; otherwise implement new ones.
+Then, use these View ADTs as a basis
+for implementing the two <code class="highlighter-rouge">decide_..._move()</code> functions.
+Finally, submit your work to The Hun0t.
+Repeat the previous two steps
+until you are satisfied with your AIs’ performance.</p>
+
+<h2 id="the-hunt">The Hunt</h2>
+
+<p>Periodically (at least daily),
+we will run a batch of Fury of Dracula games,
+using whatever AIs have been submitted
+(this is what we call a “Hunt”).
+These games will be monitored
+and marks awarded to the participating AIs
+based on (a) whether they work at all,
+(b) whether they follow the rules, and
+(c) how well they play the game.</p>
+
+<p>How each session works:</p>
+
+<ul>
+  <li>we copy all submissions from the submissions directory (for <code class="highlighter-rouge">give</code>)</li>
+  <li>we attempt to compile each submission, using:
+    <ul>
+      <li>all of your supplied files</li>
+      <li>our own copies of <code class="highlighter-rouge">player.c</code>, <code class="highlighter-rouge">dracula.h</code>, <code class="highlighter-rouge">hunter.h</code>, <code class="highlighter-rouge">game.h</code></li>
+      <li>your <code class="highlighter-rouge">Makefile</code> (modified by us to have one extra library required by our <code class="highlighter-rouge">player.c</code>)</li>
+    </ul>
+  </li>
+  <li>any <code class="highlighter-rouge">./dracula</code> and <code class="highlighter-rouge">./hunter</code> files are saved</li>
+  <li><strong>for</strong> each (<code class="highlighter-rouge">hunter</code>,<code class="highlighter-rouge">dracula</code>) pair <strong>do</strong>:
+    <ul>
+      <li>move the <code class="highlighter-rouge">hunter</code> and <code class="highlighter-rouge">dracula</code> programs into the “game arena”</li>
+      <li>start the Game Engine, invoke the AIs to determine moves, record game progress</li>
+      <li>when the game ends (see Rules), the game progress is analysed to determine marks</li>
+    </ul>
+  </li>
+  <li>we update tournament tables that show whose AI is performing best</li>
+</ul>
+
+<p>Note that each game uses one <code class="highlighter-rouge">./hunter</code> from one group to play all four
+Hunter roles (i.e. the same AI will be used to play Lord Godalming, Dr.
+Seward, Van Helsing, and Mina Harker). Also, we will ensure that your
+Hunter AI always plays against a Dracula AI from another group.</p>
+
+<p>Since the marks are based on performance in the Hunts, it’s in your best
+interest to submit working AIs as soon as possible. Even submitting an
+AI that simply moves to a random reachable location is worth something
+(not much admittedly, but better than zero, which is what no AI or a
+non-functioning AI will score). You can submit as many times as you
+like; the most recent submission will be chosen for each Hunt.</p>
+
+<p>More details on how you find out about the performance of your AIs in
+the hunt will be available shortly.</p>
+
+<!--
+You can view the logs of the Hunts at the URL:
+
+    https://www.cse.unsw.edu.au/~cs2521ass/19t0.dracula/
+
+The `compilation_logs` directory contains
+the results of attempting to make your submission.
+It's only useful if your submission didn't compile.
+The `logs` directory contains logs of all games in that Hunt.
+The log files have names like `hSID1-dSID2.log`,
+where `SID1` is the student ID of the person who submitted the hunter AI,
+and `SID1` is the student ID of the person who submitted the dracula AI.
+If your hunter AI compiled,
+there should be roughly 20 adjacent entries
+for all of the games played by your hunter
+against some random draculas.
+If your dracula AI compiled,
+you can find any occurrences of where it was used by searching for `dSID`
+where *SID* is the student ID of the person in your group who submitted it.
+-->
+
+<h2 id="submission">Submission</h2>
+
+<p>You should submit your <code class="highlighter-rouge">Makefile</code>,
+along with all of the <code class="highlighter-rouge">.c</code> and <code class="highlighter-rouge">.h</code> files
+that are needed to produce your players.
+This will include, at least:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">Makefile</code></li>
+  <li><code class="highlighter-rouge">dracula.c</code>, <code class="highlighter-rouge">hunter.c</code></li>
+  <li><code class="highlighter-rouge">dracula_view.c</code>, <code class="highlighter-rouge">dracula_view.h</code></li>
+  <li><code class="highlighter-rouge">hunter_view.c</code>, <code class="highlighter-rouge">hunter_view.h</code></li>
+  <li><code class="highlighter-rouge">game_view.c</code>, <code class="highlighter-rouge">game_view.h</code></li>
+</ul>
+
+<p>If you change <code class="highlighter-rouge">map.h</code>, <code class="highlighter-rouge">map.c</code>, <code class="highlighter-rouge">places.h</code>, <code class="highlighter-rouge">places.c</code>,
+you should also include those in your submission.
+Also include any other ADTs that you develop
+that are needed for your Views or AIs.</p>
+
+<p>You will need to set up your <code class="highlighter-rouge">Makefile</code>
+to ensure that it includes all of the appropriate files
+in the dependencies and rules.
+If your <code class="highlighter-rouge">Makefile</code> doesn’t work properly,
+your players won’t be included in the next tournament,
+even if all of the code is correct.</p>
+
+<p>All submissions are made on behalf of the group,
+no matter which member of the group makes the submission.
+If several group members make submissions,
+only the most recent submission will be used.</p>
+
+<p>To submit:</p>
+
+<ul>
+  <li>
+    <p>log into your CSE account, via SSH or VLAB –
+you <em>cannot</em> submit via the web</p>
+  </li>
+  <li>
+    <p>change into the directory containing all of your files</p>
+  </li>
+  <li>
+    <p>test your submission one of these commands:</p>
+
+    <pre><kbd is="shell">2521 dryrun assign2hunt Makefile *.c *.h &gt; <i>SomeFile</i></kbd></pre>
+    <pre><kbd is="shell">2521 dryrun assign2hunt Makefile *.c *.h | less</kbd></pre>
+
+    <p>The above command will allow you to check that you are submitting
+sufficient files to at least enable your submission to compile.</p>
+  </li>
+  <li>
+    <p>do the submission!</p>
+
+    <pre><kbd is="shell">2521 classrun give assign2hunt Makefile <i>*.[ch]</i></kbd></pre>
+  </li>
+</ul>
+
+
+</main>
+
+<footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+//! circo
+digraph "d" {
+    node [fontname="Fira Sans", shape=circle];
+    a -> a; a -> d;
+    b -> a; b -> c;
+    c -> b; c -> d; c -> g;
+    d -> f; d -> g;
+    e -> d;
+    f -> a; f -> d; f -> g;
+    g -> g;
+}

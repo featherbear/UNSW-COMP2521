@@ -1,0 +1,2963 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Style Guide — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="../../assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/resources/style-guide/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="../../">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="../../webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="../../assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="../../week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="../../week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../resources/">resources</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="../../resources/style-guide/">Style Guide</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Style Guide</h1>
+</header>
+
+
+
+
+<p>You should take time to read this file carefully whenever new syntax is
+introduced in lectures. You should come back and read this as you learn new
+syntax and concepts in lectures, so don’t worry if you don’t understand
+everything here yet.</p>
+
+<h1 id="contents">Contents</h1>
+
+<div class="list-group">
+  <a class="list-group-item" href="#syntax">Syntax</a>
+  <a class="list-group-item" href="#file-layout">File Layout</a>
+  <a class="list-group-item" href="#code-structure">Code Structure</a>
+  <a class="list-group-item" href="#functions">Functions</a>
+  <a class="list-group-item" href="#structs">Structs</a>
+  <a class="list-group-item" href="#multiple-files-and-adts">
+    Multiple Files and ADTS
+  </a>
+  <a class="list-group-item" href="#pointers">Pointers</a>
+  <a class="list-group-item" href="#example">Example</a>
+</div>
+
+<h1 id="syntax">Syntax</h1>
+
+<div id="no-unseen-syntax" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="no-unseen-syntax-rule" role="tabpanel">
+        <h5 class="card-heading">Syntax and Libraries</h5>
+        <blockquote class="card-blockquote">
+<p>You should not use any syntax or library until it has been covered in lectures.</p>
+
+</blockquote>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<h1 id="file-layout">File Layout</h1>
+
+<p>The layout of your <strong>.c</strong> files
+should look similar to the template below.
+You can download a copy of the template
+and save it to your CSE account.</p>
+
+<div class="card mb-2">
+  <div class="card-block simple-highlight">
+    
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="c1">// A description about the program</span>
+<span class="c1">//</span>
+<span class="c1">// By  ... (z0000000)</span>
+<span class="c1">// and ... (z0000000)</span>
+<span class="c1">//</span>
+<span class="c1">// Written on YYYY-MM-DD</span>
+<span class="c1">//</span>
+<span class="c1">// Tutor's Name (dayHH-lab)</span>
+
+<span class="cp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+</span>
+<span class="c1">// Add your own #includes here</span>
+
+<span class="cp">#define FALSE 0
+#define TRUE  (!FALSE)
+</span>
+<span class="c1">// Add your own #defines here</span>
+
+<span class="c1">// Add your enums here</span>
+
+<span class="c1">// Add your typedefs and structs here</span>
+
+<span class="c1">// Add your function prototypes here</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+<span class="p">}</span>
+
+<span class="c1">// Add your function implementations here</span></code></pre></figure>
+
+  </div>
+  <div class="card-footer">
+      You can download this file at 
+      <a href="template.c"><code>template.c</code></a>.
+  </div>
+</div>
+
+<div id="header-comment" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#header-comment-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#header-comment-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#header-comment-example" role="tab">
+            Example
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="header-comment-rule" role="tabpanel">
+        <h5 class="card-heading">Header Comment</h5>
+        <blockquote class="card-blockquote">
+<p>All files must have a header comment of the with a description, the names and
+zIDs of all students who worked on it, the name of the tutor, the tutorial code,
+and the date the file was created in the format <code class="highlighter-rouge">YYYY-MM-DD</code>.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="header-comment-explain" role="tabpanel">
+        <h5 class="card-heading">Header Comment</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>All files must have a header comment of the with a description, the names and
+zIDs of all students who worked on it, the name of the tutor, the tutorial code,
+and the date the file was created in the format <code class="highlighter-rouge">YYYY-MM-DD</code>.</p>
+
+</blockquote>
+        <div>
+<p>All files will start with a header comment. This is just a comment that
+contains:</p>
+<ul>
+  <li>A description of what the file is for or what the program does,</li>
+  <li>The names and zIDs of everyone who worked on the file,</li>
+  <li>Your tutor’s name, and</li>
+  <li>The date that the file was made, in the form <code class="highlighter-rouge">YYYY-MM-DD</code>.</li>
+</ul>
+
+<p>Suppose the student Julian Saknussemm was working on a program that simulated an
+ant farm, the header file for the <code class="highlighter-rouge">antFarm.c</code> file would look something like the
+following.</p>
+
+</div>
+      </div>
+      
+      
+      <div class="tab-pane px-4 pt-3 card-body" id="header-comment-example" role="tabpanel">
+        <h5 class="card-heading">Header Comment</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>All files must have a header comment of the with a description, the names and
+zIDs of all students who worked on it, the name of the tutor, the tutorial code,
+and the date the file was created in the format <code class="highlighter-rouge">YYYY-MM-DD</code>.</p>
+
+</blockquote>
+        
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="c1">// A description about the program</span>
+<span class="c1">//</span>
+<span class="c1">// By  ... (z0000000)</span>
+<span class="c1">// and ... (z0000000)</span>
+<span class="c1">//</span>
+<span class="c1">// Written on YYYY-MM-DD</span>
+<span class="c1">//</span>
+<span class="c1">// Tutor's Name (dayHH-lab)</span>
+   </code></pre></figure>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div id="include" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#include-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#include-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="include-rule" role="tabpanel">
+        <h5 class="card-heading">Includes</h5>
+        <blockquote class="card-blockquote">
+<p><code class="highlighter-rouge">#include</code>s should be directly after the header comment.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="include-explain" role="tabpanel">
+        <h5 class="card-heading">Includes</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p><code class="highlighter-rouge">#include</code>s should be directly after the header comment.</p>
+
+</blockquote>
+        <div>
+<p><code class="highlighter-rouge">#include</code>s are how we use code from other files in our <strong>.c</strong> files so that we
+can share functions between files. <code class="highlighter-rouge">#include</code>s always come after the header
+comment.</p>
+
+</div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="include-order" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#include-order-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#include-order-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#include-order-example" role="tab">
+            Example
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="include-order-rule" role="tabpanel">
+        <h5 class="card-heading">Include Order</h5>
+        <blockquote class="card-blockquote">
+<p>System includes should come before local includes and all includes should be
+in alphabetical order.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="include-order-explain" role="tabpanel">
+        <h5 class="card-heading">Include Order</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>System includes should come before local includes and all includes should be
+in alphabetical order.</p>
+
+</blockquote>
+        <div>
+<p><em>System includes</em>, which use <code class="highlighter-rouge">&lt;</code> and <code class="highlighter-rouge">&gt;</code> and look like <code class="highlighter-rouge">#include &lt;stdlib.h&gt;</code>,
+are used to include header files that are installed on the operating system.
+These should be in alphabetical order and should come first.</p>
+
+<p><em>Local includes</em>, which use <code class="highlighter-rouge">"</code> and look like <code class="highlighter-rouge">#include "myModule.h"</code>, are used
+to include our own header files. These should also be in alphabetical order and
+should come after <em>system includes</em>.</p>
+
+</div>
+      </div>
+      
+      
+      <div class="tab-pane px-4 pt-3 card-body" id="include-order-example" role="tabpanel">
+        <h5 class="card-heading">Include Order</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>System includes should come before local includes and all includes should be
+in alphabetical order.</p>
+
+</blockquote>
+        
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="cp">#include &lt;assert.h&gt;
+#include &lt;math.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+</span>
+<span class="cp">#include "Ant.h"
+#include "AntFarm.h"
+</span>    </code></pre></figure>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div id="define-constant" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#define-constant-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#define-constant-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#define-constant-example" role="tab">
+            Example
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="define-constant-rule" role="tabpanel">
+        <h5 class="card-heading">Constants</h5>
+        <blockquote class="card-blockquote">
+<p><code class="highlighter-rouge">#define</code>s should always come after any <code class="highlighter-rouge">#include</code>s and may be used in all
+files. Constant names should always be in snake case with upper-case letters.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="define-constant-explain" role="tabpanel">
+        <h5 class="card-heading">Constants</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p><code class="highlighter-rouge">#define</code>s should always come after any <code class="highlighter-rouge">#include</code>s and may be used in all
+files. Constant names should always be in snake case with upper-case letters.</p>
+
+</blockquote>
+        <div>
+<p><em>Constants</em> are created using <code class="highlighter-rouge">#define</code> and allow us to create constant values
+with a name. We give these values a name near the start of our file and then we
+can use the name in the rest of the file. This means that if we want to change
+the value at any point, we only need to change it once.</p>
+
+<p>If we want to use any <em>mathematical operators</em> in our constants, we
+need to surround everything with parentheses. <code class="highlighter-rouge">#define</code> can also be used to make
+constants with <code class="highlighter-rouge">float</code>s, <code class="highlighter-rouge">char</code>s, and <em>strings</em>.</p>
+
+</div>
+      </div>
+      
+      
+      <div class="tab-pane px-4 pt-3 card-body" id="define-constant-example" role="tabpanel">
+        <h5 class="card-heading">Constants</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p><code class="highlighter-rouge">#define</code>s should always come after any <code class="highlighter-rouge">#include</code>s and may be used in all
+files. Constant names should always be in snake case with upper-case letters.</p>
+
+</blockquote>
+        
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="cp">#define FARM_WIDTH  120
+#define FARM_DEPTH  40
+#define FARM_HEIGHT 45
+#define FARM_VOLUME (FARM_WIDTH * FARM_DEPTH * FARM_HEIGHT)
+</span>   </code></pre></figure>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div id="enum-constant" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#enum-constant-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#enum-constant-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#enum-constant-example" role="tab">
+            Example
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="enum-constant-rule" role="tabpanel">
+        <h5 class="card-heading">Enumerated Types</h5>
+        <blockquote class="card-blockquote">
+<p><code class="highlighter-rouge">enums</code>s should always come after any <code class="highlighter-rouge">#define</code>s and may be used in all
+files. Value names should always be in snake case with upper-case letters,
+and <code class="highlighter-rouge">typedef</code>ed.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="enum-constant-explain" role="tabpanel">
+        <h5 class="card-heading">Enumerated Types</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p><code class="highlighter-rouge">enums</code>s should always come after any <code class="highlighter-rouge">#define</code>s and may be used in all
+files. Value names should always be in snake case with upper-case letters,
+and <code class="highlighter-rouge">typedef</code>ed.</p>
+
+</blockquote>
+        <div>
+<p><em>Enumerated types</em> are created using <code class="highlighter-rouge">enum</code>s and allow us to create related constant values
+with a name and type safety. We give these related values a type name near the start of our
+file and names for each value of the type then we
+can use the values in the rest of the file. This means that if we want to change
+the values at any point, we only need to change it once.
+Enumerated types start with the first element having a value of zero, and each subsequent value
+being incremented by one, but this can be changed by setting the first element on the enumerated
+list or by setting values for each constant in the enumerated list.</p>
+
+</div>
+      </div>
+      
+      
+      <div class="tab-pane px-4 pt-3 card-body" id="enum-constant-example" role="tabpanel">
+        <h5 class="card-heading">Enumerated Types</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p><code class="highlighter-rouge">enums</code>s should always come after any <code class="highlighter-rouge">#define</code>s and may be used in all
+files. Value names should always be in snake case with upper-case letters,
+and <code class="highlighter-rouge">typedef</code>ed.</p>
+
+</blockquote>
+        
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="k">typedef</span> <span class="k">enum</span> <span class="p">{</span>
+    <span class="n">RED</span><span class="p">,</span>
+    <span class="n">GREEN</span><span class="p">,</span>
+    <span class="n">BLUE</span>
+<span class="p">}</span> <span class="n">color</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="k">enum</span> <span class="p">{</span>
+    <span class="n">ACE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">TWO</span><span class="p">,</span> <span class="n">THREE</span><span class="p">,</span> <span class="n">FOUR</span><span class="p">,</span>
+    <span class="n">FIVE</span><span class="p">,</span> <span class="n">SIX</span><span class="p">,</span> <span class="n">SEVEN</span><span class="p">,</span>
+    <span class="n">EIGHT</span><span class="p">,</span> <span class="n">NINE</span><span class="p">,</span> <span class="n">TEN</span><span class="p">,</span>
+    <span class="n">JACK</span><span class="p">,</span> <span class="n">QUEEN</span><span class="p">,</span> <span class="n">KING</span>
+<span class="p">}</span> <span class="n">value</span><span class="p">;</span>
+
+<span class="n">value</span> <span class="n">v</span> <span class="o">=</span> <span class="n">NINE</span><span class="p">;</span>
+<span class="n">color</span> <span class="n">c</span> <span class="o">=</span> <span class="n">RED</span><span class="p">;</span>
+
+   </code></pre></figure>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div id="main-order" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#main-order-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#main-order-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#main-order-example" role="tab">
+            Example
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="main-order-rule" role="tabpanel">
+        <h5 class="card-heading">Main Function</h5>
+        <blockquote class="card-blockquote">
+<p>The <code class="highlighter-rouge">main</code> function should have the signature <code class="highlighter-rouge">int main(int argc, char *argv[]) {}</code>
+and should return <code class="highlighter-rouge">EXIT_SUCCESS</code> on a successful exit.
+The <code class="highlighter-rouge">main</code> function should be the first function in a file where it is used and
+must follow all <em>function prototypes</em>.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="main-order-explain" role="tabpanel">
+        <h5 class="card-heading">Main Function</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>The <code class="highlighter-rouge">main</code> function should have the signature <code class="highlighter-rouge">int main(int argc, char *argv[]) {}</code>
+and should return <code class="highlighter-rouge">EXIT_SUCCESS</code> on a successful exit.
+The <code class="highlighter-rouge">main</code> function should be the first function in a file where it is used and
+must follow all <em>function prototypes</em>.</p>
+
+</blockquote>
+        <div>
+<p>Programs tend to be written in a <em>top-down</em> manner.
+This means we start at the top,
+at the highest level of abstraction,
+and progressively descend through the levels.
+Usually, the <code class="highlighter-rouge">main</code> function is
+the highest level of abstraction:
+the place where the program commences.</p>
+
+<p>When we compile and link a program,
+the <code class="highlighter-rouge">main</code> function is assumed to be
+the place where that program’s execution starts.
+By convention, it takes two parameters:
+the count of command-line arguments, <code class="highlighter-rouge">argc</code>,
+and the length of the command-line argument vector, <code class="highlighter-rouge">argv</code>.
+These names, <code class="highlighter-rouge">argc</code> and <code class="highlighter-rouge">argv</code>,
+are conventions followed by most C programmers.</p>
+
+</div>
+      </div>
+      
+      
+      <div class="tab-pane px-4 pt-3 card-body" id="main-order-example" role="tabpanel">
+        <h5 class="card-heading">Main Function</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>The <code class="highlighter-rouge">main</code> function should have the signature <code class="highlighter-rouge">int main(int argc, char *argv[]) {}</code>
+and should return <code class="highlighter-rouge">EXIT_SUCCESS</code> on a successful exit.
+The <code class="highlighter-rouge">main</code> function should be the first function in a file where it is used and
+must follow all <em>function prototypes</em>.</p>
+
+</blockquote>
+        
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+<span class="p">}</span>
+   </code></pre></figure>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<h1 id="code-structure">Code Structure</h1>
+
+<div id="cf-one-statement-per-line" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="cf-one-statement-per-line-rule" role="tabpanel">
+        <h5 class="card-heading">Statements</h5>
+        <blockquote class="card-blockquote">
+<p>Only one executable statement should be used per line of code.</p>
+
+</blockquote>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="line-length" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#line-length-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#line-length-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="line-length-rule" role="tabpanel">
+        <h5 class="card-heading">Line Width</h5>
+        <blockquote class="card-blockquote">
+<p>No line should be more than 72 characters wide.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="line-length-explain" role="tabpanel">
+        <h5 class="card-heading">Line Width</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>No line should be more than 72 characters wide.</p>
+
+</blockquote>
+        <div>
+<p>A general rule with file structure is that no line should be
+more than 72 characters wide. This means we will be able to
+read it in most text editors more easily.</p>
+
+</div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="line-length" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="line-length-rule" role="tabpanel">
+        <h5 class="card-heading">Indentation</h5>
+        <blockquote class="card-blockquote">
+<p>Between any pair of braces,
+the indentation level should increase
+by 4 spaces. 
+4 spaces should be used
+for all indentation.</p>
+
+</blockquote>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="var-names" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="var-names-rule" role="tabpanel">
+        <h5 class="card-heading">Variable Names</h5>
+        <blockquote class="card-blockquote">
+<p>Variables should be named in camel case, starting with a lower-case letter.</p>
+
+<p>Descriptive variable names should always be used. Single character variable
+names may be used for arbitrary integers in mathematical functions, for example
+<code class="highlighter-rouge">int multiply(int x, int y)</code>, or for loop counters.</p>
+
+</blockquote>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="var-declare-assign" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="var-declare-assign-rule" role="tabpanel">
+        <h5 class="card-heading">Declaring Variables</h5>
+        <blockquote class="card-blockquote">
+<p>Variables should be declared when they are first assigned a value, as part of
+assigning the value. A default assigned value should only by used when a default
+value may be returned.</p>
+
+</blockquote>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="compact-braces" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#compact-braces-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#compact-braces-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#compact-braces-example" role="tab">
+            Example
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="compact-braces-rule" role="tabpanel">
+        <h5 class="card-heading">Compact Braces and Indentation</h5>
+        <blockquote class="card-blockquote">
+<p>Functions, loops, and ifs 
+should always use braces 
+and should should use <em>compact braces</em>.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="compact-braces-explain" role="tabpanel">
+        <h5 class="card-heading">Compact Braces and Indentation</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>Functions, loops, and ifs 
+should always use braces 
+and should should use <em>compact braces</em>.</p>
+
+</blockquote>
+        <div>
+<p>For functions, the opening brace (<code class="highlighter-rouge">{</code>)
+should be on the same line
+as the function prototype.
+The closing brace (‘}’)
+should be on its own line
+and not indented.</p>
+
+<p>For <code class="highlighter-rouge">if</code>, the opening brace (‘{‘)
+should be in the same line
+as <code class="highlighter-rouge">if</code> and the loop condition.
+The closing brace
+should be on its own line
+and should line up 
+with the <code class="highlighter-rouge">i</code> in the matching <code class="highlighter-rouge">if</code>.</p>
+
+<p>For <code class="highlighter-rouge">else</code> and <code class="highlighter-rouge">else if</code>,
+the <code class="highlighter-rouge">else</code> should be on the same line
+as the closing brace (<code class="highlighter-rouge">}</code>)
+before it.
+The opening brace (<code class="highlighter-rouge">{</code>)
+should be on the same line
+as the <code class="highlighter-rouge">else</code>, or the <code class="highlighter-rouge">else if</code> 
+and the condition.
+The closing brace (<code class="highlighter-rouge">}</code>)
+should be on its own line
+and should line up 
+with the closing brace (<code class="highlighter-rouge">}</code>) before it.</p>
+
+<p>For loops, the opening brace (<code class="highlighter-rouge">{</code>)
+should be on the same line
+as <code class="highlighter-rouge">while</code> and the loop condition.
+The closing brace (‘}’)
+should be on its own line
+and should line up
+with the <code class="highlighter-rouge">w</code> in the matching <code class="highlighter-rouge">while</code>.</p>
+
+</div>
+      </div>
+      
+      
+      <div class="tab-pane px-4 pt-3 card-body" id="compact-braces-example" role="tabpanel">
+        <h5 class="card-heading">Compact Braces and Indentation</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>Functions, loops, and ifs 
+should always use braces 
+and should should use <em>compact braces</em>.</p>
+
+</blockquote>
+        
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">someFunction</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// do something</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">b</span> <span class="o">&lt;</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// do something</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="c1">// do something</span>
+    <span class="p">}</span>
+
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// do something</span>
+        <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+   </code></pre></figure>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div id="no-dynamic-arrays" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="no-dynamic-arrays-rule" role="tabpanel">
+        <h5 class="card-heading">Arrays</h5>
+        <blockquote class="card-blockquote">
+<p>Arrays should only be declared with a constant size, such as with a literal
+integer, such as <code class="highlighter-rouge">int numArray[12]</code> or with a constant, such as <code class="highlighter-rouge">char
+*name[MAX_LENGTH]</code>. Arrays should not be declared with a size using a variable,
+such as <code class="highlighter-rouge">int numArray[x]</code>.</p>
+
+</blockquote>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="cf-loop-structure" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#cf-loop-structure-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#cf-loop-structure-example" role="tab">
+            Example
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="cf-loop-structure-rule" role="tabpanel">
+        <h5 class="card-heading">Loops</h5>
+        <blockquote class="card-blockquote">
+<p>In <code class="highlighter-rouge">while</code> loops, any counter variables or reference pointers should be declared
+immediately before the loop. There should also be an incrementor as the last
+line of the loop. Braces should be in compact style, in a similar manner to
+function braces and must always be used.</p>
+
+</blockquote>
+      </div>
+      
+      
+      <div class="tab-pane px-4 pt-3 card-body" id="cf-loop-structure-example" role="tabpanel">
+        <h5 class="card-heading">Loops</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>In <code class="highlighter-rouge">while</code> loops, any counter variables or reference pointers should be declared
+immediately before the loop. There should also be an incrementor as the last
+line of the loop. Braces should be in compact style, in a similar manner to
+function braces and must always be used.</p>
+
+</blockquote>
+        
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">SOME_MAXIMUM</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// do something</span>
+    <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="n">getchar</span><span class="p">();</span>
+<span class="k">while</span> <span class="p">(</span><span class="n">c</span> <span class="o">!=</span> <span class="n">EOF</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// do something</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">getchar</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">Node</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">list</span><span class="p">;</span>
+<span class="k">while</span> <span class="p">(</span><span class="n">curr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// do something</span>
+    <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+<span class="p">}</span>
+   </code></pre></figure>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div id="no-static-variables" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#no-static-variables-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#no-static-variables-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="no-static-variables-rule" role="tabpanel">
+        <h5 class="card-heading">Global and Static Variables</h5>
+        <blockquote class="card-blockquote">
+<p>Neither global variables nor static variables should be used.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="no-static-variables-explain" role="tabpanel">
+        <h5 class="card-heading">Global and Static Variables</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>Neither global variables nor static variables should be used.</p>
+
+</blockquote>
+        <div>
+<p>Variables tend to belong to
+the area of code that declares them,
+an effect known as <em>scope</em>.
+In C, it’s valid to have
+variables declared in the global scope.
+However, this is considered bad practice
+and should be avoided,
+as values in global variables
+may cause unintended effects in functions.</p>
+
+<p>The <code class="highlighter-rouge">static</code> qualifier
+has a very different effect on variables
+to the effect it has on functions.
+Values in <code class="highlighter-rouge">static</code> variables
+persist across multiple calls to the function,
+which is even more insidious than global variables
+for introducing unintended effects.</p>
+
+</div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="no-type-casts" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#no-type-casts-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#no-type-casts-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="no-type-casts-rule" role="tabpanel">
+        <h5 class="card-heading">Type Casting</h5>
+        <blockquote class="card-blockquote">
+<p>Explicit type casting should not be used.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="no-type-casts-explain" role="tabpanel">
+        <h5 class="card-heading">Type Casting</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>Explicit type casting should not be used.</p>
+
+</blockquote>
+        <div>
+<p>It is possible to explicitly change the type
+that C considers a variable to have,
+using a <em>type cast</em>.
+It is very unlikely that you will need
+to make an explicit type cast in this course.</p>
+
+</div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="cf-no-assign-operator" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="cf-no-assign-operator-rule" role="tabpanel">
+        <h5 class="card-heading">Assignments in Conditions</h5>
+        <blockquote class="card-blockquote">
+<p><code class="highlighter-rouge">=</code> should only be used to assign values to a single variable, not as an
+operator. Assignment should not be used as an expression and should not be used
+as the condition in an <code class="highlighter-rouge">if</code> statement or <code class="highlighter-rouge">while</code> loop.</p>
+
+</blockquote>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="cf-no-comma-operator" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="cf-no-comma-operator-rule" role="tabpanel">
+        <h5 class="card-heading">Comma Operator</h5>
+        <blockquote class="card-blockquote">
+<p>The comma operator should not be used.</p>
+
+</blockquote>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="cf-no-spaghetti-goto" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#cf-no-spaghetti-goto-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#cf-no-spaghetti-goto-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="cf-no-spaghetti-goto-rule" role="tabpanel">
+        <h5 class="card-heading">Goto</h5>
+        <blockquote class="card-blockquote">
+<p><code class="highlighter-rouge">goto</code> should not be used.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="cf-no-spaghetti-goto-explain" role="tabpanel">
+        <h5 class="card-heading">Goto</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p><code class="highlighter-rouge">goto</code> should not be used.</p>
+
+</blockquote>
+        <div>
+<p>C allows us to jump to arbitrary locations in our program.
+You can see why that might be a terrible idea:
+there’s no guarantee that
+one line of code would follow another.</p>
+
+</div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="cf-no-spaghetti-ternary" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#cf-no-spaghetti-ternary-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#cf-no-spaghetti-ternary-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="cf-no-spaghetti-ternary-rule" role="tabpanel">
+        <h5 class="card-heading">Ternary</h5>
+        <blockquote class="card-blockquote">
+<p>Ternary syntax <code class="highlighter-rouge">(condition) ? true_expression : false_expression</code>
+should not be used.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="cf-no-spaghetti-ternary-explain" role="tabpanel">
+        <h5 class="card-heading">Ternary</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>Ternary syntax <code class="highlighter-rouge">(condition) ? true_expression : false_expression</code>
+should not be used.</p>
+
+</blockquote>
+        <div>
+<p>Unlike some other languages,
+C is a <em>statement-oriented</em> language,
+so an <code class="highlighter-rouge">if</code> statement doesn’t have a value.
+A <em>ternary</em> allows us to produce different values
+depending on a particular condition.
+Ternaries are a very, very easy way
+to produce really confusing effects,
+and you shouldn’t use them.</p>
+
+</div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="cf-no-spaghetti-switch" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#cf-no-spaghetti-switch-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#cf-no-spaghetti-switch-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="cf-no-spaghetti-switch-rule" role="tabpanel">
+        <h5 class="card-heading">Switch</h5>
+        <blockquote class="card-blockquote">
+<p><code class="highlighter-rouge">switch</code> and <code class="highlighter-rouge">case</code> should not be used;
+use <code class="highlighter-rouge">if</code>…<code class="highlighter-rouge">else if</code>…<code class="highlighter-rouge">else</code> instead.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="cf-no-spaghetti-switch-explain" role="tabpanel">
+        <h5 class="card-heading">Switch</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p><code class="highlighter-rouge">switch</code> and <code class="highlighter-rouge">case</code> should not be used;
+use <code class="highlighter-rouge">if</code>…<code class="highlighter-rouge">else if</code>…<code class="highlighter-rouge">else</code> instead.</p>
+
+</blockquote>
+        <div>
+<p><code class="highlighter-rouge">switch</code> is an old compiler hack;
+it and <code class="highlighter-rouge">case</code> have subtle and confusing behaviour
+and you should avoid them.</p>
+
+</div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="cf-no-spaghetti-break" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#cf-no-spaghetti-break-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#cf-no-spaghetti-break-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="cf-no-spaghetti-break-rule" role="tabpanel">
+        <h5 class="card-heading">Break and Continue</h5>
+        <blockquote class="card-blockquote">
+<p><code class="highlighter-rouge">break</code> or <code class="highlighter-rouge">continue</code> should not be used in loops.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="cf-no-spaghetti-break-explain" role="tabpanel">
+        <h5 class="card-heading">Break and Continue</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p><code class="highlighter-rouge">break</code> or <code class="highlighter-rouge">continue</code> should not be used in loops.</p>
+
+</blockquote>
+        <div>
+<p>The <code class="highlighter-rouge">break</code> and <code class="highlighter-rouge">continue</code> keywords
+can change the logical flow of control
+in loop statements,
+with the effect that
+the body of a loop
+may not proceed from top to bottom
+under all circumstances.
+It can be confusing and bizarre,
+and under all circumstances
+(that you encounter in COMP1511)
+you should reconsider your logic instead.</p>
+
+</div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="cf-no-spaghetti-do-while" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#cf-no-spaghetti-do-while-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#cf-no-spaghetti-do-while-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="cf-no-spaghetti-do-while-rule" role="tabpanel">
+        <h5 class="card-heading">Do While</h5>
+        <blockquote class="card-blockquote">
+<p><code class="highlighter-rouge">do {} while (condition);</code> should not be used;
+use <code class="highlighter-rouge">while (condition) {}</code> instead.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="cf-no-spaghetti-do-while-explain" role="tabpanel">
+        <h5 class="card-heading">Do While</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p><code class="highlighter-rouge">do {} while (condition);</code> should not be used;
+use <code class="highlighter-rouge">while (condition) {}</code> instead.</p>
+
+</blockquote>
+        <div>
+<p>The <code class="highlighter-rouge">do { ... } while (condition);</code> construct
+is similar to a normal <code class="highlighter-rouge">while (condition) { ... }</code>,
+except the body will always run
+before a condition is checked.
+It’s very easy, as with <code class="highlighter-rouge">for</code>,
+to construct <code class="highlighter-rouge">do...while</code> expressions
+that are confusing and poorly structured,
+and in COMP1511 we prefer to avoid them.</p>
+
+</div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="cf-no-spaghetti-for" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#cf-no-spaghetti-for-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#cf-no-spaghetti-for-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="cf-no-spaghetti-for-rule" role="tabpanel">
+        <h5 class="card-heading">For Loops</h5>
+        <blockquote class="card-blockquote">
+<p><code class="highlighter-rouge">for</code> loops should not be used.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="cf-no-spaghetti-for-explain" role="tabpanel">
+        <h5 class="card-heading">For Loops</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p><code class="highlighter-rouge">for</code> loops should not be used.</p>
+
+</blockquote>
+        <div>
+<p>Many C textbooks like <code class="highlighter-rouge">for</code> loops.
+Their terseness means you can cram
+more meaningless waffle onto a page,
+without actually considering
+the problem you’re setting out to solve.</p>
+
+<p>And, as noted above,
+our style guide requires that
+a single line of code should only
+do one thing or have one effect;
+<code class="highlighter-rouge">for</code> loops demonstrate the exact opposite.
+Worse, in reading <code class="highlighter-rouge">for</code> loops,
+the order of execution is not strictly linear:
+the increment portion of the loop
+always occurs after the body of the loop,
+whilst the statement itself appears before it.</p>
+
+<p>It’s much easier to construct
+a confusing and poorly structured <code class="highlighter-rouge">for</code> loop,
+and in COMP1511 we prefer to avoid them.</p>
+
+</div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<h1 id="functions">Functions</h1>
+
+<div id="fn-purposeful" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#fn-purposeful-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#fn-purposeful-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="fn-purposeful-rule" role="tabpanel">
+        <h5 class="card-heading">Function Purpose</h5>
+        <blockquote class="card-blockquote">
+<p>Functions should have one clearly defined purpose and should be short.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="fn-purposeful-explain" role="tabpanel">
+        <h5 class="card-heading">Function Purpose</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>Functions should have one clearly defined purpose and should be short.</p>
+
+</blockquote>
+        <div>
+<p>If you have a function that performs two smaller tasks in sequence, make a
+function for each of those smaller tasks and call them from the more <em>abstract</em>
+function. Aim for your functions to be less than 20 lines or less. If they are
+long, think of how you can break them up into smaller functions.</p>
+
+</div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="fn-protos" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#fn-protos-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#fn-protos-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="fn-protos-rule" role="tabpanel">
+        <h5 class="card-heading">Function Prototypes</h5>
+        <blockquote class="card-blockquote">
+<p>Function prototypes must be used for all functions (except <code class="highlighter-rouge">main</code>) and must
+come before all functions, appearing in the same order as the function
+implementations.</p>
+
+<p>Function signatures must have the return type, function name, and start the
+argument list on the same line.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="fn-protos-explain" role="tabpanel">
+        <h5 class="card-heading">Function Prototypes</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>Function prototypes must be used for all functions (except <code class="highlighter-rouge">main</code>) and must
+come before all functions, appearing in the same order as the function
+implementations.</p>
+
+<p>Function signatures must have the return type, function name, and start the
+argument list on the same line.</p>
+
+</blockquote>
+        <div>
+<p><em>Function prototypes</em> describe functions be telling the compiler (and anyone
+reading the program):</p>
+
+<ul>
+  <li>The type of value the function returns</li>
+  <li>The name of the function</li>
+  <li>The type and name of any <em>arguments</em> to the function</li>
+</ul>
+
+</div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="fn-comments" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#fn-comments-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#fn-comments-example" role="tab">
+            Example
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="fn-comments-rule" role="tabpanel">
+        <h5 class="card-heading">Function Comments</h5>
+        <blockquote class="card-blockquote">
+<p>Every function must have a comment placed before the <em>function implementation</em>
+describing the purpose of the function and any <em>side-effects</em> the function has.</p>
+
+</blockquote>
+      </div>
+      
+      
+      <div class="tab-pane px-4 pt-3 card-body" id="fn-comments-example" role="tabpanel">
+        <h5 class="card-heading">Function Comments</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>Every function must have a comment placed before the <em>function implementation</em>
+describing the purpose of the function and any <em>side-effects</em> the function has.</p>
+
+</blockquote>
+        
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="c1">// Counts the number of ants in the ant farm</span>
+<span class="kt">int</span> <span class="n">countAnts</span><span class="p">(</span><span class="n">AntFarm</span> <span class="n">farm</span><span class="p">);</span>
+   </code></pre></figure>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div id="fn-name" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#fn-name-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#fn-name-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="fn-name-rule" role="tabpanel">
+        <h5 class="card-heading">Function Names</h5>
+        <blockquote class="card-blockquote">
+<p>Function names must use camel case starting with a lower-case letter.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="fn-name-explain" role="tabpanel">
+        <h5 class="card-heading">Function Names</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>Function names must use camel case starting with a lower-case letter.</p>
+
+</blockquote>
+        <div>
+<p>When writing functions for ADTs, you may want to keep you naming consistent and
+the abstract type name will usually appear in the function name, usually at the
+end.</p>
+
+</div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="fn-args" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#fn-args-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#fn-args-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#fn-args-example" role="tab">
+            Example
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="fn-args-rule" role="tabpanel">
+        <h5 class="card-heading">Function Arguments</h5>
+        <blockquote class="card-blockquote">
+<p>Argument names in a function prototype should match the names used in the
+function implementation and should always be used in the prototype.</p>
+
+<p>Long function argument lists
+may be broken over multiple lines.</p>
+
+<p>Functions that do not take any arguments 
+should use <code class="highlighter-rouge">(void)</code> instead of an empty
+argument list.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="fn-args-explain" role="tabpanel">
+        <h5 class="card-heading">Function Arguments</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>Argument names in a function prototype should match the names used in the
+function implementation and should always be used in the prototype.</p>
+
+<p>Long function argument lists
+may be broken over multiple lines.</p>
+
+<p>Functions that do not take any arguments 
+should use <code class="highlighter-rouge">(void)</code> instead of an empty
+argument list.</p>
+
+</blockquote>
+        <div>
+<p>A space may optionally be used between the function name and argument list
+and the function name. The return type, function name, and start of the argument
+list should all be on the same line. If the argument list is too long to fit on a
+single line with the function name and return type, it may be split across
+multiple lines, with the additional lines being indented by 2 stops (8 spaces)
+or aligned with the first argument in the first line. Function and argument
+naming is discussed in the <em>functions</em> section of this document.</p>
+
+</div>
+      </div>
+      
+      
+      <div class="tab-pane px-4 pt-3 card-body" id="fn-args-example" role="tabpanel">
+        <h5 class="card-heading">Function Arguments</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>Argument names in a function prototype should match the names used in the
+function implementation and should always be used in the prototype.</p>
+
+<p>Long function argument lists
+may be broken over multiple lines.</p>
+
+<p>Functions that do not take any arguments 
+should use <code class="highlighter-rouge">(void)</code> instead of an empty
+argument list.</p>
+
+</blockquote>
+        
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="c1">// A short function</span>
+<span class="kt">int</span> <span class="n">aFunctionWithNoArguments</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+
+<span class="c1">// A short function</span>
+<span class="kt">int</span> <span class="n">aSimpleFunction</span><span class="p">(</span><span class="kt">int</span> <span class="n">argumentA</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argumentB</span><span class="p">);</span>
+
+<span class="c1">// A function with a lot of arguments</span>
+<span class="kt">int</span> <span class="n">aLongFunction</span><span class="p">(</span><span class="kt">int</span> <span class="n">argumentA</span><span class="p">,</span> <span class="kt">int</span> <span class="n">argumentB</span><span class="p">,</span> <span class="kt">int</span> <span class="n">argumentC</span><span class="p">,</span> <span class="kt">int</span> <span class="n">argumentD</span><span class="p">,</span>
+        <span class="kt">int</span> <span class="n">argumentE</span><span class="p">,</span> <span class="kt">int</span> <span class="n">argumentF</span><span class="p">);</span>
+
+<span class="c1">// Another function with a lot of arguments</span>
+<span class="kt">int</span> <span class="n">anotherLongFunction</span><span class="p">(</span><span class="kt">int</span> <span class="n">argumentA</span><span class="p">,</span> <span class="kt">int</span> <span class="n">argumentB</span><span class="p">,</span> <span class="kt">int</span> <span class="n">argumentC</span><span class="p">,</span> 
+                        <span class="kt">int</span> <span class="n">argumentD</span><span class="p">,</span> <span class="kt">int</span> <span class="n">argumentE</span><span class="p">,</span> <span class="kt">int</span> <span class="n">argumentF</span><span class="p">);</span>
+   </code></pre></figure>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div id="fn-return-end" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="fn-return-end-rule" role="tabpanel">
+        <h5 class="card-heading">Function Return</h5>
+        <blockquote class="card-blockquote">
+<p>The last statement of a function that returns a value (non-<code class="highlighter-rouge">void</code>) must be a
+<code class="highlighter-rouge">return</code> statement. No <code class="highlighter-rouge">return</code> statement should be used for functions that do
+not return a value.</p>
+
+<p>Aside from the final statement of a function, a <code class="highlighter-rouge">return</code> statement may only be
+used to exit a function early to handle an error such as when <code class="highlighter-rouge">malloc</code> or a
+related function returns a <code class="highlighter-rouge">NULL</code> value due to a memory error.</p>
+
+</blockquote>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="adt-exports" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="adt-exports-rule" role="tabpanel">
+        <h5 class="card-heading">Module Functions</h5>
+        <blockquote class="card-blockquote">
+<p>Functions from modules and ADTs
+that can be used by other <strong>.c</strong> files
+should have their prototype in a <strong>.h</strong> file.</p>
+
+<p>Functions from modules and ADTs
+which are only used inside
+the module or ADT <strong>.c</strong> file
+should have their prototype
+at the top of the <strong>.c</strong> file
+and should be marked with the <code class="highlighter-rouge">static</code> keyword.</p>
+
+<p>Excluding constructors (like <code class="highlighter-rouge">createType(void)</code>, which returns a new instance of
+the <em>abstract type</em>), ADT functions must always take the <em>abstract type</em> as
+their first argument.</p>
+
+</blockquote>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="fnptr" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#fnptr-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#fnptr-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="fnptr-rule" role="tabpanel">
+        <h5 class="card-heading">Function Pointers</h5>
+        <blockquote class="card-blockquote">
+<p>Function pointers should not be used.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="fnptr-explain" role="tabpanel">
+        <h5 class="card-heading">Function Pointers</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>Function pointers should not be used.</p>
+
+</blockquote>
+        <div>
+<p>You can point at literally everything in C,
+even the functions you write.
+Function pointers are fairly dangerous,
+as they make it very easy
+to cause your program execute arbitrary code
+that may not be the code you expected.
+For the security implications alone,
+they’re banned.</p>
+
+<p>Another, more subtle trick
+is the use of function pointers
+as a poor-man’s generic programming;
+that’s not ever needed in this course,
+so we can safely ban it.</p>
+
+</div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="const-qualifier" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="const-qualifier-rule" role="tabpanel">
+        <h5 class="card-heading">Const Arguments</h5>
+        <blockquote class="card-blockquote">
+<p><code class="highlighter-rouge">const</code> arguments and types should not be used.</p>
+
+</blockquote>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<h1 id="structs">Structs</h1>
+
+<div id="struct-order" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#struct-order-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#struct-order-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="struct-order-rule" role="tabpanel">
+        <h5 class="card-heading">Struct Order</h5>
+        <blockquote class="card-blockquote">
+<p><code class="highlighter-rouge">struct</code> and type definitions should always follow constant definitions,
+come before function prototypes, and should only be found in <strong>.c</strong> files.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="struct-order-explain" role="tabpanel">
+        <h5 class="card-heading">Struct Order</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p><code class="highlighter-rouge">struct</code> and type definitions should always follow constant definitions,
+come before function prototypes, and should only be found in <strong>.c</strong> files.</p>
+
+</blockquote>
+        <div>
+<p>We can create structured data using <code class="highlighter-rouge">struct</code>s, which help us define a
+collection of related pieces of data. These allow us to contain several
+different values of different type in one value that can be passed around. These
+should always be defined after <em>constants</em>.</p>
+
+</div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="struct-name" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#struct-name-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#struct-name-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#struct-name-example" role="tab">
+            Example
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="struct-name-rule" role="tabpanel">
+        <h5 class="card-heading">Struct naming</h5>
+        <blockquote class="card-blockquote">
+<p><code class="highlighter-rouge">struct</code>s should always be wrapped in a <code class="highlighter-rouge">typedef</code>. The <code class="highlighter-rouge">struct</code> tag should be
+named in camel-case starting with an underscore, 
+followd by a lower-case letter.
+The type name should be the same as the struct tag
+but without the leading underscore.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="struct-name-explain" role="tabpanel">
+        <h5 class="card-heading">Struct naming</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p><code class="highlighter-rouge">struct</code>s should always be wrapped in a <code class="highlighter-rouge">typedef</code>. The <code class="highlighter-rouge">struct</code> tag should be
+named in camel-case starting with an underscore, 
+followd by a lower-case letter.
+The type name should be the same as the struct tag
+but without the leading underscore.</p>
+
+</blockquote>
+        <div>
+<p>The names of <code class="highlighter-rouge">struct</code> tags must be in camel case starting with an underscore,
+followed by a lower-case letter. 
+A <code class="highlighter-rouge">struct</code> should always be wrapped in a <code class="highlighter-rouge">typedef</code> so that it can be
+used more cleanly as a type. The <em>type</em> name should be the same as the <code class="highlighter-rouge">struct</code>
+tag, but without the underscore at the start. This <em>type</em> that wraps the
+<code class="highlighter-rouge">struct</code> is called the <em>concrete</em> type.</p>
+
+</div>
+      </div>
+      
+      
+      <div class="tab-pane px-4 pt-3 card-body" id="struct-name-example" role="tabpanel">
+        <h5 class="card-heading">Struct naming</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p><code class="highlighter-rouge">struct</code>s should always be wrapped in a <code class="highlighter-rouge">typedef</code>. The <code class="highlighter-rouge">struct</code> tag should be
+named in camel-case starting with an underscore, 
+followd by a lower-case letter.
+The type name should be the same as the struct tag
+but without the leading underscore.</p>
+
+</blockquote>
+        
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="cp">#define MAX_NAME_LEN 256
+</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">_antFarmer</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">age</span><span class="p">;</span>
+  <span class="kt">char</span> <span class="n">name</span><span class="p">[</span><span class="n">MAX_NAME_LEN</span><span class="p">];</span>
+<span class="p">}</span> <span class="n">antFarmer</span><span class="p">;</span>
+   </code></pre></figure>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div id="struct-pointer" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#struct-pointer-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#struct-pointer-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#struct-pointer-example" role="tab">
+            Example
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="struct-pointer-rule" role="tabpanel">
+        <h5 class="card-heading">Pointers to Structs</h5>
+        <blockquote class="card-blockquote">
+<p>A <code class="highlighter-rouge">typedef</code> of a pointer to a struct
+should always appear
+immediately before the struct <code class="highlighter-rouge">typedef</code>
+or in a separate <code class="highlighter-rouge">.h</code> file,
+and should use the struct tag.
+The name of the type
+should be the same as
+the name of the <code class="highlighter-rouge">struct</code> type
+but starting with an uppercase character.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="struct-pointer-explain" role="tabpanel">
+        <h5 class="card-heading">Pointers to Structs</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>A <code class="highlighter-rouge">typedef</code> of a pointer to a struct
+should always appear
+immediately before the struct <code class="highlighter-rouge">typedef</code>
+or in a separate <code class="highlighter-rouge">.h</code> file,
+and should use the struct tag.
+The name of the type
+should be the same as
+the name of the <code class="highlighter-rouge">struct</code> type
+but starting with an uppercase character.</p>
+
+</blockquote>
+        <div>
+<p>The <em>struct pointer</em> type
+should reflect the name
+of the struct it refers to.
+The <code class="highlighter-rouge">typedef</code> of a pointer to to a struct
+is called the <em>abstract</em> type.</p>
+
+<p>The uppercase letter
+helps to distinguish between
+<em>concrete</em> and <em>abstract</em> types.</p>
+
+</div>
+      </div>
+      
+      
+      <div class="tab-pane px-4 pt-3 card-body" id="struct-pointer-example" role="tabpanel">
+        <h5 class="card-heading">Pointers to Structs</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>A <code class="highlighter-rouge">typedef</code> of a pointer to a struct
+should always appear
+immediately before the struct <code class="highlighter-rouge">typedef</code>
+or in a separate <code class="highlighter-rouge">.h</code> file,
+and should use the struct tag.
+The name of the type
+should be the same as
+the name of the <code class="highlighter-rouge">struct</code> type
+but starting with an uppercase character.</p>
+
+</blockquote>
+        
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="cp">#define MAX_NAME_LEN 256
+</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">_antFarmer</span> <span class="o">*</span><span class="n">AntFarmer</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">_antFarmer</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">age</span><span class="p">;</span>
+  <span class="kt">char</span> <span class="n">name</span><span class="p">[</span><span class="n">MAX_NAME_LEN</span><span class="p">];</span>
+<span class="p">}</span> <span class="n">antFarmer</span><span class="p">;</span>
+   </code></pre></figure>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div id="union" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="union-rule" role="tabpanel">
+        <h5 class="card-heading">Unions</h5>
+        <blockquote class="card-blockquote">
+<p><code class="highlighter-rouge">union</code>s should not be used.</p>
+
+</blockquote>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<h1 id="multiple-files-and-adts">Multiple Files and ADTs</h1>
+
+<div id="filename-main" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#filename-main-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#filename-main-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="filename-main-rule" role="tabpanel">
+        <h5 class="card-heading">Program File</h5>
+        <blockquote class="card-blockquote">
+<p>File names with a <code class="highlighter-rouge">main</code> function must be named in camel case starting with a
+lower-case letter, like <code class="highlighter-rouge">myProgram.c</code>.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="filename-main-explain" role="tabpanel">
+        <h5 class="card-heading">Program File</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>File names with a <code class="highlighter-rouge">main</code> function must be named in camel case starting with a
+lower-case letter, like <code class="highlighter-rouge">myProgram.c</code>.</p>
+
+</blockquote>
+        <div>
+<p>Files that contain a <code class="highlighter-rouge">main</code> function, should be named using camel case, starting
+with a lower-case letter. These should be compiled into programs of the same
+name, but without the <strong>.c</strong> suffix. For example, the file <code class="highlighter-rouge">exampleProgram.c</code> that
+contains the function <code class="highlighter-rouge">main</code>, should be compiled into the program
+<code class="highlighter-rouge">exampleProgram</code> (using <code class="highlighter-rouge">dcc -o exampleProgram exampleProgram.c</code>).</p>
+
+</div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="filename-module" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#filename-module-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#filename-module-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="filename-module-rule" role="tabpanel">
+        <h5 class="card-heading">Module File</h5>
+        <blockquote class="card-blockquote">
+<p>Module files must have the same name for the <strong>.h</strong> and <strong>.c</strong> file, and the
+name must be in camel case starting in a lower-case letter, like <code class="highlighter-rouge">myModule.c</code>
+and <code class="highlighter-rouge">myModule.h</code>.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="filename-module-explain" role="tabpanel">
+        <h5 class="card-heading">Module File</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>Module files must have the same name for the <strong>.h</strong> and <strong>.c</strong> file, and the
+name must be in camel case starting in a lower-case letter, like <code class="highlighter-rouge">myModule.c</code>
+and <code class="highlighter-rouge">myModule.h</code>.</p>
+
+</blockquote>
+        <div>
+<p>Later in the course, we will look at breaking programs into multiple files. We
+will be breaking programs into <strong>.h</strong> (header files) and multiple <strong>.c</strong> (source
+files).</p>
+
+<p>These files will come in pairs, the <em>header file</em> will describe the functions and
+types used in the <em>source file</em>. To show that they are related, they will both
+have identical names, however the <em>header file</em> will end in <code class="highlighter-rouge">.h</code> and the <em>source
+file</em> will end in <strong>.c</strong>.</p>
+
+<p>If the pair of files provides a set of useful functions to do related work
+(which we would call a <em>module</em>), then the names of the files will be in camel
+case, starting in a lower-case character. For example, we may have the module
+<code class="highlighter-rouge">usefulModuleName</code>, it would be split into <code class="highlighter-rouge">usefulModuleName.h</code> and
+<code class="highlighter-rouge">usefulModuleName.c</code>.</p>
+
+</div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="filename-adt" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#filename-adt-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#filename-adt-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="filename-adt-rule" role="tabpanel">
+        <h5 class="card-heading">ADT File</h5>
+        <blockquote class="card-blockquote">
+<p>ADT files must have the same name as the type for the <strong>.h</strong> and <strong>.c</strong> file,
+and the name must be in camel case starting in a upper-case letter. For example,
+the type <code class="highlighter-rouge">MyDataType</code> would be found in <code class="highlighter-rouge">MyDataType.c</code> and <code class="highlighter-rouge">MyDataType.h</code>.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="filename-adt-explain" role="tabpanel">
+        <h5 class="card-heading">ADT File</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>ADT files must have the same name as the type for the <strong>.h</strong> and <strong>.c</strong> file,
+and the name must be in camel case starting in a upper-case letter. For example,
+the type <code class="highlighter-rouge">MyDataType</code> would be found in <code class="highlighter-rouge">MyDataType.c</code> and <code class="highlighter-rouge">MyDataType.h</code>.</p>
+
+</blockquote>
+        <div>
+<p>Later in the course, we will look at <em>abstract data types</em> (ADTs), which let us
+create our own complex data types in a way that makes them easy to use. Each ADT
+will have its own pair of files, much like the <em>module</em>, but the names will
+start with an upper-case letter and have the same name as the type they
+describe. For example, if I had files describing the ADT <code class="highlighter-rouge">UsefulDataType</code>, then
+they would be called <code class="highlighter-rouge">UsefulDataType.h</code> and <code class="highlighter-rouge">UsefulDataType.c</code>.</p>
+
+</div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="header-guards" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#header-guards-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#header-guards-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#header-guards-example" role="tab">
+            Example
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="header-guards-rule" role="tabpanel">
+        <h5 class="card-heading">Header Guard</h5>
+        <blockquote class="card-blockquote">
+<p>Header guards must be used in all <strong>.h</strong> files,
+and must have a similar name to the header file itself
+using snake case with upper-case letters and the <code class="highlighter-rouge">_H</code> suffix.
+The closing <code class="highlighter-rouge">#endif</code> guard must have a comment with the constant name.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="header-guards-explain" role="tabpanel">
+        <h5 class="card-heading">Header Guard</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>Header guards must be used in all <strong>.h</strong> files,
+and must have a similar name to the header file itself
+using snake case with upper-case letters and the <code class="highlighter-rouge">_H</code> suffix.
+The closing <code class="highlighter-rouge">#endif</code> guard must have a comment with the constant name.</p>
+
+</blockquote>
+        <div>
+<p><em>Header guards</em> tell the compiler that we only want to use the code in a header
+once. This means that if we somehow <code class="highlighter-rouge">#include</code> the header multiple times, the
+code only gets used once. We need to do this because we aren’t allowed to define
+the same function or type multiple times; if we try to, the compiler will
+generate error messages.</p>
+
+<p>Thankfully, header guards are easy. After the <em>header comment</em> in a <strong>.h</strong> file,
+you add the <em>opening header guard</em> and at the very end of your <strong>.h</strong> file, you
+add the closing header guard.</p>
+
+<p>The <code class="highlighter-rouge">#ifndef</code> tells the compiler to use the code until the <code class="highlighter-rouge">#endif</code> only if the
+<em>constant</em> has not been <code class="highlighter-rouge">#define</code>d. This will only be true the first time the file is
+included as we then <code class="highlighter-rouge">#define</code> the <em>constant</em> the first time the code is used.</p>
+
+</div>
+      </div>
+      
+      
+      <div class="tab-pane px-4 pt-3 card-body" id="header-guards-example" role="tabpanel">
+        <h5 class="card-heading">Header Guard</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>Header guards must be used in all <strong>.h</strong> files,
+and must have a similar name to the header file itself
+using snake case with upper-case letters and the <code class="highlighter-rouge">_H</code> suffix.
+The closing <code class="highlighter-rouge">#endif</code> guard must have a comment with the constant name.</p>
+
+</blockquote>
+        
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="c1">// An ant farm simulator</span>
+<span class="c1">// Julian Saknussemm (z3141592)</span>
+<span class="c1">// Tutor: Jennifer Brown (sat23-moog)</span>
+<span class="c1">// Created on 2017-07-25</span>
+
+<span class="cp">#ifndef ANT_FARM_H
+#define ANT_FARM_H
+</span>
+<span class="c1">// Define some constants</span>
+
+<span class="c1">// Define some abstract types</span>
+
+<span class="c1">// Define some interface functions</span>
+
+<span class="cp">#endif //ANT_FARM_H</span></code></pre></figure>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<h2 id="pointers">Pointers</h2>
+
+<div id="pointers-right-aligned" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="pointers-right-aligned-rule" role="tabpanel">
+        <h5 class="card-heading">Declaring Pointers</h5>
+        <blockquote class="card-blockquote">
+<p>When writing pointer types for variable or arguments, the <code class="highlighter-rouge">*</code> should always be
+attached to the variable name rather than the type.</p>
+
+</blockquote>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="pointer-arithmetic" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#pointer-arithmetic-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#pointer-arithmetic-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="pointer-arithmetic-rule" role="tabpanel">
+        <h5 class="card-heading">Pointer Arithmetic</h5>
+        <blockquote class="card-blockquote">
+<p>Pointer arithmetic should not be used.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="pointer-arithmetic-explain" role="tabpanel">
+        <h5 class="card-heading">Pointer Arithmetic</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>Pointer arithmetic should not be used.</p>
+
+</blockquote>
+        <div>
+<p>Pointer arithmetic is one of the stranger features of C.
+Pointers are, of course, numeric values,
+so in theory, you can manipulate them
+as you would any other number.
+In practice, though,
+changing pointers yourself is a bad idea,
+and is likely to cause serious problems.</p>
+
+<p>One of the more common places
+we often see pointer arithmetic
+is string manipulation:
+a lazy programmer might say <code class="highlighter-rouge">*string++</code>,
+to get the current character in the array <code class="highlighter-rouge">string</code>,
+while also moving it along to the next value.
+This changes <code class="highlighter-rouge">string</code>, of course,
+meaning you lose the beginning of the string.
+Indirectly, the <code class="highlighter-rouge">++</code> is pointer arithmetic:
+it’s the addition of one to the value.</p>
+
+<p>This is, in and of itself, fairly harmless,
+but <code class="highlighter-rouge">++</code> or <code class="highlighter-rouge">+1</code> may not have the effect you expect
+if a value would take up multiple bytes.
+Instead, it would step along by the size,
+effectively emulating the behaviour of <code class="highlighter-rouge">[]</code>
+but being more confusing.</p>
+
+<p>You should <em>always</em> access array elements
+using index notation, <code class="highlighter-rouge">[]</code>.</p>
+
+</div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<h1 id="example">Example</h1>
+
+<p>Here is an example of how your code should look:</p>
+
+<div class="card mb-2">
+  <div class="card-block simple-highlight">
+    
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="c1">// A description about the program</span>
+<span class="c1">//</span>
+<span class="c1">// By  ... (z0000000)</span>
+<span class="c1">// and ... (z0000000)</span>
+<span class="c1">//</span>
+<span class="c1">// Written on YYYY-MM-DD</span>
+<span class="c1">//</span>
+<span class="c1">// Tutor's Name (dayHH-lab)</span>
+
+<span class="cp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include "SomeType.h"
+</span>
+<span class="cp">#define FALSE 0
+#define TRUE  (!FALSE)
+</span>
+<span class="cp">#define NUM_MULTIPLES 12;
+#define NAME_LENGTH 256
+</span>
+<span class="k">typedef</span> <span class="k">enum</span> <span class="p">{</span>
+    <span class="n">ONE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">TWO</span><span class="p">,</span> <span class="n">THREE</span><span class="p">,</span> <span class="n">FOUR</span><span class="p">,</span>
+    <span class="n">FIVE</span><span class="p">,</span> <span class="n">SIX</span><span class="p">,</span> <span class="n">SEVEN</span>
+<span class="p">}</span> <span class="n">value</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">_anotherType</span> <span class="o">*</span><span class="n">AnotherType</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">_anotherType</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">member</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="n">name</span><span class="p">[</span><span class="n">NAME_LENGTH</span><span class="p">];</span>
+<span class="p">}</span> <span class="n">anotherType</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">functionName</span><span class="p">(</span><span class="kt">int</span> <span class="n">argA</span><span class="p">,</span> <span class="kt">int</span> <span class="n">argB</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">getMultiplier</span><span class="p">(</span><span class="kt">int</span> <span class="n">argA</span><span class="p">,</span> <span class="kt">int</span> <span class="n">argB</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+
+    <span class="c1">// some other code here...</span>
+
+    <span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">functionName</span><span class="p">(</span><span class="kt">int</span> <span class="n">argA</span><span class="p">,</span> <span class="kt">int</span> <span class="n">argB</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">multiplier</span> <span class="o">=</span> <span class="n">multiplier</span><span class="p">(</span><span class="n">argA</span><span class="p">,</span> <span class="n">argB</span><span class="p">);</span>
+
+    <span class="kt">int</span> <span class="n">value</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">argA</span><span class="p">,</span> <span class="n">argB</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">multiples</span><span class="p">[</span><span class="n">NUM_MULTIPLES</span><span class="p">];</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">NUM_MULTIPLES</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">value</span> <span class="o">*=</span> <span class="n">multiplier</span><span class="p">;</span>
+        <span class="n">multiples</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
+        <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">average</span><span class="p">(</span><span class="n">multiples</span><span class="p">,</span> <span class="n">NUM_MULTIPLES</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">getMultiplier</span><span class="p">(</span><span class="kt">int</span> <span class="n">argA</span><span class="p">,</span> <span class="kt">int</span> <span class="n">argB</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">multiplier</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">argA</span> <span class="o">&gt;</span> <span class="n">argB</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">multiplier</span> <span class="o">=</span> <span class="n">argA</span> <span class="o">-</span> <span class="n">argB</span><span class="p">;</span> 
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">argA</span> <span class="o">==</span> <span class="n">arg</span> <span class="n">B</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">multiplier</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">multiplier</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">argA</span><span class="p">,</span> <span class="n">argB</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">multiplier</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+  </div>
+  <div class="card-footer">
+      You can download this file at 
+      <a href="sample.c"><code>sample.c</code></a>.
+  </div>
+</div>
+
+<h1 id="security">Security</h1>
+
+<div id="sec-no-syscalls" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="sec-no-syscalls-rule" role="tabpanel">
+        <h5 class="card-heading">System Calls</h5>
+        <blockquote class="card-blockquote">
+<p>System calls should not be used.</p>
+
+</blockquote>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="sec-no-io" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="sec-no-io-rule" role="tabpanel">
+        <h5 class="card-heading">Files and I/O</h5>
+        <blockquote class="card-blockquote">
+<p>File and similar I/O should not be used unless explicitly asked for.</p>
+
+</blockquote>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<p>It can be very easy to write code with security vulnerabilities in C, however
+careful design and good coding habits can help prevent many of these
+vulnerabilities.</p>
+
+<div id="sec-integer-overflow" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#sec-integer-overflow-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#sec-integer-overflow-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="sec-integer-overflow-rule" role="tabpanel">
+        <h5 class="card-heading">Integer Overflows</h5>
+        <blockquote class="card-blockquote">
+<p>Code should not contain integer overflows.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="sec-integer-overflow-explain" role="tabpanel">
+        <h5 class="card-heading">Integer Overflows</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>Code should not contain integer overflows.</p>
+
+</blockquote>
+        <div>
+<p><em>Integer overflows</em> are vulnerabilities where an integer can be incremented or
+decremented that it wraps around. This can be used to have adverse affects in a
+number of ways. <code class="highlighter-rouge">dcc</code> compiles your code to catch this error, so you don’t need
+to worry as much.</p>
+
+</div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<div id="sec-buffer-overflow" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#sec-buffer-overflow-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#sec-buffer-overflow-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#sec-buffer-overflow-example" role="tab">
+            Example
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="sec-buffer-overflow-rule" role="tabpanel">
+        <h5 class="card-heading">Buffer Overflows</h5>
+        <blockquote class="card-blockquote">
+<p>Code should not contain buffer overflows.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="sec-buffer-overflow-explain" role="tabpanel">
+        <h5 class="card-heading">Buffer Overflows</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>Code should not contain buffer overflows.</p>
+
+</blockquote>
+        <div>
+<p>The one vulnerability that you need to look out for is <em>buffer overflows</em> as we
+cannot protect you from these so easily. A <em>buffer overflow</em> is where data being
+read into an array (usually as a string) can use up more space than the array
+contains and start writing into other parts of memory. If a user can control
+this, then they may be able to run code from within your program.</p>
+
+<p>The best things to keep in mind when dealing with arrays are:</p>
+
+<ul>
+  <li>Am I sure that data can’t be written past the end of the array?</li>
+  <li>Am I sure that the last byte in the array will always be a terminating
+character (<code class="highlighter-rouge">'\0'</code>) or unused?</li>
+  <li>Can I ensure that there is a limit on how many bytes of characters are read.</li>
+</ul>
+
+</div>
+      </div>
+      
+      
+      <div class="tab-pane px-4 pt-3 card-body" id="sec-buffer-overflow-example" role="tabpanel">
+        <h5 class="card-heading">Buffer Overflows</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>Code should not contain buffer overflows.</p>
+
+</blockquote>
+        
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="cp">#include &lt;stdio.h&gt;
+</span>
+<span class="cp">#define BUFFER_LENGTH 512
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="c1">// Read some text</span>
+    <span class="kt">char</span> <span class="n">someText</span><span class="p">[</span><span class="n">BUFFER_LENGTH</span><span class="p">];</span>
+
+    <span class="c1">// This is UNSAFE! A long enough word could overflow the buffer.</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%s"</span><span class="p">,</span> <span class="n">someText</span><span class="p">);</span>
+
+    <span class="c1">// This is UNSAFE!</span>
+    <span class="n">gets</span><span class="p">(</span><span class="n">someText</span><span class="p">);</span>
+
+    <span class="c1">// This is safe</span>
+    <span class="n">scanf</span><span class="p">(</span><span class="s">"%511s"</span><span class="p">,</span> <span class="n">someText</span><span class="p">);</span>
+
+    <span class="c1">// This is safe</span>
+    <span class="n">fgets</span><span class="p">(</span><span class="n">someText</span><span class="p">,</span> <span class="n">BUFFER_LENGTH</span><span class="p">,</span> <span class="n">stdin</span><span class="p">);</span>
+<span class="p">}</span>
+   </code></pre></figure>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div id="sec-format-string" class="my-3">
+  <div class="card border-primary">
+    
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#sec-format-string-rule" role="tab">
+            Rule
+          </a>
+        </li>
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#sec-format-string-explain" role="tab">
+            Explanation
+          </a>
+        </li>
+        
+        
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#sec-format-string-example" role="tab">
+            Example
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+    
+    <div class="tab-content">
+      <div class="tab-pane active card-body pt-3 pb-0 px-4" id="sec-format-string-rule" role="tabpanel">
+        <h5 class="card-heading">Format String Vulnerabilities</h5>
+        <blockquote class="card-blockquote">
+<p>Code should not contain <code class="highlighter-rouge">printf</code> format string vulnerabilities.</p>
+
+</blockquote>
+      </div>
+      
+      <div class="tab-pane card-body pt-3 pb-0 px-4" id="sec-format-string-explain" role="tabpanel">
+        <h5 class="card-heading">Format String Vulnerabilities</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>Code should not contain <code class="highlighter-rouge">printf</code> format string vulnerabilities.</p>
+
+</blockquote>
+        <div>
+<p>The <code class="highlighter-rouge">printf</code> function uses a string as its first argument to tell it how to
+<em>format</em> the remaining variables passed into the function. If a user can control
+what string is used for a <code class="highlighter-rouge">printf</code> statement, they not only have the ability to
+read all of the data in memory, but due to a quirk in the way <code class="highlighter-rouge">printf</code> can be
+used, they can also run their own code from within your program. Basically, you
+should <em>never</em> have a <code class="highlighter-rouge">printf</code> statement with a variable as the first argument.</p>
+
+<p>The compiler will warn you if your code contains <code class="highlighter-rouge">printf</code> vulnerabilities.</p>
+
+</div>
+      </div>
+      
+      
+      <div class="tab-pane px-4 pt-3 card-body" id="sec-format-string-example" role="tabpanel">
+        <h5 class="card-heading">Format String Vulnerabilities</h5>
+        <blockquote class="card-blockquote text-muted font-italic">
+<p>Code should not contain <code class="highlighter-rouge">printf</code> format string vulnerabilities.</p>
+
+</blockquote>
+        
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="cp">#include &lt;stdio.h&gt;
+</span>
+<span class="cp">#define BUFFER_LENGTH 512
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+    <span class="c1">// Read some text</span>
+    <span class="kt">char</span> <span class="n">someText</span><span class="p">[</span><span class="n">BUFFER_LENGTH</span><span class="p">];</span>
+    <span class="n">fgets</span><span class="p">(</span><span class="n">someText</span><span class="p">,</span> <span class="n">BUFFER_LENGTH</span><span class="p">,</span> <span class="n">stdin</span><span class="p">);</span>
+
+    <span class="c1">// This is _very_ bad</span>
+    <span class="n">printf</span><span class="p">(</span><span class="n">someText</span><span class="p">);</span>
+
+    <span class="c1">// Use this instead</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"%s"</span><span class="p">,</span> <span class="n">someText</span><span class="p">);</span>
+    
+    <span class="c1">// This could also be used</span>
+    <span class="n">fputs</span><span class="p">(</span><span class="n">someText</span><span class="p">,</span> <span class="n">stdout</span><span class="p">);</span>
+<span class="p">}</span>
+   </code></pre></figure>
+
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

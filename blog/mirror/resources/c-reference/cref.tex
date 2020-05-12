@@ -1,0 +1,527 @@
+%%%%% A CSE C reference card %%%%%
+%% Based on geoffw@'s CReferenceCard, dated 2004-06-21.
+%% TeX'd, updated, and expanded by jashankj@, 2016-11-11.
+%% Specialised for COMP1511 by jashankj@, 2017-07-30.
+%% Specialised for COMP2521 by jashankj@, 2019-01-06.
+\documentclass[8pt]{article}
+
+%% Modern fonts:
+\usepackage{lmodern}
+%\usepackage{mathpazo}
+%\usepackage{helvet}
+\usepackage{textcomp}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+%% Better colours and graphics
+\usepackage{xcolor}
+\usepackage{graphicx}
+
+\usepackage{titlesec}
+\titleformat{\section}[block]
+  {\filcenter\large\normalfont\sffamily}
+  {\thesection}{1em}{}
+\titlespacing{\section}
+  {2.5pc}{*2}{*2}[2.5pc]
+
+%% Columnar layout
+\usepackage{multicol}
+
+%% Set up page
+\pagestyle{empty}
+\usepackage{geometry}
+\geometry{a4paper,landscape,margin=1cm}
+
+%% Some semantic macros
+\newcommand{\Cc}[1]{\texttt{#1}}
+\newcommand{\cmt}[1]{\textcolor[gray]{.3}{\texttt{#1}}} % comment
+\newcommand{\cpp}[1]{\textcolor{black!20!cyan}{\texttt{\##1}}} % preprocessor
+\newcommand{\kw}[1]{\textcolor{black!40!lime}{\texttt{#1}}} % keyword
+\newcommand{\ty}[1]{\textcolor{blue!80}{\texttt{#1}}} % type
+\newcommand{\mty}[1]{\textcolor{blue!80}{\texttt{\textbf{#1}}}} % modifier type
+\newcommand{\kv}[1]{\textcolor{red!40!black}{\texttt{#1}}} % constant value
+\newcommand{\val}[1]{\texttt{#1}} % value
+\newcommand{\quo}[1]{\textcolor{violet!80!black}{\texttt{#1}}} % quoted
+\newcommand{\quot}[1]{\quo{"#1"}} % quoted
+\newcommand{\fn}[1]{\texttt{#1}} % function
+\newcommand{\var}[1]{\texttt{\textit{#1}}} % variable
+\newcommand{\opt}[1]{\textrm{\textit{#1}}} % option
+
+\newcommand{\htab}{\hspace*{2em}} % horizontal tab
+
+\newcommand{\Cq}{\textquotesingle} % quote
+\newcommand{\Cx}{\textbackslash} % backslash ("escape")
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\smallskipamount}
+
+%% These act as flavour text.
+% \newcommand{\leadingone}{a late-in-season picking of finest bytes}
+% \newcommand{\leadingtwo}{have been brought together to produce this boutique}
+
+\newcommand{\leadingone}{rescued from the crypt of Dracula himself}
+\newcommand{\leadingtwo}{we present, at the height of its bloodlust, a vampiric}
+
+% \newcommand{\leadingone}{a new, family-friendly edition}
+% \newcommand{\leadingtwo}{that you may tattoo onto your eyelids}
+
+\begin{document}
+\begin{multicols}{3}
+
+\begin{center}{\rmfamily
+\itshape\leadingone\\ \leadingtwo \\
+\Huge ---~C~reference~card~--- }\\
+\end{center}
+
+\section*{Compilation}
+
+\Cc{3c \opt{flags} \opt{file}.c}\\
+\hspace*{2.2em}\texttt{-c}\quad
+    compile only, default output \Cc{\opt{file}.o}\\
+\hspace*{2.2em}\texttt{-o~}\textit{out}\quad
+    output to \opt{out}\\
+\hspace*{2.2em}\texttt{-g}\quad
+    enable debugging symbols for \textsc{gdb}\\
+\hspace*{2.2em}\texttt{-Wall}\quad
+    enable `all' warnings\\
+\hspace*{2.2em}\texttt{-Werror}\quad
+    treat warnings as errors\\
+\hspace*{2.2em}\texttt{-std=c99}\quad
+    enable \textsc{iso c99} compliance
+
+\section*{Lexical Structure \& Preprocessor}
+
+\Cc{\cmt{/* a comment, maybe over multiple lines */}}\\
+\Cc{\cmt{// a comment to the end of the line}}
+
+\Cc{\cpp{include} \quo{<\opt{system-header}.h>}}\\
+\Cc{\cpp{include} \quo{"\opt{user-header}.h"}}
+
+\Cc{\cpp{define} \opt{symbol} \opt{replacement-text}}\\
+\Cc{\cpp{define} \opt{symbol}(\opt{args...}) \opt{replacement-text}}
+
+\textbf{\texttt{.h} files}:
+\cpp{define}s, \kw{typedef}s, function prototypes
+
+\textbf{\texttt{.c} files}:
+\cpp{define}s, \kw{struct}s, \mty{static}s, function definitions;
+optionally also\hfill
+\Cc{\ty{int} \fn{main} (\ty{int} \var{argc}, \ty{char *}\var{argv}[])}
+
+\textbf{Identifiers} start with a letter,
+followed by letters, digits, or underscores.
+Identifiers starting with `\_' are reserved for system use.
+The following words are also reserved:
+
+\begin{center}
+  \kw{auto}\quad \kw{break}\quad \kw{case}\quad \ty{char}\quad
+  \mty{const}\quad \kw{continue}\quad \kw{default}\quad \kw{do}\quad
+  \ty{double}\quad \kw{else}\quad \ty{enum}\quad \mty{extern}\quad
+  \ty{float}\quad \kw{for}\quad \kw{goto}\quad \kw{if}\quad
+  \mty{inline}\quad \kw{int}\quad \kw{long}\quad \mty{register}\quad
+  \mty{restrict}\quad \kw{return}\quad \ty{short}\quad
+  \ty{signed}\quad \fn{sizeof}\quad \mty{static}\quad \ty{struct}\quad
+  \kw{switch}\quad \kw{typedef}\quad \ty{union}\quad
+  \ty{unsigned}\quad \ty{void}\quad \mty{volatile}\quad
+  \kw{while}\quad \ty{\_Bool}\quad \ty{\_Complex}\quad
+  \ty{\_Imaginary}\quad
+\end{center}
+
+\section*{Type Qualifiers}
+
+\mty{extern}\quad accessible everywhere \\
+\mty{static}\quad
+    file-local; value saved across function calls \\
+\mty{const}\quad can't/won't change \hfill
+\mty{volatile}\quad likely to change \\
+\mty{restrict}\quad
+    function will use this pointer-type argument \\
+\mty{inline}\quad
+    function should be inlined to calls \\
+
+%\vfill\columnbreak
+
+\section*{Statements}
+
+\Cc{\opt{expression};} \hfill
+\Cc{\{ \opt{statements...} \}}
+
+\Cc{\kw{if} (\opt{condition}) \opt{statement} \opt{[}\kw{else} \opt{statement}\opt{]}}
+
+\Cc{\kw{switch} (\opt{condition}) \{ \\
+\kw{case} \opt{constant}: \opt{statements...} \kw{break}; \\
+\opt{[}\kw{default}: \opt{statements...}\opt{]} \\
+\}}
+
+\Cc{\kw{while} (\opt{condition}) \opt{statement}} \\
+\Cc{\kw{for} (\opt{initialiser}; \opt{condition}; \opt{increment}) \opt{statement}} \\
+\Cc{\kw{do} \opt{statement} \kw{while} (\opt{condition}); }
+
+\kw{break;}\quad terminate loop or switch \\
+\kw{continue;}\quad resume next iteration of loop \\
+\Cc{\kw{return} \opt{[value]};}\quad return (optional) \opt{value} from function \\
+\Cc{\kw{goto} \opt{label};}\quad transfer to \opt{label} (\textbf{EVIL})
+
+\section*{Operators}
+
+\begin{center}
+decreasing precedence downwards left-to-right\\
+operators are left-associative\\
+except cast, ternary, assignment
+\end{center} 
+
+\Cc{()}\quad brackets \hfill
+\Cc{[\opt{v}]}\quad \opt{v}th index \hfill
+\Cc{.}\quad \ty{struct} field \\
+\Cc{->}\quad \ty{struct*}'s field (`arrow', `stab') \\
+\Cc{++}\quad increment  \hfill
+\Cc{-{}-}\quad decrement \hfill
+\Cc{-}\quad negate \hfill
+\Cc{!}\quad logical-\textsc{not} \\
+
+\Cc{*}\quad dereference \hfill
+\Cc{\&}\quad reference (`address-of') \\
+\Cc{\~}\quad bitwise-\textsc{not} (1s-complement) \hfill
+\Cc{(\ty{typename})}\quad type cast \\
+\Cc{*}\quad\Cc{/}\quad\Cc{\%}\quad\Cc{+}\quad\Cc{-}\quad arithmetic \hfill
+\Cc{<<}\quad\Cc{>>}\quad left/right bitshift
+
+\Cc{<}\quad\Cc{<=}\quad\Cc{>}\quad\Cc{>=}\quad relational operators \hfill
+\Cc{==}\quad\Cc{!=}\quad (in)equality \\
+\Cc{\&}\quad bitwise-\textsc{and} \hfill
+\Cc{|}\quad bitwise-\textsc{or} \hfill
+\Cc{\^}\quad bitwise-\textsc{xor} \\
+\Cc{\&\&}\quad logical-\textsc{and} \hfill
+\Cc{||}\quad logical-\textsc{or} \hfill 
+\Cc{?:}\quad ternary
+
+\Cc{=}\quad\Cc{+=}\quad\Cc{-=}\quad\Cc{*=}\quad\Cc{/=}\quad\Cc{\%=} \hfill
+    (arithmetic on) assignment \\
+\Cc{,}\quad sequential comma
+
+\section*{Literals}
+
+integers (\ty{int}):\hfill
+    \val{123}\quad
+    \val{-4}\quad 
+    \val{0xAf0C}\quad 
+    \val{057}\\
+reals (\ty{float}/\ty{double}):\hfill
+    \val{3.14159265}\quad
+    \val{1.29e-23}\\
+characters (\ty{char}):\hfill
+    \val{\Cq x\Cq}\quad
+    \val{\Cq t\Cq}
+    \val{\Cq\Cx033\Cq}\\
+strings (\ty{char *}):\hfill
+    \quot{hello}\quad
+    \quot{abc\Cx"\Cx n}\quad
+    \quot{}
+
+%\vfill\columnbreak
+
+\section*{Declarations}
+
+\Cc{\ty{int} \var{i}, \var{length}; \\
+\ty{char *}\var{str}, \var{buf}[\kv{BUFSIZ}], \var{prev}; \\
+\ty{double} \var{x}, \var{values}[\kv{MAX}]; \\
+\kw{typedef} \ty{enum} \{ \kv{FALSE}, \kv{TRUE} \} \ty{Bool}; \\
+\kw{typedef} \ty{struct} \{ \ty{char *}\var{key}; \ty{int} \var{val}; \} \ty{keyval\_t}; \\
+\ty{return\_t} (*\fn{fn\_name})(\ty{arg\_t}\opt{,...});}
+
+\section*{Initialisation}
+
+\Cc{\ty{int} \var{c} = \val{0}; \\
+\ty{char} \var{prev} = \val{\Cq\Cx n\Cq}; \\
+\ty{char *}\var{msg} = \quot{hello}; \\
+\ty{int} \var{seq}[\kv{MAX}] = \{ \val{1}, \val{2}, \val{3} \}; \\
+\ty{keyval\_t} \var{keylist}[] = \{ \\
+\htab\quot{NSW}, \val{0},  \quot{Vic}, \val{5},   \quot{Qld}, \val{-1} \}; }
+
+\section*{Character \& String Escapes}
+
+\Cc{\Cx n}\quad line feed (``newline'') \hfill
+carriage return \quad\Cc{\Cx r}\\
+\Cc{\Cx t}\quad horizontal tab \hfill
+escape \quad\Cc{\Cx e}\\
+\Cc{\Cx \Cq}\quad single quote \hfill
+double quote \quad\Cc{\Cx " }\\
+\Cc{\Cx \Cx}\quad backslash \hfill
+null character \quad\Cc{\Cx 0}\\
+\Cc{\Cx \opt{ddd}}\quad octal \textsc{ascii} value \hfill
+hex \textsc{ascii} value \quad\Cc{\Cx x\opt{dd}} \\
+
+%\vfill\columnbreak
+
+\section*{The C Standard Library}
+
+\begin{center}
+only a limited, `interesting' subset is listed here. \\
+type modifiers, notably \mty{const}, have been omitted. \\
+consult the relevant \textit{man(1)} or \textit{info(1)} pages.
+\end{center}
+
+\subsection*{\Cc{\cmt{// in stdlib.h}}}
+
+\Cc{\cpp{define} \kv{NULL} ((\ty{void *})\val{0})}
+
+\Cc{\ty{void *}\fn{malloc}\,(%
+    \ty{size\_t} \var{size});} \\
+\Cc{\ty{void *}\fn{calloc}\,(%
+    \ty{size\_t} \var{number}, %
+    \ty{size\_t} \var{size});} \\
+\htab allocate \var{size} or \Cc{(\var{number} * \var{size})} bytes. \\
+\htab \fn{calloc} initialises allocated space to zero.
+
+\Cc{\ty{void} \fn{free}\,(%
+    \ty{void *}\var{obj});} \\
+\htab release allocated pointer \var{obj}, no-op if \kv{NULL}.
+
+\Cc{\ty{void} \fn{exit}\,(%
+    \ty{int} \var{status});} \hfill
+\Cc{\ty{void} \fn{abort}\,();} \\
+\htab terminate the current program (ab)normally. \\
+\htab returns \var{status} to the \textsc{os} or sends \kv{SIGABRT}.
+
+\Cc{\ty{long} \fn{strtol}\,(%
+    \ty{char *}\var{str}, %
+    \ty{char **}\var{end}, %
+    \ty{int} \var{base});}\\
+\htab converts string \var{str} to a \ty{long} value of numeric \var{base}. \\
+\htab $2\le\texttt{base}\le36$. \\
+\htab first invalid character address in \var{end} if non-\kv{NULL}. \\
+\htab replacement for old \fn{atoi}
+
+\Cc{\ty{float} \fn{strtof}\,(%
+    \ty{char *}\var{str}, %
+    \ty{char **}\var{end});}\\
+\Cc{\ty{double} \fn{strtod}\,(%
+    \ty{char *}\var{str}, %
+    \ty{char **}\var{end});}\\
+\htab converts string \var{str} to a \ty{float} or \ty{double} value. \\
+\htab first invalid character address in \var{end} if non-\kv{NULL}. \\
+\htab replacement for old \fn{atof} and \fn{atod}
+
+\Cc{\ty{int} \fn{abs}\,(%
+    \ty{int} \var{x});} \hfill
+\Cc{\ty{long} \fn{labs}\,(%
+    \ty{long} \var{x});} \\
+\htab returns $\left|x\right|$
+
+
+\subsection*{\Cc{\cmt{// in string.h}}}
+
+\Cc{\ty{size\_t} \fn{strlen}\,(%
+    \ty{char *}\var{str});} \\
+\htab the length of \var{str} without trailing \textsc{nul}.
+
+\Cc{\ty{char *}\fn{strcpy}\,(%
+    \ty{char *}\var{dst}, %
+    \ty{char *}\var{src});} \\
+\Cc{\ty{size\_t} \fn{strlcpy}\,(%
+    \ty{char *}\var{dst}, %
+    \ty{char *}\var{src}, %
+    \ty{size\_t} \var{sz});} \\
+\Cc{\ty{char *}\fn{strcat}\,(%
+    \ty{char *}\var{dst}, %
+    \ty{char *}\var{src});} \\
+\Cc{\ty{size\_t} \fn{strlcat}\,(%
+    \ty{char *}\var{dst}, %
+    \ty{char *}\var{src}, %
+    \ty{size\_t} \var{sz});} \\
+\htab copy or concatenate \var{src} onto \var{dst} until \textsc{nul} or \var{sz} \\
+\htab returns \var{dst}, or the minimum of \var{src}'s length and \var{sz} \\
+\htab \fn{strl\opt{...}} will always \textsc{nul}-terminate copied strings \\
+\htab on Linux \fn{strl\opt{...}} needs \Cc{<bsd/string.h>} and \texttt{-lbsd}
+
+\Cc{\ty{int} \fn{strcmp}\,(%
+    \ty{char *}\var{s1}, %
+    \ty{char *}\var{s2}); }\\
+\htab return $<0,=0,>0$ if \var{s1} $<,=,>$ \var{s2}
+
+\Cc{\ty{char *}\fn{strchr}\,(%
+    \ty{char *}\var{str}, %
+    \ty{int} \var{c});} \\
+\Cc{\ty{char *}\fn{strrchr}\,(%
+    \ty{char *}\var{str}, %
+    \ty{int} \var{c});} \\
+\htab points to first/last instance of \var{c} in \var{str}, or \kv{NULL}
+
+\Cc{\ty{char *}\fn{strstr}\,(%
+    \ty{char *}\var{haystack}, %
+    \ty{char *}\var{needle});} \\
+\htab find first instance of string \var{needle} in \var{haystack}
+
+\Cc{\ty{char *}\fn{strpbrk}\,(%
+    \ty{char *}\var{str},
+    \ty{char *}\var{any}); } \\
+\htab find first of any of \var{any} in \var{str}.
+
+\Cc{\ty{size\_t} \fn{strspn}\,(%
+    \ty{char *}\var{str},
+    \ty{char *}\var{any}); } \\
+\Cc{\ty{size\_t} \fn{strcspn}\,(%
+    \ty{char *}\var{str},
+    \ty{char *}\var{any}); } \\
+\htab length of prefix of any of \var{any} (not) in \var{str}
+
+\Cc{\ty{char *}\fn{strsep}\,(%
+    \ty{char **}\var{strp}, %
+    \ty{char *}\var{sep});} \\
+\htab find first of any of \var{sep} in \var{*strp}, writes \textsc{nul} \\
+\htab returns original \var{*strp}, byte after \var{sep} in \var{strp} \\
+\htab replaces old \fn{strtok}
+\subsection*{\Cc{\cmt{// in ctype.h}}}
+
+\Cc{\ty{int} \fn{toupper}\,(\ty{int} \var{c});} \hfill
+\Cc{\ty{int} \fn{tolower}\,(\ty{int} \var{c});} \\
+\htab make \textsc{ascii} \var{c} uppercase or lowercase
+
+\Cc{\ty{int} \fn{isupper}\,(\ty{int} \var{c});} \hfill
+\Cc{\ty{int} \fn{islower}\,(\ty{int} \var{c});} \\
+\Cc{\ty{int} \fn{isalpha}\,(\ty{int} \var{c});} \hfill
+\Cc{\ty{int} \fn{isalnum}\,(\ty{int} \var{c});} \\
+\Cc{\ty{int} \fn{isdigit}\,(\ty{int} \var{c});} \hfill
+\Cc{\ty{int} \fn{isxdigit}\,(\ty{int} \var{c});} \\
+\Cc{\ty{int} \fn{isspace}\,(\ty{int} \var{c});} \hfill
+\Cc{\ty{int} \fn{isprint}\,(\ty{int} \var{c});} \\
+\htab is \textsc{ascii} \var{c} upper/lowercase, alphabetic, alphanumeric, \\
+\htab a digit, a hex digit, whitespace, or printable?
+
+\subsection*{\Cc{\cmt{// in math.h}}}
+\Cc{\cmt{// remember to compile and link -lm}}
+
+\Cc{\ty{double} \fn{sin}\,(\ty{double} \var{x});} \hfill
+\Cc{\ty{double} \fn{asin}\,(\ty{double} \var{x});} \\
+\Cc{\ty{double} \fn{cos}\,(\ty{double} \var{x});} \hfill
+\Cc{\ty{double} \fn{acos}\,(\ty{double} \var{x});} \\
+\Cc{\ty{double} \fn{tan}\,(\ty{double} \var{x});} \hfill
+\Cc{\ty{double} \fn{atan}\,(\ty{double} \var{x});} \\
+\htab returns $\sin,\sin^{-1},\cos,\cos^{-1},\tan,\tan^{-1}$ of $x$
+
+\Cc{\ty{double} \fn{atan2}\,(\ty{double} \var{y}, \ty{double} \var{x});} \\
+\htab returns $\tan^{-1} \frac{y}{x}$
+
+% \Cc{\ty{double} \fn{sinh}\,(\ty{double} \var{x});} \hfill
+% \Cc{\ty{double} \fn{cosh}\,(\ty{double} \var{x});} \\
+% \Cc{\ty{double} \fn{tanh}\,(\ty{double} \var{x});} \\
+% \htab returns $\sinh,\cosh,\tanh$ of $x$ radians
+
+\Cc{\ty{double} \fn{exp}\,(\ty{double} \var{x});} \hfill
+\Cc{\ty{double} \fn{log}\,(\ty{double} \var{x});} \\
+\Cc{\ty{double} \fn{log10}\,(\ty{double} \var{x});} \\
+\htab returns $\exp,\log_{e},\log_{10}$ of $x$
+
+\Cc{\ty{double} \fn{pow}\,(\ty{double} \var{x}, \ty{double} \var{y});} \\
+\htab returns $x^y$
+
+\Cc{\ty{double} \fn{sqrt}\,(\ty{double} \var{x});} \\
+\htab returns $\sqrt{x}$
+
+\Cc{\ty{double} \fn{floor}\,(\ty{double} \var{x});} \hfill
+\Cc{\ty{double} \fn{ceil}\,(\ty{double} \var{x});} \\
+\htab returns $\lfloor x\rfloor$ and $\lceil x\rceil$
+
+\Cc{\ty{double} \fn{fabs}\,(\ty{double} \var{x});} \\
+\htab returns $\left|x\right|$
+
+\Cc{\ty{double} \fn{fmod}\,(\ty{double} \var{x}, \ty{double} \var{y});} \\
+\htab returns $x~\textrm{mod}~y$
+
+
+\subsection*{\Cc{\cmt{// in err.h}}}
+
+\Cc{\ty{void} \fn{err}\,(%
+    \ty{int} \var{status}, %
+    \ty{char *}\var{fmt}, ...);} \\
+\Cc{\ty{void} \fn{errx}\,(%
+    \ty{int} \var{status}, %
+    \ty{char *}\var{fmt}, ...);} \\
+\htab terminate the current program abnormally. \\
+\htab formats string in \var{fmt} as per \fn{printf}. \\
+\htab prints (hopefully) informative error information, like \\
+\htab\htab\texttt{ls: memes: No such file or directory}
+\htab \fn{errx} doesn't append global error status, like \\
+\htab\htab\texttt{memegen: couldn\Cq t malloc}
+
+\subsection*{\Cc{\cmt{// in stdio.h}}}
+
+\Cc{\cpp{define} \kv{EOF} (\val{-1})} \\
+\htab special ``end-of-file'' return value
+
+\Cc{\ty{FILE *}\var{stdin}, \ty{*}\var{stdout}, \ty{*}\var{stderr};}\\
+\htab standard input/output/error
+
+\Cc{\ty{FILE *}\fn{fopen}\,(%
+    \ty{char *}\var{filename},
+    \ty{char *}\var{mode});}\\
+\htab open file; return new `file handle'.
+
+\Cc{\ty{int} \fn{fclose}\,(%
+    \ty{FILE *}\var{fh});}\\
+\htab close a file; returns non-zero on error.
+
+\Cc{\ty{int} \fn{fgetc}\,(%
+    \ty{FILE *}\var{fh});}\hfill
+\Cc{\ty{int} \fn{getchar}\,(\ty{void});}\\
+\htab return next character from \var{fh}, or \kv{EOF} on \textsc{eof}/error. \\
+\htab \fn{getchar} equivalent to \Cc{\fn{fgetc}\,(\var{stdin})}
+
+\Cc{\ty{char *}\fn{fgets}\,(%
+    \ty{char *}\var{s},
+    \ty{int} \var{size},
+    \ty{FILE *}\var{fh});}\\
+\htab read into \var{s} until \textsc{eof}, newline, or \var{size} bytes. \\
+\htab returns \var{s}, or \kv{NULL} on error.
+
+\Cc{\ty{int} \fn{fputc}\,(%
+    \ty{int} \var{c},
+    \ty{FILE *}\var{fh});}\hfill
+\Cc{\ty{int} \fn{putchar}\,(%
+    \ty{int} \var{c});}\\
+\htab write \var{c} to \var{fh}; returns \kv{EOF} on error. \\
+\htab \Cc{\fn{putchar}\,(\opt{k})} equivalent to \Cc{\fn{fputc}\,(\opt{k}, \var{stdout})}
+
+\Cc{\ty{int} \fn{fputs}\,(%
+    \ty{char *}\var{str},
+    \ty{FILE *}\var{fh});}\\
+\Cc{\ty{int} \fn{puts}\,(%
+    \ty{char *}\var{str});}\\
+\htab write \var{str} to \var{fh}; returns \kv{EOF} on error. \\
+\htab \Cc{\fn{puts}\,(\opt{k})} equivalent to \Cc{\fn{fputs}\,(\opt{k} "\Cx n", \var{stdout})}
+
+\Cc{\ty{int} \fn{printf}\,(%
+    \ty{char *}\var{fmt}, ...);} \\
+\Cc{\ty{int} \fn{fprintf}\,(%
+    \ty{FILE *}\var{fh}, %
+    \ty{char *}\var{fmt}, ...);} \\
+\Cc{\ty{int} \fn{sprintf}\,(%
+    \ty{char *}\var{str}, %
+    \ty{char *}\var{fmt}, ...);} \\
+\htab print text per \var{fmt} to \var{stdout}, \var{fh} or \var{str}. \\
+\htab formatting commands: \Cc{\quot{\%\opt{m}\,\opt{w}.\opt{p}\,\opt{c}}}\\
+\htab field width in \opt{w}; $<0$ left-justifies. float places in \opt{p}. \\
+\htab code in \opt{c}: \textbf{d}ecimal, \textbf{o}ctal,
+    he\textbf{x}adecimal, \textbf{c}har, \textbf{s}tring, \\
+\htab\htab \textbf{f}ixed-point, \textbf{g}eneral, \textbf{e}xp.,
+    \textbf{p}ointer, literal \textbf{\%}
+\htab size in \opt{m}: \textbf{l}ong\,[\textbf{l}ong]; s\textbf{h}ort\,[s\textbf{h}ort], si\textbf{z}e\_t, p\textbf{t}rdiff\_t. \\
+\htab arguments with matching types follow \var{fmt} \\
+\htab returns number of characters written, or \kv{EOF} on error
+
+\Cc{\ty{int} \fn{scanf}\,(%
+    \ty{char *}\var{fmt}, ...);} \\
+\Cc{\ty{int} \fn{fscanf}\,(%
+    \ty{FILE *}\var{fh}, %
+    \ty{char *}\var{fmt}, ...);} \\
+\Cc{\ty{int} \fn{sscanf}\,(%
+    \ty{char *}\var{str}, %
+    \ty{char *}\var{fmt}, ...);} \\
+\htab parse text from \var{stdout}, \var{fh} or \var{str} per \var{fmt}. \\
+\htab \var{fmt} is \textbf{not} exactly the same as \fn{printf} formats. \\
+\htab pointer arguments with matching types follow \var{fmt} \\
+\htab returns number of fields matched, or \val{-1} on error
+
+\end{multicols}
+
+\end{document}

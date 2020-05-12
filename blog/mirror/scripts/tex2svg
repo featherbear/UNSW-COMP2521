@@ -1,0 +1,10 @@
+#!/usr/bin/env zsh
+# NAME: tex2svg -- TeX to SVG via LuaLaTeX, PDF-to-Cairo 
+set -e
+
+lualatex ${1}.tex
+pdfcrop --margins 10 ${1}.pdf
+pdftocairo -svg ${1}-crop.pdf
+mv ${1}-crop.svg ${1}.svg
+
+rm ${1}.aux ${1}.log ${1}.pdf ${1}-crop.pdf
