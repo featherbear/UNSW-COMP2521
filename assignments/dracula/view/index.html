@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>COMP2521 19t0 / The Fury of Dracula / The View</title>
+
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/assignments/dracula/view/" />
+  <link rel="stylesheet" href="/~cs2521/19T0/assets/dracula.css" />
+  <style type="text/css">
+.drac-header
+  { background-image: linear-gradient(to right, #270907 40%, #3D0A07 60%)
+  ; background-color: #270907 }
+.drac-header > img { margin: 0 auto; }
+main { max-width: 80ex !important; margin-left: auto; margin-right: auto; }
+pre  { padding: .5rem; border-radius: .25rem; }
+pre, code, tt { color: #e9ecef; background-color: #343a40; }
+.faq dd { margin-left: 2rem; }
+.faq dd p:first-child { margin-bottom: 0 }
+footer.bg-dark { background-color: #343a40 !important; }
+  </style>
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+<header class="drac-header text-center mb-2">
+  <img src="/~cs2521/19T0/assignments/dracula/Pics/drac.png" alt="The Fury of Dracula" />
+</header>
+
+<main class="container">
+
+<!--
+ - COMP2521 19t0 ... Fury of Dracula spec and files
+ -
+ - 2017-11-24	Jashank Jeremy <{jashankj,z5017851}@cse.unsw.edu.au>
+ - 2017-12-30	Jashank Jeremy <{jashankj,z5017851}@cse.unsw.edu.au>
+ - 2019-01-06	Jashank Jeremy <{jashankj,z5017851}@cse.unsw.edu.au>
+-->
+
+<header class="text-center">
+
+  <h1>The View
+</h1>
+
+  <p class="lead">
+— <a href="/~cs2521/19T0/assignments/dracula/">introduction</a>
+— <a href="/~cs2521/19T0/assignments/dracula/rules/">the rules</a>
+— <a href="/~cs2521/19T0/assignments/dracula/data/">the data</a>
+— <a href="/~cs2521/19T0/assignments/dracula/faq/">faq</a>
+— <strong>[the view]</strong>
+— <a href="/~cs2521/19T0/assignments/dracula/hunt/">the hunt</a> —
+<br /><small class="text-muted">
+courtesy Richard Buckland, John Shepherd, and many tutors
+</small>
+</p>
+  <p><strong>Marks:</strong> 100 (worth 8%) <br />
+<strong>Due:</strong> 23:59 Sunday 20th January 2019 <br />
+<strong>Submit:</strong> <code class="highlighter-rouge">give cs2521 assign2view</code>
+<br />
+(No submissions accepted after 23:59 Monday 21nd January 2019)</p>
+
+</header>
+<h2 id="objectives">Objectives</h2>
+
+<ul>
+  <li>to give you experience in implementing Graph-based ADTs</li>
+  <li>to give you practice in implementing a well-defined interface</li>
+</ul>
+
+<h2 id="background">Background</h2>
+
+<p>The ultimate goal for this assignment is
+to write AIs that can play the “Fury of Dracula” game.
+The interface for the AIs is very simple:
+the Game Engine invokes the AI,
+waits for a certain amount of time
+while the AI thinks about its move
+(possibly suggesting several moves),
+and then takes the last move suggested by the AI.
+The AIs clearly need to know about the game state
+in order to decide on a move.
+Their access to the game state is
+via an appropriate View ADT:
+hunters use the <em>HunterView</em> ADT,
+and Dracula uses the <em>DraculaView</em> ADT.
+Both of these ADTs are layered on top of
+a generic <em>GameView</em> ADT.
+Your task in this phase of the assignment
+is to implement a version of these ADTs
+that your AIs can use.</p>
+
+<h2 id="setting-up">Setting Up</h2>
+
+<p>Make a directory for working on this assignment,
+change into that directory, and run the command:</p>
+
+<pre>
+<kbd is="shell">2521 fetch assign2view</kbd>
+</pre>
+
+<p>If you’re working from home,
+you can download the <a href="../view.zip"><em>view.zip</em></a> file
+and then work on your local machine.</p>
+
+<p>This will extract the following files in your directory:</p>
+
+<dl class="dl-horizontal">
+  <dt><code class="highlighter-rouge">Makefile</code></dt>
+  <dd>a set of dependencies used to control compilation</dd>
+  <dt><code class="highlighter-rouge">game.h</code></dt>
+  <dd>definitions of Game constants; interface to game engine</dd>
+  <dt><code class="highlighter-rouge">game_view.h</code></dt>
+  <dd>interface to the GameView ADT</dd>
+  <dt><code class="highlighter-rouge">game_view.c</code></dt>
+  <dd>skeleton implementation of GameView ADT</dd>
+  <dt><code class="highlighter-rouge">test_game_view.c</code></dt>
+  <dd>main program containing a few tests for GameView ADT</dd>
+  <dt><code class="highlighter-rouge">dracula_view.h</code></dt>
+  <dd>interface to the DraculaView ADT</dd>
+  <dt><code class="highlighter-rouge">dracula_view.c</code></dt>
+  <dd>skeleton implementation of DraculaView ADT</dd>
+  <dt><code class="highlighter-rouge">test_dracula_view.c</code></dt>
+  <dd>main program containing a few tests for DraculaView ADT</dd>
+  <dt><code class="highlighter-rouge">hunter_view.h</code></dt>
+  <dd>interface to the HunterView ADT</dd>
+  <dt><code class="highlighter-rouge">hunter_view.c</code></dt>
+  <dd>skeleton implementation of HunterView ADT</dd>
+  <dt><code class="highlighter-rouge">test_hunter_view.c</code></dt>
+  <dd>main program containing a few tests for HunterView ADT</dd>
+  <dt><code class="highlighter-rouge">places.h</code></dt>
+  <dd>interface to Places ADT</dd>
+  <dt><code class="highlighter-rouge">places.c</code></dt>
+  <dd>partial implementation of Places ADT</dd>
+  <dt><code class="highlighter-rouge">map.h</code></dt>
+  <dd>interface to Map/graph ADT</dd>
+  <dt><code class="highlighter-rouge">map.c</code></dt>
+  <dd>partial implementation of Map ADT</dd>
+  <dt><code class="highlighter-rouge">past_plays</code></dt>
+  <dd>some sample <code class="highlighter-rouge">past_plays</code> strings</dd>
+</dl>
+
+<p>Note that the <em>Places</em> and <em>Map</em> ADTs
+are slightly <em>modified</em> versions of
+the ADTs from the Week 4 Lab.
+They are very similar to,
+<em>but not the same as</em>,
+those ADTs;
+make sure you read them carefully
+before using them.
+You are not required to use the <em>Map</em> ADT,
+but it will probably save you some time.
+You are allowed to modify it
+(both <em>.h</em> and <em>.c</em> files) if you wish.</p>
+
+<blockquote class="alert alert-danger">
+  <h4 class="text-center">IMPORTANT NOTE</h4>
+
+  <p>For this stage of the assignment,
+you must implement the supplied ADT interfaces
+<em>completely unchanged</em> (otherwise you’ll fail auto-testing).
+However, for the next stage of the assignment
+you can augment these ADTs as much as you like.
+You might want to maintain two versions of each View:
+one to submit for this stage of the assignment,
+and the other to hold the functions
+that you think would be most useful for your AI.</p>
+</blockquote>
+
+<h2 id="what-to-do-gameview">What to do: <code class="highlighter-rouge">GameView</code></h2>
+
+<p>You have two tasks for this part of the exercise:</p>
+
+<ul>
+  <li>design and build an implementation of the <em>GameView</em> ADT,</li>
+  <li>write a comprehensive test suite
+to ensure that the ADT is working correctly</li>
+</ul>
+
+<p>The first task requires you to complete the <code class="highlighter-rouge">game_view.c</code> file.
+You should <em>not</em> modify the <code class="highlighter-rouge">game_view.h</code> file.
+If you decide to use other ADTs,
+these should be <code class="highlighter-rouge">#include</code>‘d in the <code class="highlighter-rouge">game_view.c</code> file,
+not in <code class="highlighter-rouge">game_view.h</code>.
+Read <code class="highlighter-rouge">game_view.h</code> carefully
+to ensure that you understand
+what each function is supposed to do.
+Then, design data structures to support this,
+then implement the functions
+on top of these data structures.
+You are free to use the supplied <em>Map</em> ADT,
+and you are free to use
+any other ADTs that you think will help.
+Note that if you use other ADTs:</p>
+
+<ul>
+  <li>you will need to add them into the <em>Makefile</em>, and</li>
+  <li>you will need to submit them.</li>
+</ul>
+
+<p>If you modify the <em>Map</em> ADT,
+you will also need to submit the modified version.</p>
+
+<p>The second task requires you
+to think about all of the cases
+that your <em>GameView</em> ADT needs to handle
+and come up with as many tests
+as you can think of
+to ensure that all cases are checked.
+The supplied <code class="highlighter-rouge">test_game_view.c</code> file
+provides some tests,
+to give an idea of what’s required,
+but they are by no means comprehensive.
+You should add as many
+as you think are needed
+to check that your ADT is working properly.
+This is in your own best interests,
+since, if you submit a buggy ADT to The Hunt
+to support your AI,
+then your AI will (by making enough invalid moves)
+eventually be disqualified for that game,
+and you will miss out on performance marks.</p>
+
+<h2 id="what-to-do-hunterview-and-draculaview">What to do: <code class="highlighter-rouge">HunterView</code> and <code class="highlighter-rouge">DraculaView</code></h2>
+
+<p>You have two tasks for this part of the exercise:</p>
+
+<ul>
+  <li>
+    <p>design and build an implementation of
+the <em>HunterView</em> and <em>DraculaView</em> ADTs</p>
+  </li>
+  <li>
+    <p>write a comprehensive test suite
+to ensure that both ADTs are working correctly</p>
+  </li>
+</ul>
+
+<p>The <em>HunterView</em> and <em>DraculaView</em> provide
+views of the game state
+appropriate to either a hunter player
+or the Dracula player.
+They provide much the same functionality
+as the <em>GameView</em> ADT,
+but with some specialisations
+towards the needs and/or capabilities
+of the relevant players.</p>
+
+<p>Some assumptions in the design of these ADTs:</p>
+
+<ul>
+  <li>
+    <p>they will be used by AIs
+in their <code class="highlighter-rouge">decide_{dracula,hunter}_move</code> function</p>
+  </li>
+  <li>
+    <p>no AI will use the <em>GameView</em> ADT directly</p>
+  </li>
+  <li>
+    <p>the <em>HunterView</em> and <em>DraculaView</em> ADTs
+should use <em>GameView</em> in their implementation</p>
+  </li>
+  <li>
+    <p>the <em>DraculaView</em> ADT will only be used by the Dracula AI,
+and only when it’s Dracula’s turn</p>
+  </li>
+  <li>
+    <p>the <em>HunterView</em> ADT will be used by the Hunter AI,
+and will be used for all of the Hunter players</p>
+  </li>
+  <li>
+    <p>a Hunter AI can work out
+which Hunter player it’s currently running as
+by using the <code class="highlighter-rouge">hv_get_player()</code> function</p>
+  </li>
+</ul>
+
+<p>You should use the same strategy for
+the design, implementation and testing of
+your <em>HunterView</em> and <em>DraculaView</em> ADTs,
+as you used in developing your <em>GameView</em> ADT, i.e.</p>
+
+<ul>
+  <li>
+    <p>read the <code><em>player</em>_view.h</code> file
+to understand what each function is supposed to do,</p>
+  </li>
+  <li>
+    <p>design a data structure
+that can support the required operations
+(will include a <em>GameView</em> value)</p>
+  </li>
+  <li>
+    <p>implement each of the functions
+ specified in the <code><em>player</em>_view.h</code> interface,
+ using the skeleton <code><em>player</em>_view.c</code> file provided</p>
+  </li>
+  <li>
+    <p>you may use other ADTs in implementing
+either or both of the <em>playerView</em> ADTs</p>
+  </li>
+  <li>
+    <p>these ADTs may not require much code of their own,
+since they rely on most of the work being done
+by the <em>GameView</em> ADT</p>
+  </li>
+  <li>
+    <p>once implemented, design a comprehensive set of tests,
+add them to the appropriate <code>test_<em>player</em>_view.c</code> file</p>
+  </li>
+  <li>
+    <p>test, re-code, repeat …
+maybe with the occasional stop for eat and sleep</p>
+  </li>
+</ul>
+
+<p>Once you have implemented
+and thoroughly tested all three ADTs,
+move on to the submission step.</p>
+
+<h2 id="submission">Submission</h2>
+
+<p>You should submit all your Views and tests
+(and any additional ADTs) at the same time.
+Only one member of each Fury of Dracula group needs to submit.</p>
+
+<p>To submit:</p>
+
+<ul>
+  <li>
+    <p><em>ssh</em> into your CSE account (you can’t submit via the web)</p>
+  </li>
+  <li>
+    <p>change into the directory containing all of your files</p>
+  </li>
+  <li>
+    <p>test your submission with this command:</p>
+
+    <pre><kbd is="shell">2521 dryrun assign2view <em>files...</em></kbd></pre>
+
+    <p>The above command will allow you to check
+that you are submitting sufficient files
+to at least enable your submission to compile.
+The dryrun tests your code against the provided tests.</p>
+  </li>
+  <li>
+    <p>submit your work with this command:</p>
+
+    <pre><kbd is="shell">give cs2521 assign2view <em>files...</em></kbd></pre>
+
+    <p>You should also be able to submit via WebCMS.</p>
+  </li>
+</ul>
+
+<!--
+Note: Submission/dryrun is not yet set up,
+but will be available by the middle of Week XX.
+-->
+
+<p>Dryrun source code can be found in
+<a href="/~cs2521/19T0/assignments/dracula/dryrun.view/">/web/cs2521/19t0/assignments/dracula/dryrun.view/</a>.</p>
+
+<h2 id="assessment">Assessment</h2>
+
+<p><strong>60</strong> marks are derived from automated performance testing,
+where we check your implementation is complete and correct.</p>
+
+<p><strong>20</strong> marks are subjective assessment of your code style.</p>
+
+<p><strong>20</strong> mark is from manual and automated assessment of your tests.</p>
+
+
+</main>
+
+<footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+</body>
+</html>

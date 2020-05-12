@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Assignment 1: Textbuffer — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="/~cs2521/19T0/assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/assignments/textbuffer/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="/~cs2521/19T0/">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/assignments/">assignments</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/assignments/textbuffer/">Assignment 1: Textbuffer</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Assignment 1: Textbuffer</h1>
+</header>
+
+
+
+
+<ul class="list-inline text-center">
+<li class="list-inline-item text-muted">jump to...</li>
+<li class="list-inline-item"><a href="#assessment">assessment</a></li>
+<li class="list-inline-item"><a href="#submission">submission</a></li>
+<li class="list-inline-item"><a href="dryrun/">dryrun</a></li>
+<li class="list-inline-item"><a href="faq/">faq</a></li>
+</ul>
+
+<dl class="dl-horizontal">
+  <dt>Deadline</dt>
+  <dd>
+    <p><strike>Friday 14 December, 11:59pm</strike><br />
+<span class="text-primary">Sunday 16 December, 11:59pm</span></p>
+  </dd>
+  <dt>Marks</dt>
+  <dd>100 marks (10 course marks)</dd>
+  <dt>Late Penalty</dt>
+  <dd>0.42 marks off the ceiling mark for each hour late.<br />
+Submissions close <strong>five days</strong> after the deadline.</dd>
+  <dt>Submission</dt>
+  <dd><code class="highlighter-rouge">2521 classrun give assign1</code></dd>
+</dl>
+
+<p>A text buffer is an ordered collection of strings,
+where each string represents one line of text.
+Your task is to implement an abstract data type
+that meets the <code class="highlighter-rouge">Textbuffer</code> interface,
+and to implement tests for your implementation.</p>
+
+<p>Get a copy of the provided files by running</p>
+
+<pre><kbd is="shell">2521 fetch assign1</kbd>
+'./textbuffer.h' -&gt; '.../textbuffer.h'
+./
+Makefile
+test_textbuffer.c
+textbuffer.c
+</pre>
+
+<p class="alert alert-danger"><strong>Do not modify <code class="highlighter-rouge">textbuffer.h</code>!</strong>
+If you do, your air-conditioning will mysteriously fail.</p>
+
+<p>You need to implement the ADT defined in <a href="files.ln/textbuffer.h"><code class="highlighter-rouge">textbuffer.h</code></a>;
+all your code should be in a file called <code class="highlighter-rouge">textbuffer.c</code>.
+You also need to construct a black-box test suite,
+in a file called <code class="highlighter-rouge">test_textbuffer.c</code>.</p>
+
+<h2 id="assessment">Assessment</h2>
+
+<p>The assigment is worth 100 marks,
+contributing 10% of your final course mark.</p>
+
+<dl>
+  <dt>Implementation (automarked; 60 marks)</dt>
+  <dd>We will run your implementation against a number of tests
+to determine its completeness and correctness.
+These will be much more comprehensive than
+the tests we run during submission.
+You get marks for each test you pass.</dd>
+  <dt>Black-Box Testing (automarked + subjective; 10 marks)</dt>
+  <dd>You will create a suite of black-box tests
+in <code class="highlighter-rouge">test_textbuffer.c</code>,
+which will be run against some of our own
+correct and incorrect implemetations of textbuffers.
+Your tests should be able to pick up our errors,
+and pass our correct implementations.
+
+    <p>Your tests will be automatically assessed on code coverage.
+Your tutor will also subjectively assess your tests.</p>
+  </dd>
+  <dt>White-Box Testing (automarked + subjective; 10 marks)</dt>
+  <dd>You will create a suite of white-box tests
+in <code class="highlighter-rouge">textbuffer.c</code>, in the function <code class="highlighter-rouge">white_box_tests</code>
+(with as many helper functions as you like).
+
+    <p>Your tests will be automatically assessed on code coverage.
+Your tutor will also subjectively assess your tests.</p>
+  </dd>
+  <dt>Style (subjective; 20 marks)</dt>
+  <dd>Your tutor will subjectively assess
+your mechanical and semantic style,
+the appropriateness of your representation,
+and your algorithmic complexity.
+
+    <p>Mechanical style deals with consistency of
+indentation, whitespace, layout.
+Semantic style deals with variable and function names,
+and the meaning conveyed in your implementation.</p>
+
+    <p>Style marking will also include assessing
+your choice of an appropriate representation for your ADT,
+and for the efficiency of the algorithms you choose.
+For example, you will lose marks
+if your implementation of a function
+has work complexity of <script type="math/tex">O(n^2)</script>,
+when there is a solution with <script type="math/tex">O(n)</script> or <script type="math/tex">O(n \log n)</script>.</p>
+  </dd>
+  <dt>Bonuses: undo/redo, diff (automarked + subjective; 10 marks)</dt>
+  <dd>There are two optional challenges.
+Completion of these parts is optional.</dd>
+</dl>
+
+<h2 id="submission">Submission</h2>
+
+<p>To submit the assignment,
+execute the following command on a CSE machine:</p>
+
+<pre><kbd is="shell">2521 classrun give assign1</kbd></pre>
+
+<p>You can check your submission by running</p>
+
+<pre><kbd is="shell">2521 classrun check assign1</kbd></pre>
+
+<p>You will be able to collect your assignment once marked by running</p>
+
+<pre><kbd is="shell">2521 classrun collect assign1</kbd></pre>
+
+<p>You may also submit, check, and collect from WebCMS 3.</p>
+
+<p>You may submit multiple times;
+only the last submission will be marked.
+Submit partial solutions, and submit early!</p>
+
+<p>Note that the submission system tends to be
+under high load close to assignment deadlines.
+We <strong>will not</strong> grant special considerations
+for lateness due to submission delays.
+You have been warned!</p>
+
+<p>Unless otherwise stated,
+if you wish to submit an assignment late, you may do so,
+but a late penalty reducing the maximum available mark
+applies to every late assignment.
+The maximum available mark is reduced by 10% each day it is late
+and can be submitted a maximum of 5 days late.</p>
+
+<p>Assignment extensions are only awarded
+for serious and unforeseeable events.
+Having the flu for a few days,
+deleting your assignment by mistake,
+going on holiday, work commitments, etc.
+do not qualify!
+You should aim to complete your assignments
+<em>well before</em> the due date,
+in case of last minute illness,
+and make regular backups of your work.</p>
+
+<p>This is an individual assignment.
+You should develop your own solution
+without help from others.
+In particular, it is not permitted
+to exchange code or pseudocode.
+You are not allowed to use code
+developed by persons other than yourself.
+A reminder: plagiarism is
+an act of academic misconduct
+with severe penalties.
+See UNSW’s resources on
+<a href="https://student.unsw.edu.au/plagiarism">plagiarism and academic integrity</a>.</p>
+
+<p>If you have questions about the assignment,
+ask your tutor or a member of the course staff.</p>
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

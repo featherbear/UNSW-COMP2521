@@ -1,0 +1,892 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Laboratory — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="/~cs2521/19T0/assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/week08/40_laboratory/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="/~cs2521/19T0/">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week08/">Week 8</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week08/40_laboratory/">Laboratory</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Laboratory</h1>
+</header>
+
+
+
+
+<blockquote class="alert alert-danger text-center">
+  <p><strong>DRAFT</strong>
+This lab exercise is subject to change.</p>
+</blockquote>
+
+<h2 id="objectives">Objectives</h2>
+
+<ul>
+  <li>Learn about balanced trees</li>
+  <li>Practise tree implementations</li>
+  <li>Learn about hash tables</li>
+  <li>Learn about analysis of program performance via profiling</li>
+</ul>
+
+<h2 id="assessment">Assessment</h2>
+
+<dl class="dl-horizontal">
+  <dt>Deadline</dt>
+  <dd>3 February 2019, 23:59:59</dd>
+  <dt>Marks</dt>
+  <dd>5</dd>
+  <dt>Submission</dt>
+  <dd><code class="highlighter-rouge">give cs2521 lab08</code></dd>
+</dl>
+
+<p>This lab should be done individually.</p>
+
+<h2 id="setting-up">Setting up</h2>
+
+<p>Create a directory for this lab, change into it,
+and retrieve the files with the <code class="highlighter-rouge">fetch</code> command:</p>
+
+<pre><kbd is="shell">2521 fetch lab08</kbd></pre>
+
+<p>Or, <a href="../files.tar">download all the files</a>.</p>
+
+<p>Compiling with <code class="highlighter-rouge">make</code> will produce three executables:
+<code class="highlighter-rouge">mkwords</code>, <code class="highlighter-rouge">words</code>, and <code class="highlighter-rouge">words2</code>.
+The <code class="highlighter-rouge">mkwords</code> program is fully functional,
+and produces sequences of <var>N</var> words
+using a random number generator with (optional) <var>Seed</var>.</p>
+
+<p>For example:</p>
+
+<pre>
+<kbd is="shell">./mkwords 10 3</kbd>
+allpnl
+ahebpveeloatic
+ualoubyy
+hssaif
+rywt
+tiehaelsh
+oheom
+vmoe
+jeabzsa
+zqa
+</pre>
+
+<p>produces 10 “words” using a random number generator seed of 3.</p>
+
+<p>If you want to generate really random
+(<em>i.e.</em> unreproduceable) word lists,
+don’t supply a seed parameter,
+and <code class="highlighter-rouge">mkwords</code> will use an effectively random seed.
+Note that <code class="highlighter-rouge">mkwords</code> will inevitably produce
+duplicate words for any reasonable-sized <var>N</var>.</p>
+
+<p><code class="highlighter-rouge">words</code> and <code class="highlighter-rouge">words2</code> don’t currently work.
+<code class="highlighter-rouge">words</code> reads the dictionary words into
+a tree structure for fast lookup.
+<code class="highlighter-rouge">words2</code> reads the dictionary words into
+a Hashtable structure for fast lookup.</p>
+
+<!-- =============================================================== -->
+<h2 id="exercise-1">
+  Exercise 1: Rotations
+  <small class="text-muted text-nowrap">(1 mark)</small></h2>
+
+<p><code class="highlighter-rouge">rotate_left</code> and <code class="highlighter-rouge">rotate_right</code> in <code class="highlighter-rouge">Tree.c</code> are broken.
+They do not update the size information in the nodes.
+This stops other functions that rely on the size field,
+such as <code class="highlighter-rouge">partition</code>, from working properly.</p>
+
+<p>You must <strong>fix these</strong> and <strong>write some white box tests</strong>
+to check they work correctly.</p>
+
+<!-- =============================================================== -->
+<h2 id="exercise-2">
+  Exercise 2: Balancing Trees
+  <small class="text-muted text-nowrap">(1 mark)</small></h2>
+
+<blockquote class="alert alert-danger">
+  <p>You must get Exercise 1 working before you start this,
+otherwise the balancing functions used in this task will not work!</p>
+</blockquote>
+
+<p>You should begin by looking primarily at the code in <strong><code class="highlighter-rouge">words.c</code></strong>.</p>
+
+<h4 id="a-understanding-the-words-program">a) Understanding the <code class="highlighter-rouge">words</code> program</h4>
+
+<p>This contains a program that reads the words in from a specified file,
+loads them into a tree, and then prints statistics about the tree.</p>
+
+<p>After inserting each word into the tree, the program immediately searches for
+them, to make sure that they were actually inserted.</p>
+
+<p>After inserting all words, it then searches for several “words” not in the
+input; these should not be found in the tree.</p>
+
+<p>The program then prints out the number of nodes and the height of
+the tree used to store the words. It also prints out what kind of rebalancing
+strategy was used (the different rebalancing strategies are explained below.)</p>
+
+<p>Finally, it clears all of the memory used by the tree and exits.</p>
+
+<hr />
+
+<h4 id="b-running-the-words-program">b) Running the <code class="highlighter-rouge">words</code> program</h4>
+
+<p>The <code class="highlighter-rouge">words</code> program takes two command-line parameters:</p>
+
+<ol>
+  <li>The name of the file to read from</li>
+  <li>An integer that represents what tree balancing strategy should be
+used by the tree.</li>
+</ol>
+
+<p>The <code class="highlighter-rouge">words</code> program can also read from its standard input if the
+filename is given as a single minus sign.</p>
+
+<p><code class="highlighter-rouge">Make</code> the file and confirm that it runs using balance strategy 0
+(No rebalancing) by running it as follows:</p>
+
+<pre><kbd is="shell">./mkwords 10 | ./words - 0</kbd></pre>
+
+<p>You can run other balancing strategies (once you have implemented them)
+by using different command line arguments.</p>
+
+<p>For example, once you have implemented <code class="highlighter-rouge">REBALANCE_1</code> strategy you could
+also try the approach where the tree has been rebalanced after every
+insertion by running:</p>
+
+<pre><kbd is="shell">./mkwords 10 | ./words - 1</kbd></pre>
+
+<p>To run experiments with sorted data you could do</p>
+
+<pre><kbd is="shell">./mkwords 10 | sort | ./words - 1</kbd></pre>
+
+<p>Or for reverse sorted data</p>
+
+<pre><kbd is="shell">./mkwords 10 | sort -r | ./words - 1</kbd></pre>
+
+<p>To time your experiments you could do something like</p>
+
+<pre><kbd is="shell">./mkwords 10 | sort | time ./words - 1</kbd></pre>
+
+<p>Note: You may want to comment out the line of code that actually draws
+the tree once you start running experiments.
+But is handy to use to check and understand what all the different trees
+do and make sure your program is working.</p>
+
+<hr />
+
+<h4 id="c-completing-tree_insert">c) Completing <code class="highlighter-rouge">tree_insert</code></h4>
+
+<p>We are going to investigate/implement the following approaches for
+rebalancing a BST.</p>
+
+<ol>
+  <li><code class="highlighter-rouge">NO_REBALANCE</code>: No rebalancing - normal BST insertion</li>
+  <li><code class="highlighter-rouge">REBALANCE_1</code>: Global rebalancing after every insertion</li>
+  <li><code class="highlighter-rouge">REBALANCE_100</code>: Global rebalancing after every 100 items are inserted</li>
+  <li><code class="highlighter-rouge">REBALANCE_1000</code>: Global rebalancing after every 1000 items are inserted</li>
+  <li><code class="highlighter-rouge">RANDOMISED</code>: Using randomised BST insertion</li>
+  <li><code class="highlighter-rouge">SPLAY</code>: Using splay insertion</li>
+</ol>
+
+<p>Your task is to <strong>complete a function called <code class="highlighter-rouge">tree_insert</code></strong>
+which is partially implemented in the file <code class="highlighter-rouge">Tree.c</code></p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">tree_insert</span><span class="p">(</span><span class="n">Tree</span> <span class="n">tree</span><span class="p">,</span> <span class="n">Item</span> <span class="n">it</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The function should call the appropriate <code class="highlighter-rouge">insert_recursive</code> and
+<code class="highlighter-rouge">balance</code> functions according to the specified rebalancing approach.
+The function already handles the first balancing strategies (not
+balancing the tree at all), you need to add code to handle the rest.</p>
+
+<p>Note: <strong>All the necessary functions</strong> for standard insertion, balancing,
+random insertion and splay insertion <strong>are provided</strong>.
+You just need to call them appropriately.</p>
+
+<hr />
+
+<h4 id="d-recording-your-results">d) Recording your results</h4>
+
+<p>Once you have implemented the above strategies, <strong>run all approaches</strong>
+ on the different sized inputs and <strong>record</strong> in a file called lab08.txt:</p>
+
+<ul>
+  <li>the heights of the resulting trees</li>
+  <li>the amount of user time it takes to insert and search for all keys</li>
+  <li>the amount of user time it takes to insert all keys
+(comment out the line in the main function that calls the search
+functions)</li>
+</ul>
+
+<hr />
+
+<p>Note: Make sure you run the randomised BST approach a number of times to
+get an average (as this is a randomised approach and heights will differ
+‘randomly’ each time).</p>
+
+<p>Note: Our implementation allows duplicates to be inserted into the tree,
+but searching will just return the first occurrence found</p>
+
+<hr />
+
+<h4 id="e-discussion-questions">e) Discussion questions</h4>
+
+<p>Discuss (in your <code class="highlighter-rouge">lab08.txt</code> file) the reasons for the differences in
+height and run times between these different approaches and algorithms.</p>
+
+<p>How does each algorithm influence the time to insert vs the time to
+search vs the height of the resulting tree?</p>
+
+<p>What other tests could you run to compare these implementations?</p>
+
+<!-- =============================================================== -->
+<h2 id="exercise-3">
+  Exercise 3: HashTable Implementation
+  <small class="text-muted text-nowrap">(1 mark)</small></h2>
+
+<h4 id="a-understanding-the-words2-program">a) Understanding the <code class="highlighter-rouge">words2</code> program</h4>
+
+<p><code class="highlighter-rouge">words2.c</code> is a program that is similar to <code class="highlighter-rouge">words.c</code>, but instead of
+using trees to store the words it stores the words in a <strong>hash table</strong>.</p>
+
+<p>The program is run in a similar way, however this time, the second
+command line argument indicates what size to make the hash table
+(note: it’s best if this is a prime number).</p>
+
+<p>For example:</p>
+
+<pre><kbd is="shell">./mkwords 10 | ./words2 - 100</kbd></pre>
+
+<p>reads in 10 words and stores them in a hash table of size 100.</p>
+
+<h4 id="b-understanding-hashtablec">b) Understanding <code class="highlighter-rouge">HashTable.c</code></h4>
+
+<p>Inside the <code class="highlighter-rouge">HashTable.c</code> file, there is an implementation of a hash table
+that uses <strong>chaining</strong> to handle collisions.</p>
+
+<p>The hash table consists of an indexed array of lists, which are based on
+the <code class="highlighter-rouge">List</code> data type.</p>
+
+<p>The core hash table functions (insert, delete, search) are all quite
+simple, and consist of using the hash function to find the appropriate
+list, and then carrying out the relevant operation using the appropriate
+<code class="highlighter-rouge">List</code> function.</p>
+
+<p>All of the hash table function are complete except for <code class="highlighter-rouge">hash_table_stats()</code>.</p>
+
+<h5 id="listc"><code class="highlighter-rouge">List.c</code></h5>
+
+<p>Other relevant code is in <code class="highlighter-rouge">List.c</code> which provides a standard
+implementation of a linked list of items, which you can assume is
+correct.</p>
+
+<h5 id="itemc"><code class="highlighter-rouge">Item.c</code></h5>
+
+<p>Similarly, the file <code class="highlighter-rouge">Item.c</code> contains an implementation for items;
+normally, this would be done simply as a set of macros, but we have used
+functions for some of the operations to create entries in the profile.</p>
+
+<h4 id="c-completing-hash_table_stats">c) Completing <code class="highlighter-rouge">hash_table_stats</code></h4>
+
+<p>Your first task is to complete the <code class="highlighter-rouge">hash_table_stats()</code> function in
+HashTable.c This function should print the following information about
+the hash table:</p>
+
+<ul>
+  <li>the number of slots in the hash table array</li>
+  <li>the number of items stored in the (lists of the) hash table</li>
+  <li>information about the lengths of chains in a table containing
+    <ul>
+      <li>the length of chains (use zero length for unused array slots)</li>
+      <li>the number (frequency) of chains with this length</li>
+    </ul>
+  </li>
+</ul>
+
+<p>The table should have a row for each chain length from 0 up to the
+maximum chain length.
+Note that you’ll need to work out the maximum chain length, and then
+allocate an array of counters of the appropriate size.</p>
+
+<h5 id="output"><code class="highlighter-rouge">Output</code></h5>
+
+<p>When functioning correctly, the program should behave as follows:</p>
+
+<pre>
+<kbd is="shell">./mkwords 2000 13 &gt; wordsfile</kbd>
+<kbd is="shell">./words2 wordsfile 1777</kbd>
+Reading words from wordsfile
+Hash Table Stats:
+Number of slots = 1777
+Number of items = 1970
+Chain length distribution
+  Length  #Chains
+       0      585
+       1      657
+       2      351
+       3      139
+       4       33
+       5       11
+       7        1
+</pre>
+
+<h5 id="more-output">More output</h5>
+
+<p>Note that you could produce the same output, without needing an intermediate file, using the command:</p>
+
+<pre>
+<kbd is="shell">./mkwords 2000 13 | ./words2 - 1777</kbd>
+</pre>
+
+<p>The above commands insert 2000 words (1970 distinct words) into a hash
+table with 1777 slots.
+The output tells us that there are 585 unused slots in the hash table
+(chain length 0), and 657 slots with chains of length 1, etc.</p>
+
+<h5 id="chain-length">Chain length</h5>
+
+<p>If there are no chains of a given length, then nothing is written for
+that length, e.g.</p>
+
+<pre>
+<kbd is="shell">./mkwords 1000 7 | ./words2 - 101</kbd>
+Reading words from stdin
+Hash Table Stats:
+Number of slots = 101
+Number of items = 991
+Chain length distribution
+  Length  #Chains
+       2        1
+       4        2
+       5        2
+       6        6
+       7       16
+       8       12
+       9       13
+      10       15
+      11        8
+      12        6
+      13        5
+      14        5
+      15        3
+      16        3
+      17        1
+      18        2
+      19        1
+</pre>
+
+<p>This output is for a small hash table with just 101 slots.
+Since there is no entry for 0, all of the slots in the hash tables have
+been used (i.e. no slots with zero items).</p>
+
+<p>Since there are no entries for 1 and 3, this tells us there are no
+chains of length 1 or 3; this is not in itself interesting, and is just
+way that it works out for this data.</p>
+
+<h5 id="overflow-chains">Overflow chains</h5>
+
+<p>Many of the slots have overflow chains of length 10; hits on any of
+these hash table entries will result in us examining up to 10 items. We
+can also see that the longest chain contains 19 items.</p>
+
+<p>Ideally, we would like each chain to contain a small number of items;
+this means that the hash table needs to have a number of slots that is
+proportional to the number of items (e.g. if the has function works
+perfectly and we have n items and n/3 slots, we’d expect each chain to
+be of length ~3).</p>
+
+<p>Note: Our implementation does not allow duplicates to be inserted into
+the hashtable</p>
+
+<!-- =============================================================== -->
+<h2 id="exercise-4">
+  Exercise 4: HashTable Analysis
+  <small class="text-muted text-nowrap">(1 mark)</small></h2>
+
+<h3 id="background-execution-profiling">Background: Execution Profiling</h3>
+
+<p>Execution profilers measure statistics like the number of times each
+function is called and the average time spent executing each function,
+in order to identify which functions are contributing most to the cost
+of executing the program.
+Raw timing data (e.g. using the time command) gives you an overview of
+how fast a program is, but an execution profile gives you detailed
+information about <em>where</em> it’s spending all of its time, and thus where
+you should focus any attempts at improving its performance.</p>
+
+<p>The standard execution profiler on Linux is <code class="highlighter-rouge">gprof</code>. In order to profile
+a C program, the program needs to be compiled and linked with the <code class="highlighter-rouge">-pg</code>
+flag.
+When you compiled the <code class="highlighter-rouge">words</code> program with <code class="highlighter-rouge">make</code> earlier, you may have
+noticed that <code class="highlighter-rouge">-pg</code> appeared on each line with <code class="highlighter-rouge">3c</code>.</p>
+
+<p>Programs compiled with <code class="highlighter-rouge">-pg</code> include additional code that monitors the
+execution of the program and measures:</p>
+
+<ul>
+  <li>overall execution time</li>
+  <li>how many times each function is called</li>
+  <li>which functions call which other functions</li>
+  <li>how much time it takes to execute each function</li>
+</ul>
+
+<h4 id="generating-an-execution-profile-using-gprof">Generating an execution profile using <code class="highlighter-rouge">gprof</code></h4>
+
+<p>To generate an execution profile, run e.g. the following two commands:</p>
+
+<pre>
+<kbd is="shell">./mkwords 100000 3 | ./words2 - 50033</kbd>
+....
+<kbd is="shell">gprof words2 | less</kbd>
+</pre>
+
+<p>The <code class="highlighter-rouge">mkwords</code> program outputs 100000 words, and passes them to the words
+program which inserts them into a hash table with 50033 slots.
+Since <code class="highlighter-rouge">mkwords</code> may produce duplicates when generating large numbers of
+words, the actual number of distinct words added to the hash table may
+be less than the number of words requested (in this case, 90893 distinct
+items will be inserted).</p>
+
+<p>Remember that for each word in the input, there will be one insert
+operation (to add it to the hash table) and one search operation (to
+check that it was added).</p>
+
+<p>Since <code class="highlighter-rouge">gprof</code> produces quite a lot of output, it is useful to pipe it
+through the <code class="highlighter-rouge">less</code> command, which allows us to scroll through output one
+screenful at a time.</p>
+
+<h4 id="output-from-gprof">Output from <code class="highlighter-rouge">gprof</code></h4>
+
+<p>The output from <code class="highlighter-rouge">gprof</code> has two parts:</p>
+
+<ul>
+  <li>flat profile: how much time was spent in each funtion; how many
+times it was called</li>
+  <li>graph profile: how many times was each function called from which
+other functions</li>
+</ul>
+
+<p>For this lab, we consider only the flat profile, although you might want
+to check the graph profile to see if it gives you any information that
+might be useful to tune the program.</p>
+
+<p>If you execute the <code class="highlighter-rouge">words</code> program as above, then the flat profile will
+look approximately like:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total
+ time   seconds   seconds    calls  ns/call  ns/call  name
+100.00      0.04     0.04   200004   200.00   200.00  hash
+  0.00      0.04     0.00   278050     0.00     0.00  cmp
+  0.00      0.04     0.00   200004     0.00     0.00  list_search
+  0.00      0.04     0.00   100004     0.00   200.00  hash_table_search
+  0.00      0.04     0.00   100000     0.00   200.00  hash_table_insert
+  0.00      0.04     0.00    90936     0.00     0.00  list_insert
+  0.00      0.04     0.00    90936     0.00     0.00  item_drop
+  0.00      0.04     0.00    50033     0.00     0.00  list_length
+  0.00      0.04     0.00    50033     0.00     0.00  list_drop
+  0.00      0.04     0.00    50033     0.00     0.00  list_new
+  0.00      0.04     0.00        1     0.00     0.00  hash_table_print_stats
+  0.00      0.04     0.00        1     0.00     0.00  hash_table_drop
+  0.00      0.04     0.00        1     0.00     0.00  hash_table_new
+</code></pre></div></div>
+
+<h4 id="output-variance">Output variance</h4>
+
+<p>Warning: Note that, for the same input, the counts of function calls
+should be consistent across all machines, and you should be able to
+explain (from looking at the code) where the counts come from.</p>
+
+<p>However, the timing (being sampling-based) may differ from machine to
+machine, and even differ between executions of the program on the same
+machine.  This may result in significantly different times, different
+percentages, and even a different ordering of functions.</p>
+
+<p>Given such variations, is this kind of profile even useful?
+Yes, because the most time-consuming functions will be consistently
+higher than all of the others, and thus give you a basis for tuning.</p>
+
+<h4 id="understanding-the-output">Understanding the output</h4>
+
+<p>Each line gives some statistics for one function in the program.
+The “% time” column indicates the percentage of execution time that was
+spent in the function.
+The (approximate) total running time of the program can be obtained by
+reading down the “cumulative seconds” column; the final value is the
+total time.
+The “self seconds” column gives the total time spent executing that
+function, during the entire course of program execution; the values in
+this column are added to obtain the “cumulative seconds” column.
+The “calls” column indicates the total number of times that the function
+was called during program execution.
+The “self ms/call” gives the average time spent in each call of the
+function, while the “total ms/call” gives the time spent in this
+function plus any of the functions it calls.</p>
+
+<p>In the above profile, you can see that the program takes a total of 0.04
+seconds to run (the last value in the “cumulative seconds” column).</p>
+
+<p>Function-wise, most of the time is spent in the <code class="highlighter-rouge">hash()</code> function.
+(However, as noted above, you may observe different functions and quite
+different percentages.)</p>
+
+<h4 id="improving-performance">Improving performance</h4>
+
+<p>You might be surprised to see that most of the functions appear to cost
+0.00ms to run.
+The most likely explanation here is that the cost of executing the
+function is, on average, less than 0.005 ms, which is rounded down to
+zero.</p>
+
+<p>Such a small cost may mean that the function itself is not inherently
+inefficient; if it features prominently in the cumulative time, you need
+to consider why it’s being called so many times (which is where the
+graph profile helps).</p>
+
+<p>In the above example, the <code class="highlighter-rouge">hash()</code> function is called many times, but
+can’t be called less times (why not?), so if we want to tune the
+performance of this program, we would need to improve the speed of the
+<code class="highlighter-rouge">hash()</code> function (but without sacrificing its good performance in
+spreading hash values across the index range).</p>
+
+<p>If we make the hashing distribution worse while making the
+<code class="highlighter-rouge">hash()</code> function faster, we might simply end up moving the cost from the
+<code class="highlighter-rouge">hash()</code> function to some other function such as <code class="highlighter-rouge">list_search()</code>.</p>
+
+<h3 id="analysis">Analysis</h3>
+
+<p>For testing the <code class="highlighter-rouge">words2</code> program, you will want to use some reasonably
+large inputs. Try running your program as follows:</p>
+
+<pre><kbd is="shell">./mkwords 1000000 | ./words2 - 424247</kbd></pre>
+
+<p>Note that the above command inserts 857424 distinct words into a hash
+table with 424247 slots.
+Clearly, since there are more words than slots, chains of length greater
+than one will occur frequently in this table.
+You could try adding more slots to the table to see how this improves
+the average/maximum chain length.
+You could also try inserting more words, to do some serious stress
+testing.
+We suggest keeping the ratio of words to slots at less than 2:1, and
+ideally closer to 1:1 (which is aiming at one slot per word).</p>
+
+<p>Remember that the whole point of minimising chain lengths is that the
+worst case lookup cost is proportional to the maximum chain length, and
+the average case cost is proportional to the average chain length.</p>
+
+<p>You will quickly notice, while running with large inputs, that different
+slot numbers produce different average chain lengths, and those examples
+with shorter average chain lengths run much faster than those with
+longer average chain lengths.</p>
+
+<p>If you want an alternative word set, there is a dictionary of 90,000
+English words and a dictionary of 5 million place names (from the
+GeoNames database) which you could use on the CSE workstations.</p>
+
+<p>Try the following commands:</p>
+
+<pre>
+<kbd is="shell">./words2 /web/cs2521/19t0/week08/lab/dict 49999</kbd>
+<kbd is="shell">./words2 /web/cs2521/19t0/week08/lab/dict 50000</kbd>
+<kbd is="shell">./words2 /web/cs2521/19t0/week08/lab/places 1048576</kbd>
+<kbd is="shell">./words2 /web/cs2521/19t0/week08/lab/places 1048573</kbd>
+</pre>
+
+<p>Don’t copy these files to your own directory as they are quite large.</p>
+
+<h4 id="discussion-questions">Discussion questions</h4>
+
+<p>Consider the questions below, using the above command and variations on
+it (see below).</p>
+
+<p>Put your answers in a text file called lab08.txt.</p>
+
+<p>Your answers file should (ultimately) contain:</p>
+
+<ul>
+  <li>answers to the questions below</li>
+  <li>output from words2 to illustrate your answers (where appropriate)</li>
+  <li>flat profiles to illustrate your answers (where appropriate)
+analyses/explanations for all answers</li>
+</ul>
+
+<p>The precise format of the answers file is not important.
+What is important is that you explain your answers, using relevant
+evidence from both the from the profile output and the output of the
+<code class="highlighter-rouge">words</code> program.</p>
+
+<ol type="alpha">
+<li>
+
+The <tt>mkwords 1000000 3</tt> command produces 857424 distinct words.
+
+<ul>
+<li> What is the maximum chain length if a hash table size of 85711 is used?</li>
+<li>How does the chain length distribution change if the hash table size
+   is 100000? 214283? 400000? 400837? 857144? 857137?</li>
+</ul>
+
+</li>
+
+<li>
+Every other number above (i.e. 85711, 214283, 400837, 857137) is prime.
+It is often noted that using prime numbers appropriately in the hash
+function leads to a better distribution of hash values, and thus
+generally shorter chains.
+
+Does this appear to be the case for the hash table sizes in the previous
+question?
+</li>
+
+<li>
+An "optimal" hash table would have all slots occupied and have all
+chains of length roughly (nwords/nslots).
+
+In practice, this is impossible to achieve in the general case, and what
+we want is a table with relatively short chains, with as few slots as
+possible (small size of hash table), and not too many empty slots.
+
+Can you find a suitable hash table size that keeps the maximum chain
+length under 10, and has most chains with length 1 or 2, but also
+uses more than 2/3 of the slots?
+</li>
+
+<li>
+Compare both the outputs and the profiles for the two commands:
+<pre>
+<kbd is="shell">./words2 /web/cs2521/19t0/week08/lab/places 1048576</kbd>
+<kbd is="shell">./words2 /web/cs2521/19t0/week08/lab/places 1048573</kbd>
+</pre>
+
+What does this tell you about hash table search performance when the
+hash function is significantly sub-optimal?
+</li>
+
+
+<li>
+Examine the profiles from running the command:
+
+<pre><kbd is="shell">./mkwords 1000000 | ./words2 - N</kbd></pre>
+
+for a number of different values of N.
+
+What are the most costly functions
+(in terms of overall time)?
+</li>
+
+<li>
+How could the individual functions be improved?
+
+How could the overall performance be improved?
+</li>
+
+<li>
+Implement your suggestions and then give a new profile to show the
+improvement, and explain how the profile shows the improvement.
+</li>
+</ol>
+
+<p>If you want some prime numbers to use
+for testing different table sizes,
+check out a handy list of primes
+at <a href="http://primes.utm.edu/lists/">primes.utm.edu/lists</a>.</p>
+
+<!-- =============================================================== -->
+<h2 id="exercise-5">
+  Bonus: Search in a Splay Tree
+  <small class="text-muted text-nowrap">(1 mark)</small></h2>
+
+<p>In lectures, we discussed
+inserting an item into a splay tree
+(balanced tree examples).
+The amortised cost of insert and search operations
+on splay trees is only valid
+if we also perform splay rotations
+during searching for an item.
+An partial of implementation
+of <code class="highlighter-rouge">btree_search_splay</code>
+has been provided in <code class="highlighter-rouge">btree.c</code>
+to get you started.
+Its prototype is as follows:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="n">tree_node</span> <span class="o">*</span><span class="n">search_splay</span> <span class="p">(</span><span class="n">tree_node</span> <span class="o">*</span><span class="n">n</span><span class="p">,</span> <span class="n">Key</span> <span class="n">k</span><span class="p">,</span> <span class="n">bool</span> <span class="o">*</span><span class="n">found</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>It searches for an item and performs splay rotations on the traversed
+path, much like the function <code class="highlighter-rouge">insert_splay()</code> does.</p>
+
+<p>NOTE:
+once an item has been found,
+it is moved to the root of tree.
+If the key does not exist in the tree,
+the last node on the search path
+should be moved to the root.</p>
+
+<p>You can look at <code class="highlighter-rouge">insert_splay()</code>
+to help you implement this function.</p>
+
+<p>NOTE:
+because the search function
+changes the root of the tree, 
+it needs to return a pointer to the new root,
+so the actual result of the search
+should be stored in 
+the variable pointed to by found. 
+This should be <code class="highlighter-rouge">true</code> 
+if the key was in the tree 
+and <code class="highlighter-rouge">false</code> otherwise.</p>
+
+<p>The <code class="highlighter-rouge">tree_search</code> function
+needs to be modified
+so that it calls the appropriate version of seach,
+depending what balancing strategy is used:
+if the balance strategy is <code class="highlighter-rouge">SPLAY</code>,
+it uses <code class="highlighter-rouge">search_splay</code>,
+or the standard searchRecursive otherwise.</p>
+
+<p>Devise and run some experiments
+to compare your splay tree
+to the previous splay tree
+that only performed splay operations on insertion.
+Write it up in your lab08.txt file.</p>
+
+<p>If you have time,
+try to factor the common splay logic
+out of <code class="highlighter-rouge">insert_splay</code> and <code class="highlighter-rouge">search_splay</code>.</p>
+
+<h2 id="submitting">Submitting</h2>
+
+<p>You must get the lab marked by your tutor in your lab.</p>
+
+<p>Submit your work with the <em>give</em> command, like so:</p>
+
+<p><samp><kbd is="shell">give cs2521 lab08 Tree.c lab08.txt HashTable.c</kbd></samp></p>
+
+<p>Or, if you are working from home, upload the relevant file(s) to
+the <tt>lab08</tt> activity on
+WebCMS3 or on
+<a href="https://cgi.cse.unsw.edu.au/~give/Student/give.php">Give Online</a>.</p>
+
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

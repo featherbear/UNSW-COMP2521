@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Sample Final Exam</title>
+<link rel='stylesheet' type='text/css' href='exam.css'></head>
+<body>
+<div align='center'>
+<table width='100%' border='0'>
+<tr valign='top'>
+<td align='left' width='25%'>
+  <span class='tiny'>Sample</span>
+</td>
+<td align='center' width='50%'>
+  <span class='heading'>Sample Final Exam</span>
+</td>
+<td align='right' width='25%'>
+  <span class='tiny'>COMP2521</span>
+</td>
+</table>
+</div>
+<center><a href='index.html'>[Instructions]</a> <a target='C' href='C/index.html'>[C language]</a> <a target='Algos' href='Algos/index.html'>[Algorithms]</a> <br><a href='Q01.html'>[Q1]</a> <a href='Q02.html'>[Q2]</a> <a href='Q03.html'>[Q3]</a> <a href='Q04.html'>[Q4]</a> <a href='Q05.html'>[Q5]</a> <b>[Q6]</b> <a href='Q07.html'>[Q7]</a> <a href='Q08.html'>[Q8]</a> <a href='Q09.html'>[Q9]</a> 
+</center>
+<hr>
+<div style='margin-left:40px;margin-right:40px'>
+<h3>Question 6 <span class='tiny'>(7 marks)</span></h3>
+<p>
+Consider the following binary search tree and a variable <tt>t</tt> which contains a pointer
+to the node containing the key 20 (i.e. the root node):
+</p>
+<center><img src="Pics/tree1.png"></center>
+<p>
+Based on the above, answer the following questions:
+</p>
+<ol type="A">
+<li><p>
+Give the keys that would be examined, in the order that they
+are examined, when searching for the value 17 starting from the root node.
+</p></li>
+<li><p>
+Show the order that key values would be be displayed if we performed a
+level-order traversal of the tree.
+</p></li>
+<li><p>
+The above tree is <em>perfectly balanced</em> (i.e. every node has the
+same number of nodes in its left and right subtrees) and has a <em>height</em>
+of 4 (the number of nodes in the longest path from the root to a leaf).
+Give a formula for the number of nodes in a perfectly balanced tree of
+height <i>n</i>.
+</p></li>
+<li><p>
+If the following function was applied to the original tree above
+(i.e. with root node containing key 20):
+</p>
+<pre>
+t = rotateL(t);
+</pre>
+<p>
+what would be the new value in the root node,
+and what would be the values in its immediate left and right children?
+</p></li>
+<li><p>
+If the following function was applied to the original tree above
+(i.e. with root node containing key 20):
+</p>
+<pre>
+t = deleteRoot(t);
+</pre>
+<p>
+what would be the new value in the root
+node, and what would be the values in its immediate left and right
+children?
+</p></li>
+</ol>
+<p>
+Use the definitions of <tt>rotateL()</tt> and <tt>deleteRoot()</tt>
+are in the Algorithms Almanac.
+</p>
+<p>
+Type the answer to this question into the file called
+<tt>q6.txt</tt> and submit it using the command:
+</p>
+<pre>
+$ <b>submit q6</b>
+</pre>
+<p>
+The above command will make a copy of <tt>q6.txt</tt> as your answer
+for this question.
+</p>
+
+
+
+</div>
+</body>
+</html>

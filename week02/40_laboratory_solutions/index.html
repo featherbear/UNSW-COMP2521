@@ -1,0 +1,919 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Laboratory Solutions — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="/~cs2521/19T0/assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/week02/40_laboratory_solutions/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="/~cs2521/19T0/">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week02/">Week 2</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week02/40_laboratory_solutions/">Laboratory Solutions</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Laboratory Solutions</h1>
+</header>
+
+
+
+
+
+<nav id="top" class="text-center">
+  <ul class="list-inline">
+<li class="list-inline-item text-muted">jump to...</li>
+
+<li class="list-inline-item"><a href="#test_stack.c">test_stack.c</a></li>
+
+<li class="list-inline-item"><a href="#stack_array.c">stack_array.c</a></li>
+
+<li class="list-inline-item"><a href="#test_queue.c">test_queue.c</a></li>
+
+<li class="list-inline-item"><a href="#queue_array.c">queue_array.c</a></li>
+
+<li class="list-inline-item"><a href="#queue_list.c">queue_list.c</a></li>
+
+</ul>
+</nav>
+
+<section id="test_stack.c">
+  <p class="float-right text-right"><small>
+  <a href="../_solutions/test_stack.c">(download)</a><br />
+  <a href="#top">(back to top)</a>
+</small></p>
+  <h2><em>test_stack.c</em></h2>
+  <div class="clearfix"></div>
+  <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">////////////////////////////////////////////////////////////////////////</span>
+<span class="c1">// COMP2521 19T0 -- Test a Stack ADT implementation.</span>
+<span class="c1">//</span>
+<span class="c1">// 2018-11-29	Jashank Jeremy &lt;jashankj@cse.unsw.edu.au&gt;</span>
+
+<span class="cp">#include &lt;assert.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+</span>
+<span class="cp">#include "item.h"
+#include "stack.h"
+#include "testable.h"
+</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">test_empty_stack</span> <span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">test_one_item_stack</span> <span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">test_two_item_stack</span> <span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">test_twenty_item_stack</span> <span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">test_rolling_stack</span> <span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">white_box_tests</span> <span class="p">();</span>
+	<span class="n">puts</span> <span class="p">(</span><span class="s">""</span><span class="p">);</span>
+
+	<span class="n">test_empty_stack</span> <span class="p">();</span>
+	<span class="n">test_one_item_stack</span> <span class="p">();</span>
+	<span class="n">test_two_item_stack</span> <span class="p">();</span>
+	<span class="n">test_twenty_item_stack</span> <span class="p">();</span>
+	<span class="n">test_rolling_stack</span> <span class="p">();</span>
+
+	<span class="n">puts</span> <span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">All tests passed. You are awesome!"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">test_empty_stack</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">puts</span> <span class="p">(</span><span class="s">"Test 1: testing an empty stack."</span><span class="p">);</span>
+	<span class="n">Stack</span> <span class="n">s</span> <span class="o">=</span> <span class="n">stack_new</span> <span class="p">();</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">stack_size</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="n">stack_drop</span> <span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">test_one_item_stack</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">puts</span> <span class="p">(</span><span class="s">"Test 2: testing a stack with one item."</span><span class="p">);</span>
+	<span class="n">Stack</span> <span class="n">s</span> <span class="o">=</span> <span class="n">stack_new</span> <span class="p">();</span>
+	<span class="n">stack_push</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+
+	<span class="n">assert</span> <span class="p">(</span><span class="n">stack_size</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span>
+
+	<span class="n">assert</span> <span class="p">(</span><span class="n">stack_pop</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">stack_size</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span>
+
+	<span class="n">stack_drop</span> <span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">test_two_item_stack</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">puts</span> <span class="p">(</span><span class="s">"Test 3: testing a stack with two items."</span><span class="p">);</span>
+	<span class="n">Stack</span> <span class="n">s</span> <span class="o">=</span> <span class="n">stack_new</span> <span class="p">();</span>
+	<span class="n">stack_push</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">);</span>
+	<span class="n">stack_push</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="sc">'b'</span><span class="p">);</span>
+
+	<span class="n">assert</span> <span class="p">(</span><span class="n">stack_size</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">);</span>
+
+	<span class="n">assert</span> <span class="p">(</span><span class="n">stack_pop</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="sc">'b'</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">stack_size</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span>
+
+	<span class="n">assert</span> <span class="p">(</span><span class="n">stack_pop</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="sc">'a'</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">stack_size</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span>
+
+	<span class="n">stack_drop</span> <span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">test_twenty_item_stack</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">puts</span> <span class="p">(</span><span class="s">"Test 4: testing a stack with twenty items."</span><span class="p">);</span>
+	<span class="n">Stack</span> <span class="n">s</span> <span class="o">=</span> <span class="n">stack_new</span> <span class="p">();</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">20</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="n">stack_push</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="n">Item</span><span class="p">)</span> <span class="n">i</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">stack_size</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">20</span><span class="p">);</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">assert</span> <span class="p">(</span><span class="n">stack_pop</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">Item</span><span class="p">)</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+		<span class="n">assert</span> <span class="p">(</span><span class="n">stack_size</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="n">stack_drop</span> <span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">test_rolling_stack</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">puts</span> <span class="p">(</span><span class="s">"Test 5: testing a stack with churn."</span><span class="p">);</span>
+	<span class="n">Stack</span> <span class="n">s</span> <span class="o">=</span> <span class="n">stack_new</span> <span class="p">();</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">;</span> <span class="n">n</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">80</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+			<span class="n">stack_push</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="n">Item</span><span class="p">)</span> <span class="n">i</span><span class="p">);</span>
+
+		<span class="n">assert</span> <span class="p">(</span><span class="n">stack_size</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">80</span><span class="p">);</span>
+
+		<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">80</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">assert</span> <span class="p">(</span><span class="n">stack_pop</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">Item</span><span class="p">)</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+			<span class="n">assert</span> <span class="p">(</span><span class="n">stack_size</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="n">stack_drop</span> <span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<span class="p">}</span>
+
+</code></pre></div>  </div>
+
+  <hr />
+</section>
+<section id="stack_array.c">
+  <p class="float-right text-right"><small>
+  <a href="../_solutions/stack_array.c">(download)</a><br />
+  <a href="#top">(back to top)</a>
+</small></p>
+  <h2><em>stack_array.c</em></h2>
+  <div class="clearfix"></div>
+  <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">////////////////////////////////////////////////////////////////////////</span>
+<span class="c1">// COMP2521 19T0 -- A Stack ADT implementation, using arrays.</span>
+<span class="c1">//</span>
+<span class="c1">// 2018-11-29	Jashank Jeremy &lt;jashankj@cse.unsw.edu.au&gt;</span>
+<span class="c1">// YYYY-mm-dd   Your Name Here &lt;zNNNNNNN@student.unsw.edu.au&gt;</span>
+
+<span class="cp">#include &lt;assert.h&gt;
+#include &lt;err.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sysexits.h&gt;
+</span>
+<span class="cp">#include "item.h"
+#include "stack.h"
+#include "test1511.h"
+#include "testable.h"
+</span>
+<span class="cp">#define DEFAULT_SIZE 10
+</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">stack</span> <span class="n">stack</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="n">stack</span> <span class="p">{</span>
+	<span class="kt">size_t</span> <span class="n">n_items</span><span class="p">;</span>
+	<span class="kt">size_t</span> <span class="n">capacity</span><span class="p">;</span>
+	<span class="n">Item</span> <span class="o">*</span><span class="n">items</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="n">Item</span> <span class="o">*</span><span class="n">stack_realloc_items</span> <span class="p">(</span><span class="n">Item</span> <span class="o">*</span><span class="n">its</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">new_cap</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="n">bool</span> <span class="n">stack_should_grow_p</span> <span class="p">(</span><span class="n">stack</span> <span class="o">*</span><span class="n">s</span><span class="p">);</span>
+<span class="k">static</span> <span class="n">bool</span> <span class="n">stack_should_shrink_p</span> <span class="p">(</span><span class="n">stack</span> <span class="o">*</span><span class="n">s</span><span class="p">);</span>
+
+
+<span class="cm">/** Create a new, empty Stack. */</span>
+<span class="n">stack</span> <span class="o">*</span><span class="nf">stack_new</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">stack</span> <span class="o">*</span><span class="n">new</span> <span class="o">=</span> <span class="n">malloc</span> <span class="p">(</span><span class="k">sizeof</span> <span class="o">*</span><span class="n">new</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">new</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">err</span> <span class="p">(</span><span class="n">EX_OSERR</span><span class="p">,</span> <span class="s">"couldn't allocate stack"</span><span class="p">);</span>
+	<span class="p">(</span><span class="o">*</span><span class="n">new</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">stack</span><span class="p">)</span> <span class="p">{</span> <span class="p">.</span><span class="n">n_items</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">.</span><span class="n">capacity</span> <span class="o">=</span> <span class="n">DEFAULT_SIZE</span> <span class="p">};</span>
+
+	<span class="n">new</span><span class="o">-&gt;</span><span class="n">items</span> <span class="o">=</span> <span class="n">calloc</span> <span class="p">(</span><span class="n">DEFAULT_SIZE</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Item</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">new</span><span class="o">-&gt;</span><span class="n">items</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">err</span> <span class="p">(</span><span class="n">EX_OSERR</span><span class="p">,</span> <span class="s">"couldn't allocate stack items"</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">new</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/** Destroy a Stack. */</span>
+<span class="kt">void</span> <span class="nf">stack_drop</span> <span class="p">(</span><span class="n">stack</span> <span class="o">*</span><span class="n">s</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">s</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">free</span> <span class="p">(</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">);</span>
+	<span class="n">free</span> <span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/** Add an item to the top of a Stack. */</span>
+<span class="kt">void</span> <span class="nf">stack_push</span> <span class="p">(</span><span class="n">stack</span> <span class="o">*</span><span class="n">s</span><span class="p">,</span> <span class="n">Item</span> <span class="n">it</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">s</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">stack_should_grow_p</span> <span class="p">(</span><span class="n">s</span><span class="p">))</span>
+		<span class="n">s</span><span class="o">-&gt;</span><span class="n">items</span> <span class="o">=</span> <span class="n">stack_realloc_items</span> <span class="p">(</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">,</span> <span class="n">s</span><span class="o">-&gt;</span><span class="n">capacity</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">);</span>
+
+	<span class="n">s</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">[</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">n_items</span><span class="p">]</span> <span class="o">=</span> <span class="n">it</span><span class="p">;</span>
+	<span class="n">s</span><span class="o">-&gt;</span><span class="n">n_items</span><span class="o">++</span><span class="p">;</span>
+	<span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/** Remove an item from the top of a Stack. */</span>
+<span class="n">Item</span> <span class="nf">stack_pop</span> <span class="p">(</span><span class="n">stack</span> <span class="o">*</span><span class="n">s</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">s</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+
+	<span class="n">Item</span> <span class="n">it</span> <span class="o">=</span> <span class="n">s</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">[</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+	<span class="n">s</span><span class="o">-&gt;</span><span class="n">n_items</span><span class="o">--</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">stack_should_shrink_p</span> <span class="p">(</span><span class="n">s</span><span class="p">))</span>
+		<span class="n">s</span><span class="o">-&gt;</span><span class="n">items</span> <span class="o">=</span> <span class="n">stack_realloc_items</span> <span class="p">(</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">,</span> <span class="n">s</span><span class="o">-&gt;</span><span class="n">capacity</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">it</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/** Get the number of items in a Stack. */</span>
+<span class="kt">size_t</span> <span class="nf">stack_size</span> <span class="p">(</span><span class="n">stack</span> <span class="o">*</span><span class="n">s</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">s</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">s</span><span class="o">-&gt;</span><span class="n">n_items</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="cm">/** Reallocate the items array, checking for _realloc(3)_ failure. */</span>
+<span class="k">static</span> <span class="n">Item</span> <span class="o">*</span><span class="nf">stack_realloc_items</span> <span class="p">(</span><span class="n">Item</span> <span class="o">*</span><span class="n">its</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">new_cap</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="cp">#ifdef DEBUG_STACK_ARRAY
+</span>	<span class="n">warnx</span> <span class="p">(</span><span class="s">"stack: realloc_items to %zu"</span><span class="p">,</span> <span class="n">new_cap</span><span class="p">);</span>
+<span class="cp">#endif
+</span>	<span class="n">Item</span> <span class="o">*</span><span class="n">xs</span> <span class="o">=</span> <span class="n">realloc</span> <span class="p">(</span><span class="n">its</span><span class="p">,</span> <span class="n">new_cap</span> <span class="o">*</span> <span class="k">sizeof</span> <span class="p">(</span><span class="n">Item</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">xs</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="n">err</span> <span class="p">(</span><span class="n">EX_OSERR</span><span class="p">,</span> <span class="s">"couldn't realloc stack items"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">xs</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/** Should the stack grow? */</span>
+<span class="k">static</span> <span class="n">bool</span> <span class="nf">stack_should_grow_p</span> <span class="p">(</span><span class="n">stack</span> <span class="o">*</span><span class="n">s</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">s</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">==</span> <span class="n">s</span><span class="o">-&gt;</span><span class="n">capacity</span>
+		<span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/** Should the stack shrink? */</span>
+<span class="k">static</span> <span class="n">bool</span> <span class="nf">stack_should_shrink_p</span> <span class="p">(</span><span class="n">stack</span> <span class="o">*</span><span class="n">s</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">s</span><span class="o">-&gt;</span><span class="n">capacity</span> <span class="o">&gt;=</span> <span class="n">s</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">*</span> <span class="mi">4</span>
+		<span class="o">&amp;&amp;</span> <span class="n">s</span><span class="o">-&gt;</span><span class="n">capacity</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">DEFAULT_SIZE</span>
+		<span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cp">#ifndef nitems
+#define nitems(x) (sizeof((x))/(sizeof((x)[0])))
+#endif
+#define VT_INVERSE "\033[7m"
+#define VT_NORMAL  "\033[0m"
+</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="n">test_header</span> <span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="p">);</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="n">wbt_stack_new</span> <span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">wbt_stack_push</span> <span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">wbt_stack_pop</span> <span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">wbt_stack_size</span> <span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="nf">white_box_tests</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">wbt_stack_new</span> <span class="p">();</span>
+	<span class="n">wbt_stack_push</span> <span class="p">();</span>
+	<span class="n">wbt_stack_pop</span> <span class="p">();</span>
+	<span class="n">wbt_stack_size</span> <span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">test_header</span> <span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">n</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">descr</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span> <span class="p">(</span><span class="s">"%s%s%s: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">VT_INVERSE</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">VT_NORMAL</span><span class="p">,</span> <span class="n">descr</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/** Test that `stack_new' and `stack_drop' work. */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">wbt_stack_new</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">test_header</span> <span class="p">(</span><span class="s">"Test 1"</span><span class="p">,</span> <span class="s">"`stack_new', `stack_drop'"</span><span class="p">);</span>
+
+	<span class="n">stack</span> <span class="o">*</span><span class="n">s</span> <span class="o">=</span> <span class="n">stack_new</span> <span class="p">();</span>
+
+	<span class="n">assert</span> <span class="p">(</span><span class="n">s</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">items</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">capacity</span> <span class="o">==</span> <span class="n">DEFAULT_SIZE</span><span class="p">);</span>
+
+<span class="cp">#ifdef IN_ASAN
+</span>	<span class="n">assert</span> <span class="p">(</span><span class="o">!</span> <span class="n">mem_address_is_poisoned</span> <span class="p">(</span><span class="n">s</span><span class="p">));</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="o">!</span> <span class="n">mem_region_is_poisoned</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="k">sizeof</span> <span class="p">(</span><span class="n">stack</span><span class="p">)));</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="o">!</span> <span class="n">mem_address_is_poisoned</span> <span class="p">(</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">));</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="o">!</span> <span class="n">mem_region_is_poisoned</span> <span class="p">(</span>
+		<span class="n">s</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">,</span> <span class="k">sizeof</span> <span class="p">(</span><span class="n">Item</span><span class="p">)</span> <span class="o">*</span> <span class="n">DEFAULT_SIZE</span><span class="p">));</span>
+<span class="cp">#endif
+</span>
+	<span class="n">stack_drop</span> <span class="p">(</span><span class="n">s</span><span class="p">);</span>
+
+<span class="cp">#ifdef IN_ASAN
+</span>	<span class="n">assert</span> <span class="p">(</span><span class="n">mem_address_is_poisoned</span> <span class="p">(</span><span class="n">s</span><span class="p">));</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">mem_region_is_poisoned</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="k">sizeof</span> <span class="p">(</span><span class="n">stack</span><span class="p">)));</span>
+<span class="cp">#endif
+</span><span class="p">}</span>
+
+<span class="cm">/** Test that `stack_push' works. */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">wbt_stack_push</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">test_header</span> <span class="p">(</span><span class="s">"Test 2"</span><span class="p">,</span> <span class="s">"`stack_push'"</span><span class="p">);</span>
+
+	<span class="n">stack</span> <span class="n">s_</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">stack</span><span class="p">){</span>
+		<span class="p">.</span><span class="n">n_items</span>  <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">capacity</span> <span class="o">=</span> <span class="n">DEFAULT_SIZE</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">items</span>    <span class="o">=</span> <span class="n">calloc</span> <span class="p">(</span><span class="n">DEFAULT_SIZE</span><span class="p">,</span> <span class="k">sizeof</span> <span class="p">(</span><span class="n">Item</span><span class="p">))</span>
+	<span class="p">};</span>
+	<span class="n">stack</span> <span class="o">*</span><span class="n">s</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">s_</span><span class="p">;</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">items</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+
+	<span class="n">Item</span> <span class="n">items</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+		<span class="mh">0x40</span><span class="p">,</span> <span class="mh">0x41</span><span class="p">,</span> <span class="mh">0x42</span><span class="p">,</span> <span class="mh">0x43</span><span class="p">,</span> <span class="mh">0x44</span><span class="p">,</span> <span class="mh">0x45</span><span class="p">,</span> <span class="mh">0x46</span><span class="p">,</span> <span class="mh">0x47</span><span class="p">,</span>
+		<span class="mh">0x48</span><span class="p">,</span> <span class="mh">0x49</span><span class="p">,</span> <span class="mh">0x4a</span><span class="p">,</span> <span class="mh">0x4b</span><span class="p">,</span> <span class="mh">0x4c</span><span class="p">,</span> <span class="mh">0x4d</span><span class="p">,</span> <span class="mh">0x4e</span><span class="p">,</span> <span class="mh">0x4f</span>
+	<span class="p">};</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nitems</span> <span class="p">(</span><span class="n">items</span><span class="p">);</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">stack_push</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+		<span class="n">assert</span> <span class="p">(</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">==</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+		<span class="n">assert</span> <span class="p">(</span>
+			<span class="n">s</span><span class="o">-&gt;</span><span class="n">capacity</span> <span class="o">==</span>
+			<span class="p">((</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">&gt;</span> <span class="n">DEFAULT_SIZE</span><span class="p">)</span> <span class="o">?</span> <span class="mi">2</span> <span class="o">:</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">DEFAULT_SIZE</span>
+		<span class="p">);</span>
+
+		<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">assert</span> <span class="p">(</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">items</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="n">free</span> <span class="p">(</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/** Test that `stack_pop' works. */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">wbt_stack_pop</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">test_header</span> <span class="p">(</span><span class="s">"Test 3"</span><span class="p">,</span> <span class="s">"`stack_pop'"</span><span class="p">);</span>
+
+	<span class="n">Item</span> <span class="n">items</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+		<span class="mh">0x40</span><span class="p">,</span> <span class="mh">0x41</span><span class="p">,</span> <span class="mh">0x42</span><span class="p">,</span> <span class="mh">0x43</span><span class="p">,</span> <span class="mh">0x44</span><span class="p">,</span> <span class="mh">0x45</span><span class="p">,</span> <span class="mh">0x46</span><span class="p">,</span> <span class="mh">0x47</span><span class="p">,</span>
+		<span class="mh">0x48</span><span class="p">,</span> <span class="mh">0x49</span><span class="p">,</span> <span class="mh">0x4a</span><span class="p">,</span> <span class="mh">0x4b</span><span class="p">,</span> <span class="mh">0x4c</span><span class="p">,</span> <span class="mh">0x4d</span><span class="p">,</span> <span class="mh">0x4e</span><span class="p">,</span> <span class="mh">0x4f</span>
+	<span class="p">};</span>
+	<span class="n">stack</span> <span class="n">s_</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">stack</span><span class="p">){</span>
+		<span class="p">.</span><span class="n">n_items</span>  <span class="o">=</span> <span class="n">nitems</span> <span class="p">(</span><span class="n">items</span><span class="p">),</span>
+		<span class="p">.</span><span class="n">capacity</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">DEFAULT_SIZE</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">items</span>    <span class="o">=</span> <span class="n">calloc</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">DEFAULT_SIZE</span><span class="p">,</span> <span class="k">sizeof</span> <span class="p">(</span><span class="n">Item</span><span class="p">))</span>
+	<span class="p">};</span>
+	<span class="n">stack</span> <span class="o">*</span><span class="n">s</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">s_</span><span class="p">;</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">items</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">memcpy</span> <span class="p">(</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">,</span> <span class="n">items</span><span class="p">,</span> <span class="k">sizeof</span> <span class="p">(</span><span class="n">items</span><span class="p">));</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nitems</span> <span class="p">(</span><span class="n">items</span><span class="p">);</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">Item</span> <span class="n">it</span> <span class="o">=</span> <span class="n">stack_pop</span> <span class="p">(</span><span class="n">s</span><span class="p">);</span>
+		<span class="n">assert</span> <span class="p">(</span><span class="n">it</span> <span class="o">==</span> <span class="n">s</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">[</span><span class="n">nitems</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]);</span>
+		<span class="n">assert</span> <span class="p">(</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">==</span> <span class="n">nitems</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+		<span class="n">assert</span> <span class="p">(</span>
+			<span class="n">s</span><span class="o">-&gt;</span><span class="n">capacity</span> <span class="o">==</span>
+			<span class="p">((</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">&lt;=</span> <span class="n">DEFAULT_SIZE</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">?</span> <span class="mi">1</span> <span class="o">:</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">DEFAULT_SIZE</span>
+		<span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="n">free</span> <span class="p">(</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/** Test that stack size functions (`stack_size', `stack_should_grow_p'
+ * and `stack_should_shrink_p') all work. */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">wbt_stack_size</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">test_header</span> <span class="p">(</span><span class="s">"Test 4"</span><span class="p">,</span> <span class="s">"stack size functions"</span><span class="p">);</span>
+	<span class="n">stack</span> <span class="n">s_</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">stack</span><span class="p">){</span>
+		<span class="p">.</span><span class="n">n_items</span>  <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">capacity</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">items</span>    <span class="o">=</span> <span class="nb">NULL</span>
+	<span class="p">};</span>
+	<span class="n">stack</span> <span class="o">*</span><span class="n">s</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">s_</span><span class="p">;</span>
+
+	<span class="n">assert</span> <span class="p">(</span><span class="n">stack_size</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="n">s</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">stack_size</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">stack_should_grow_p</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="nb">true</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">stack_should_shrink_p</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="nb">false</span><span class="p">);</span>
+	<span class="n">s</span><span class="o">-&gt;</span><span class="n">capacity</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">stack_should_grow_p</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="nb">false</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">stack_should_shrink_p</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="nb">false</span><span class="p">);</span>
+
+	<span class="n">s</span><span class="o">-&gt;</span><span class="n">capacity</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+	<span class="n">s</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">stack_should_grow_p</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="nb">false</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">stack_should_shrink_p</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="nb">false</span><span class="p">);</span>
+	<span class="n">s</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">stack_size</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">stack_should_grow_p</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="nb">false</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">stack_should_shrink_p</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="nb">true</span><span class="p">);</span>
+<span class="p">}</span>
+
+</code></pre></div>  </div>
+
+  <hr />
+</section>
+<section id="test_queue.c">
+  <p class="float-right text-right"><small>
+  <a href="../_solutions/test_queue.c">(download)</a><br />
+  <a href="#top">(back to top)</a>
+</small></p>
+  <h2><em>test_queue.c</em></h2>
+  <div class="clearfix"></div>
+  <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">////////////////////////////////////////////////////////////////////////</span>
+<span class="c1">// COMP2521 19T0 -- Test a Queue ADT implementation.</span>
+<span class="c1">//</span>
+<span class="c1">// 2018-12-01	Jashank Jeremy &lt;jashankj@cse.unsw.edu.au&gt;</span>
+
+<span class="cp">#include &lt;assert.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+</span>
+<span class="cp">#include "item.h"
+#include "queue.h"
+#include "testable.h"
+</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">test_empty_queue</span> <span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">test_one_item_queue</span> <span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">test_two_item_queue</span> <span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">test_ten_item_queue</span> <span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">test_rolling_queue</span> <span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">test_webcms3_2714021</span> <span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">white_box_tests</span> <span class="p">();</span>
+	<span class="n">puts</span> <span class="p">(</span><span class="s">""</span><span class="p">);</span>
+
+	<span class="n">test_empty_queue</span> <span class="p">();</span>
+	<span class="n">test_one_item_queue</span> <span class="p">();</span>
+	<span class="n">test_two_item_queue</span> <span class="p">();</span>
+	<span class="n">test_ten_item_queue</span> <span class="p">();</span>
+	<span class="n">test_rolling_queue</span> <span class="p">();</span>
+	<span class="n">test_webcms3_2714021</span> <span class="p">();</span>
+
+	<span class="n">puts</span> <span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">All tests passed. You are awesome!"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">test_empty_queue</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">puts</span> <span class="p">(</span><span class="s">"Test 1: testing an empty queue."</span><span class="p">);</span>
+	<span class="n">Queue</span> <span class="n">q</span> <span class="o">=</span> <span class="n">queue_new</span> <span class="p">();</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">queue_size</span> <span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="n">queue_drop</span> <span class="p">(</span><span class="n">q</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">test_one_item_queue</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">puts</span> <span class="p">(</span><span class="s">"Test 2: testing a queue with one item."</span><span class="p">);</span>
+	<span class="n">Queue</span> <span class="n">q</span> <span class="o">=</span> <span class="n">queue_new</span> <span class="p">();</span>
+	<span class="n">queue_en</span> <span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+
+	<span class="n">assert</span> <span class="p">(</span><span class="n">queue_size</span> <span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span>
+
+	<span class="n">assert</span> <span class="p">(</span><span class="n">queue_de</span> <span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">queue_size</span> <span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span>
+
+	<span class="n">queue_drop</span> <span class="p">(</span><span class="n">q</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">test_two_item_queue</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">puts</span> <span class="p">(</span><span class="s">"Test 3: testing a queue with two items."</span><span class="p">);</span>
+	<span class="n">Queue</span> <span class="n">q</span> <span class="o">=</span> <span class="n">queue_new</span> <span class="p">();</span>
+	<span class="n">queue_en</span> <span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="sc">'a'</span><span class="p">);</span>
+	<span class="n">queue_en</span> <span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="sc">'b'</span><span class="p">);</span>
+
+	<span class="n">assert</span> <span class="p">(</span><span class="n">queue_size</span> <span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">);</span>
+
+	<span class="n">assert</span> <span class="p">(</span><span class="n">queue_de</span> <span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">==</span> <span class="sc">'a'</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">queue_size</span> <span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span>
+
+	<span class="n">assert</span> <span class="p">(</span><span class="n">queue_de</span> <span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">==</span> <span class="sc">'b'</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">queue_size</span> <span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span>
+
+	<span class="n">queue_drop</span> <span class="p">(</span><span class="n">q</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">test_ten_item_queue</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">puts</span> <span class="p">(</span><span class="s">"Test 4: testing a queue with ten items."</span><span class="p">);</span>
+	<span class="n">Queue</span> <span class="n">q</span> <span class="o">=</span> <span class="n">queue_new</span> <span class="p">();</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="n">queue_en</span> <span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="p">(</span><span class="n">Item</span><span class="p">)</span> <span class="n">i</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">queue_size</span> <span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span><span class="p">);</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">assert</span> <span class="p">(</span><span class="n">queue_de</span> <span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">Item</span><span class="p">)</span> <span class="n">i</span><span class="p">);</span>
+		<span class="n">assert</span> <span class="p">(</span><span class="n">queue_size</span> <span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="n">queue_drop</span> <span class="p">(</span><span class="n">q</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">test_rolling_queue</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">puts</span> <span class="p">(</span><span class="s">"Test 5: testing a queue with churn."</span><span class="p">);</span>
+	<span class="n">Queue</span> <span class="n">q</span> <span class="o">=</span> <span class="n">queue_new</span> <span class="p">();</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">q</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">queue_size</span> <span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="n">queue_en</span> <span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">queue_size</span> <span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span><span class="p">);</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">Item</span> <span class="n">qv</span> <span class="o">=</span> <span class="n">queue_de</span> <span class="p">(</span><span class="n">q</span><span class="p">);</span>   <span class="c1">// get a value out</span>
+		<span class="c1">// printf ("%d ", qv);</span>
+		<span class="n">assert</span> <span class="p">(</span><span class="n">qv</span> <span class="o">==</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">10</span><span class="p">);</span>   <span class="c1">// make sure it's what we expect</span>
+		<span class="n">assert</span> <span class="p">(</span><span class="n">queue_size</span> <span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">==</span> <span class="mi">9</span><span class="p">);</span>
+		<span class="n">queue_en</span> <span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>         <span class="c1">// put another value in</span>
+		<span class="n">assert</span> <span class="p">(</span><span class="n">queue_size</span> <span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="n">queue_drop</span> <span class="p">(</span><span class="n">q</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">test_webcms3_2714021</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">puts</span> <span class="p">(</span><span class="s">"Test 6: /forums/2714016 fix"</span><span class="p">);</span>
+	<span class="n">Queue</span> <span class="n">q</span> <span class="o">=</span> <span class="n">queue_new</span><span class="p">();</span>
+	<span class="n">queue_en</span> <span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">queue_de</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">);</span>
+	<span class="n">queue_en</span> <span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span> <span class="c1">// fails here</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">queue_de</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">);</span>
+	<span class="n">queue_drop</span> <span class="p">(</span><span class="n">q</span><span class="p">);</span>
+<span class="p">}</span>
+
+</code></pre></div>  </div>
+
+  <hr />
+</section>
+<section id="queue_array.c">
+  <p class="float-right text-right"><small>
+  <a href="../_solutions/queue_array.c">(download)</a><br />
+  <a href="#top">(back to top)</a>
+</small></p>
+  <h2><em>queue_array.c</em></h2>
+  <div class="clearfix"></div>
+  <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">////////////////////////////////////////////////////////////////////////</span>
+<span class="c1">// COMP2521 19T0 -- A Queue ADT implementation, using arrays.</span>
+<span class="c1">//</span>
+<span class="c1">// 2018-12-01	Jashank Jeremy &lt;jashankj@cse.unsw.edu.au&gt;</span>
+<span class="c1">// YYYY-mm-dd   Your Name Here &lt;zNNNNNNN@student.unsw.edu.au&gt;</span>
+
+<span class="cp">#include &lt;assert.h&gt;
+#include &lt;err.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sysexits.h&gt;
+</span>
+<span class="cp">#include "item.h"
+#include "queue.h"
+#include "testable.h"
+</span>
+<span class="cp">#define DEFAULT_SIZE 10
+</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">queue</span> <span class="n">queue</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="n">queue</span> <span class="p">{</span>
+	<span class="kt">size_t</span> <span class="n">n_items</span><span class="p">;</span>
+	<span class="kt">size_t</span> <span class="n">capacity</span><span class="p">;</span>
+	<span class="n">Item</span> <span class="o">*</span><span class="n">items</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="cm">/** Create a new, empty Stack.  $ O(1) $. */</span>
+<span class="n">queue</span> <span class="o">*</span><span class="nf">queue_new</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">queue</span> <span class="o">*</span><span class="n">new</span> <span class="o">=</span> <span class="n">malloc</span> <span class="p">(</span><span class="k">sizeof</span> <span class="o">*</span><span class="n">new</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">new</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="n">err</span> <span class="p">(</span><span class="n">EX_OSERR</span><span class="p">,</span> <span class="s">"couldn't allocate queue"</span><span class="p">);</span>
+	<span class="p">(</span><span class="o">*</span><span class="n">new</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">queue</span><span class="p">)</span> <span class="p">{</span> <span class="p">.</span><span class="n">n_items</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">.</span><span class="n">capacity</span> <span class="o">=</span> <span class="n">DEFAULT_SIZE</span> <span class="p">};</span>
+
+	<span class="n">new</span><span class="o">-&gt;</span><span class="n">items</span> <span class="o">=</span> <span class="n">calloc</span> <span class="p">(</span><span class="n">DEFAULT_SIZE</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Item</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">new</span><span class="o">-&gt;</span><span class="n">items</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">err</span> <span class="p">(</span><span class="n">EX_OSERR</span><span class="p">,</span> <span class="s">"couldn't allocate queue items"</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">new</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/** Destroy a Queue.  $ O(1) $. */</span>
+<span class="kt">void</span> <span class="nf">queue_drop</span> <span class="p">(</span><span class="n">queue</span> <span class="o">*</span><span class="n">q</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">q</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">free</span> <span class="p">(</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">);</span>
+	<span class="n">free</span> <span class="p">(</span><span class="n">q</span><span class="p">);</span>
+<span class="p">}</span>
+
+
+<span class="cm">/** Add an item to the end of a Queue.  $ O(1) $.
+ * Sometimes referred to as "enqueue" or "unshift". */</span>
+<span class="kt">void</span> <span class="nf">queue_en</span> <span class="p">(</span><span class="n">queue</span> <span class="o">*</span><span class="n">q</span><span class="p">,</span> <span class="n">Item</span> <span class="n">it</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">q</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">&lt;</span> <span class="n">q</span><span class="o">-&gt;</span><span class="n">capacity</span><span class="p">);</span>
+	<span class="n">q</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">[</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">n_items</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">it</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/** Remove an item from the front of a Queue.  $ O(n) $.
+ * Sometimes referred to as "dequeue" or "shift". */</span>
+<span class="n">Item</span> <span class="nf">queue_de</span> <span class="p">(</span><span class="n">queue</span> <span class="o">*</span><span class="n">q</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">q</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">fprintf</span> <span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"queue underflow!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">abort</span><span class="p">();</span>
+	<span class="p">}</span>
+
+	<span class="n">Item</span> <span class="n">it</span> <span class="o">=</span> <span class="n">q</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+	<span class="n">q</span><span class="o">-&gt;</span><span class="n">n_items</span><span class="o">--</span><span class="p">;</span>
+
+	<span class="c1">// shift the elements across; still O(n) but faster?</span>
+	<span class="n">memmove</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">items</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">q</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">*</span> <span class="k">sizeof</span> <span class="p">(</span><span class="n">Item</span><span class="p">));</span>
+
+	<span class="k">return</span> <span class="n">it</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/** Get the number of items in a Queue.  $ O(1) $. */</span>
+<span class="kt">size_t</span> <span class="nf">queue_size</span> <span class="p">(</span><span class="n">queue</span> <span class="o">*</span><span class="n">q</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">q</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">q</span><span class="o">-&gt;</span><span class="n">n_items</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">white_box_tests</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="c1">// ... you need to write these!</span>
+<span class="p">}</span>
+
+</code></pre></div>  </div>
+
+  <hr />
+</section>
+<section id="queue_list.c">
+  <p class="float-right text-right"><small>
+  <a href="../_solutions/queue_list.c">(download)</a><br />
+  <a href="#top">(back to top)</a>
+</small></p>
+  <h2><em>queue_list.c</em></h2>
+  <div class="clearfix"></div>
+  <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">////////////////////////////////////////////////////////////////////////</span>
+<span class="c1">// COMP2521 19T0 -- A Queue ADT implementation, using linked lists.</span>
+<span class="c1">//</span>
+<span class="c1">// 2018-12-01	Jashank Jeremy &lt;jashankj@cse.unsw.edu.au&gt;</span>
+
+<span class="cp">#include &lt;assert.h&gt;
+#include &lt;err.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sysexits.h&gt;
+</span>
+<span class="cp">#include "item.h"
+#include "queue.h"
+#include "testable.h"
+</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">queue</span> <span class="n">queue</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">queue_node</span> <span class="n">queue_node</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="n">queue</span> <span class="p">{</span>
+	<span class="kt">size_t</span> <span class="n">n_items</span><span class="p">;</span>
+	<span class="n">queue_node</span> <span class="o">*</span><span class="n">head</span><span class="p">,</span> <span class="o">*</span><span class="n">tail</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">queue_node</span> <span class="p">{</span>
+	<span class="n">Item</span> <span class="n">item</span><span class="p">;</span>
+	<span class="n">queue_node</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="n">queue_node</span> <span class="o">*</span><span class="n">queue_node_new</span> <span class="p">(</span><span class="n">Item</span><span class="p">);</span>
+
+<span class="cm">/** Create a new, empty Queue. */</span>
+<span class="n">queue</span> <span class="o">*</span><span class="nf">queue_new</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">queue</span> <span class="o">*</span><span class="n">new</span> <span class="o">=</span> <span class="n">malloc</span> <span class="p">(</span><span class="k">sizeof</span> <span class="o">*</span><span class="n">new</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">new</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="n">err</span> <span class="p">(</span><span class="n">EX_OSERR</span><span class="p">,</span> <span class="s">"couldn't allocate queue"</span><span class="p">);</span>
+	<span class="p">(</span><span class="o">*</span><span class="n">new</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">queue</span><span class="p">)</span> <span class="p">{</span> <span class="p">.</span><span class="n">n_items</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">.</span><span class="n">head</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">,</span> <span class="p">.</span><span class="n">tail</span> <span class="o">=</span> <span class="nb">NULL</span> <span class="p">};</span>
+	<span class="k">return</span> <span class="n">new</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/** Destroy a Queue, releasing all resources associated with it. */</span>
+<span class="kt">void</span> <span class="nf">queue_drop</span> <span class="p">(</span><span class="n">queue</span> <span class="o">*</span><span class="n">q</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">q</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+
+	<span class="n">queue_node</span> <span class="o">*</span><span class="n">curr</span> <span class="o">=</span> <span class="n">q</span><span class="o">-&gt;</span><span class="n">head</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">curr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">queue_node</span> <span class="o">*</span><span class="n">tmp</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+		<span class="n">free</span> <span class="p">(</span><span class="n">curr</span><span class="p">);</span>
+		<span class="n">curr</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">free</span> <span class="p">(</span><span class="n">q</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/** Add an item to the end of a Queue.
+ * Sometimes referred to as "enqueue" or "unshift". */</span>
+<span class="kt">void</span> <span class="nf">queue_en</span> <span class="p">(</span><span class="n">queue</span> <span class="o">*</span><span class="n">q</span><span class="p">,</span> <span class="n">Item</span> <span class="n">it</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">q</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+
+	<span class="n">queue_node</span> <span class="o">*</span><span class="n">node</span> <span class="o">=</span> <span class="n">queue_node_new</span> <span class="p">(</span><span class="n">it</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">head</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">assert</span> <span class="p">(</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">head</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span> <span class="n">q</span><span class="o">-&gt;</span><span class="n">tail</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span> <span class="n">q</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span>
+		<span class="n">q</span><span class="o">-&gt;</span><span class="n">head</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="n">assert</span> <span class="p">(</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">head</span> <span class="o">!=</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span> <span class="n">q</span><span class="o">-&gt;</span><span class="n">tail</span> <span class="o">!=</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span> <span class="n">q</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">);</span>
+		<span class="n">q</span><span class="o">-&gt;</span><span class="n">tail</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">q</span><span class="o">-&gt;</span><span class="n">tail</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
+	<span class="n">q</span><span class="o">-&gt;</span><span class="n">n_items</span><span class="o">++</span><span class="p">;</span>
+	<span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/** Remove an item from the front of a Queue.
+ * Sometimes referred to as "dequeue" or "shift". */</span>
+<span class="n">Item</span> <span class="nf">queue_de</span> <span class="p">(</span><span class="n">queue</span> <span class="o">*</span><span class="n">q</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">q</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">head</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">fprintf</span> <span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"queue underflow!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="n">assert</span> <span class="p">(</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">n_items</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span>
+		<span class="n">abort</span><span class="p">();</span>
+	<span class="p">}</span>
+
+	<span class="n">queue_node</span> <span class="o">*</span><span class="n">del</span> <span class="o">=</span> <span class="n">q</span><span class="o">-&gt;</span><span class="n">head</span><span class="p">;</span>
+	<span class="n">Item</span> <span class="n">it</span> <span class="o">=</span> <span class="n">del</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">;</span>
+	<span class="n">q</span><span class="o">-&gt;</span><span class="n">head</span> <span class="o">=</span> <span class="n">del</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">head</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">q</span><span class="o">-&gt;</span><span class="n">tail</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">q</span><span class="o">-&gt;</span><span class="n">n_items</span><span class="o">--</span><span class="p">;</span>
+
+	<span class="n">free</span> <span class="p">(</span><span class="n">del</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">it</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/** Get the number of items in a Queue. */</span>
+<span class="kt">size_t</span> <span class="nf">queue_size</span> <span class="p">(</span><span class="n">queue</span> <span class="o">*</span><span class="n">q</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">q</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">q</span><span class="o">-&gt;</span><span class="n">n_items</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="n">queue_node</span> <span class="o">*</span><span class="nf">queue_node_new</span> <span class="p">(</span><span class="n">Item</span> <span class="n">it</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">queue_node</span> <span class="o">*</span><span class="n">new</span> <span class="o">=</span> <span class="n">malloc</span> <span class="p">(</span><span class="k">sizeof</span> <span class="o">*</span><span class="n">new</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">new</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="n">err</span> <span class="p">(</span><span class="n">EX_OSERR</span><span class="p">,</span> <span class="s">"couldn't allocate queue_node"</span><span class="p">);</span>
+	<span class="p">(</span><span class="o">*</span><span class="n">new</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">queue_node</span><span class="p">)</span> <span class="p">{</span> <span class="p">.</span><span class="n">item</span> <span class="o">=</span> <span class="n">it</span><span class="p">,</span> <span class="p">.</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span> <span class="p">};</span>
+	<span class="k">return</span> <span class="n">new</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">white_box_tests</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="c1">// ... you need to write these!</span>
+<span class="p">}</span>
+
+</code></pre></div>  </div>
+
+  <hr />
+</section>
+
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

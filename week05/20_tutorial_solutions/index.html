@@ -1,0 +1,917 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Tutorial Solutions — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="/~cs2521/19T0/assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/week05/20_tutorial_solutions/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="/~cs2521/19T0/">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week05/">Week 5</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week05/20_tutorial_solutions/">Tutorial Solutions</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Tutorial Solutions</h1>
+</header>
+
+
+
+
+
+<h2 id="depth-first-and-breadth-first">Depth-First and Breadth-First</h2>
+
+<p>Consider the following code and the following graph:</p>
+
+<ul class="nav nav-tabs" id="code-dfs-bfs-tabs" role="tablist">
+<li class="nav-item"><a class="nav-link active" id="code-dfs-tab" data-toggle="tab" href="#code-dfs" role="tab" aria-controls="code-dfs" aria-selected="true">DFS</a></li>
+<li class="nav-item"><a class="nav-link active" id="code-bfs-tab" data-toggle="tab" href="#code-bfs" role="tab" aria-controls="code-bfs" aria-selected="true">BFS</a></li>
+</ul>
+<div class="tab-content" id="code-dfs-bfs">
+  <div class="tab-pane fade show active" id="code-dfs" role="tabpanel" aria-labelledby="code-dfs-tab">
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">graph_dfs</span> <span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">,</span> <span class="n">vertex</span> <span class="n">v</span><span class="p">,</span>
+	<span class="kt">size_t</span> <span class="o">*</span><span class="n">count</span><span class="p">,</span> <span class="n">vertex</span> <span class="n">pre</span><span class="p">[],</span> <span class="n">vertex</span> <span class="n">st</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="n">Stack</span> <span class="n">s</span> <span class="o">=</span> <span class="n">stack_new</span> <span class="p">();</span>
+	<span class="n">stack_push</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="n">edge</span><span class="p">){</span> <span class="n">v</span><span class="p">,</span> <span class="n">v</span> <span class="p">});</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">stack_size</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">edge</span> <span class="n">e</span> <span class="o">=</span> <span class="n">stack_pop</span> <span class="p">(</span><span class="n">s</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">pre</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+		<span class="n">pre</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">count</span><span class="p">)</span><span class="o">++</span><span class="p">;</span> <span class="n">st</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">]</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">v</span><span class="p">;</span>
+		<span class="n">printf</span> <span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">);</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">nV</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">has_edge</span> <span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">pre</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+				<span class="n">stack_push</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="n">edge</span><span class="p">){</span> <span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">,</span> <span class="n">i</span> <span class="p">});</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </div>
+  <div class="tab-pane fade" id="code-bfs" role="tabpanel" aria-labelledby="code-bfs-tab">
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">graph_bfs</span> <span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">,</span> <span class="n">vertex</span> <span class="n">v</span><span class="p">,</span>
+	<span class="kt">size_t</span> <span class="o">*</span><span class="n">count</span><span class="p">,</span> <span class="n">vertex</span> <span class="n">pre</span><span class="p">[],</span> <span class="n">vertex</span> <span class="n">st</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="n">Queue</span> <span class="n">s</span> <span class="o">=</span> <span class="n">queue_new</span> <span class="p">();</span>
+	<span class="n">queue_en</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="n">edge</span><span class="p">){</span> <span class="n">v</span><span class="p">,</span> <span class="n">v</span> <span class="p">});</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">queue_size</span> <span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">edge</span> <span class="n">e</span> <span class="o">=</span> <span class="n">queue_de</span> <span class="p">(</span><span class="n">s</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">pre</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+		<span class="n">pre</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">count</span><span class="p">)</span><span class="o">++</span><span class="p">;</span> <span class="n">st</span><span class="p">[</span><span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">]</span> <span class="o">=</span> <span class="n">e</span><span class="p">.</span><span class="n">v</span><span class="p">;</span>
+		<span class="n">printf</span> <span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">);</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">nV</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">has_edge</span> <span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">pre</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+				<span class="n">queue_en</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="n">edge</span><span class="p">){</span> <span class="n">e</span><span class="p">.</span><span class="n">w</span><span class="p">,</span> <span class="n">i</span> <span class="p">});</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </div>
+</div>
+
+<!-- figure -->
+<p><img style="margin: 24px auto" src="/~cs2521/19T0/week05/Pic/weighted1.jpg" />
+<!-- /figure --></p>
+
+<p>Show what would be printed by
+these iterative DFS and BFS traversals
+for the following function calls:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">graph_dfs</span> <span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">count</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">st</span><span class="p">);</span>
+<span class="n">graph_dfs</span> <span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">count</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">st</span><span class="p">);</span>
+
+<span class="n">graph_bfs</span> <span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">count</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">st</span><span class="p">);</span>
+<span class="n">graph_bfs</span> <span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">count</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">st</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>You should also show the state of the stack or queue,
+and the <code class="highlighter-rouge">pre</code> and <code class="highlighter-rouge">st</code> arrays explicitly in each step.
+You should assume the <code class="highlighter-rouge">pre</code> and <code class="highlighter-rouge">st</code> arrays
+have already been initialised to -1 for all values.</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>For <code class="highlighter-rouge">graph_dfs (g, 0)</code>:</p>
+
+    <pre>
+#  Printed   pre                       st                       Stack (top at right)
+0     -      -1 -1 -1 -1 -1 -1 -1 -1   -1 -1 -1 -1 -1 -1 -1 -1  (0,0)
+1     1       0 -1 -1 -1 -1 -1 -1 -1    0 -1 -1 -1 -1 -1 -1 -1  (0,1) (0,2) (0,5) (0,6) (0,7)
+2     7       0 -1 -1 -1 -1 -1 -1  1    0 -1 -1 -1 -1 -1 -1  0  (0,1) (0,2) (0,5) (0,6) (7,1) (7,4) (7,6)
+3     6       0 -1 -1 -1 -1 -1  2  1    0 -1 -1 -1 -1 -1  7  0  (0,1) (0,2) (0,5) (0,6) (7,1) (7,4) (6,4)
+4     4       0 -1 -1 -1  3 -1  2  1    0 -1 -1 -1  6 -1  7  0  (0,1) (0,2) (0,5) (0,6) (7,1) (7,4) (4,3) (4,5)
+5     5       0 -1 -1 -1  3  4  2  1    0 -1 -1 -1  6  4  7  0  (0,1) (0,2) (0,5) (0,6) (7,1) (7,4) (4,3) (5,3)
+6     3       0 -1 -1  5  3  4  2  1    0 -1 -1  5  6  4  7  0  (0,1) (0,2) (0,5) (0,6) (7,1) (7,4) (4,3)
+7     1       0  6 -1  5  3  4  2  1    0  7 -1  5  6  4  7  0  (0,1) (0,2) (0,5) (0,6)
+8     2       0  6  7  5  3  4  2  1    0  7  0  5  6  4  7  0  (0,1)
+</pre>
+
+    <p>For <code class="highlighter-rouge">graph_dfs (g, 3)</code>:</p>
+    <pre>
+#  Printed   pre                       st                       Stack (top at right)
+0     -      -1 -1 -1 -1 -1 -1 -1 -1   -1 -1 -1 -1 -1 -1 -1 -1  (3,3)
+1     3      -1 -1 -1  0 -1 -1 -1 -1   -1 -1 -1  3 -1 -1 -1 -1  (3,4) (3,5)
+2     5      -1 -1 -1  0 -1  1 -1 -1   -1 -1 -1  3 -1  3 -1 -1  (3,4) (5,0) (5,4)
+3     4      -1 -1 -1  0  2  1 -1 -1   -1 -1 -1  3  5  3 -1 -1  (3,4) (5,0) (4,6) (4,7)
+4     7      -1 -1 -1  0  2  1 -1  3   -1 -1 -1  3  5  3 -1  4  (3,4) (5,0) (4,6) (7,0) (7,1) (7,6)
+5     6      -1 -1 -1  0  2  1  4  3   -1 -1 -1  3  5  3  7  4  (3,4) (5,0) (4,6) (7,0) (7,1) (6,0)
+6     0       5 -1 -1  0  2  1  4  3    6 -1 -1  3  5  3  7  4  (3,4) (5,0) (4,6) (7,0) (7,1) (0,1) (0,2)
+7     2       5 -1  6  0  2  1  4  3    6 -1  0  3  5  3  7  4  (3,4) (5,0) (4,6) (7,0) (7,1) (0,1)
+8     1       5  7  6  0  2  1  4  3    6  0  0  3  5  3  7  4  (3,4) (5,0) (4,6) (7,0) (7,1)
+</pre>
+
+    <p>For <code class="highlighter-rouge">graph_bfs (g, 0)</code>:</p>
+    <pre>
+#  Printed   pre                       st                       Queue
+0     -      -1 -1 -1 -1 -1 -1 -1 -1   -1 -1 -1 -1 -1 -1 -1 -1  (0,0)
+1     0       0 -1 -1 -1 -1 -1 -1 -1    0 -1 -1 -1 -1 -1 -1 -1  (0,1) (0,2) (0,5) (0,6) (0,7)
+2     1       0  1 -1 -1 -1 -1 -1 -1    0  0 -1 -1 -1 -1 -1 -1  (0,2) (0,5) (0,6) (0,7) (1,7)
+3     2       0  1  2 -1 -1 -1 -1 -1    0  0  0 -1 -1 -1 -1 -1  (0,5) (0,6) (0,7) (1,7)
+4     5       0  1  2 -1 -1  3 -1 -1    0  0  0 -1 -1  0 -1 -1  (0,6) (0,7) (1,7) (5,3) (5,4)
+5     6       0  1  2 -1 -1  3  4 -1    0  0  0 -1 -1  0  0 -1  (0,7) (1,7) (5,3) (5,4) (6,4) (6,7)
+6     7       0  1  2 -1 -1  3  4  5    0  0  0 -1 -1  0  0  0  (1,7) (5,3) (5,4) (6,4) (6,7) (7,4)
+7     3       0  1  2  6 -1  3  4  5    0  0  0  5 -1  0  0  0  (5,4) (6,4) (6,7) (7,4) (3,4)
+8     4       0  1  2  6  7  3  4  5    0  0  0  5  5  0  0  0  (6,4) (6,7) (7,4) (3,4)
+</pre>
+
+    <p>For <code class="highlighter-rouge">graph_bfs (g, 3)</code>:</p>
+    <pre>
+#  Printed   pre                       st                       Queue
+0     -      -1 -1 -1 -1 -1 -1 -1 -1   -1 -1 -1 -1 -1 -1 -1 -1  (3,3)
+1     3      -1 -1 -1  0 -1 -1 -1 -1   -1 -1 -1  3 -1 -1 -1 -1  (3,4) (3,5)
+2     4      -1 -1 -1  0  1 -1 -1 -1   -1 -1 -1  3  3 -1 -1 -1  (3,5) (4,5) (4,6) (4,7)
+3     5      -1 -1 -1  0  1  2 -1 -1   -1 -1 -1  3  3  3 -1 -1  (4,5) (4,6) (4,7) (5,0)
+4     6      -1 -1 -1  0  1  2  3 -1   -1 -1 -1  3  3  3  4 -1  (4,7) (5,0) (6,0) (6,7)
+5     7      -1 -1 -1  0  1  2  3  4   -1 -1 -1  3  3  3  4  4  (5,0) (6,0) (6,7) (7,0) (7,1)
+6     0       5 -1 -1  0  1  2  3  4    5 -1 -1  3  3  3  4  4  (6,0) (6,7) (7,0) (7,1) (0,1) (0,2)
+7     1       5  6 -1  0  1  2  3  4    5  7 -1  3  3  3  4  4  (0,1) (0,2)
+8     2       5  6  7  0  1  2  3  4    5  7  0  3  3  3  4  4
+</pre>
+  </blockquote>
+</aside>
+
+<p>Using the relevant information
+from your DFS and/or BFS search,
+what is the shortest unweighted (least hops) path
+from <script type="math/tex">3</script> to <script type="math/tex">2</script>?</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>Tracing back through the <code class="highlighter-rouge">st</code> array
+we got from the bfs starting at vertex 3:
+<script type="math/tex">[3, 5, 0, 2]</script></p>
+  </blockquote>
+</aside>
+
+<h2 id="a-relaxing-time">A Relaxing Time</h2>
+
+<p>Consider the following code for Dijkstra’s algorithm:</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">dijkstra</span><span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">,</span><span class="n">Vertex</span> <span class="n">s</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">v</span><span class="p">,</span><span class="n">t</span><span class="p">;</span>
+	<span class="n">PriQ</span> <span class="n">pq</span> <span class="o">=</span> <span class="n">initPriQ</span><span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">nV</span><span class="p">);</span>
+	<span class="c1">//insert each vertex into the pq</span>
+	<span class="k">for</span><span class="p">(</span><span class="n">v</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">v</span><span class="o">&lt;</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">nV</span><span class="p">;</span><span class="n">v</span><span class="o">++</span><span class="p">){</span>
+		<span class="n">insert</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span><span class="n">newItem</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">v</span><span class="p">],</span><span class="n">v</span><span class="p">));</span>
+	<span class="p">}</span>
+	<span class="n">dist</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span> <span class="c1">//set start veretex dist to 0</span>
+	<span class="n">increasePriority</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">dist</span><span class="p">[</span><span class="n">s</span><span class="p">]);</span> <span class="c1">// update pq</span>
+	<span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">isEmpty</span><span class="p">(</span><span class="n">pq</span><span class="p">)){</span>
+		<span class="n">v</span> <span class="o">=</span> <span class="n">value</span><span class="p">(</span><span class="n">delMin</span><span class="p">(</span><span class="n">pq</span><span class="p">));</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NO_EDGE</span><span class="p">){</span>
+			<span class="k">for</span><span class="p">(</span><span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="n">t</span> <span class="o">&lt;</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">nV</span><span class="p">;</span><span class="n">t</span><span class="o">++</span><span class="p">){</span>
+				<span class="k">if</span><span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">adj</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NO_EDGE</span><span class="p">){</span>
+					<span class="k">if</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">adj</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">t</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">dist</span><span class="p">[</span><span class="n">t</span><span class="p">]){</span>
+						<span class="n">dist</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">dist</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">+</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">adj</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">t</span><span class="p">];</span>
+						<span class="n">increasePriority</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">dist</span><span class="p">[</span><span class="n">t</span><span class="p">]);</span>
+						<span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
+					<span class="p">}</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>What does the <code class="highlighter-rouge">increasePriority</code> function do?</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>It modifies the priority of a particular vertex in the <code class="highlighter-rouge">pq</code>,
+and rearranges the pq so it is in the correct order
+based on the new priority.</p>
+  </blockquote>
+</aside>
+
+<p>Trace through Dijkstra’s algorithm.
+At each step show the state of the priority Queue and the <code class="highlighter-rouge">dist</code> and
+<code class="highlighter-rouge">st</code> arrays.
+What is the shortest path from 3 to 1? And what is its cost?
+Assume the <code class="highlighter-rouge">dist</code> array is initialised with the value NO_EDGE
+(a float representation of infinity) and the <code class="highlighter-rouge">st</code> array with -1s.</p>
+
+<aside class="answer">
+  <blockquote>
+
+    <pre>
+#  Printed   dist                               st                       PriorityQueue
+0     -      inf inf inf  0 inf inf inf inf    -1 -1 -1  3 -1 -1 -1 -1   0,1,2,3,4,5,6,7
+1     3      inf inf inf  0  34  18 inf inf    -1 -1 -1 -1  3  3 -1 -1   0,1,2,4,5,6,7
+2     5       78 inf inf  0  34  18 inf inf     5 -1 -1 -1  3  3 -1 -1   0,1,2,4,6,7
+3     4       78 inf inf  0  34  18  85  80     5 -1 -1 -1  3  3  4  4   0,1,2,6,7
+4     0       78 110 107  0  34  18  85  80     5  0  0 -1  3  3  4  4   1,2,6,7
+5     7       78 101 107  0  34  18  85  80     5  7  0 -1  3  3  4  4   1,2,6
+6     6       78 101 107  0  34  18  85  80     5  7  0 -1  3  3  4  4   1,2
+7     1       78 101 107  0  34  18  85  80     5  7  0 -1  3  3  4  4   2
+8     2       78 101 107  0  34  18  85  80     5  7  0 -1  3  3  4  4   -
+</pre>
+  </blockquote>
+
+  <blockquote>
+    <p>The shortest path from <script type="math/tex">3</script> to <script type="math/tex">1</script> is
+<script type="math/tex">[3, 4, 7, 1]</script>, with a cost of <script type="math/tex">101</script>.</p>
+  </blockquote>
+</aside>
+
+<h2 id="throw-a-spanning-tree-in-the-works">Throw a Spanning-Tree in the works</h2>
+
+<p>What is a spanning tree?
+What is a minimum spanning tree?</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>A spanning tree is a subset of a graph
+that includes all vertices,
+and a minimum subset of edges to connect all the vertices
+whilst having no cycles.</p>
+
+    <p>A minimum spanning tree is a spanning tree
+which minimises the weight of the edges.</p>
+  </blockquote>
+</aside>
+
+<p>Provide examples of applications
+for minimum spanning tree algorithms.
+For each example, discuss what the vertices, edges and weights represent.</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>Classically, electronic circuits:
+vertices represent electronic components,
+edges represent the wires between them.
+Several MST algorithms were developed
+for exactly this scenario.</p>
+
+    <p>Setting up an intra-company phone network:
+You have a company with offices in different physical locations and
+want to connect them all by landlines as cheaply as possible.  You
+could represent this via a graph, where the nodes are offices and the
+edges are direct phone line connections.  The phone company might
+charge different amounts to connect different pairs of physical
+locations and this cost could be represented by the weight on each
+edge.  The set of connections should be spanning (all offices need to
+be included) and should be a tree (otherwise you have unnecessary
+connections which could be removed to save money).</p>
+
+    <p>Designing the overall layout of a computer network:
+Vertices represent nodes/hosts/machines on the network.  Edges
+represent direct network connections between the machines.  Weights
+represent some measure of cost of transferring data between the two
+hosts.  This could be in terms of transfer rate or reliability or …
+It needs to be spanning (all hosts need to be connected), and it could
+be a tree (to save money on maintaining connections).  It would make
+routing simple since there’d only be one path from A to B, but
+wouldn’t help with flexibility of routing in case of blockages in some
+part of the network; it would be better to have alternative paths.</p>
+
+    <p>There are many other possibilities as well
+(see the <a href="https://en.wikipedia.org/wiki/Minimum_spanning_tree">MST page</a>
+on Wikipedia).</p>
+
+    <p>If you come up with an interesting application,
+let me know and I’ll add it to the possible solutions above.</p>
+  </blockquote>
+</aside>
+
+<hr />
+
+<p>The following code gives
+a reasonably detailed view
+of Kruskal’s algorithm
+for finding a minimum spanning tree.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="n">Graph</span> <span class="n">MSTree</span><span class="p">;</span>
+
+<span class="n">MSTree</span> <span class="nf">graph_mst_kruskal</span> <span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">MSTree</span> <span class="n">mst</span> <span class="o">=</span> <span class="n">graph_new</span> <span class="p">();</span> <span class="c1">// MST initially empty</span>
+	<span class="kt">size_t</span> <span class="n">nE</span><span class="p">;</span>
+	<span class="n">edge</span> <span class="o">*</span><span class="n">elist</span> <span class="o">=</span> <span class="n">graph_edge_list</span> <span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">nE</span><span class="p">);</span>
+	<span class="n">sort_edge_list</span> <span class="p">(</span><span class="n">nE</span><span class="p">,</span> <span class="n">elist</span><span class="p">);</span>
+
+	<span class="kt">size_t</span> <span class="n">nV</span> <span class="o">=</span> <span class="n">graph_num_vertices</span> <span class="p">(</span><span class="n">g</span><span class="p">);</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">graph_num_edges</span> <span class="p">(</span><span class="n">mst</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">nV</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">edge</span> <span class="n">e</span> <span class="o">=</span> <span class="n">eList</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+		<span class="n">graph_edge_add</span> <span class="p">(</span><span class="n">mst</span><span class="p">,</span> <span class="n">e</span><span class="p">);</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">graph_has_cycle_p</span> <span class="p">(</span><span class="n">mst</span><span class="p">))</span>
+			<span class="n">graph_edge_remove</span> <span class="p">(</span><span class="n">mst</span><span class="p">,</span> <span class="n">e</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="n">free</span> <span class="p">(</span><span class="n">elist</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">mst</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This algorithm effectively constructs the MST
+by gradually joining together
+the connected graphs in a forest
+that starts with each subgraph
+being a single node.
+On each iteration,
+it add a new edge to the forest,
+and reduces the number of subgraphs by one.</p>
+
+<p>Show how Kruskal’s algorithm
+would construct the MST for the graph below.
+How many edges did we have to consider?</p>
+
+<!-- figure -->
+<p><img style="margin: 24px auto" src="/~cs2521/19T0/week05/Pic/graph4.png" />
+<!-- /figure --></p>
+
+<aside class="answer">
+  <blockquote>
+    <p>We start with no edges
+(non-existent edges are indicated by dotted lines):</p>
+
+    <!-- figure -->
+    <p><img style="margin: 24px auto" src="/~cs2521/19T0/week05/Pic/graph5.png" />
+<!-- /figure --></p>
+  </blockquote>
+
+  <blockquote>
+
+    <p>Below, we show the graph at the end of each iteration of the <code class="highlighter-rouge">for</code> loop.
+We do not show the intermediate state of the graph when have added an
+edge which turns out to produce a cycle.</p>
+
+    <p>In the first iteration, we could choose either 1-4 or 6-7, since both
+edges have weight 1. Assume we choose 1-4. Since its inclusion produces
+no cycles, we add it to the MST:</p>
+
+    <!-- figure -->
+    <p><img style="margin: 24px auto" src="/~cs2521/19T0/week05/Pic/graph5a.png" />
+<!-- /figure --></p>
+  </blockquote>
+
+  <blockquote>
+
+    <p>In the next iteration, we choose 6-7. Its inclusion produces
+no cycles, so we add it to the MST:</p>
+
+    <!-- figure -->
+    <p><img style="margin: 24px auto" src="/~cs2521/19T0/week05/Pic/graph5b.png" />
+<!-- /figure --></p>
+  </blockquote>
+
+  <blockquote>
+
+    <p>In the next iteration, we could choose either 1-2 or 3-4,
+since both edges have weight 2. Assume we choose 1-2.
+Since its inclusion produces no cycles, we add it to the MST:</p>
+
+    <!-- figure -->
+    <p><img style="margin: 24px auto" src="/~cs2521/19T0/week05/Pic/graph5c.png" />
+<!-- /figure --></p>
+  </blockquote>
+
+  <blockquote>
+
+    <p>In the next iteration, we choose 3-4. Its inclusion produces
+no cycles, so we add it to the MST:</p>
+
+    <!-- figure -->
+    <p><img style="margin: 24px auto" src="/~cs2521/19T0/week05/Pic/graph5d.png" />
+<!-- /figure --></p>
+  </blockquote>
+
+  <blockquote>
+
+    <p>In the next iteration, we would first consider the lowest-cost
+unused edge. This is 2-4, but its inclusion would produce a
+cycle, so we infore it. We then consider 1-3 and 4-7 which
+both have weight 4. If we choose 1-3, that produces a cycle
+so we ignore that edge. If we add 4-7 to the MST, there is no
+cycle and so we include it:</p>
+
+    <!-- figure -->
+    <p><img style="margin: 24px auto" src="/~cs2521/19T0/week05/Pic/graph5e.png" />
+<!-- /figure --></p>
+  </blockquote>
+
+  <blockquote>
+
+    <p>In the next iteration, we would first consider the lowest-cost
+unused edge. This is 3-6, but its inclusion would produce a
+cycle, so we infore it. We then consider 5-7. If we add 5-7
+to the MST, there is no cycle and so we include it:</p>
+
+    <!-- figure -->
+    <p><img style="margin: 24px auto" src="/~cs2521/19T0/week05/Pic/graph5f.png" />
+<!-- /figure --></p>
+  </blockquote>
+
+  <blockquote>
+
+    <p>At this stage, all vertices are connected and we have a MST.</p>
+
+    <p>For this graph, we considered 9 of the 12 possible edges in
+determining the MST.</p>
+  </blockquote>
+</aside>
+
+<p>For a graph <script type="math/tex">G</script> with <script type="math/tex">V</script> vertices and <script type="math/tex">E</script> edges,
+what is the least number of edges
+we might need to consider?
+What is the most number of edges
+we might have to consider?</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>For a graph <script type="math/tex">G(V,E)</script>,
+the best case would be when the first <script type="math/tex">V-1</script> edges
+we consider are the lowest cost edges
+and none of these edges leads to a cycle.
+The worst case would be
+when we had to consider all <script type="math/tex">E</script> edges.</p>
+  </blockquote>
+</aside>
+
+<p>Add another edge to the above graph
+to force Kruskal’s algorithm to the worst case.</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>If we added a vertex 8 to the above graph,
+and connected it to vertex 5 with edge cost 11
+(or any cost larger than
+all the other edge costs in the graph),
+we would need to consider all edges
+to construct the MST.</p>
+  </blockquote>
+</aside>
+
+<hr />
+
+<p>The following code is an implementation of Prim’s algorithm for finding a minimum spanning tree.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">prim</span><span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">){</span>
+    <span class="n">vertex</span> <span class="n">v</span><span class="p">,</span> <span class="n">i</span><span class="p">;</span>
+    <span class="n">PriQ</span> <span class="n">pq</span> <span class="o">=</span> <span class="n">initPriQ</span><span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">nV</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="o">*</span> <span class="n">visited</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="o">*</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">nV</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="n">v</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">v</span> <span class="o">&lt;</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">nV</span><span class="p">;</span><span class="n">v</span><span class="o">++</span><span class="p">){</span>
+        <span class="n">insert</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span><span class="n">newItem</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="n">v</span><span class="p">],</span><span class="n">v</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="n">st</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">dist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">increasePriority</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+    <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">isEmpty</span><span class="p">(</span><span class="n">pq</span><span class="p">)){</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="p">(</span><span class="n">delMin</span><span class="p">(</span><span class="n">pq</span><span class="p">))</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">;</span>
+        <span class="n">visited</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">nV</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">adj</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">NO_EDGE</span> <span class="o">&amp;&amp;</span> <span class="n">visited</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">){</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">adj</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">]){</span>
+                       <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">adj</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="n">i</span><span class="p">];</span>
+                       <span class="n">increasePriority</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+                       <span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Trace the execution of Prim’s algorithm on the same graph you traced
+through Kruskal’s on.</p>
+
+<p>Show the state of the Priority Queue,
+the <code class="highlighter-rouge">dist</code>, <code class="highlighter-rouge">st</code> and <code class="highlighter-rouge">visited</code> arrays.</p>
+
+<p>Assume the <code class="highlighter-rouge">dist</code> array is initialised with the value
+<code class="highlighter-rouge">NO_EDGE</code> (a float representation of infinity) and the <code class="highlighter-rouge">st</code> and
+<code class="highlighter-rouge">visited</code> array with -1s.</p>
+
+<aside class="answer">
+  <blockquote>
+    <pre>
+#    Printed visited                   dist                              st                       PriorityQueue
+0       -    -1 -1 -1 -1 -1 -1 -1 -1   inf inf inf inf inf inf inf inf   0 -1 -1 -1 -1 -1 -1 -1   0,1,2,3,4,5,6,7
+1       0     1 -1 -1 -1 -1 -1 -1 -1     0  32  29 inf inf  60  51  31   0  0  0 -1 -1  0  0  0   1,2,3,4,5,6,7
+2       2     1 -1  1 -1 -1 -1 -1 -1     0  32  29 inf inf  60  51  31   0  0  0 -1 -1  0  0  0   1,3,4,5,6,7
+3       7     1 -1  1 -1 -1 -1 -1  1     0  21  29 inf  46  60  25  31   0  7  0 -1  7  0  7  0   1,3,4,5,6
+4       1     1  1  1 -1 -1 -1 -1  1     0  21  29 inf  46  60  25  31   0  7  0 -1  7  0  7  0   3,4,5,6
+5       6     1  1  1 -1 -1 -1  1  1     0  21  29 inf  46  60  25  31   0  7  0 -1  7  0  7  0   3,4,5
+6       4     1  1  1 -1  1 -1  1  1     0  21  29  34  46  40  25  31   0  7  0  4  7  4  7  0   3,5
+7       3     1  1  1  1  1 -1  1  1     0  21  29  34  46  18  25  31   0  7  0  4  7  3  7  0   5
+8       5     1  1  1  1  1  1  1  1     0  21  29  34  46  18  25  31   0  7  0  4  7  3  7  0   -
+</pre>
+
+    <p>The tree is represented by
+the edges in the <code class="highlighter-rouge">st</code> array,
+and the cost can be found by
+adding all the entries
+from the <code class="highlighter-rouge">dist</code> array,
+so in this case the edges are</p>
+
+    <table class="table-sm">
+<tbody>
+<tr><td>7</td><td>1</td><td>21</td></tr>
+<tr><td>0</td><td>2</td><td>29</td></tr>
+<tr><td>4</td><td>3</td><td>34</td></tr>
+<tr><td>7</td><td>4</td><td>46</td></tr>
+<tr><td>3</td><td>5</td><td>18</td></tr>
+<tr><td>7</td><td>6</td><td>25</td></tr>
+<tr><td>0</td><td>7</td><td>31</td></tr>
+<tr><td colspan="2">total</td><td>204</td></tr>
+</tbody>
+</table>
+  </blockquote>
+</aside>
+
+<h2 id="graphs">Graphs</h2>
+
+<p>For each of the following graphs:</p>
+
+<!-- figure -->
+<p><img style="margin: 24px auto" src="/~cs2521/19T0/week05/Pic/graph1.png" />
+<!-- /figure --></p>
+
+<p>Show the concrete data structures if the graph was implemented via:</p>
+
+<ol>
+  <li>adjacency matrix representation (assume full <script type="math/tex">V\times V</script> matrix)</li>
+  <li>adjacency list representation (if non-directional, include both <script type="math/tex">(v,w)</script> and <script type="math/tex">(w,v)</script>)</li>
+</ol>
+
+<aside class="answer">
+  <blockquote>
+    <!-- figure -->
+    <p><img style="margin: 24px auto" src="/~cs2521/19T0/week05/Pic/graph1_a.png" />
+<!-- /figure --></p>
+  </blockquote>
+
+  <blockquote>
+    <!-- figure -->
+    <p><img style="margin: 24px auto" src="/~cs2521/19T0/week05/Pic/graph1_b.png" />
+<!-- /figure --></p>
+  </blockquote>
+
+</aside>
+
+<h2 id="ivy-league">Ivy League</h2>
+
+<p>Consider the following map of streets in the Sydney CBD:</p>
+
+<!-- figure -->
+<p><img style="margin: 24px auto" src="/~cs2521/19T0/week05/Pic/SydneyCBD.png" />
+<!-- /figure --></p>
+
+<p>Represent this as a directed graph, where intersections are
+vertices and the connecting streets are edges. Ensure that
+the directions on the edges correctly reflect any one-way streets
+(this is a driving map, not a walking map).</p>
+
+<p>You only need to make a graph which includes the intersections
+marked with red letters</p>
+
+<p>Some things that don’t show on the map: Castlereagh St is one-way
+heading south and Hunter St is one-way heading west.</p>
+
+<p>For each of the following pairs of intersections, indicate
+whether there is a path from the first to the second. If there
+is a path, enumerate it as a set of vertices. If there is more
+than one path, show two different paths.</p>
+
+<ol>
+  <li>
+    <p>from intersection “D” on Margaret St to insersection “L” on Pitt St</p>
+  </li>
+  <li>
+    <p>from intersection “J” to the corner of Margaret St and York St (intersection “A”)</p>
+  </li>
+  <li>
+    <p>from the intersection of Margaret St and York St (“A”) to the intersection of Hunter St and Castlereagh St (“M”)</p>
+  </li>
+  <li>
+    <p>from intersection “M” on Castlereagh St to intersection “H” on York St</p>
+  </li>
+</ol>
+
+<aside class="answer">
+  <blockquote>
+    <p>The graph is as follows. Bi-directional edges have two-way arrows,
+rather than having two separate edges going in opposite directions.</p>
+
+    <!-- figure -->
+    <p><img style="margin: 24px auto" src="/~cs2521/19T0/week05/Pic/SydneyGraph.png" />
+<!-- /figure --></p>
+  </blockquote>
+
+  <blockquote>
+
+    <p>For the paths:</p>
+
+    <ol>
+      <li>
+        <p>D → E → G → L and there are no other choices
+that don’t involve loops through D</p>
+      </li>
+      <li>
+        <p>J → I → B → A   or   J → K → F → D → C → B → A</p>
+      </li>
+      <li>
+        <p>You can’t reach M (or N or P) from A on this graph.
+(Real-life is different, of course.)</p>
+      </li>
+      <li>
+        <p>M → G → F → D → C → B → A → H   or   M → G → F → K → J → I → H</p>
+      </li>
+    </ol>
+  </blockquote>
+</aside>
+
+<h2 id="paths-and-tours">Paths and Tours</h2>
+
+<p>What is the difference between a Euler path/tour and a Hamilton path/tour?
+Identify any Euler/Hamilton paths/tours in the following graphs:</p>
+
+<!-- figure -->
+<p><img style="margin: 24px auto" src="/~cs2521/19T0/week05/Pic/euler-hamilton.png" />
+<!-- /figure --></p>
+
+<aside class="answer">
+  <blockquote>
+    <ul>
+      <li>An Euler <em>path</em> visits each <em>edge</em> in the graph exactly once.</li>
+      <li>An Euler <em>tour</em> ends at the same vertex where it started.</li>
+      <li>A Hamilton <em>path</em> visits each <em>vertex</em> in the graph exactly once.</li>
+      <li>A Hamilton <em>tour</em> ends at the same vertex where it started
+(which means that, maybe, the start vertex appears in the path twice).</li>
+    </ul>
+
+    <p>Graph 1 has both Euler and Hamilton paths (e.g. <script type="math/tex">[0, 1, 2]</script>),
+but cannot have tours as there are no cycles.</p>
+
+    <p>Graph 2 has both Euler and Hamilton paths (e.g. <script type="math/tex">[0, 1, 2]</script>);
+it also has both Euler and Hamilton tours (e.g. <script type="math/tex">[0, 1, 2, 0]</script>).</p>
+
+    <p>Graph 3 has neither Euler nor Hamilton paths, nor Euler nor Hamilton tours.</p>
+
+    <p>Graph 4: has Hamilton paths (e.g., <script type="math/tex">[0, 1, 2, 3]</script>)
+and a Hamilton tours (e.g., <script type="math/tex">[0, 1, 2, 3, 0]</script>);
+it has neither an Euler path nor an Euler tour.</p>
+  </blockquote>
+</aside>
+
+<p>Write a function to check whether a path,
+supplied as an array of <code class="highlighter-rouge">edge</code>s, is an Euler path.</p>
+
+<p>Assume the function has interface:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="n">euler_path_p</span> <span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">,</span> <span class="n">edge</span> <span class="n">es</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">nE</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>where <code class="highlighter-rouge">es[]</code> is an array of <code class="highlighter-rouge">nE</code> edges, in path order.</p>
+
+<aside class="answer">
+  <blockquote>
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// check whether a given path is a Euler path</span>
+
+<span class="n">bool</span> <span class="nf">euler_path_p</span> <span class="p">(</span><span class="n">Graph</span> <span class="n">g</span><span class="p">,</span> <span class="n">edge</span> <span class="n">es</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">nE</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span><span class="p">(</span><span class="n">g</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+
+	<span class="c1">// includes all edges</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">nE</span> <span class="o">!=</span> <span class="n">nE</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="c1">// is actually a path</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nE</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">w</span> <span class="o">!=</span> <span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">].</span><span class="n">v</span><span class="p">)</span>
+			<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+
+	<span class="c1">// includes edges exactly once</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nE</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">nE</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">v</span> <span class="o">==</span> <span class="n">e</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">v</span> <span class="o">&amp;&amp;</span> <span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">w</span> <span class="o">==</span> <span class="n">e</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">w</span><span class="p">)</span>
+				<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </blockquote>
+</aside>
+
+<h2 id="in-russia-graph-traverses-you">In Russia, Graph Traverses You!</h2>
+
+<p>In the 18th Century, the Prussian town of Konigsberg (now Kaliningrad)
+was famous for the seven bridges connecting its two central islands
+with the banks of the River Pregel, as shown in the diagram.</p>
+
+<!-- figure -->
+<p><img style="margin: 24px auto" src="/~cs2521/19T0/week05/Pic/bridges.png" />
+<!-- /figure --></p>
+
+<ol>
+  <li>Can you draw a path which crosses each bridge exactly once?</li>
+  <li>If not, which bridge would you need to remove*
+to ensure that you could draw such a path?</li>
+  <li>For each case, show the path.</li>
+</ol>
+
+<p><small>
+(* Possible methods of “removal” include: blowing up,
+weighing down with love-locks until it collapses,
+blocking permanently with Sydney Buses, etc.)
+</small></p>
+
+<aside class="answer">
+  <blockquote>
+    <p>It helps to have an annotated version of the bridges map.
+In the version below, the regions of land are the vertices
+and the bridges are the edges. There are only four vertices
+(A = north bank, B = small island, C = large island, D = south bank).
+Note also that this graph allows multiple edges between two vertices.
+We label these, so as to be able to distinguish the bridges</p>
+
+    <!-- figure -->
+    <p><img style="margin: 24px auto" src="/~cs2521/19T0/week05/Pic/bridge-graph.png" />
+<!-- /figure --></p>
+  </blockquote>
+
+  <blockquote>
+
+    <p>i.  No you can’t … but try a few first just to see.</p>
+
+    <p>ii. Removing bridge 1 allows starting from C and crossing bridges 3,2,4,7,5,6. <br />
+    Removing bridge 2 allows starting from C and crossing bridges 3,1,4,7,5,6. <br />
+    Removing bridge 3 allows starting from B and crossing bridges 1,2,4,7,5,6. <br />
+    Removing bridge 4 allows starting from A and crossing bridges 1,2,3,7,5,6. <br />
+    Removing bridge 5 allows starting from C and crossing bridges 4,6,7,3,2,1. <br />
+    Removing bridge 6 allows starting from A and crossing bridges 4,5,7,3,2,1. <br />
+    Removing bridge 7 allows starting from A and crossing bridges 1,2,3,4,5,6. <br />
+    … in fact, removing any one bridge allows you to solve the problem.</p>
+
+    <p>iii. See previous answer, which gives one path for each case.
+     Other paths also exist.</p>
+  </blockquote>
+</aside>
+
+<h2 id="problems-of-high-power-executives">Problems of High-Power Executives</h2>
+
+<p>Your boss asks you to write a program to find a path in a graph that
+visits every vertex at least once. Your boss tells you that you may go
+to lunch after you have run your program on a graph with 100 vertices.
+Will you ever get to have your lunch?</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>This is the Hamilton path problem.
+There is no known solution to this problem in less than exponential time.
+If you try to solve it on a graph with 100 vertices,
+you could be waiting, uh, forever.
+But it would depend on the number of edges in the graph you needed to run it on.
+If the graph had 0 edges, or say 1 edge etc, it would run very quickly.</p>
+
+    <p>However if you had a complete graph there could be <script type="math/tex">V!</script> different paths to
+check. So worse case scenario would be that you would never get your
+lunch and may even die waiting (assuming you obeyed your boss).</p>
+  </blockquote>
+</aside>
+
+<p>Your boss asks you write a program to verify whether a given path visits
+every vertex in a given graph exactly once. Your boss tells you that you
+may go to lunch after you have run your program on a graph with 100
+vertices. Will you ever get to have your lunch?</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>To verify a given solution to the hamilton path problem can be done in
+polynomial time, (so assuming you know how to write the program), you
+can run it in a reasonable amount of time and will most likely get to
+lunch soon.</p>
+  </blockquote>
+</aside>
+
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

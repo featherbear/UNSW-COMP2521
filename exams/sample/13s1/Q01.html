@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>COMP1927 13s1 Final Exam</title>
+<link rel='stylesheet' type='text/css' href='exam.css'></head>
+<body>
+<div align='center'>
+<table width='100%' border='0'>
+<tr valign='top'>
+<td align='left' width='25%'>
+  <span class='tiny'>COMP1927 13s1</span>
+</td>
+<td align='center' width='50%'>
+  <span class='heading'>COMP1927 13s1 Final Exam</span>
+</td>
+<td align='right' width='25%'>
+  <span class='tiny'>Computing 2</span>
+</td>
+</table>
+</div>
+<center><a href='index.html'>[Instructions]</a> <a target='C' href='C/index.html'>[C language]</a> <br><b>[Q1]</b> <a href='Q02.html'>[Q2]</a> <a href='Q03.html'>[Q3]</a> <a href='Q04.html'>[Q4]</a> <a href='Q05.html'>[Q5]</a> <a href='Q06.html'>[Q6]</a> <a href='Q07.html'>[Q7]</a> <a href='Q08.html'>[Q8]</a> <a href='Q09.html'>[Q9]</a> 
+</center>
+<hr>
+<div style='margin-left:40px;margin-right:40px'>
+<h3>Question 1 <span class='tiny'>(9 marks)</span></h3>
+<p>
+In the <tt>q1</tt> directory (in the file <tt>q1.c</tt>),
+is a program which reads a sequence of integers into an array,
+and then calls a function <tt>ArrayMax()</tt>
+to find the largest value in the array.
+This could be achieved by a simple linear scan of the array, but the
+<tt>ArrayMax()</tt> function invokes another function <tt>max()</tt>
+which is intended to compute the maximum recursively.
+</p>
+<p>
+The <tt>max(A,lo,hi)</tt> function finds the maximum value in a
+segment of the array <tt>A</tt>, starting from index <tt>lo</tt>
+(i.e. element <tt>A[lo]</tt>) up to index <tt>hi</tt>.
+You are required to implement the <tt>max()</tt> function so that
+its recursive behaviour is as follows:
+</p>
+<pre>
+max(A,lo,hi):
+	find the maximum value in the lower half of the array
+	find the maximum value in the upper half of the array
+	choose the larger of these two values
+</pre>
+<p>
+You need to work out the base case yourself.
+You may implement any additional functions that you want, but you must
+maintain the current <tt>max()</tt> function interface.
+</p>
+<p>
+Implementing the <tt>max()</tt> function <em>iteratively</em> (i.e.
+not recursively), even if correct and passes all tests, is worth zero marks.
+</p>
+<p>
+As well as <tt>q1.c</tt>, the <tt>q1</tt> directory also contains a <tt>Makefile</tt> which
+has two major behaviours:
+</p>
+<pre>
+make q1    <span class="comment"># build the q1 program</span>
+make test  <span class="comment"># apply the tests in q1/tests to the q1 program</span>
+</pre>
+<p>
+You can find out more about the behaviour of the <tt>q1</tt> program
+by looking at the test files in <tt>q1/tests</tt> directory. The files
+named <tt><i>X</i>.in</tt> are inputs to the program. Each input has a
+corresponding file <tt><i>X</i>.exp</tt> which contains the expected
+output from a correct implementation of <tt>q1</tt>.
+</p>
+<p>
+Once you are satisfied with your program, submit it using the command:
+</p>
+<pre>
+submit q1
+</pre>
+<p>
+This will make a copy of the <tt>q1.c</tt> file from the <tt>q1</tt>
+directory as your answer for this question.
+You can run the <tt>submit</tt> command as many times as you like,
+but make sure that your final submission compiles without any errors
+or warnings.
+Test your program thoroughly, possibly using test cases additional
+to those supplied. Your program will be tested using inputs which
+are different to the examples in the <tt>q1/tests</tt> directory.
+</p>
+<p>
+If, at some stage, you need to "re-install" the files (although you
+should not need to), you can copy all of the original files
+into the <tt>q1</tt> directory by running the command:
+</p>
+<pre>
+re-start q1
+</pre>
+<p>
+Beware: this will overwrite all of your exsting files for this
+question, so only do it if you seriously mess things up.
+</p>
+
+
+</div>
+</body>
+</html>

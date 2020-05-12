@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Tuesday lecture code — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="/~cs2521/19T0/assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/week05/02_provided/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="/~cs2521/19T0/">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week05/">Week 5</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week05/02_provided/">Tuesday lecture code</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Tuesday lecture code</h1>
+</header>
+
+
+
+
+
+<nav id="top" class="text-center">
+  <ul class="list-inline">
+<li class="list-inline-item text-muted">jump to...</li>
+
+<li class="list-inline-item"><a href="#Doxyfile">Doxyfile</a></li>
+
+</ul>
+</nav>
+
+<section id="Doxyfile">
+  <p class="float-right text-right"><small>
+  <a href="../02_lecture/Doxyfile">(download)</a><br />
+  <a href="#top">(back to top)</a>
+</small></p>
+  <h2><em>Doxyfile</em></h2>
+  <div class="clearfix"></div>
+  <pre><code class="language-Doxyfile"># This file describes the settings to be used by
+# the documentation system Doxygen (www.doxygen.org).
+#
+# All text after a single hash (#) is a comment.
+# The general syntax is:
+#     TAG = value [value, ...]
+# For lists, items can also be appended using:
+#     TAG += value [value, ...]
+# Values that contain spaces should be placed between quotes (\" \").
+
+# Project related configuration options
+
+DOXYFILE_ENCODING	= UTF-8
+PROJECT_NAME		= "The Fury of Dracula"
+PROJECT_BRIEF		= "The Fury of Dracula"
+PROJECT_NUMBER		= 19t0
+OUTPUT_DIRECTORY	= doc/
+CREATE_SUBDIRS		= NO
+ALLOW_UNICODE_NAMES	= NO
+OUTPUT_LANGUAGE		= English
+
+BRIEF_MEMBER_DESC	= YES
+REPEAT_BRIEF		= YES
+ALWAYS_DETAILED_SEC	= NO
+
+TAB_SIZE		= 4
+
+SHORT_NAMES		= NO
+JAVADOC_AUTOBRIEF	= YES
+QT_AUTOBRIEF		= YES
+MULTILINE_CPP_IS_BRIEF	= NO
+
+OPTIMIZE_OUTPUT_FOR_C	= YES
+OPTIMIZE_OUTPUT_JAVA	= NO
+OPTIMIZE_FOR_FORTRAN	= NO
+OPTIMIZE_OUTPUT_VHDL	= NO
+MARKDOWN_SUPPORT	= YES
+TOC_INCLUDE_HEADINGS	= 0
+AUTOLINK_SUPPORT	= YES
+
+FULL_PATH_NAMES		= YES
+SEPARATE_MEMBER_PAGES	= NO
+
+BUILTIN_STL_SUPPORT	= NO
+CPP_CLI_SUPPORT		= NO
+SIP_SUPPORT		= NO
+IDL_PROPERTY_SUPPORT	= YES
+DISTRIBUTE_GROUP_DOC	= NO
+GROUP_NESTED_COMPOUNDS	= NO
+SUBGROUPING		= YES
+INLINE_GROUPED_CLASSES	= NO
+INLINE_SIMPLE_STRUCTS	= NO
+TYPEDEF_HIDES_STRUCT	= NO
+INLINE_INHERITED_MEMB	= NO
+INHERIT_DOCS		= YES
+
+LOOKUP_CACHE_SIZE	= 0
+
+# Build related configuration options
+
+EXTRACT_ALL		= YES
+EXTRACT_PRIVATE		= YES
+EXTRACT_PACKAGE		= YES
+EXTRACT_STATIC		= YES
+EXTRACT_LOCAL_CLASSES	= YES
+INTERNAL_DOCS		= YES
+CASE_SENSE_NAMES	= YES
+
+GENERATE_TODOLIST	= YES
+GENERATE_TESTLIST	= YES
+GENERATE_BUGLIST	= YES
+GENERATE_DEPRECATEDLIST	= YES
+SHOW_USED_FILES		= YES
+SHOW_FILES		= YES
+
+# Configuration options related to warning and progress messages
+
+QUIET			= NO
+WARNINGS		= YES
+WARN_IF_UNDOCUMENTED	= YES
+WARN_IF_DOC_ERROR	= YES
+WARN_NO_PARAMDOC	= NO
+WARN_AS_ERROR		= NO
+
+# Configuration options related to the input files
+
+INPUT			= ./
+INPUT_ENCODING		= UTF-8
+RECURSIVE		= YES
+EXCLUDE			=
+EXCLUDE_SYMLINKS	= NO
+EXCLUDE_PATTERNS	=
+
+# Configuration options related to source browsing
+
+SOURCE_BROWSER		= YES
+INLINE_SOURCES		= YES
+STRIP_CODE_COMMENTS	= YES
+
+# Configuration options related to the HTML output
+
+GENERATE_HTML		= YES
+HTML_OUTPUT		= html
+HTML_FILE_EXTENSION	= .html
+
+HTML_COLORSTYLE_HUE	= 20
+HTML_COLORSTYLE_SAT	= 100
+HTML_COLORSTYLE_GAMMA	= 80
+
+HTML_TIMESTAMP		= NO
+HTML_DYNAMIC_MENUS	= NO
+HTML_DYNAMIC_SECTIONS	= NO
+
+GENERATE_TREEVIEW	= YES
+USE_MATHJAX		= YES
+MATHJAX_FORMAT		= HTML-CSS
+MATHJAX_RELPATH		= https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/
+
+# Configuration options related to the LaTeX output
+
+GENERATE_LATEX		= NO
+
+# Configuration options related to the preprocessor
+
+ENABLE_PREPROCESSING	= YES
+
+# Configuration options related to the dot tool
+
+CLASS_DIAGRAMS		= YES
+HAVE_DOT		= YES
+
+CLASS_GRAPH		= YES
+INCLUDE_GRAPH		= YES
+INCLUDED_BY_GRAPH	= YES
+GRAPHICAL_HIERARCHY	= YES
+DIRECTORY_GRAPH		= YES
+
+DOT_IMAGE_FORMAT	= svg
+INTERACTIVE_SVG		= YES
+DOT_CLEANUP		= YES
+
+</code></pre>
+
+  <hr />
+</section>
+
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

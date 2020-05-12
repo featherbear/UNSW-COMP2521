@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Tuesday lecture code — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="/~cs2521/19T0/assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/week06/02_provided/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="/~cs2521/19T0/">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week06/">Week 6</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week06/02_provided/">Tuesday lecture code</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Tuesday lecture code</h1>
+</header>
+
+
+
+
+
+<nav id="top" class="text-center">
+  <ul class="list-inline">
+<li class="list-inline-item text-muted">jump to...</li>
+
+<li class="list-inline-item"><a href="#ord.c">ord.c</a></li>
+
+<li class="list-inline-item"><a href="#gen.c">gen.c</a></li>
+
+</ul>
+</nav>
+
+<section id="ord.c">
+  <p class="float-right text-right"><small>
+  <a href="../02_lecture/ord.c">(download)</a><br />
+  <a href="#top">(back to top)</a>
+</small></p>
+  <h2><em>ord.c</em></h2>
+  <div class="clearfix"></div>
+  <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;err.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sysexits.h&gt;
+</span>
+<span class="k">typedef</span> <span class="kt">int</span> <span class="n">Item</span><span class="p">;</span>
+<span class="cp">#define key(A) (A)
+#define less(A,B) (key(A) &lt; key(B))
+</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="n">swap_idx</span> <span class="p">(</span><span class="n">Item</span> <span class="n">items</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">a</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">b</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="n">sort_bubble</span> <span class="p">(</span><span class="n">Item</span> <span class="n">items</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">lo</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">hi</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">sort_selection</span> <span class="p">(</span><span class="n">Item</span> <span class="n">items</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">lo</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">hi</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">sort_insertion</span> <span class="p">(</span><span class="n">Item</span> <span class="n">items</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">lo</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">hi</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">sort_shell</span> <span class="p">(</span><span class="n">Item</span> <span class="n">items</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">lo</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">hi</span><span class="p">);</span>
+<span class="kt">size_t</span> <span class="n">shell_h</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">lo</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">hi</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="n">show_array</span> <span class="p">(</span><span class="n">Item</span> <span class="o">*</span><span class="n">items</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">n</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">print_array</span> <span class="p">(</span><span class="n">Item</span> <span class="o">*</span><span class="n">items</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">n</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">size_t</span> <span class="n">n_items</span><span class="p">;</span>
+	<span class="n">scanf</span> <span class="p">(</span><span class="s">"%zu"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n_items</span><span class="p">);</span>
+
+	<span class="n">Item</span> <span class="o">*</span><span class="n">items</span> <span class="o">=</span> <span class="n">calloc</span> <span class="p">(</span><span class="n">n_items</span><span class="p">,</span> <span class="k">sizeof</span> <span class="p">(</span><span class="n">Item</span><span class="p">));</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">items</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">err</span> <span class="p">(</span><span class="n">EX_OSERR</span><span class="p">,</span> <span class="s">"couldn't allocate %zu items"</span><span class="p">,</span> <span class="n">n_items</span><span class="p">);</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n_items</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="n">scanf</span> <span class="p">(</span><span class="s">"%d"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+
+	<span class="c1">// print_array (items, n_items);</span>
+	<span class="c1">// sort_bubble (items, 0, n_items - 1);</span>
+	<span class="c1">// sort_selection (items, 0, n_items - 1);</span>
+	<span class="c1">// sort_insertion (items, 0, n_items - 1);</span>
+	<span class="n">sort_shell</span> <span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n_items</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="n">print_array</span> <span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">n_items</span><span class="p">);</span>
+
+<span class="c">#if 0
+	for (size_t h = shell_h (0, 10000); h &gt; 0; h /= 3)
+		printf ("h is now %zu\n", h);
+#endif
+</span>
+	<span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">//  { 4, 1, 7, 3, 8, 6, 5, 2 }</span>
+<span class="c1">//       ^ j               ^ i</span>
+<span class="c1">//    ^~~~</span>
+<span class="kt">void</span> <span class="nf">sort_bubble</span> <span class="p">(</span><span class="n">Item</span> <span class="n">items</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">lo</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">hi</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="n">hi</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">lo</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">printf</span> <span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="n">lo</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">less</span> <span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">items</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]))</span> <span class="p">{</span>
+				<span class="n">swap_idx</span> <span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+			<span class="p">}</span>
+			<span class="n">show_array</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">items</span><span class="p">[</span><span class="n">lo</span><span class="p">],</span> <span class="n">hi</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="c1">// #define less(A,B) (key(A) &lt; key(B))</span>
+	<span class="c1">// #define key(A) (A)</span>
+	<span class="c1">//      if (key (items[j]) &lt; key (items[j - 1]))</span>
+	<span class="c1">//      if ((items[j]) &lt; (items[j - 1]))</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">sort_selection</span> <span class="p">(</span><span class="n">Item</span> <span class="n">items</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">lo</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">hi</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">show_array</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">items</span><span class="p">[</span><span class="n">lo</span><span class="p">],</span> <span class="n">hi</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="n">lo</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">hi</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kt">size_t</span> <span class="n">min</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">hi</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">less</span> <span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">items</span><span class="p">[</span><span class="n">min</span><span class="p">]))</span>
+				<span class="n">min</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
+		<span class="n">swap_idx</span> <span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">min</span><span class="p">);</span>
+		<span class="n">show_array</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">items</span><span class="p">[</span><span class="n">lo</span><span class="p">],</span> <span class="n">hi</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">sort_insertion</span> <span class="p">(</span><span class="n">Item</span> <span class="n">items</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">lo</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">hi</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">show_array</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">items</span><span class="p">[</span><span class="n">lo</span><span class="p">],</span> <span class="n">hi</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="n">lo</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">hi</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">Item</span> <span class="n">item</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+		<span class="kt">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(;</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="n">lo</span><span class="p">;</span> <span class="n">j</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="n">less</span> <span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">items</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]))</span> <span class="k">break</span><span class="p">;</span>
+			<span class="k">else</span> <span class="n">items</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+			<span class="n">printf</span> <span class="p">(</span><span class="s">"</span><span class="se">\t</span><span class="s">"</span><span class="p">);</span> <span class="n">show_array</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">items</span><span class="p">[</span><span class="n">lo</span><span class="p">],</span> <span class="n">hi</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+		<span class="p">}</span>
+		<span class="n">items</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span><span class="p">;</span>
+
+		<span class="n">show_array</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">items</span><span class="p">[</span><span class="n">lo</span><span class="p">],</span> <span class="n">hi</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">size_t</span> <span class="nf">shell_h</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">lo</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">hi</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">size_t</span> <span class="n">n</span> <span class="o">=</span> <span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="kt">size_t</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">for</span> <span class="p">(;</span> <span class="n">h</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">9</span><span class="p">;</span> <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">h</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">printf</span> <span class="p">(</span><span class="s">"h = %zu</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">h</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">h</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">sort_shell</span> <span class="p">(</span><span class="n">Item</span> <span class="n">items</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">lo</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">hi</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">size_t</span> <span class="n">n</span> <span class="o">=</span> <span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="kt">size_t</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="k">for</span> <span class="p">(;</span> <span class="n">h</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">9</span><span class="p">;</span> <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">h</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">printf</span> <span class="p">(</span><span class="s">"h = %zu</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">h</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="n">puts</span> <span class="p">(</span><span class="s">""</span><span class="p">);</span>
+	<span class="k">for</span> <span class="p">(</span><span class="cm">/* h */</span><span class="p">;</span> <span class="n">h</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">h</span> <span class="o">/=</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">printf</span> <span class="p">(</span><span class="s">"h = %zu</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">h</span><span class="p">);</span>
+		<span class="n">show_array</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">items</span><span class="p">[</span><span class="n">lo</span><span class="p">],</span> <span class="n">hi</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+
+		<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="n">h</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">Item</span> <span class="n">item</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+			<span class="kt">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+			<span class="k">for</span> <span class="p">(</span><span class="cm">/* j */</span><span class="p">;</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="n">h</span> <span class="o">&amp;&amp;</span> <span class="n">item</span> <span class="o">&lt;</span> <span class="n">items</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">h</span><span class="p">];</span> <span class="n">j</span> <span class="o">-=</span> <span class="n">h</span><span class="p">)</span>
+				<span class="n">items</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="n">h</span><span class="p">];</span>
+			<span class="n">items</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span> <span class="nf">swap_idx</span> <span class="p">(</span><span class="n">Item</span> <span class="n">items</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">a</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">b</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">Item</span> <span class="n">t</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="n">b</span><span class="p">];</span> <span class="n">items</span><span class="p">[</span><span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="n">a</span><span class="p">];</span> <span class="n">items</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">print_array</span> <span class="p">(</span><span class="n">Item</span> <span class="o">*</span><span class="n">items</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="c1">// printf ("{ ");</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="n">printf</span> <span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+	<span class="c1">// printf (" }\n");</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">show_array</span> <span class="p">(</span><span class="n">Item</span> <span class="o">*</span><span class="n">items</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span> <span class="p">(</span><span class="s">"{ "</span><span class="p">);</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="n">printf</span> <span class="p">(</span><span class="s">"%d, "</span><span class="p">,</span> <span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+	<span class="n">printf</span> <span class="p">(</span><span class="s">" }</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+
+</code></pre></div>  </div>
+
+  <hr />
+</section>
+<section id="gen.c">
+  <p class="float-right text-right"><small>
+  <a href="../02_lecture/gen.c">(download)</a><br />
+  <a href="#top">(back to top)</a>
+</small></p>
+  <h2><em>gen.c</em></h2>
+  <div class="clearfix"></div>
+  <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// gen.c: a program for generating sortable data</span>
+
+<span class="cp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+</span>
+<span class="cp">#define MAXLINES 10000000
+</span>
+<span class="cp">#define swap(A, I, J) \
+	{ int tmp; tmp = A[(I)]; A[(I)] = A[(J)]; A[(J)] = tmp; }
+</span>
+<span class="k">static</span> <span class="kt">char</span> <span class="o">*</span><span class="n">progName</span><span class="p">;</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">give_up</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// number of values of data produced</span>
+	<span class="kt">int</span> <span class="n">order</span><span class="p">;</span> <span class="c1">// ordering of data</span>
+	<span class="kt">int</span> <span class="n">S</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// seed for random #'s</span>
+	<span class="n">progName</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">)</span>
+		<span class="n">give_up</span> <span class="p">(</span><span class="s">"Not enough arguments"</span><span class="p">);</span>
+
+	<span class="c1">// how much data</span>
+	<span class="n">N</span> <span class="o">=</span> <span class="n">atoi</span> <span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">N</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span>
+		<span class="n">give_up</span> <span class="p">(</span><span class="s">"Too few values</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">N</span> <span class="o">&gt;</span> <span class="n">MAXLINES</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+		<span class="n">give_up</span> <span class="p">(</span><span class="s">"Too many values"</span><span class="p">);</span>
+
+	<span class="c1">// determine ordering</span>
+	<span class="k">switch</span> <span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="sc">'A'</span><span class="p">:</span>	<span class="k">case</span> <span class="sc">'a'</span><span class="p">:</span>	<span class="n">order</span> <span class="o">=</span> <span class="sc">'A'</span><span class="p">;</span>	<span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="sc">'D'</span><span class="p">:</span>	<span class="k">case</span> <span class="sc">'d'</span><span class="p">:</span>	<span class="n">order</span> <span class="o">=</span> <span class="sc">'D'</span><span class="p">;</span>	<span class="k">break</span><span class="p">;</span>
+	<span class="k">case</span> <span class="sc">'R'</span><span class="p">:</span>	<span class="k">case</span> <span class="sc">'r'</span><span class="p">:</span>	<span class="n">order</span> <span class="o">=</span> <span class="sc">'R'</span><span class="p">;</span>	<span class="k">break</span><span class="p">;</span>
+	<span class="nl">default:</span>	<span class="n">give_up</span> <span class="p">(</span><span class="s">"Invalid ordering"</span><span class="p">);</span>	<span class="k">break</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="c1">// set seed</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">==</span> <span class="mi">4</span> <span class="o">&amp;&amp;</span> <span class="n">order</span> <span class="o">==</span> <span class="sc">'R'</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">switch</span> <span class="p">(</span><span class="n">order</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">case</span> <span class="sc">'A'</span><span class="p">:</span>	<span class="n">S</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>	<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="sc">'D'</span><span class="p">:</span>	<span class="n">S</span> <span class="o">=</span> <span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>	<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="sc">'R'</span><span class="p">:</span>	<span class="n">srand</span> <span class="p">(</span><span class="n">S</span> <span class="o">=</span> <span class="n">atoi</span> <span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]));</span> <span class="k">break</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="kt">int</span> <span class="o">*</span><span class="n">values</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">((</span><span class="n">values</span> <span class="o">=</span> <span class="n">malloc</span> <span class="p">(</span><span class="n">N</span> <span class="o">*</span> <span class="k">sizeof</span> <span class="p">(</span><span class="kt">int</span><span class="p">)))</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">give_up</span> <span class="p">(</span><span class="s">"Can't allocate values[]"</span><span class="p">);</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+
+	<span class="k">switch</span> <span class="p">(</span><span class="n">order</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="sc">'D'</span><span class="p">:</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+			<span class="n">swap</span> <span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">N</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+		<span class="k">break</span><span class="p">;</span>
+
+	<span class="k">case</span> <span class="sc">'A'</span><span class="p">:</span>
+		<span class="cm">/* nothing to do */</span>
+		<span class="k">break</span><span class="p">;</span>
+
+	<span class="k">case</span> <span class="sc">'R'</span><span class="p">:</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">rand</span> <span class="p">()</span> <span class="o">%</span> <span class="n">N</span><span class="p">;</span>
+			<span class="n">swap</span> <span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">);</span>
+		<span class="p">}</span>
+		<span class="k">break</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="n">printf</span> <span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="n">printf</span> <span class="p">(</span><span class="s">"%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+
+	<span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">give_up</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">message</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">fprintf</span> <span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">message</span><span class="p">);</span>
+	<span class="n">fprintf</span> <span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"Usage: %s &lt;n-values&gt; (A|D|R) [seed]</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">progName</span><span class="p">);</span>
+	<span class="n">fprintf</span> <span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">"       A|D|R = Ascending|Descending|Random</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">exit</span> <span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span> <span class="c1">// don't distinguish different errors</span>
+<span class="p">}</span>
+
+</code></pre></div>  </div>
+
+  <hr />
+</section>
+
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

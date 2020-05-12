@@ -1,0 +1,16 @@
+#!/usr/bin/env zsh
+# NAME: mkfiles -- roll up provided files.
+ 
+set -e
+
+mkdir -p files
+
+cd files
+[ -e ../files.cp ] && ln ../files.cp/* .
+[ -e ../files.ln ] && ln ../files.ln/* .
+cd ..
+
+tar -C files -chf files.tar .
+rm -r files
+
+chmod 644 files.tar

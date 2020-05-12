@@ -1,0 +1,26 @@
+Question 5 ... COMP1927 13s1 Final Exam
+
+A.
+
+Operation             State of Queue after operation
+                      [highest priority ... lowest priority]
+
+initially             -
+PQueueJoin(PQ, 'X')   X
+PQueueJoin(PQ, 'A')   A X
+PQueueJoin(PQ, 'J')   A J X
+PQueueLeave(PQ)       J X      (A removed)
+PQueueJoin(PQ, 'K')   J K X
+PQueueLeave(PQ)       K X      (J removed)
+PQueueLeave(PQ)       X        (K removed)
+
+
+B.
+
+Use insertion time as priority measure
+For Queue: lowest time (least recent) has highest priority
+For Stack: highest time (most recent) has highest priority
+
+
+Waffling on about meaning of priority without mentioning how
+to implement via time is worth max half marks (if good waffle).

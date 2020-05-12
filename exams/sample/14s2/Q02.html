@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Sample Final Exam</title>
+<link rel='stylesheet' type='text/css' href='exam.css'></head>
+<body>
+<div align='center'>
+<table width='100%' border='0'>
+<tr valign='top'>
+<td align='left' width='25%'>
+  <span class='tiny'>Sample</span>
+</td>
+<td align='center' width='50%'>
+  <span class='heading'>Sample Final Exam</span>
+</td>
+<td align='right' width='25%'>
+  <span class='tiny'>COMP2521</span>
+</td>
+</table>
+</div>
+<center><a href='index.html'>[Instructions]</a> <a target='C' href='C/index.html'>[C language]</a> <a target='Algos' href='Algos/index.html'>[Algorithms]</a> <br><a href='Q01.html'>[Q1]</a> <b>[Q2]</b> <a href='Q03.html'>[Q3]</a> <a href='Q04.html'>[Q4]</a> <a href='Q05.html'>[Q5]</a> <a href='Q06.html'>[Q6]</a> <a href='Q07.html'>[Q7]</a> <a href='Q08.html'>[Q8]</a> <a href='Q09.html'>[Q9]</a> 
+</center>
+<hr>
+<div style='margin-left:40px;margin-right:40px'>
+<h3>Question 2 <span class='tiny'>(15 marks)</span></h3>
+<p>
+In the <tt>q2</tt> directory is an implementation of a simple <tt>HashTable</tt> ADT,
+along with a main program to test it.
+The ADT contains functions to build, remove and display hash tables, as well as a
+function to insert new keys into the table (in this table, keys are integer values).
+It uses collision resolution via chaining (i.e. it builds linked lists of keys that
+have the same hash value).
+The <tt>HashTable</tt> ADT implements its chains using a simple <tt>List</tt> ADT.
+It also has a private (and very simple) hash function, and an incomplete function
+to expand the size of the table, once the chains become too long.
+</p>
+<p>
+As supplied, the program creates a hash table with 3 slots, reads numbers (keys)
+from standard input and builds a hash table using these keys.
+The hash table maintains its original 3 slots, regardless of how many keys are
+added, and the chains will grow longer and longer as more keys are added, e.g.
+</p>
+<pre>
+$ <b>seq 1 15 | ./q2</b>   <span class="comment"># with q2 as supplied</span>
+[ 0] 3->6->9->12->15
+[ 1] 1->4->7->10->13
+[ 2] 2->5->8->11->14
+</pre>
+<p>
+In the output from the program, the hash table is displayed one slot at a time,
+first showing the slot index (aka hash value) in square brackets (e.g. <tt>[&nbsp;0]</tt>)
+then showing all of the keys in the chain associated with that hash value.
+Since the hash function is implemented simply as <tt>(key%nslots)</tt>,
+the above shows all of the keys with hash(key)==0 on the first line of output,
+all of the keys with hash(key)==1 on the second line of output, and so on.
+</p>
+<p>
+Your task for this question is to implement the <tt>expand()</tt> function, which
+takes a hash table, doubles the number of slots in the table and rehashes all of
+the existing keys to their new slots (chains).
+You can achieve this however you like, but the pointer to the <tt>HashTable</tt>
+object must not be changed (i.e. you keep the same <tt>HashTable</tt> object but
+change what's stored in it and linked from it).
+Also, you are not allowed to change the <tt>List</tt> ADT to achieve this
+(since you only submit <tt>HashTable.c</tt>, changing <tt>List.c</tt> won't
+help your submission) and you may only access the chains via the interface
+given in <tt>List.h</tt>. (Hint: <tt>valuesFromList()</tt> is useful).
+</p>
+<p>
+After you implement the <tt>expand()</tt> function correctly, the hash table
+will have more slots, but the chains will be shorter and searches will be
+more efficient, e.g.
+</p>
+<pre>
+$ <b>seq 1 15 | ./q2</b>   <span class="comment"># with q2 including expand()</span>
+[ 0] 12
+[ 1] 1->13
+[ 2] 2->14
+[ 3] 3->15
+[ 4] 4
+[ 5] 5
+[ 6] 6
+[ 7] 7
+[ 8] 8
+[ 9] 9
+[10] 10
+[11] 11
+</pre>
+<p>
+The <tt>q2</tt> directory contains the following:
+</p>
+<ul>
+<li> <tt>Makefile</tt> ... handles compilation and testing
+<li> <tt>HashTable.h</tt> ... interface to the <tt>HashTable</tt> ADT
+<li> <tt>HashTable.c</tt> ... implementation of the <tt>HashTable</tt> ADT
+<li> <tt>List.h</tt> ... interface to the <tt>List</tt> ADT
+<li> <tt>List.c</tt> ... implementation of the <tt>List</tt> ADT
+<li> <tt>main.c</tt> ... main program, used to produce an executable called <tt>q2</tt>
+<li> <tt>tests/</tt> ... a directory containing test scripts and expected outputs
+</ul>
+<p>
+The <tt>Makefile</tt> compiles the <tt>List</tt> and <tt>HashTable</tt> ADTs
+and the main program
+in <tt>main.c</tt> to produce an executable program called <tt>q2</tt>.
+This program reads integer keys from standard input, builds a hash table,
+and then displays the hash table (in the format shown above).
+</p>
+<p>
+You compile and test the <tt>q2</tt> program using the following commands:
+</p>
+<pre>
+$ <b>make q2</b>   <span class="comment"># build the q2 program</span>
+$ <b>check q2</b>  <span class="comment"># apply the tests in the tests directory to the q2 program</span>
+</pre>
+<p>
+You can find out more about the behaviour of the <tt>q2</tt> program
+by looking at the files in the <tt>tests</tt> directory. The files
+named <tt>t<i>X</i></tt> are test scripts. Each test script has a
+corresponding file <tt>t<i>X</i>.exp</tt> which contains the expected
+output from running that test.
+If you want to run the tests individually, use commands like:
+</p>
+<pre>
+$ <b>sh tests/t1</b>
+</pre>
+<p>
+You can add debugging code to <tt>main.c</tt>, <tt>HashTable.c</tt> or
+<tt>List.c</tt> if you want, but make sure that you remove it before
+testing and submitting,
+otherwise your output won't match the expected output and you'll fail all
+of the tests.
+You can add any auxiliary functions to <tt>HashTable.c</tt>
+that you think are necessary.
+</p>
+<p>
+Once you are satisfied with your program, submit it using the command:
+</p>
+<pre>
+$ <b>submit q2</b>
+</pre>
+<p>
+This will make a copy of the <tt>HashTable.c</tt> file from the <tt>q2</tt>
+directory as your answer for this question.
+You can run the <tt>submit</tt> command as many times as you like,
+but make sure that your final submission compiles without any errors
+or warnings.
+Test your program thoroughly, possibly using test cases additional
+to those supplied. Your program will be tested using additional test
+cases to the examples in the <tt>q2/tests</tt> directory.
+</p>
+
+
+
+</div>
+</body>
+</html>

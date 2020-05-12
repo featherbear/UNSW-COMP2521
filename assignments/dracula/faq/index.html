@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>COMP2521 19t0 / The Fury of Dracula / Frequently Asked Questions</title>
+
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/assignments/dracula/faq/" />
+  <link rel="stylesheet" href="/~cs2521/19T0/assets/dracula.css" />
+  <style type="text/css">
+.drac-header
+  { background-image: linear-gradient(to right, #270907 40%, #3D0A07 60%)
+  ; background-color: #270907 }
+.drac-header > img { margin: 0 auto; }
+main { max-width: 80ex !important; margin-left: auto; margin-right: auto; }
+pre  { padding: .5rem; border-radius: .25rem; }
+pre, code, tt { color: #e9ecef; background-color: #343a40; }
+.faq dd { margin-left: 2rem; }
+.faq dd p:first-child { margin-bottom: 0 }
+footer.bg-dark { background-color: #343a40 !important; }
+  </style>
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+<header class="drac-header text-center mb-2">
+  <img src="/~cs2521/19T0/assignments/dracula/Pics/drac.png" alt="The Fury of Dracula" />
+</header>
+
+<main class="container">
+
+<!--
+ - COMP2521 19t0 ... Fury of Dracula spec and files
+ -
+ - 2017-11-24	Jashank Jeremy <{jashankj,z5017851}@cse.unsw.edu.au>
+ - 2018-12-30	Jashank Jeremy <{jashankj,z5017851}@cse.unsw.edu.au>
+ - $Id$
+-->
+
+<header class="text-center">
+
+  <h1 id="frequently-asked-questions">Frequently Asked Questions</h1>
+
+  <p class="lead">
+— <a href="/~cs2521/19T0/assignments/dracula/">introduction</a>
+— <a href="/~cs2521/19T0/assignments/dracula/rules/">the rules</a>
+— <a href="/~cs2521/19T0/assignments/dracula/data/">the data</a>
+— <strong>[faq]</strong>
+— <a href="/~cs2521/19T0/assignments/dracula/view/">the view</a>
+— <a href="/~cs2521/19T0/assignments/dracula/hunt/">the hunt</a> —
+<br /><small class="text-muted">
+courtesy Richard Buckland, John Shepherd, and many tutors
+</small>
+</p>
+</header>
+
+<article class="faq">
+
+  <dl>
+    <dt>When do hunters get sent to <strong>JM</strong> St Joseph and St Mary?</dt>
+    <dd>Relevant parts of the <a href="/~cs2521/19T0/assignments/dracula/rules/">Rules</a> §Hunter Action:
+
+      <div class="px-4">
+        <blockquote>
+          <p>When a hunter enters a city, the Hunter encounters, in sequence,
+all Traps for that city which are in the current trail,
+any immature Vampires, and at last Dracula himself.
+Each of these events occur in turn until
+either the Hunter is reduced to 0 or less life points
+or all the encounters have occurred.
+At the point when they reach 0 life points,
+they are instantly automagically teleported to
+<strong>JM</strong> St Joseph and St Mary’s,
+and can do nothing else for the remainder of their turn.</p>
+        </blockquote>
+      </div>
+
+      <p>Essentially: when a hunter enters a city,
+if they die during the encounters,
+they immediately go to <strong>JM</strong>,
+can’t do anything for that turn (they still have 0 life points),
+and in the following turn, they can move again.</p>
+    </dd>
+    <dt>Can I do <em>thing</em> to my Makefile?</dt>
+    <dd>YES:
+
+      <ul>
+        <li>Add <code class="highlighter-rouge">CFLAGS</code>.</li>
+        <li>Add extra files/dependencies etc.</li>
+      </ul>
+    </dd>
+    <dd>
+      <p>NO:</p>
+
+      <ul>
+        <li>Do not change the compiler to <code class="highlighter-rouge">clang</code> or <code class="highlighter-rouge">g++</code> etc.</li>
+        <li>Do not submit precompiled binaries,
+or non-COMP2521-supplied library code you didn’t write.</li>
+        <li>Anything that doesn’t work for the dryrun,
+such as deleting the references for <code class="highlighter-rouge">LIBS</code>.</li>
+        <li>[Anything else you try that doesn’t work
+ … to be added as needed.]</li>
+      </ul>
+    </dd>
+    <dd>
+      <p>Unsure?  Ask on the forums.</p>
+    </dd>
+  </dl>
+
+</article>
+
+</main>
+
+<footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+</body>
+</html>

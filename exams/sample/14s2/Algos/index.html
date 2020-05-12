@@ -1,0 +1,1748 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Algorithms Almanac</title>
+<link rel='stylesheet' type='text/css' href='../exam.css'></head>
+<body>
+<div align='center'>
+<table width='100%' border='0'>
+<tr valign='top'>
+<td align='left' width='25%'>
+  <span class='tiny'>COMP2521</span>
+</td>
+<td align='center' width='50%'>
+  <span class='heading'>COMP2521 Exam</span>
+</td>
+<td align='right' width='25%'>
+  <span class='tiny'></span>
+</td>
+</table>
+</div>
+<center>
+<h2>Algorithms Almanac</h2>
+<p>
+<b>Topic Index:</b>
+&nbsp;
+<span class="links">
+<a href="#linear">Linear ADTs</a>
+...
+<a href="#sorting">Sorting</a>
+...
+<a href="#searching">Searching</a>
+...
+<a href="#graphs">Graphs</a>
+</span>
+</p>
+</center>
+<p>
+This document gives code for representative ADTs and
+algorithms discussed in Lectures.
+It's organised as a single long page, broken down by
+topic area.
+The code assumes that all collection types are made up of
+<tt>Item</tt>s, where the <tt>Item</tt> type has equality,
+less than, greater than, comparison, and display functions
+available as <tt>eq(it1,it2)</tt>, <tt>less(it1,it2)</tt>,
+<tt>greater(it1,it2)</tt>, <tt>cmp(it1,it2)</tt> and <tt>show(it)</tt>.
+Sometimes, <tt>Item</tt>s have keys which are integer
+or string values that uniquely identify the <tt>Item</tt>.
+They key value can be extracted from an <tt>Item</tt>
+using the <tt>key(it)</tt> function.
+ADTs are implemented via a pointer to a hidden
+representation type (e.g. the <tt>Stack</tt> type
+is a pointer to a <tt>StackRep</tt> structure).
+</p>
+<p>
+<b>Note:</b> the code below has not been compiled;
+we make no guarantees that there are no bugs.
+This code is provided simply as a guide to how
+the algorithms were implemented.
+</p>
+
+<a name="linear"></a>
+<h2>Linear ADTs
+&nbsp;
+<span class="links">(
+<a href="#stacks">Stacks</a>
+...
+<a href="#queues">Queues</a>
+)</span>
+</h2>
+
+<a name="stacks"></a>
+<h3>Stack ADT</h3>
+<p>Interface:</p>
+<pre>
+typedef struct StackRep *Stack;
+<span class="comment">// set up empty stack</span>
+Stack newStack(int);
+<span class="comment">// remove unwanted stack</span>
+void dropStack(Stack);
+<span class="comment">// insert an Item on top of stack</span>
+void StackPush(Stack,Item);
+<span class="comment">// remove Item from top of stack</span>
+Item StackPop(Stack);
+<span class="comment">// check whether stack is empty</span>
+Bool StackIsEmpty(Stack);
+</pre>
+<p>Implementation (via arrays):</p>
+<pre>
+typedef struct StackRep {
+   Item *item;
+   int top;
+} StackRep;
+<span class="comment">// set up empty stack</span>
+Stack newStack(int n)
+{
+   Stack s;
+   s = malloc(sizeof(StackRep));
+   assert(s != NULL);
+   s-&gt;item = malloc(n * sizeof(Item));
+   assert(s-&gt;item != NULL);
+   s-&gt;top = -1;
+   return s;
+}
+<span class="comment">// remove unwanted stack</span>
+void dropStack(Stack s)
+{
+   assert(s != NULL);
+   free(s-&gt;item);
+   free(s);
+}
+<span class="comment">// insert Item on top of stack</span>
+void StackPush(Stack s, Item it)
+{
+   assert(s-&gt;top &lt; MAXITEMS-1);
+   s-&gt;top++;
+   int i = s-&gt;top;
+   s-&gt;item[i] = it;
+}
+<span class="comment">// remove Item from top of stack</span>
+Item StackPop(Stack s)
+{
+   assert(s-&gt;top &gt; -1);
+   int i = s-&gt;top;
+   Item it = s-&gt;item[i];
+   s-&gt;top--;
+   return it;
+}
+<span class="comment">// check whether stack is empty</span>
+Bool StackIsEmpty(Stack s)
+{
+   return (s-&gt;top &lt; 0);
+}
+</pre>
+
+<a name="queues"></a>
+<h3>Queue ADT</h3>
+<p>Interface:</p>
+<pre>
+typedef struct QueueRep *Queue;
+<span class="comment">// set up empty queue</span>
+Queue newQueue(int);
+<span class="comment">// remove unwanted queue</span>
+void dropQueue(Queue);
+<span class="comment">// insert Item at back of queue</span>
+void QueueJoin(Queue,Item);
+<span class="comment">// remove Item from front of queue</span>
+Item QueueLeave(Queue);
+<span class="comment">// check whether queue is empty</span>
+Bool QueueIsEmpty(Queue);
+</pre>
+<p>Implementation (via arrays):</p>
+<pre>
+typedef struct QueueRep {
+   Item *item;  <span class="comment">// array to hold Items</span>
+   int front;  <span class="comment">// next Item to be removed</span>
+   int back;  <span class="comment">// last Item added</span>
+   int nitems;  <span class="comment">// # Items currently in queue</span>
+   int maxitems;  <span class="comment">// size of array</span>
+} QueueRep;
+<span class="comment">// set up empty queue</span>
+Queue newQueue(int n)
+{
+   Queue q;
+   q = malloc(sizeof(QueueRep));
+   assert(q != NULL);
+   q-&gt;item = malloc(n * sizeof(Item));
+   assert(q-&gt;item != NULL);
+   q-&gt;front = q-&gt;back = 0;
+   q-&gt;nitems = 0; q-&gt;maxitems = n;
+   return q;
+}
+<span class="comment">// remove unwanted queue</span>
+void dropQueue(Queue q)
+{
+   assert(q != NULL);
+   free(q-&gt;item);
+   free(q);
+}
+<span class="comment">// insert item on top of queue</span>
+void QueueJoin(Queue q, Item it)
+{
+   assert(q-&gt;nitems &lt; q-&gt;maxitems);
+   q-&gt;item[q-&gt;front] = it;
+   q-&gt;nitems++;
+   q-&gt;front = (q-&gt;front+1)%q-&gt;maxitems;
+}
+<span class="comment">// remove item from front of queue</span>
+Item QueueLeave(Queue q)
+{
+   assert(q-&gt;nitems &gt; 0);
+   Item it = q-&gt;item[q-&gt;back];
+   q-&gt;nitems--;
+   q-&gt;back = (q-&gt;back+1)%q-&gt;maxitems;
+   return it;
+}
+<span class="comment">// check whether queue is empty</span>
+Bool QueueIsEmpty(Queue q)
+{
+   return (q-&gt;nitems == 0);
+}
+</pre>
+
+
+<p>Priority Queue:</p>
+<p>Interface:</p>
+<pre>
+typedef struct PQueueRep *PQueue;
+<span class="comment">create new empty priority queue</span>
+PQueue newPQueue(int size);
+<span class="comment">add item to priority queue</span>
+void PQJoin(PQueue q, Item it);
+<span class="comment">remove item from priority queue</span>
+Item PQLeave(PQueue q);
+<span class="comment">free up priority queue</span>
+void dropPQueue(PQueue q);
+</pre>
+<p>Implementation:</p>
+<pre>
+struct PQueueRep {
+    int   nItems; <span class="comment">// count of items</span>
+    Item *items;  <span class="comment">// heap-array of Items</span>
+    int   size;   <span class="comment">// size of array</span>
+}
+<span class="comment">// create a new empty queue</span>
+PQueue newPQueue(int size)
+{
+    PQueue q = malloc(sizeof(struct PQrep));
+    assert(q != NULL);
+    <span class="comment">// indexes start from 1</span>
+    q-&gt;items = malloc(sizeof(Item) * (size+1));
+    assert(q-&gt;items != NULL);
+    q-&gt;nItems = 0;
+    q-&gt;size = size;
+    return q;
+}
+<span class="comment">// add a new item into the queue</span>
+void PQJoin(PQueue q, Item it)
+{
+    assert(q != NULL &amp;&amp; q-&gt;nItems &lt; q-&gt;size);
+    q-&gt;nItems++;
+    q-&gt;items[q-&gt;nItems] = it;
+    fixUp(q-&gt;items, q-&gt;nItems);
+}
+<span class="comment">// remove item from priority queue</span>
+Item PQLeave(PQueue q)
+{
+    assert(q != NULL &amp;&amp; q-&gt;nItems &gt; 0);
+    swap(q-&gt;items, 1, q-&gt;nItems);
+    q-&gt;nItems--;
+    fixDown(p-&gt;items, 1, q-&gt;nItems);
+    return q-&gt;items[q-&gt;nItems+1];
+}
+<span class="comment">free up priority queue</span>
+void dropPQueue(PQueue q)
+{
+    assert(q != NULL);
+    free(q-&gt;items);
+    free(q);
+}
+void fixUp(Item a[], int k)
+{
+   while (k &gt; 1 &amp;&amp; less(a[k/2],a[k])) {
+      swap(a, k, k/2);
+      k = k/2;  <span class="comment">// integer division</span>
+   }
+}
+void fixDown(Item a[], int k, int N)
+{
+    while (2*k &lt;= N) {
+    int j = 2*k;
+    <span class="comment">// choose larger of two children</span>
+    if (j &lt; N &amp;&amp; less(a[j], a[j+1])) j++;
+        if (!less(a[k], a[j])) break;
+        swap(a, k, j);
+        k = j;
+    }
+}
+</pre>
+
+
+
+<a name="sorting"></a>
+<h2>Sorting
+&nbsp;
+
+</h2>
+
+<a name="sort1"></a>
+
+
+<p>Sorting problem:</p>
+<pre>
+Pre-condition: a[0..N-1] contain Items
+Post-condition: forall i:0..N-2,  key(a[i]) &leq; key(a[i+1])
+</pre>
+
+<p>Selection sort:</p>
+<pre>
+void selectionSort(int a[], int lo, int hi)
+{
+   int i, j, min;
+   for (i = lo; i &lt; hi; i++) {
+      min = i;
+      for (j = i+1; j &lt;= hi; j++) {
+         if (less(a[j],a[min])) min = j;
+      }
+      swap(a[i], a[min]);
+   }
+}
+</pre>
+
+<p>Bubble sort:</p>
+<pre>
+void bubbleSort(int a[], int lo, int hi)
+{
+   int i, j;
+   for (i = lo; i &lt; hi; i++) {
+      for (j = hi; j &gt; i; j--) {
+         if (less(a[j], a[j-1])) {
+            swap(a[j], a[j-1]);
+         }
+      }     
+   }
+}
+</pre>
+
+<p>Bubble sort with Early Exit:</p>
+<pre>
+void bubbleSort(int a[], int lo, int hi)
+{
+   int i, j, nswaps;
+   for (i = lo; i &lt; hi; i++) {
+      nswaps = 0;
+      for (j = hi; j &gt; i; j--) {
+         if (less(a[j], a[j-1])) {
+            swap(a[j], a[j-1]);
+            nswaps++;
+         }
+      }
+      if (nswaps == 0) break;
+   }
+}
+</pre>
+
+
+
+<p>Insertion sort:</p>
+<pre>
+void insertionSort(int a[], int lo, int hi)
+{
+   int i, j, val;
+   for (i = lo+1; i <= hi; i++) {
+      val = a[i];
+      for (j = i; j &gt; lo; j--) {
+         if (!less(val,a[j-1])) break;
+         a[j] = a[j-1];
+      }
+      a[j] = val;
+   }
+}
+</pre>
+
+
+<p>Shell sort:</p>
+<pre>
+void shellSort(int a[], int lo, int hi)
+{
+    int n = (hi-lo) + 1; 
+    int i, j, h;
+
+    //calculate starting h value
+    for (h = 1; h <= (n - 1)/9; h = (3 * h) + 1) {
+          printf("%d ",h);
+    }
+    
+    for (; h > 0; h /= 3) {
+      
+       for (i = h; i < n; i++) {
+            int key = a[i];
+            for (j = i; j >= h && key <  a[j - h] ; j -=h) {
+                a[j] = a[j - h];
+            }
+            a[j] = key;
+        }
+    }
+   
+}
+ 
+}
+</pre>
+
+
+<p>Quicksort: <small>(with median-of-three partitioning)</small></p>
+<pre>
+void quicksort(Item a[], int lo, int hi)
+{
+   int i; <span class="comment">// index of pivot</span>
+   if (hi &lt;= lo) return;
+   medianOfThree(a, lo, hi);
+   i = partition(a, lo+1, hi-1);
+   quicksort(a, lo, i-1);
+   quicksort(a, i+1, hi);
+}
+void medianOfThree(Item a[], int lo, int hi)
+{
+   int mid = (lo+hi)/2;
+   if (less(a[mid],a[lo])) swap(a, lo, mid);
+   if (less(a[hi],a[mid])) swap(a, mid, hi);
+   if (less(a[mid],a[lo])) swap(a, lo, mid);
+   <span class="comment">// now, we have a[lo] &leq; a[mid] &leq; a[hi]</span>
+   <span class="comment">// swap a[mid] to a[lo+1] to use as pivot</span>
+   swap(a, lo+1, mid);
+}
+int partition(Item a[], int lo, int hi)
+{
+   Item v = a[lo];  <span class="comment">// pivot</span>
+   int  i = lo+1, j = hi;
+   for (;;) {
+      while (less(a[i],v) &amp;&amp; i &lt; j) i++;
+      while (less(v,a[j]) &amp;&amp; j &gt; i) j--;
+      if (i == j) break;
+      swap(a,i,j);
+   }
+   j = less(a[i],v) ? i : i-1;
+   swap(a,lo,j);
+   return j;
+}
+</pre>
+
+<p>Mergesort:</p>
+<pre>
+void mergesort(Item a[], int lo, int hi)
+{
+   int mid = (lo+hi)/2; <span class="comment">// mid point</span>
+   if (hi &lt;= lo) return;
+   mergesort(a, lo, mid);
+   mergesort(a, mid+1, hi);
+   merge(a, lo, mid, hi);
+}
+void merge(Item a[], int lo, int mid, int hi)
+{
+   int  i, j, k, nitems = hi-lo+1;
+   Item *tmp = malloc(nitems*sizeof(Item));
+
+   i = lo; j = mid+1; k = 0;
+   <span class="comment">// scan both segments, copying to tmp</span>
+   while (i &lt;= mid &amp;&amp; j &lt;= hi) {
+     if (less(a[i],a[j]))
+        tmp[k++] = a[i++];
+     else
+        tmp[k++] = a[j++];
+   }
+   <span class="comment">// copy items from unfinished segment</span>
+   while (i &lt;= mid) tmp[k++] = a[i++];
+   while (j &lt;= hi) tmp[k++] = a[j++];
+
+   <span class="comment">//copy tmp back to main array</span>
+   for (i = lo, k = 0; i &lt;= hi; i++, k++)
+      a[i] = tmp[k];
+   free(tmp);
+}
+</pre>
+
+
+
+<a name="searching"></a>
+<h2>Searching
+&nbsp;
+<span class="links">(
+<a href="#binsearch">Binary Search</a>
+...
+<a href="#bsts">BSTs</a>
+...
+<a href="#bbsts">Balanced Trees</a>
+...
+<a href="#hash">HashTables</a>
+)</span>
+</h2>
+
+<a name="binsearch"></a>
+<h3>Binary Search</h3>
+
+<p>Binary search in array:</p>
+<pre>
+<span class="comment">// search for key k in array a[]
+// - returns index of location for k
+// - doesn't indicate whether key is actually there or not</span>
+int findInArray(Key k, Item a[], int lo, int hi)
+{
+    if (hi &lt;= lo) return lo;
+    int mid = (hi+lo)/2;
+    int diff = cmp(k, key(a[mid]));
+    if (diff &lt; 0)
+        return findInArray(k, a, lo, mid);
+    else if (diff &gt; 0)
+        return findInArray(k, a, mid+1, hi);
+    else
+        return mid;
+}
+</pre>
+
+<a name="bsts"></a>
+<h3>Binary Search Trees (BSTs)</h3>
+<p>BST Interface:</p>
+<pre>
+typedef struct Node *Tree;
+<span class="comment">// create an empty Tree</span>
+Tree newTree();
+<span class="comment">// free memory associated with Tree</span>
+void dropTree(Tree);
+<span class="comment">// display a Tree (sideways)</span>
+void showTree(Tree);
+<span class="comment">// insert a new item into a Tree</span>
+Tree TreeInsert(Tree, Item);
+<span class="comment">// delete item with given key from Tree</span>
+Tree TreeDelete(Tree, Key);
+<span class="comment">// check whether item with given key is in Tree</span>
+int TreeFind(Tree, Key);
+<span class="comment">// compute depth of Tree</span>
+int TreeDepth(Tree);
+<span class="comment">// count #nodes in Tree</span>
+int TreeNumNodes(Tree);
+
+</pre>
+<p>BST Implementation:</p>
+<pre>
+typedef struct Node *Link;
+typedef struct Node {
+    Item value;
+    Link left, right;
+} Node;
+<span class="comment">// make a new node containing an Item</span>
+static Link newNode(Item it)
+{
+    Link new = malloc(sizeof(Node));
+    assert(new != NULL);
+    new-&gt;value = it;
+    new-&gt;left = new-&gt;right = NULL;
+    return new;
+}
+<span class="comment">// create a new empty Tree</span>
+Tree newTree()
+{
+    return NULL;
+}
+<span class="comment">// free memory associated with Tree</span>
+void dropTree(Tree t)
+{
+    if (t == NULL) return;
+    dropTree(t-&gt;left);
+    dropTree(t-&gt;right);
+    free(t);
+}
+<span class="comment">// display a Tree (sideways)</span>
+void showTree(Tree t)
+{
+    void doShowTree(Tree);
+    doShowTree(t);
+}
+<span class="comment">// insert a new value into a Tree</span>
+Tree TreeInsert(Tree t, Item it)
+{
+    if (t == NULL) return newNode(it);
+    int diff = cmp(key(it),key(t-&gt;value));
+    if (diff == 0)
+        t-&gt;value = it;
+    else if (diff &lt; 0)
+        t-&gt;left = TreeInsert(t-&gt;left, it);
+    else if (diff &gt; 0)
+        t-&gt;right = TreeInsert(t-&gt;right, it);
+    return t;
+}
+<span class="comment">// insert a new value as root of Tree</span>
+Tree insertAtRoot(Tree t, Item it)
+{ 
+   if (t == NULL) return newNode(it);
+   int diff = cmp(key(it), key(t-&gt;value));
+   if (diff == 0)
+      t-&gt;value = it;
+   else if (diff &lt; 0) {
+      t-&gt;left = insertAtRoot(t-&gt;left, it);
+      printf("rotateR(%d)\n",t-&gt;value);
+      t = rotateR(t);
+   }
+   else if (diff &gt; 0) {
+      t-&gt;right = insertAtRoot(t-&gt;right, it);
+      printf("rotateL(%d)\n",t-&gt;value);
+      t = rotateL(t);
+   }
+   return t;
+}
+
+<span class="comment">// delete item with given key from Tree</span>
+Tree TreeDelete(Tree t, Key k)
+{
+    Tree deleteRoot(Tree);
+
+    if (t == NULL)
+        return NULL;
+    int diff = cmp(k,key(t-&gt;value));
+    if (diff == 0)
+        t = deleteRoot(t);
+    else if (diff &lt; 0)
+        t-&gt;left = TreeDelete(t-&gt;left, k);
+    else if (diff &gt; 0)
+        t-&gt;right = TreeDelete(t-&gt;right, k);
+    return t;
+}
+<span class="comment">// delete root of tree</span>
+Tree deleteRoot(Tree t)
+{
+    Link newRoot;
+    <span class="comment">// if no subtrees, tree empty after delete</span>
+    if (t-&gt;left == NULL &amp;&amp; t-&gt;right == NULL) {
+        free(t);
+        return NULL;
+    }
+    <span class="comment">// if only right subtree, make it the new root</span>
+    else if (t-&gt;left == NULL &amp;&amp; t-&gt;right != NULL) {
+        newRoot = t-&gt;right;
+        free(t);
+        return newRoot;
+    }
+    <span class="comment">// if only left subtree, make it the new root</span>
+    else if (t-&gt;left != NULL &amp;&amp; t-&gt;right == NULL) {
+        newRoot = t-&gt;left;
+        free(t);
+        return newRoot;
+    }
+    <span class="comment">// else (t-&gt;left != NULL &amp;&amp; t-&gt;right != NULL)
+    // so has two subtrees
+    // - find inorder successor (grab value)
+    // - delete inorder successor node
+    // - move its value to root</span>
+    Link parent = t;
+    Link succ = t-&gt;right; // not null!
+    while (succ-&gt;left != NULL) {
+        parent = succ;
+        succ = succ-&gt;left;
+    }
+    int succVal = succ-&gt;value;
+    t = TreeDelete(t,succVal);
+    t-&gt;value = succVal;
+    return t;
+}
+<span class="comment">// check whether item with given key is in Tree</span>
+int TreeFind(Tree t, Key k)
+{
+    if (t == NULL) return 0;
+    int res, diff = cmp(k,key(t-&gt;value));
+    if (diff &lt; 0)
+        res = TreeFind(t-&gt;left, k);
+    else if (diff &gt; 0)
+        res = TreeFind(t-&gt;right, k);
+    else <span class="comment">// (diff == 0)</span>
+        res = 1;
+    return res;
+}
+<span class="comment">// compute depth of Tree</span>
+int TreeDepth(Tree t)
+{
+    if (t == NULL)
+        return 0;
+    else {
+        int ldepth = TreeDepth(t-&gt;left);
+        int rdepth = TreeDepth(t-&gt;right);
+        //return 1 + (ldepth &gt; rdepth)?ldepth:rdepth;
+        if (ldepth &gt; rdepth)
+            return 1+ldepth;
+        else
+            return 1+rdepth;
+    }
+}
+<span class="comment">// count #nodes in Tree</span>
+int TreeNumNodes(Tree t)
+{
+    if (t == NULL) return 0;
+    return 1 + TreeNumNodes(t-&gt;left)
+             + TreeNumNodes(t-&gt;right);
+}
+</pre>
+
+<a name="bbsts"></a>
+<h3>Balanced Trees</h3>
+<pre>
+typedef struct node * link;
+
+struct treeImp{
+    link root;
+};
+
+struct node{
+    Item item;
+    link left;
+    link right;
+    int size; //Keeps track of the number of nodes in each sub-tree
+};
+
+static link emptyTree = NULL;
+
+
+static link NEW (Item item, link l, link r, int size){ 
+    link newLink = malloc (sizeof *newLink); 
+  
+    newLink->item = item; 
+    newLink->left = l; 
+    newLink->right = r; 
+    newLink->size = size;
+    return newLink;
+}
+
+//Initialises a tree
+//In this implementation, a tree is not just a pointer to the root node
+//but is a struct which contains a pointer to the root node.
+Tree TREEinit(int balanceStrategy){
+    Tree t = malloc(sizeof(struct treeImp));
+    assert(t!= NULL);
+    if(emptyTree == NULL){
+      emptyTree = NEW(NULLitem,NULL,NULL,0);
+    }
+    t->root = emptyTree;
+    
+    srand(time(NULL)); //seed random number generator for insertRandom
+    
+    return t;
+}
+
+//returns the size of the tree
+int TREEcount(Tree tree){
+    if(tree->root == NULL) return 0;
+    return tree->root->size;
+}
+
+
+
+void TREEdestroy(Tree t){
+    assert(t != NULL);
+    destroyNodes(t->root);
+    free(emptyTree);
+    free(t);
+}
+
+// A recursive version of standard BST insertion
+// Modified to update the size counters
+// inserts duplicates
+link insert (link currentLink, Item item) { 
+  
+   if (currentLink == emptyTree) {
+       return (NEW (item, emptyTree, emptyTree, 1));
+   }
+   if (less (key (item), key (currentLink->item))) {
+       currentLink->left = insert (currentLink->left, item);
+   } else  {
+       currentLink->right = insert (currentLink->right, item);
+   }
+   currentLink->size++;
+   return (currentLink);
+}
+
+// A recursive function that inserts the new item 
+// at the root of the tree. This is used in randomInsert
+link insertAtRoot(link currentLink, Item item){
+    if(currentLink == emptyTree){
+        return (NEW(item,emptyTree,emptyTree,1));
+    } 
+    //size gets updated by the rotate functions
+    if (less (key (item), key (currentLink->item))) {
+        currentLink->left = insertAtRoot (currentLink->left, item);
+        currentLink = rotRight(currentLink);
+    } else {
+        currentLink->right = insertAtRoot (currentLink->right, item);
+        currentLink = rotLeft(currentLink);
+    } 
+  
+    return (currentLink);
+  
+}
+
+// Randomly inserts either at the leaf of the tree or the root
+link insertRandom(link currentLink, Item item){
+ 
+  if (currentLink == emptyTree) {
+    return (NEW (item, emptyTree, emptyTree, 1));
+  }
+  //Prob 1/N
+  if(rand() < RAND_MAX/(currentLink->size+1)){
+    return insertAtRoot(currentLink,item);
+  } else if (less (key (item), key (currentLink->item))) {
+    currentLink->left = insertRandom (currentLink->left, item);
+  } else {
+    currentLink->right = insertRandom (currentLink->right, item);
+  } 
+  currentLink->size++;
+  return (currentLink);
+}
+
+
+
+// Performs a standard recursive search for the key in the given tree
+// returns 1 if found and 0 otherwise
+int searchR(link  t, Key k){
+    int returnVal;
+    if (t == NULL || t == emptyTree){
+        returnVal =  0;
+    }else if (less(k,t->item)){
+	    returnVal =  searchR(t->left, k);
+    }else if (greater(k,t->item)){
+	    returnVal =  searchR(t->right, k);
+    }else{
+        returnVal =  1;
+    }
+    return returnVal;
+}
+
+
+static link rotLeft (link currentTree) {
+	if(currentTree == NULL || currentTree == emptyTree                  
+                           || currentTree->right == emptyTree){
+        return currentTree;
+    }
+    link rotLTree = currentTree->right;
+    currentTree->right = rotLTree->left;
+    rotLTree->left = currentTree;
+	rotLTree->left->size = rotLTree->left->left->size + rotLTree->left->right->size +1;
+    rotLTree->size = rotLTree->left->size + rotLTree->right->size + 1;
+    return rotLTree;
+}
+
+
+static link rotRight (link currentTree) {
+	if(currentTree == NULL || currentTree == emptyTree 
+                           || currentTree->left == emptyTree){
+        return currentTree;
+    }
+    link rotRTree = currentTree->left;
+    currentTree->left = rotRTree->right;
+    rotRTree->right = currentTree;
+	rotRTree->right->size = rotRTree->right->left->size + rotRTree->right->right->size + 1;
+    rotRTree->size = rotRTree->right->size+ rotRTree->left->size+1;
+    return rotRTree;
+}
+
+
+
+// partition tree at node with position pos (counting from 0) in the
+// sorted sequence of all items, node become new root node.
+link partitionR (link currentTree, int pos) {
+    if(currentTree == NULL || currentTree == emptyTree)
+        return currentTree;
+    int leftSubtreeSize = currentTree->left->size;
+    if (leftSubtreeSize > pos) {
+        currentTree->left = partitionR (currentTree->left, pos);
+        currentTree = rotRight (currentTree) ;
+    } else if (leftSubtreeSize < pos) {
+        currentTree->right = 
+        partitionR (currentTree->right, pos - 1 - leftSubtreeSize);
+        currentTree = rotLeft (currentTree) ;    
+    }
+    return currentTree;
+}
+
+link balance(link tree){
+    if(tree->size >=2){
+        tree = partitionR(tree,tree->size/2);
+        tree->left = balance(tree->left);
+        tree->right = balance(tree->right);
+    }
+    return tree;
+}
+
+link insertSplay (link tree, Item item) {
+    Key v = key (item);
+    if (tree == emptyTree)
+        return (NEW (item, emptyTree, emptyTree, 1)); 
+  
+    if (less (v, key(tree->item))) {
+        if (tree->left == emptyTree) {
+            return (NEW (item, emptyTree, tree, tree->size+1));
+        }
+        if (less (v, key (tree->left->item))) {
+            tree->left->left = insertSplay (tree->left->left, item);
+            tree = rotRight (tree); 
+        } else {
+            tree->left->right = insertSplay (tree->left->right, item);
+            tree->left = rotLeft (tree->left);
+        }
+            return rotRight (tree);
+    } else {
+        if (tree->right == emptyTree) {
+            return (NEW (item, tree, emptyTree, tree->size+1));
+        }
+        if (less (key (tree->right->item), v)) {
+            tree->right->right = insertSplay (tree->right->right, item);
+            tree = rotLeft (tree);
+        } else {
+            tree->right->left = insertSplay (tree->right->left, item);
+            tree->right = rotRight (tree->right);
+        }
+        return rotLeft (tree);
+     }
+}
+
+//The function should perform rotations on all
+//items in the search path in a similar way to that of
+//splay tree insertion - except no node is actually inserted
+ 
+//The node that contains the key
+//should be rotated up and returned as the root of the tree
+//and *found should be set to 1
+    
+//If the key was not found, the last node on the search
+//path should be rotated up to the root of the tree
+//and found should be set to 0
+
+//returns the new root of the tree 
+//sets the value of *found to 0 or 1
+link searchSplay (link n, Key k, int * found){
+  
+    link returnVal = emptyTree;
+
+    if (n == emptyTree) {
+        // item not found
+        *found = 0;
+        returnVal =  n;  
+    }else if (eq(key(n->item),k)) {
+        *found = 1;    // item found, store true
+        returnVal =  n;  
+    } else if (less (k, key (n->item))) {
+        if (n->left == emptyTree){
+            *found = 0;// item not found
+            //returnVal =  rotateRight(n);
+            returnVal = n;
+        }else if(eq(key(n->left->item),k)){
+            *found = 1;
+            returnVal =  rotRight(n);
+        }else{
+            if (less (k, key(n->left->item))) {
+                /* left-left */
+                n->left->left = searchSplay (n->left->left, k, found);
+              
+                n = rotRight (n);
+               
+            } else {
+                /* left-right */
+                n->left->right = searchSplay (n->left->right, k, found);
+                n->left = rotLeft (n->left);
+            }
+            returnVal =  rotRight (n);
+        }
+   } else {
+         //printf("At node %s\n",n->item); 
+       if (n->right == emptyTree){
+            *found = 0;// item not found
+            //returnVal =  rotateLeft(n);
+            returnVal = n;
+        }else if(eq(key(n->right->item),k)){
+            *found = 1;
+            returnVal =  rotLeft(n);
+        } else{
+            if (less (key(n->right->item), k)) {
+                /* right-right */
+                n->right->right = searchSplay (n->right->right, k, found);
+               
+                n = rotLeft (n);
+                
+            } else {
+                /* right-left */
+                n->right->left = searchSplay (n->right->left, k, found);
+                n->right = rotRight (n->right);
+            }
+            
+            returnVal =  rotLeft (n);
+        }
+   }
+   return returnVal;
+   
+}
+
+static void destroyNodes(link n){
+    if( n != emptyTree){
+        destroyNodes(n->left);
+        destroyNodes(n->right);
+        free(n->item);
+        free(n);
+    }
+}
+
+</pre>
+<a name="hash"></a>
+<h3>Hashing</h3>
+
+<p>Hash table Interface:</p>
+<pre>
+typedef struct HashTabRep *HashTable;
+<span class="comment">// create an empty HashTable</span>
+HashTable newHashTable(int);
+<span class="comment">// free memory associated with HashTable</span>
+void dropHashTable(HashTable);
+<span class="comment">// insert a new value into a HashTable</span>
+void hashTableInsert(HashTable, Item);
+<span class="comment">// delete a value from a HashTable</span>
+void hashTableDelete(HashTable, Key);
+<span class="comment">// get Item from HashTable using Key</span>
+Item *hashTableSearch(HashTable, Key);
+</pre>
+<p>Hash Table Implementation: <small>(separate chains)</small></p>
+<pre>
+#include "List.h"  <span class="comment">// use Lists of Items</span>
+typedef struct HashTabRep {
+   List *lists;  // lists of Items
+   int   nslots; // # elements in array
+   int   nitems; // # items stored in HashTable
+} HashTabRep;
+<span class="comment">// convert key to index</span>
+static int hash(Key k, int N)
+{
+   int h = <span class="comment">... convert key to int</span>
+   return h % N;
+}
+<span class="comment">// create an empty HashTable</span>
+HashTable newHashTable(int N)
+{
+   HashTable new = malloc(sizeof(HashTable));
+   assert(new != NULL);
+   new-&gt;lists = malloc(N*sizeof(List));
+   assert(new-&gt;items != NULL);
+   int i;
+   for (i = 0; i &lt; N; i++)
+      new-&gt;lists[i] = newList();
+   new-&gt;nslots = N;
+   new-&gt;nitems = 0;
+   return new;   
+}
+<span class="comment">// free memory associated with HashTable</span>
+void dropHashTable(HashTable ht)
+{
+   free(ht-&gt;lists);
+   free(ht);
+}
+<span class="comment">// insert a new value into a HashTable</span>
+void hashTableInsert(HashTable ht, Item it)
+{
+   Key k = key(it);
+   int i = hash(k, ht-&gt;nslots);
+   ListInsert(ht-&gt;lists[i], it);
+}
+<span class="comment">// delete a value from a HashTable</span>
+void hashTableDelete(HashTable ht, Key k)
+{
+   int i = hash(k, ht-&gt;nslots);
+   ListDelete(ht-&gt;lists[i], k);
+}
+<span class="comment">// get Item from HashTable using Key</span>
+Item *hashTableSearch(HashTable ht, Key k)
+{
+   int i = hash(k, ht-&gt;nslots);
+   return ListSearch(ht-&gt;lists[i], k);
+}
+</pre>
+
+</h2>
+<p>Hash Table Implementation: <small>(linear probing)</small></p>
+<pre>
+#include "List.h"  <span class="comment">// use Lists of Items</span>
+typedef struct HashTabRep {
+   Item *items;  // lists of Items
+   int   nslots; // # elements in array
+   int   nitems; // # items stored in HashTable
+} HashTabRep;
+<span class="comment">// convert key to index</span>
+static int hash(Key k, int N)
+{
+   int h = <span class="comment">... convert key to int</span>
+   return h % N;
+}
+<span class="comment">// create an empty HashTable</span>
+HashTable newHashTable(int N)
+{
+   HashTabRep *new = malloc(sizeof(HashTabRep));
+   assert(new != NULL);
+   new-&gt;items = malloc(N*sizeof(Item));
+   assert(new-&gt;items != NULL);
+   int i;
+   for (i = 0; i &lt; N; i++)
+      new-&gt;items[i] = NoItem;
+   new-&gt;nslots = N; new-&gt;nitems = 0;
+   return new;
+
+}
+<span class="comment">// free memory associated with HashTable</span>
+void dropHashTable(HashTable ht)
+{
+   free(ht-&gt;items);
+   free(ht);
+}
+<span class="comment">// insert a new value into a HashTable</span>
+void hashTableInsert(HashTable ht, Item it)
+{
+   int N = ht-&gt;nslots;
+   Item *data = ht-&gt;items;
+   Key k = key(it);
+   int ix, j, i = hash(k,N);
+   for (j = 0; j &lt; N; j++) {
+      ix = (i+j)%N;
+      if (cmp(k,key(data[ix]) == 0)
+         break;
+      else if (data[ix] == NoItem)
+         break;
+   }
+   if (j &lt; N) {
+      data[ix] = it;
+      ht-&gt;nitems++;
+   }
+}
+<span class="comment">// delete a value from a HashTable</span>
+void hashTableDelete(HashTable ht, Key k)
+{
+   int N = ht-&gt;nslots;
+   Item *data = ht-&gt;items;
+   int j, i = hash(k,N);
+   for (j = 0; j &lt; N; j++) {
+      int ix = (i+j)%N;
+      if (cmp(k,key(data[ix]) == 0)
+         break;
+      else if (data[ix] == NoItem)
+         return; <span class="comment">// k not in table</span>
+   }
+   data[ix] = NoItem;
+   ht-&gt;nitems--;
+   <span class="comment">// clean up probe path</span>
+   j = ix+1;
+   while (data[j] != NoItem) {
+      Item it = data[j];
+      data[j] = NoItem;
+      ht-&gt;nitems--;
+      insert(ht, it);
+      j = (j+1)%N);
+   }
+}
+<span class="comment">// get Item from HashTable using Key</span>
+Item *hashTableSearch(HashTable ht, Key k)
+{
+   int N = ht-&gt;nslots;
+   Item *data = ht-&gt;items;
+   int j, i = hash(k,N);
+   for (j = 0; j &lt; N; j++) {
+      int ix = (i+j)%N;
+      if (cmp(k,key(data[ix]) == 0)
+         return &amp;(data[ix]);
+   }
+   return NULL;
+
+}
+</pre>
+
+
+<a name="graphs"></a>
+<h2>Graphs</h2>
+&nbsp;
+<span class="links">(
+<a href="#graph-reps">Representation</a>
+...
+<a href="#traversal">Traversal</a>
+...
+
+<a href="#wgraphs">Weighted Graphs</a>
+)</span>
+</h2>
+
+<a name="graph-reps"></a>
+<h3>Representation</h3>
+
+<p>Graph Interface:</p>
+<pre>
+<span class="comment">// visible data structures for Graphs</span>
+typedef struct GraphRep *Graph;
+<span class="comment">// vertices denoted by integers 0..N-1</span>
+typedef int Vertex;
+<span class="comment">// edges are pairs of vertices (end-points)</span>
+typedef struct { Vertex v; Vertex w; } Edge;
+<span class="comment">// auxiliary operations on graphs</span>
+int  validV(Graph,Vertex); <span class="comment">// validity check</span>
+Edge mkEdge(Graph, Vertex, Vertex); <span class="comment">// edge creation</span>
+int  neighbours(Graph, Vertex, Vertex); <span class="comment">// edge existence</span>
+<span class="comment">// core operations on graphs</span>
+<span class="comment">// make new graph with nV vertices</span>
+Graph newGraph(int nV);
+<span class="comment">// free memory allocated to graph</span>
+void  dropGraph(Graph);
+<span class="comment">// show "printable" representation of graph</span>
+void  showGraph(Graph);
+<span class="comment">// add new edge to a graph</span>
+void  insertE(Graph, Edge);
+<span class="comment">// remove an edge from a graph</span>
+void  removeE(Graph, Edge);
+<span class="comment">// returns #vertices & array of edges</span>
+int   edges(Graph, Edge *, int);
+</pre>
+<p>Implementation of Auxiliary Operations:</p>
+<pre>
+<span class="comment">// is a vertex valid in a given Graph?</span>
+static int validV(Graph g, Vertex v)
+{
+   return (g != NULL &amp;&amp; v &gt;= 0 &amp;&amp; v &lt; g-&gt;nV);
+}
+<span class="comment">// make an Edge value</span>
+Edge mkEdge(Graph g, Vertex v, Vertex w)
+{
+   assert(validV(g,v) &amp;&amp; validV(g,w));
+   Edge e = {v,w}; <span class="comment">// struct assignment</span>
+   return e;
+}
+</pre>
+
+<p>Adjacency Matrix Representation:</p>
+<pre>
+typedef struct GraphRep {
+   int    nV;    <span class="comment">// #vertices</span>
+   int    nE;    <span class="comment">// #edges</span>
+   Bool **edges; <span class="comment">// matrix of booleans</span>
+} GraphRep;
+<span class="comment">// check whether two vertices are connected</span>
+int neighbours(Graph g, Vertex v, Vertex w)
+{
+	assert(validV(g,v) &amp;&amp; validV(g,w));
+	return g-&gt;edges[v][w];
+}
+<span class="comment">// make new graph with nV vertices</span>
+Graph newGraph(int nV)
+{
+   assert(nV &gt;= 0);
+   int i, j;
+   int **e = malloc(nV * sizeof(int *));
+   assert(e != NULL);
+   for (i = 0; i &lt; nV; i++) {
+      e[i] = malloc(nV * sizeof(int));
+      assert(e[i] != NULL);
+      for (j = 0; j &lt; nV; j++)
+         e[i][j] = FALSE;
+   }
+   Graph g = malloc(sizeof(GraphRep));
+   assert(g != NULL);
+   g-&gt;nV = nV;  g-&gt;nE = 0;  g-&gt;edges = e;
+   return g;
+}
+<span class="comment">// free memory allocated to graph</span>
+void  dropGraph(Graph g)
+{
+   assert(g != NULL);
+   int i;
+   for (i = 0; i &lt; g-&gt;nV; i++)
+      free(g-&gt;edges[i]);
+   free(g-&gt;edges);
+   free(g);
+}
+<span class="comment">// show "printable" representation of graph</span>
+void  showGraph(Graph g)
+{
+   assert(g != NULL);
+   printf("V=%d, E=%d\n", g-&gt;nV, g-&gt;nE);
+   int i, j;
+   for (i = 0; i &lt; g-&gt;nV; i++) {
+      int nshown = 0;
+      for (j = i+1; j &lt; g-&gt;nV; j++) {
+         if (g-&gt;edges[i][j] != 0) {
+            printf("%d-%d ",i,j);
+            nshown++;
+         }
+      }
+      if (nshown &gt; 0) printf("\n");
+   }
+}
+<span class="comment">// add new edge to a graph</span>
+void insertE(Graph g, Edge e)
+{
+   assert(g != NULL);
+   assert(validV(g,e.v) &amp;&amp; validV(g,e.w));
+   if (g-&gt;edges[e.v][e.w]) return;
+   g-&gt;edges[e.v][e.w] = 1;
+   g-&gt;edges[e.w][e.v] = 1;
+   g-&gt;nE++;
+}
+<span class="comment">// remove an edge from a graph</span>
+void removeE(Graph g, Edge e)
+{
+   assert(g != NULL);
+   assert(validV(g,e.v) &amp;&amp; validV(g,e.w));
+   if (!g-&gt;edges[e.v][e.w]) return;
+   g-&gt;edges[e.v][e.w] = 0;
+   g-&gt;edges[e.w][e.v] = 0;
+   g-&gt;nE--;
+}
+<span class="comment">// returns #vertices &amp; array of edges</span>
+int edges(Graph g, Edge *es, int nE)
+{
+   assert(g != NULL &amp;&amp; es != NULL);
+   assert(nE &gt;= g-&gt;nE);
+   int i, j, n = 0;
+   for (i = 0; i &lt; g-&gt;nV; i++) {
+      for (j = i+1; j &lt; g-&gt;nV; j++) {
+         if (g-&gt;edges[i][j] != 0) {
+            assert(n &lt; nE);
+            es[n++] = mkEdge(g,i,j);
+         }
+      }
+   }
+   return n;
+}
+</pre>
+<p>Adjacency List Representation:</p>
+<pre>
+typedef struct vNode *VList;
+struct vNode { Vertex v; vList next; };
+typedef struct graphRep GraphRep;
+struct graphRep {
+   int   nV;     <span class="comment">// #vertices</span>
+   int   nE;     <span class="comment">// #edges</span>
+   VList *edges; <span class="comment">// array of lists</span>
+};
+<span class="comment">// check whether two vertices are connected</span>
+int neighbours(Graph g, Vertex v, Vertex w)
+{
+   assert(validV(g,v) &amp;&amp; validV(g,w));
+   VList curr;
+   curr = g-&gt;edges[v];
+   while (curr != NULL) {
+      if (curr-&gt;v == w) return 1;
+   }
+   return 0;
+}
+<span class="comment">// make new graph with nV vertices</span>
+Graph newGraph(int nV)
+{
+   int i, j;
+   VList *e = malloc(nV * sizeof(VList));
+   assert(e != NULL);
+   for (i = 0; i &lt; nV; i++) e[i] = NULL;
+   Graph g = malloc(sizeof(GraphRep));
+   assert(g != NULL);
+   g-&gt;nV = nV;  g-&gt;nE = 0;  g-&gt;edges = e;
+   return g;
+}
+<span class="comment">// free memory allocated to graph</span>
+void  dropGraph(Graph g)
+{
+   assert(g != NULL);
+   int i;
+   for (i = 0; i &lt; g-&gt;nV; i++)
+      freeVList(g-&gt;edges[i]);
+   free(g);
+}
+<span class="comment">// show "printable" representation of graph</span>
+void  showGraph(Graph)
+{
+   assert(g != NULL);
+   printf("V=%d, E=%d\n", g-&gt;nV, g-&gt;nE);
+   int i;
+   for (i = 0; i &lt; g-&gt;nV; i++) {
+      vNode *n = g-&gt;edges[i];
+      while (n != NULL) {
+         printf("%d-%d ",i,n-&gt;v);
+         n = n-&gt;next;
+      }
+      if (g-&gt;edges[i] != NULL) printf("\n");
+   }
+}
+<span class="comment">// add new edge to a graph</span>
+void  insertE(Graph g, Edge e)
+{
+   assert(g != NULL);
+   assert(validV(g,e.v) &amp;&amp; validV(g,e.w));
+   int orig = length(g-&gt;edges[e.v]);
+   g-&gt;edges[e.v] = insertVList(g-&gt;edges[e.v], e.w);
+   g-&gt;edges[e.w] = insertVList(g-&gt;edges[e.w], e.v);
+   if (length(g-&gt;edges[e.v]) &gt; orig) g-&gt;nE++;
+}
+<span class="comment">// remove an edge from a graph</span>
+void  removeE(Graph g, Edge e)
+{
+   assert(g != NULL);
+   assert(validV(g,e.v) &amp;&amp; validV(g,e.w));
+   int orig = length(g-&gt;edges[e.v]);
+   g-&gt;edges[e.v] = deleteVList(g-&gt;edges[e.v], e.w);
+   g-&gt;edges[e.w] = deleteVList(g-&gt;edges[e.w], e.v);
+   if (length(g-&gt;edges[e.v]) &lt; orig) g-&gt;nE--;
+}
+<span class="comment">// returns #vertices &amp; array of edges</span>
+int edges(Graph g, Edge *es, int nE)
+{
+   VList curr;
+   assert(g != NULL &amp;&amp; es != NULL);
+   assert(nE &gt;= g-&gt;nE);
+   int w, n = 0;
+   for (w = 0; w &lt; g-&gt;nV; w++) {
+      curr = g-&gt;edges[w];
+      while (curr != NULL) {
+         if (w &lt; curr-&gt;v)
+            es[n++] = mkEdge(g,w,curr-&gt;v);
+         curr = curr-&gt;next;
+      }
+   }
+   return n;
+}
+</pre>
+
+<a name="traversal"></a>
+<h3>Traversal</h3>
+
+<p>Path Checking:</p>
+<pre>
+int count;
+int *pre;  <span class="comment">// array of booleans</span>
+               <span class="comment">// indexed by vertex 0..V-1</span>
+Vertex *st;  <span class="comment">// array of Vertices</span>
+				<span class="comment">// indexed by vertex 0..V-1</span>
+<span class="comment">// DFS : depth-first search</span>
+int hasPath(Graph g, Vertex src, Vertex dest)
+{
+   int i;
+   count = 0;
+   pre = malloc(g-&gt;nV*sizeof(int));
+   for (i = 0; i &lt; g-&gt;nV; i++) pre[i] = -1;
+   int result = dfsPathCheck(g, src, dest);
+   free(pre);
+   return result;
+}
+int dfsPathCheck(Graph g, Vertex v, Vertex dest)
+{
+   pre[v] = count++;
+   Vertex w;
+   for (w = 0; w &lt; g-&gt;nV; w++) {
+      if (g-&gt;edges[v][w] &amp;&amp; w == dest)
+         return 1; <span class="comment">// found path</span>
+      if (g-&gt;edges[v][w] &amp;&amp; pre[w] == -1)
+         return dfsPathCheck(g, w);
+   }
+   return 0; <span class="comment">// no path from src to dest</span>
+}
+
+<span class="comment">// BFS : breadth-first search</span>
+int hasPath(Graph g, Vertex src, Vertex dest)
+{
+   count = 0;
+   pre = malloc(g-&gt;nV*sizeof(int));
+   for (i = 0; i &lt; g-&gt;nV; i++) pre[i] = -1;
+   
+   Queue q = newQueue();
+   QueueJoin(q,src);
+   int isFound = 0;
+   while (!QueueIsEmpty(q) &amp;&amp; !isFound) {
+      Vertex y, x = QueueLeave(q);
+      if (pre[x] != -1) continue;
+      for (y = 0; y &lt; g-&gt;nV; y++) {
+         if (!g-&gt;edges[x][y]) continue;
+         if (y == dest) { isFound = 1; break; }
+         if (pre[y] == -1) { QueueJoin(q,y); }
+      }
+   }
+   dropQueue(q);
+   free(pre);
+   return isFound;
+}
+</pre>
+
+<p>Find and Display Shortest Path:</p>
+<pre>
+int findPath(Graph g, Vertex src, Vertex dest)
+{
+   count = 0;
+   int i;
+   <span class="comment">// array of "been visited" flags</span>
+   pre = malloc(g-&gt;nV * sizeof(int));
+   for (i = 0; i &lt; g-&gt;nV; i++) pre[i] = -1;
+   <span class="comment">// array of path predecessor vertices (they form a spanning tree)</span>
+   Vertex *st= malloc(g-&gt;nV * sizeof(Vertex));
+   for (i = 0; i &lt; g-&gt;nV; i++) st[i] = -1;
+   Queue q = newQueue();
+   QueueJoin(q, src); 
+   visited[src] = count++;
+   int isFound = 0;
+   while (!emptyQ(q) &amp;&amp; !isFound) {
+      Vertex y, x = QueueLeave(q);
+      for (y = 0; y &lt; g-&gt;nV; y++) {
+         if (!g-&gt;edges[x][y]) continue;
+         st[y] = x;
+         if (y == dest) { isFound = 1; break; }
+         if (pre[y] == -1) {
+            QueueJoin(q, y);
+            pre[y] = count++;
+         }
+      }
+   }
+   if (isFound) {
+      <span class="comment">// display path in dest..src order</span>
+      Vertex v;
+      for (v = dest; v != src; v = st[v])
+          printf("%d&lt;-", v);
+      printf("%d\n", src);
+   }
+   free(st);
+   free(pew);
+   dropQueue(q);
+}
+</pre>
+
+
+
+<a name="wgraphs"></a>
+<h3>Weighted Graphs</h3>
+
+<p>Graph Interface:</p>
+<pre>
+<span class="comment">// visible data structures for Graphs</span>
+typedef struct GraphRep *Graph;
+<span class="comment">// vertices denoted by integers 0..N-1</span>
+typedef int Vertex;
+<span class="comment">// edges are end-points + weight</span>
+typedef struct { Vertex src; Vertex dest; float weight; } Edge;
+<span class="comment">// auxiliary operations on graphs</span>
+int validV(Graph,Vertex); <span class="comment">// validity check</span>
+Edge mkEdge(Graph, Vertex, Vertex, float); <span class="comment">// edge creation</span>
+int neighbours(Graph, Vertex, Vertex); <span class="comment">// edge existence</span>
+float compareE(Edge e1, Edge e2); <span class="comment">// compare edge weights</span>
+<span class="comment">// core operations on graphs</span>
+<span class="comment">// make new graph with nV vertices</span>
+Graph newGraph(int nV);
+<span class="comment">// free memory allocated to graph</span>
+void  dropGraph(Graph);
+<span class="comment">// show "printable" representation of graph</span>
+void  showGraph(Graph);
+<span class="comment">// add new edge to a graph</span>
+void  insertE(Graph, Edge);
+<span class="comment">// remove an edge from a graph</span>
+void  removeE(Graph, Edge);
+<span class="comment">// returns #vertices & array of edges</span>
+int   edges(Graph, Edge *, int);
+</pre>
+<p>Implementation of Auxiliary Operations:</p>
+<pre>
+<span class="comment">// is a vertex valid in a given Graph?</span>
+static int validV(Graph g, Vertex v)
+{
+   return (g != NULL &amp;&amp; v &gt;= 0 &amp;&amp; v &lt; g-&gt;nV);
+}
+<span class="comment">// make an Edge value</span>
+Edge mkEdge(Graph g, Vertex v, Vertex w)
+{
+   assert(validV(g,v) &amp;&amp; validV(g,w));
+   Edge new;
+   new.src = src;
+   new.dest = dest;
+   new.weight = weight;
+   return new;
+}
+<span class="comment">// compare Edge weights</span>
+int compareE(Edge e1, Edge e2)
+{
+   return e1.weight - e2.weight;
+}
+</pre>
+
+<p>Adjacency Matrix Representation:</p>
+<pre>
+<span class="comment">// since 0 is a valid weight, can't use it for "no edge"</span>
+<span class="comment">// need a distinguished value to indicate "no edge"</span>
+#define NO_EDGE MAXFLOAT  <span class="comment">// imaginary distinguished float value</span>
+typedef struct GraphRep {
+   int    nV;    <span class="comment">// #vertices</span>
+   int    nE;    <span class="comment">// #edges</span>
+   Bool **edges; <span class="comment">// matrix of booleans</span>
+} GraphRep;
+<span class="comment">// check whether two vertices are connected</span>
+int neighbours(Graph g, Vertex v, Vertex w)
+{
+	assert(validV(g,v) &amp;&amp; validV(g,w));
+	return (g-&gt;edges[v][w] != NO_EDGE);
+}
+<span class="comment">// make new graph with nV vertices</span>
+Graph newGraph(int nV)
+{
+   assert(nV &gt;= 0);
+   int i, j;
+   float **e = malloc(nV * sizeof(float *));
+   assert(e != NULL);
+   for (i = 0; i &lt; nV; i++) {
+      e[i] = malloc(nV * sizeof(float));
+      assert(e[i] != NULL);
+      for (j = 0; j &lt; nV; j++)
+         e[i][j] = NO_EDGE;
+   }
+   Graph g = malloc(sizeof(GraphRep));
+   assert(g != NULL);
+   g-&gt;nV = nV;  g-&gt;nE = 0;  g-&gt;edges = e;
+   return g;
+}
+<span class="comment">// free memory allocated to graph</span>
+void  dropGraph(Graph g)
+{
+   assert(g != NULL);
+   int i;
+   for (i = 0; i &lt; g-&gt;nV; i++)
+      free(g-&gt;edges[i]);
+   free(g-&gt;edges);
+   free(g);
+}
+<span class="comment">// show "printable" representation of graph</span>
+void  showGraph(Graph g)
+{
+   assert(g != NULL);
+   printf("V=%d, E=%d\n", g-&gt;nV, g-&gt;nE);
+   int i, j;
+   for (i = 0; i &lt; g-&gt;nV; i++) {
+      int nshown = 0;
+      for (j = i+1; j &lt; g-&gt;nV; j++) {
+         float wt = g-&gt;edges[i][j];
+         if (wt != NO_EDGE) {
+            printf("%d-%0.1f-%d ",i,wt,j);
+            nshown++;
+         }
+      }
+      if (nshown &gt; 0) printf("\n");
+   }
+}
+<span class="comment">// add new edge to a graph</span>
+void insertE(Graph g, Edge e)
+{
+   assert(g != NULL);
+   Vertex v = e.src, w = e.dest;
+   assert(validV(g,v) &amp;&amp; validV(g,w));
+   if (G-&gt;edges[v][w] == NO_EDGE) g-&gt;nE++;
+   g-&gt;edges[v][w] = e.weight;
+}
+<span class="comment">// remove an edge from a graph</span>
+void removeE(Graph g, Edge e)
+{
+   assert(g != NULL);
+   Vertex v = e.src, w = e.dest;
+   assert(validV(g,v) &amp;&amp; validV(g,w));
+   if (g-&gt;edges[v][w] == NO_EDGE) return;
+   g-&gt;edges[v][w] = NO_EDGE;
+   g-&gt;edges[w][v] = NO_EDGE;
+   g-&gt;nE--;
+}
+<span class="comment">// returns #vertices &amp; array of edges</span>
+int edges(Graph g, Edge *es, int nE)
+{
+   assert(g != NULL &amp;&amp; es != NULL);
+   assert(nE &gt;= g-&gt;nE);
+   int i, j, n = 0;
+   for (i = 0; i &lt; g-&gt;nV; i++) {
+      for (j = i+1; j &lt; g-&gt;nV; j++) {
+         if (g-&gt;edges[i][j] != NO_EDGE) {
+            assert(n &lt; nE);
+            es[n++] = mkEdge(g,i,j);
+         }
+      }
+   }
+   return n;
+}
+</pre>
+
+<p>Minimum Spanning Tree (Kruskal):</p>
+<pre>
+typedef Graph MSTree; <span class="comment">// an MST is a specialised Graph</span>
+<span class="comment">// assumes existence of list-of-edges ADT</span>
+MSTree kruskalFindMST(Graph g)
+{
+   Graph mst = newGraph(); <span class="comment">//MST initially empty</span>
+   EdgeList eList; <span class="comment">//sorted list of edges</span>
+   int i;  Edge e;  int eSize = sizeof(Edge);
+   edges(eList, g-&gt;nE, g);
+   eList = qsort(sorted, g-&gt;nE, eSize, compareE);
+   for (i = 0; mst-&gt;nE &lt; g-&gt;nV-1; i++) {
+      e = eList[i];
+      insertE(mst, e);
+      if (hasCycle(mst)) removeE(mst, e);
+   }
+}
+</pre>
+
+<p>Minimum Spanning Tree (Prim):</p>
+<pre>
+void prim(Graph g, int st[], float dist[]){
+    Vertex v,i;
+    PriQ pq = initPriQ(g->nV);
+    int * visited = malloc(sizeof(int)*g->nV);
+    for(v=0;v < g->nV;v++){
+        visited[v] = -1;
+        st[v] = -1;
+        dist[v] = NO_EDGE; //infinity
+        insert(pq,newItem(dist[v],v));
+    }
+    
+    st[0] = 0; 
+    dist[0] = 0;   
+    increasePriority(pq,0,0);
+    while(!isEmpty(pq)){
+     
+        v = (delMin(pq))->value; 
+	    visited[v] = 1;
+        for(i=0;i<g->nV;i++){
+	    if(g->adj[v][i] != NO_EDGE && visited[i] == -1){
+	        if(g->adj[v][i] < dist[i]){ 
+                       dist[i] = g->adj[v][i];
+                       increasePriority(pq,i,dist[i]);
+                       st[i] = v;
+                }
+            }
+        }
+    }
+    free(visited);
+}
+
+</pre>
+
+<p>Single-source Shortest Path (Dijkstra):</p>
+<pre>
+void dijkstra(Graph g,Vertex s,int st[],float dist[]){
+    int v,t;
+    PriQ pq = initPriQ(g->nV);
+    //insert each vertex into the pq
+    for(v=0;v< g->nV;v++){
+        st[v] = -1;
+        dist[v] = NO_EDGE; //represents infinity
+        Item i = newItem(dist[v],v);
+        insert(pq,i);
+    } 
+    dist[s] = 0.0; //set start veretex dist to 0 
+    increasePriority(pq,s,dist[s]); // update pq
+    while(!isEmpty(pq)){
+         v = value(delMin(pq));
+         if(dist[v] != NO_EDGE)
+             for(t = 0;t < g->nV;t++){
+	         if(g->adj[v][t] != NO_EDGE){
+	             if(dist[v] + g->adj[v][t] < dist[t]){                    
+	                  dist[t] = dist[v] + g->adj[v][t];
+                      increasePriority(pq,t,dist[t]);
+                      st[t] = v;
+	             }
+             }
+         }
+    }
+}
+</pre>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+#!/usr/bin/env zsh
+
+cd /web/cs2521/19T0/.repo
+git pull -r
+bundle
+
+gmake -C lectures
+gmake -C assignments/dracula
+bundle exec jekyll build
+
+for week in week{01..08}
+do
+    [ -d $week ] || continue
+    [ -d $week/files.cp -o -d $week/files.ln ] || continue
+    ( cd $week && mkfiles )
+done
+
+curl -qsSLo _site/_status.svg https://img.shields.io/badge/"built--at-$(date +'%Y--%m--%d %H:%M:%S')-brightgreen.svg?style=flat-square"
+curl -qsSLo _site/_gitrev.svg https://img.shields.io/badge/"revision-$(git describe --always)-blue.svg?style=flat-square"
+
+rsync --archive --info=name --chmod=Dugo+rx,Fugo+r _site/ ..

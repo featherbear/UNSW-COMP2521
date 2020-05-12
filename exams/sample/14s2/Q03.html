@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Sample Final Exam</title>
+<link rel='stylesheet' type='text/css' href='exam.css'></head>
+<body>
+<div align='center'>
+<table width='100%' border='0'>
+<tr valign='top'>
+<td align='left' width='25%'>
+  <span class='tiny'>Sample</span>
+</td>
+<td align='center' width='50%'>
+  <span class='heading'>Sample Final Exam</span>
+</td>
+<td align='right' width='25%'>
+  <span class='tiny'>COMP2521</span>
+</td>
+</table>
+</div>
+<center><a href='index.html'>[Instructions]</a> <a target='C' href='C/index.html'>[C language]</a> <a target='Algos' href='Algos/index.html'>[Algorithms]</a> <br><a href='Q01.html'>[Q1]</a> <a href='Q02.html'>[Q2]</a> <b>[Q3]</b> <a href='Q04.html'>[Q4]</a> <a href='Q05.html'>[Q5]</a> <a href='Q06.html'>[Q6]</a> <a href='Q07.html'>[Q7]</a> <a href='Q08.html'>[Q8]</a> <a href='Q09.html'>[Q9]</a> 
+</center>
+<hr>
+<div style='margin-left:40px;margin-right:40px'>
+<h3>Question 3 <span class='tiny'>(17 marks)</span></h3>
+<p>
+In the <tt>q3</tt> directory is an implementation of a simple non-directed
+and non-weighted <tt>Graph</tt> ADT, along with a main program to test it.
+The ADT contains functions to create, build, remove and display graphs.
+Graphs are represented using an adjacency matrix, and each edge appears
+twice in the matrix (both <span class="math">(v,w)</span> and <span class="math">(w,v)</span>).
+Vertices are simply integer values in the range 0..<span class="math">N-1</span>,
+where <span class="math">N</span> is the number of vertices.
+</p>
+<p>
+When graphs are used to represent networks such as the Web, it is often
+important to know which vertices are connected to many other vertices.
+We will call such vertices "well-connected". In our context (of quite
+small graphs), a vertex is <em>well-connected</em> if it has
+<i>edges to at least two other vertices</i>.
+<p>
+<p>
+The <tt>Graph</tt> ADT contains an incomplete function to generate
+an ordered sequence of well-connected vertices in a graph:
+</p>
+<pre>
+Connects *wellConnected(Graph g, int *n)
+</pre>
+<p>
+Your task for this question is to complete the implementation of the
+<tt>wellConnected()</tt> function.
+This function takes a graph and a pointer <tt>n</tt> to an integer variable,
+computes a sequence of well-connected vertices, and sets <tt>*n</tt> to
+a count of the number of well-connected vertices.
+The sequence consists of pairs <span class="math">(vertex,#conns)</span>,
+where <span class="math">#conns</span> is a count of the edges incident
+on the <span class="math">vertex</span>.
+The sequence is arranged in descending of the <span class="math">#conns</span>
+values; where multiple vertices have the same <span class="math">#conns</span>,
+the pairs are arranged in ascending order of the vertices.
+The pairs are implemented as an array of <tt>Connects</tt> structures;
+<tt>Connects</tt> is defined in <tt>Graph.h</tt>.
+You can see examples of what these sequences look like in the expected output
+files under the <tt>tests</tt> directory.
+</p>
+<p>
+The <tt>main()</tt> function (in <tt>main.c</tt>), builds a graph, then
+displays details of the graph, and then computes and displays the sequence
+of well-connected vertices.
+The graph data is read from the <tt><i>X</i>.in</tt> files in the <tt>tests</tt>
+directory.
+If you want a better idea of what the <tt>wellConnected()</tt> function produces,
+look at how its results are used in the <tt>main()</tt> function.
+Note that, as supplied, the <tt>wellConnected()</tt> function always says that
+there are zero well-connected vertices and the main program prints an appropriate
+message based on this.
+</p>
+<p>
+The <tt>q3</tt> directory itself contains the following:
+<ul>
+<li> <tt>Makefile</tt> ... handles compilation and testing
+<li> <tt>Graph.h</tt> ... interface to the <tt>Graph</tt> ADT
+<li> <tt>Graph.c</tt> ... implementation of the <tt>Graph</tt> ADT
+<li> <tt>main.c</tt> ... main program, used to produce an executable called <tt>q3</tt>
+<li> <tt>tests/</tt> ... a directory containing test scripts, input files and expected outputs
+</ul>
+<p>
+You compile and test the <tt>q3</tt> program using the following commands:
+</p>
+<pre>
+$ <b>make q3</b>   <span class="comment"># build the q3 program</span>
+$ <b>check q3</b>  <span class="comment"># apply the tests in the tests directory to the q3 program</span>
+</pre>
+<p>
+You can find out more about the behaviour of the <tt>q3</tt> program
+by looking at the files in the <tt>tests</tt> directory. The files
+named <tt>t<i>X</i></tt> are test scripts. Each test script has a
+corresponding file <tt>t<i>X</i>.exp</tt> which contains the expected
+output from running that test.
+If you want to run the tests individually, use commands like:
+</p>
+<pre>
+$ <b>sh tests/t1</b>
+</pre>
+<p>
+You can add debugging code to <tt>main.c</tt> or <tt>Graph.c</tt>
+but make sure that you remove it before testing and submitting,
+otherwise your output won't match the expected output and you'll fail all
+of the tests.
+You can add any auxiliary functions to <tt>Graph.c</tt>
+that you think are necessary.
+</p>
+<p>
+Once you are satisfied with your program, submit it using the command:
+</p>
+<pre>
+$ <b>submit q3</b>
+</pre>
+<p>
+This will make a copy of the <tt>Graph.c</tt> file from the <tt>q3</tt>
+directory as your answer for this question.
+You can run the <tt>submit</tt> command as many times as you like,
+but make sure that your final submission compiles without any errors
+or warnings.
+Test your program thoroughly, possibly using test cases additional
+to those supplied. Your program will be tested using inputs which
+are different to the examples in the <tt>q3/tests</tt> directory.
+</p>
+
+
+</div>
+</body>
+</html>

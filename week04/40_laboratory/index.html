@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Laboratory — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="/~cs2521/19T0/assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/week04/40_laboratory/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="/~cs2521/19T0/">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week04/">Week 4</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week04/40_laboratory/">Laboratory</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Laboratory</h1>
+</header>
+
+
+
+
+
+<h2 id="objectives">Objectives</h2>
+
+<ul>
+  <li>to manipulate a Graph ADT using adjacency lists</li>
+  <li>to start thinking about data structures for assignment 2</li>
+</ul>
+
+<h2 id="assessment">Assessment</h2>
+
+<dl class="dl-horizontal">
+  <dt>Deadline</dt>
+  <dd>6 January 2019, 23:59:59</dd>
+  <dt>Marks</dt>
+  <dd>3</dd>
+  <dt>Submission</dt>
+  <dd><code class="highlighter-rouge">give cs2521 lab04</code></dd>
+</dl>
+
+<p>Part 1 should be done individually.
+Part 2 should be done with your assignment partner.</p>
+
+<h2 id="setting-up">Setting up</h2>
+
+<p>Create a directory for this lab, change into it,
+and retrieve the files with the <code class="highlighter-rouge">fetch</code> command:</p>
+
+<pre>
+<kbd is="shell">2521 fetch lab04</kbd>
+</pre>
+
+<p>This will have provided you with several files
+(as you may have guessed by its output).
+For part 1:</p>
+
+<dl class="dl-horizontal">
+  <dt><a href="../files.ln/heap_min_ordered.h"><code class="highlighter-rouge">heap_min_ordered.h</code></a></dt>
+  <dd>Exercise 1, part 1.
+Do not change this file.</dd>
+  <dt><a href="../files.cp/heap_min_ordered.c"><code class="highlighter-rouge">heap_min_ordered.c</code></a></dt>
+  <dd>Exercise 1, part 1.</dd>
+  <dt><a href="../files.cp/test_heap_min_ordered.c"><code class="highlighter-rouge">test_heap_min_ordered.c</code></a></dt>
+  <dd>Some simple tests.</dd>
+  <dt><a href="../files.ln/heap_min.h"><code class="highlighter-rouge">heap_min.h</code></a></dt>
+  <dd>Exercise 1, part 2.
+Do not change this file.</dd>
+  <dt><a href="../files.cp/heap_min.c"><code class="highlighter-rouge">heap_min.c</code></a></dt>
+  <dd>Exercise 1, part 2.</dd>
+  <dt><a href="../files.cp/test_heap_min.c"><code class="highlighter-rouge">test_heap_min.c</code></a></dt>
+  <dd>Some simple tests.</dd>
+</dl>
+
+<p>And for part 2:</p>
+
+<dl class="dl-horizontal">
+  <dt><a href="../files.cp/places.h"><code class="highlighter-rouge">places.h</code></a></dt>
+  <dd>Places “ADT” interface.</dd>
+  <dt><a href="../files.cp/places.c"><code class="highlighter-rouge">places.c</code></a></dt>
+  <dd>Places “ADT” implementation.</dd>
+  <dt><a href="../files.cp/map.h"><code class="highlighter-rouge">map.h</code></a></dt>
+  <dd>Map ADT interface.</dd>
+  <dt><a href="../files.cp/map.c"><code class="highlighter-rouge">map.c</code></a></dt>
+  <dd>Map ADT implementation.</dd>
+  <dt><a href="../files.cp/pl.c"><code class="highlighter-rouge">pl.c</code></a></dt>
+  <dd>Check the Places ADT is working.</dd>
+  <dt><a href="../files.cp/euro.c"><code class="highlighter-rouge">euro.c</code></a></dt>
+  <dd>Print the map of Europe.</dd>
+  <dt><a href="../files.cp/conn.c"><code class="highlighter-rouge">conn.c</code></a></dt>
+  <dd>Simple user for <code class="highlighter-rouge">connections</code>.</dd>
+</dl>
+
+<p>And a <a href="../files.cp/Makefile"><code class="highlighter-rouge">Makefile</code></a>.</p>
+
+<p><a href="../files.tar">Download all the files</a>.</p>
+
+<p>The provided code contains
+tags marking unused variables.
+You should remove these tags
+as you implement those functions.</p>
+
+<!-- =============================================================== -->
+<h2 id="exercise-1">
+  Exercise 1: Heap-y Days
+  <small class="text-muted text-nowrap">(1 mark)</small></h2>
+
+<p>This is to be done individually.</p>
+
+<p>(These are two simple questions from past exams.
+You’ll find them indicative of the nature of the prac exam.)</p>
+
+<ul>
+  <li>
+    <p>Write a function <code class="highlighter-rouge">heap_min_ordered_p</code>,
+in the file <code class="highlighter-rouge">heap_min_ordered.c</code>,
+that decides whether a tree-based structure
+is in min-heap order.
+In other words:
+whether it is in heap order,
+where smaller items have a higher priority.
+For this question you <em>do not</em> need
+to check that the tree is complete.
+Write some tests to check your function.</p>
+  </li>
+  <li>
+    <p>Write a function <code class="highlighter-rouge">heap_min_p</code>,
+in the file <code class="highlighter-rouge">heap_min.c</code>,
+that decides whether a given array-based heap
+is in min-heap order.
+You must assume
+we have an array-based implementation
+where the array at index 0 is unused,
+and that the items in the ‘heap’
+begin at index 1.</p>
+  </li>
+</ul>
+
+<!-- =============================================================== -->
+<h2 id="exercise-2">
+  Exercise 2: The Map of the Fury of Dracula
+  <small class="text-muted text-nowrap">(2 marks)</small></h2>
+
+<p>This is to be done
+with your assignment 2 partner.
+(Don’t have one? Find one now!)</p>
+
+<p>A major part of assignment 2 involves
+moving around Victorian Europe.
+For the lab this week,
+we are using one possible representation
+of the map of Europe,
+similar to that which will be used in the assignment.
+The lab represents the map as a graph
+using an <em>adjacency list</em> representation.
+The vertices in this graph are
+places (cities, castles, hospitals and seas),
+and each is identified by
+a unique integer value (a location ID).
+Each vertex is a node containing the location ID,
+the name of the place
+(both in full and using a two character abbreviation),
+and the type of place (<code class="highlighter-rouge">LAND</code> or <code class="highlighter-rouge">SEA</code>).
+The edges in the graph are labelled with
+the kind of transport (<code class="highlighter-rouge">ROAD</code>, <code class="highlighter-rouge">RAIL</code>, or <code class="highlighter-rouge">BOAT</code>)
+that exists between the places
+at either end of the edge.
+Edges are non-directional,
+and each edge is stored twice
+(the edge <script type="math/tex">(v,w)</script> is stored in
+the adjacency lists for <script type="math/tex">v</script> and <script type="math/tex">w</script>).
+The supplied graph contains (I hope)[]
+all of the road, rail and sea connections
+that appear on the maps of Europe
+that have been provided for the assignment.</p>
+
+<figure>
+<img class="w-100" src="/~cs2521/19T0/week04/map.png" />
+</figure>
+
+<p>Note that the graph representation
+we have provided for the lab
+is only one possibility.
+You must use this representation for the lab,
+but you are free
+to use a different representation
+in the assignment.
+This representation is just
+to get you started,
+to get you thinking,
+and also to practice
+using adjacency lists.</p>
+
+<p>The <code class="highlighter-rouge">places.*</code> and <code class="highlighter-rouge">map.*</code> files
+are similar to the ones that will be supplied
+for <em>The View</em> phase of the assignment.
+Read these files carefully,
+to make sure that you understand
+the interfaces to,
+and existing implementations of,
+these ADTs.</p>
+
+<p>For example, the <code class="highlighter-rouge">Places</code> ADT
+defines a number of helper types:
+<code class="highlighter-rouge">LocationID</code> (a unique location ID),
+<code class="highlighter-rouge">PlaceType</code> (whether a place is on land or is a body of water),
+<code class="highlighter-rouge">TransportID</code> (modes of transport between places).
+It also defines a set of values for each of these types.</p>
+
+<p>For this lab, you will be required
+to add code to complete the function
+<code class="highlighter-rouge">connections()</code> in <code class="highlighter-rouge">map.c</code>.
+The three programs (<code class="highlighter-rouge">pl.c</code>, <code class="highlighter-rouge">euro.c</code> and <code class="highlighter-rouge">conn.c</code>)
+are supplied as test-beds for the function that
+you need to write, and you don’t need to modify these programs.
+However, it would be useful to read them find out how they invoke
+the <code class="highlighter-rouge">connections()</code> and how they use the function return values.</p>
+
+<p>In our map, we know the following information about each place:</p>
+
+<ul>
+  <li>its location ID (a number in the range 0 .. <code class="highlighter-rouge">NUM_PLACES</code>-1)</li>
+  <li>its full name (e.g. “London”, “North Sea” or “Castle Dracula”)</li>
+  <li>its two-character abbreviation (e.g. “LO”, “NS”, “CD”)</li>
+  <li>whether it’s located on the land or is a body of water</li>
+</ul>
+
+<p>Places are uniquely identified by their <code class="highlighter-rouge">LocationID</code>,
+and place information is stored in
+a private array of <code class="highlighter-rouge">place</code> structures called <code class="highlighter-rouge">PLACES</code>.
+Users of this ADT do not know
+about the internal structure of this array;
+they access information about places
+via some interface functions:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">idToName(int)</code> takes a location ID and returns the place’s full name&lt;/li&gt;</li>
+  <li><code class="highlighter-rouge">idToType(int)</code> takes a location ID and returns the place’s location (<code class="highlighter-rouge">LAND</code> or <code class="highlighter-rouge">SEA</code>&lt;/li&gt;</li>
+  <li><code class="highlighter-rouge">nameToID(char *)</code> takes a place’s name and returns its location ID&lt;/li&gt;</li>
+  <li><code class="highlighter-rouge">abbrevToID(char *)</code> takes a place’s two-char abbreviation and returns its location ID&lt;/tt&gt;</li>
+</ul>
+
+<p>The functions that take a location ID as parameter,
+check whether the ID is valid and fail an <code class="highlighter-rouge">assert</code> if it’s not.
+The functions that take strings as parameters
+return a special location ID <code class="highlighter-rouge">NOWHERE</code>
+if the string is not the name or abbreviation
+of any known place.
+Strings are matched in a case-sensitive manner:
+<code class="highlighter-rouge">"london"</code> would <strong>not</strong> be the same as <code class="highlighter-rouge">"London"</code>.</p>
+
+<p>The program <code class="highlighter-rouge">pl</code> (from <code class="highlighter-rouge">pl.c</code>)
+is a test bed for the functions
+that extract information from the <code class="highlighter-rouge">Places</code> table.
+Some example of how the <code class="highlighter-rouge">pl</code> program might be used:</p>
+
+<pre>
+<span class="text-muted"># if the argument is a full place name, it prints the ID</span>
+<kbd is="shell">./pl London</kbd>
+London has ID 39
+<kbd is="shell">./pl Zagreb</kbd>
+Zagreb has ID 69
+<span class="text-muted"># if the argument is an abbreviation, it prints the full name and ID</span>
+<kbd is="shell">./pl LO</kbd>
+LO is London (39)
+<span class="text-muted"># the quotes are necessary if using names which contain spaces</span>
+<kbd is="shell">./pl "North Sea"</kbd>
+North Sea has ID 48
+<kbd is="shell">./pl "Castle Dracula"</kbd>
+Castle Dracula has ID 17
+<span class="text-muted"># if you don't use quotes, ./pl only sees the first word</span>
+<kbd is="shell">./pl Castle Dracula</kbd>
+Invalid place 'Castle'
+<span class="text-muted"># using a valid abbreviation</span>
+<kbd is="shell">./pl CD</kbd>
+CD is Castle Dracula (17)
+<span class="text-muted"># using an invalid abbreviation</span>
+<kbd is="shell">./pl XX</kbd>
+Invalid place 'XX'
+<span class="text-muted"># using an invalid place name</span>
+<kbd is="shell">./pl Hello</kbd>
+Invalid place 'Hello'
+<span class="text-muted"># remember that name matching is case-sensitive</span>
+<kbd is="shell">./pl london</kbd>
+Invalid place 'london'
+</pre>
+
+<p>In the <code class="highlighter-rouge">Map</code>, edges are <em>non-directional</em> and <em>labelled</em>.
+When the <code class="highlighter-rouge">addLink()</code> function in <code class="highlighter-rouge">Map.c</code> adds an edge from A to B
+with transport type T, it also adds an edge from B to A with type T.
+This reflects the fact that if there is a road from Rome to Florence, then
+there is also a road from Florence to Rome.
+Also, you can have multiple edges between a given pair of places if they are
+labelled with different transport types.
+This reflects the fact that there may be be both a road and rail link between
+two cities (e.g. Rome and Florence).</p>
+
+<p>The <code class="highlighter-rouge">euro</code> program (from <code class="highlighter-rouge">euro.c</code>)
+displays the links in the Map,
+although admittedly not in a particularly attractive format.
+You can use it to check the output from the <code class="highlighter-rouge">conn</code> program.</p>
+
+<hr />
+
+<p>When you come to implement your AIs
+for the “Fury of Dracula”,
+you will need functions to answer questions such as
+“How can I get to X from my current position?”,
+“What is the quickest way to go from A to B?”, etc.
+In this lab, you are to implement
+one simple function of this type
+which tells you what are the links (if any)
+between two places.</p>
+
+<p>The function:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">connections</span> <span class="p">(</span>
+	<span class="n">Map</span> <span class="n">map</span><span class="p">,</span>
+	<span class="n">LocationID</span> <span class="n">start</span><span class="p">,</span> <span class="n">LocationID</span> <span class="n">end</span><span class="p">,</span>
+	<span class="n">TransportID</span> <span class="n">ways</span><span class="p">[]);</span>
+</code></pre></div></div>
+
+<p>uses the <code class="highlighter-rouge">Map</code> to work out
+all of the different types of transport
+that exist as direct connections
+between the two specified locations,
+as well as any sea connections
+that you could use to move from one to the other.
+It sets one value
+in the <code class="highlighter-rouge">ways[]</code> array
+for each connection,
+and returns the number of connections
+found (and placed in the array).
+Naturally,
+it first checks the validity of its parameters
+(and fails <code class="highlighter-rouge">assert</code>s if they’re not valid).</p>
+
+<p>Notes:</p>
+
+<ul>
+  <li>
+    <p>a sea connection involves
+moving onto the sea,
+and then moving to the destination;
+it has connection type <code class="highlighter-rouge">BOAT</code></p>
+  </li>
+  <li>
+    <p><em>sea connections</em>
+(from one port city to another on the same sea)
+are unusual in that they involve two graph edges:
+all other connections in this exercise
+involve a single edge</p>
+  </li>
+  <li>
+    <p>you are required to find
+direct edges between the two locations,
+and also to determine whether the locations
+are both port cities on the same sea
+(and count that as a sea connection of type <code class="highlighter-rouge">BOAT</code>)</p>
+  </li>
+  <li>
+    <p>the <code class="highlighter-rouge">ways[]</code> array is supplied by the caller,
+who must allocate sufficient space</p>
+  </li>
+</ul>
+
+<p>Clearly, the maximum number of edges
+that can exist between two places
+is determined by the number of transportation types.</p>
+
+<p>Once you have implemented the <code class="highlighter-rouge">connections()</code> function, you
+can test it using the <code class="highlighter-rouge">conn</code> program, which takes the names
+(or abbreviations) of two places and displays a list of all the
+connections between them. It gets the list by calling the
+<code class="highlighter-rouge">connections()</code> function.
+Some examples on how to test your <code class="highlighter-rouge">connections()</code> function
+using the <code class="highlighter-rouge">conn</code> program are below.
+Make sure that you conduct more extensive tests than just these
+(your tutor will ask to see your tests).</p>
+
+<pre>
+<span class="text-muted"># both road and rail ... order doesn't matter</span>
+<kbd is="shell">./conn London Manchester</kbd>
+Between London and Manchester ...
+Rail connection
+Road connection
+<span class="text-muted"># only way to get into the Channel from London is by boat</span>
+<kbd is="shell">./conn London "English Channel"</kbd>
+Between London and English Channel ...
+Boat connection
+<span class="text-muted"># from London to rest of Europe is typically via Le Havre</span>
+<kbd is="shell">./conn "Le Havre" "English Channel"</kbd>
+Between Le Havre and English Channel ...
+Boat connection
+<span class="text-muted"># direct road connection but no direct rail</span>
+<kbd is="shell"> ./conn Leipzig Hamburg</kbd>
+Between Leipzig and Hamburg ...
+Road connection
+<span class="text-muted"># direct rail connection but no direct road</span>
+<kbd is="shell">./conn Paris Marseilles</kbd>
+Between Paris and Marseilles ...
+Rail connection
+<span class="text-muted"># port cities are connected to their sea by boat</span>
+<kbd is="shell">./conn Marseilles "Mediterranean Sea"</kbd>
+Between Marseilles and Mediterranean Sea ...
+Boat connection
+<span class="text-muted"># two cities with all three connections</span>
+<kbd is="shell">./conn Rome Naples</kbd>
+Between Rome and Naples ...
+Rail connection
+Road connection
+<span class="text-danger">Boat connection</span>
+<span class="text-muted"># direct connection between two seas must be by boat</span>
+<kbd is="shell">./conn "Black Sea" "Ionian Sea"</kbd>
+Between Black Sea and Ionian Sea ...
+Boat connection
+<span class="text-muted"># no direct rail/road/sea connection between Munich and Berlin</span>
+<kbd is="shell">./conn Munich Berlin</kbd>
+Between Munich and Berlin ...
+No direct connection
+<span class="text-muted"># no direct connection between London and Castle Dracula ... probably a good thing</span>
+<kbd is="shell">./conn London "Castle Dracula"</kbd>
+Between London and Castle Dracula ...
+No direct connection
+</pre>
+
+<p>While implementing the above function,
+you are free to introduce
+any auxiliary functions
+that you think are useful.
+However, these should all be declared <code class="highlighter-rouge">static</code>
+because they are not visible outside the ADTs.</p>
+
+<h2 id="submitting">Submitting</h2>
+
+<p>You must get the lab marked by your tutor in your lab.</p>
+
+<p>Submit your work with the <em>give</em> command, like so:</p>
+
+<p><samp><kbd is="shell">give cs2521 lab04 heap_min_ordered.c heap_min.c map.c</kbd></samp></p>
+
+<p>Or, if you are working from home, upload the relevant file(s) to
+the <tt>lab04</tt> activity on
+WebCMS3 or on
+<a href="https://cgi.cse.unsw.edu.au/~give/Student/give.php">Give Online</a>.</p>
+
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

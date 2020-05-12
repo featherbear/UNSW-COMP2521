@@ -1,0 +1,757 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Laboratory — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="/~cs2521/19T0/assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/week05/40_laboratory/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="/~cs2521/19T0/">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week05/">Week 5</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week05/40_laboratory/">Laboratory</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Laboratory</h1>
+</header>
+
+
+
+
+
+<h2 id="objectives">Objectives</h2>
+
+<ul>
+  <li>to implement a variant of path finding in a weighted graph</li>
+  <li>to see how graphs might be used with real-world data</li>
+  <li>to implement a Web crawler</li>
+  <li>to build a directed graph structure</li>
+</ul>
+
+<h2 id="assessment">Assessment</h2>
+
+<dl class="dl-horizontal">
+  <dt>Deadline</dt>
+  <dd>13 January 2019, 23:59:59</dd>
+  <dt>Marks</dt>
+  <dd>3</dd>
+  <dt>Submission</dt>
+  <dd><code class="highlighter-rouge">give cs2521 lab05</code></dd>
+</dl>
+
+<h2 id="setting-up">Setting up</h2>
+
+<p>Create a directory for this lab, change into it,
+and retrieve the files with the <code class="highlighter-rouge">fetch</code> command:</p>
+
+<pre><kbd is="shell">2521 fetch lab05</kbd></pre>
+
+<p>This will have provided you with several files
+(as you may have guessed by its output).
+They’re described in slightly more detail
+in the relevant exercises below.
+<a href="../files.tar">Download all the files</a>.</p>
+
+<p>The provided code contains
+tags marking unused variables.
+You should remove these tags
+as you implement those functions.</p>
+
+<!-- =============================================================== -->
+<h2 id="exercise-1">
+  Exercise 1: Path-Finding
+  <small class="text-muted text-nowrap">(2 marks)</small></h2>
+
+<p>Geographic data is widely available,
+thanks to sites such as <a href="http://www.geonames.org/">GeoNames</a>.
+For this lab, we have downloaded
+data files from the <a href="http://people.sc.fsu.edu/~jburkardt/datasets/cities/cities.html">City Distance Dataset</a>
+by John Burkardt
+in the Department of Scientific Computing
+at Florida State University.
+The dataset that we will use
+contains information about distances between
+30 prominent cities around the world.
+It measures “great circle” distances:
+we’ll assume that these measure
+the distances that an aircraft might fly
+between the two cities.
+The data that we have forms a complete graph,
+in that there is a distance recorded
+for every pair of cities.</p>
+
+<p>The following diagram shows
+a subset of the data
+from the City Distance Dataset.</p>
+
+<center>
+<img src="/~cs2521/19T0/week05/Pics/world.png" />
+<br />
+<small>
+Map from <a href="http://commons.wikimedia.org/wiki/File:BlankMap-World-v2.png">"BlankMap-World-v2"</a>
+by original uploader: Roke.<br />
+Own work. Licensed under Creative Commons Attribution-Share Alike 3.0, via Wikimedia Commons
+</small>
+</center>
+
+<p>The data comes in two files:</p>
+
+<dl>
+  <dt><code class="highlighter-rouge">ha30_dist.txt</code></dt>
+  <dd>This file contains a matrix of distances between cities.
+This is essentially the adjacency matrix for a weighted graph
+where the vertices are cities and the edge weights correspond
+to distances between cities.
+
+    <p>As you would expect for an adjacency matrix, the leading diagonal
+contains all zeroes (in this case, corresponding to the fact that
+a city is zero distance from itself).</p>
+  </dd>
+  <dt><code class="highlighter-rouge">ha30_name.txt</code></dt>
+  <dd>This file contains one city name per line.
+If we number the lines starting from zero, then the line number
+corresponds to the vertex number for the city on that line.
+For example, the Azores is on line 0, so vertex 0 corresponds to
+the Azores, and the first line in the distance file gives distances
+from the Azores to the other 29 cities.
+The last line (line 29) tells us that Tokyo is vertex 29,
+and the last line in the distance file
+gives distances between Tokyo and all other cities.</dd>
+</dl>
+
+<hr />
+
+<p>If you’ve done the setup correctly,
+you should find these files:</p>
+
+<dl class="dl-horizontal">
+  <dt><code class="highlighter-rouge">Makefile</code></dt>
+  <dd>a set of dependencies used to control compilation</dd>
+  <dt><code class="highlighter-rouge">travel.c</code></dt>
+  <dd>main program to load and manipulate the graph</dd>
+  <dt><code class="highlighter-rouge">Graph.h</code></dt>
+  <dd>interface to Graph ADT</dd>
+  <dt><code class="highlighter-rouge">Graph.c</code></dt>
+  <dd>implementation of Graph ADT</dd>
+  <dt><code class="highlighter-rouge">Queue.h</code></dt>
+  <dd>interface to Queue ADT</dd>
+  <dt><code class="highlighter-rouge">Queue.c</code></dt>
+  <dd>implementation of Queue ADT</dd>
+  <dt><code class="highlighter-rouge">Item.h</code></dt>
+  <dd>definition of Items (Edges)</dd>
+  <dt><code class="highlighter-rouge">ha30_name.txt</code></dt>
+  <dd>the city name file described above</dd>
+  <dt><code class="highlighter-rouge">ha30_dist.txt</code></dt>
+  <dd>the distance matrix file described above</dd>
+</dl>
+
+<p>The <code class="highlighter-rouge">Makefile</code> produces a file called <code class="highlighter-rouge">travel</code> based on the main program
+in <code class="highlighter-rouge">travel.c</code> and the functions in <code class="highlighter-rouge">Graph.c</code>. The <code class="highlighter-rouge">travel</code> program takes
+either zero or two command line arguments.</p>
+
+<p>If given zero arguments,
+it simply displays the graph
+(in the format described below).</p>
+
+<pre>
+<kbd is="shell">./travel</kbd>
+<span class="text-muted">... displays the entire graph ...</span>
+<span class="text-muted">... produces lots of output, so either redirect to a file or use `less' ...</span>
+</pre>
+
+<p>If given two arguments,
+it treats the first city as a starting point
+and the second city as a destination,
+and determines a route between the two cities,
+based on “hops” between cities with direct flights.</p>
+
+<pre>
+<kbd is="shell">./travel <em>from-city</em> <em>to-city</em></kbd>
+<span class="text-muted">... display a route to fly between specified cities ...</span>
+</pre>
+
+<p>Read the <code class="highlighter-rouge">main()</code> function so that you understand how it works, and,
+in particular, how it invokes the functions that you need to implement.</p>
+
+<hr />
+
+<p>The <code class="highlighter-rouge">Graph</code> ADT in this week’s lab implements something that should
+resemble a standard adjacency matrix representation of the kind we
+looked at in lectures.  However, some aspects of it are different to
+what we’ve seen in lectures:</p>
+
+<p>Note that city names are not stored as part of the <code class="highlighter-rouge">GraphRep</code> data
+structure. The <code class="highlighter-rouge">Graph</code> ADT deals with vertices using their numeric ID.
+The <code class="highlighter-rouge">main</code> program maintains the list of city names and passes this list
+to the <code class="highlighter-rouge">showGraph()</code> function when it is called to display the graph.
+This means that the calling interface for the <code class="highlighter-rouge">showGraph()</code> function is
+different to the <code class="highlighter-rouge">showGraph()</code> function from the <code class="highlighter-rouge">Graph</code> ADT in
+lectures.</p>
+
+<p>The values stored in the matrix are not simply true and false, but
+represent the distances between vertices. In other words, we’re dealing
+with a <em>weighted</em> graph. Note, however, that we are not actually using
+the weights <em>except</em> to indicate the existence of an edge. In this
+implementation, a weight value of zero indicates no edge between two
+vertices, while a non-zero weight indicates an edge.</p>
+
+<p>The <code class="highlighter-rouge">Graph</code> ADT includes a sub-ADT for <code class="highlighter-rouge">Edge</code>s. The implementation of
+<code class="highlighter-rouge">insertEdge()</code> in lectures only required the vertices at the endpoints
+of the <code class="highlighter-rouge">Edge</code> (i.e. <code class="highlighter-rouge">insertEdge(g,v,w)</code>). The version of <code class="highlighter-rouge">insertEdge()</code>
+for this lab also requires a weight for the edge (i.e.
+<code class="highlighter-rouge">insertEdge(g,v,w,weight)</code>).</p>
+
+<p>The main program makes some changes to the edges implied by the distance
+matrix as it copies them into the <code class="highlighter-rouge">Graph</code>. The values in the
+<code class="highlighter-rouge">ha30_dist.txt</code> file are given in units of “hundreds of miles”; we
+want them in units of kilometers so each distance is converted before it
+is added to the graph as the weight of an edge.
+Since every city has adistance to every other city (except itself),
+this gives us a <em>complete graph</em>.</p>
+
+<p>As supplied, the <code class="highlighter-rouge">Graph.c</code> file is missing implementations for the
+<code class="highlighter-rouge">findPath()</code> function. If you compile the <code class="highlighter-rouge">travel</code> program and try to
+find any route, it will simply tell you that there isn’t one. If you
+run <code class="highlighter-rouge">travel</code> with no arguments, it will print a representation of the
+graph (you can see what this should look like in the file
+<a href="graph.txt">graph.txt</a>.</p>
+
+<hr />
+
+<p>You need to implement the <code class="highlighter-rouge">findPath(g,src,dest,max,path)</code> function. This
+function takes a graph <code class="highlighter-rouge">g</code>, two vertex numbers <code class="highlighter-rouge">src</code> and <code class="highlighter-rouge">dest</code>, a
+maximum flight distance, and fills the <code class="highlighter-rouge">path</code> array with a sequence of
+vertex numbers giving the “shortest” path from <code class="highlighter-rouge">src</code> to <code class="highlighter-rouge">dest</code> where
+no edge on the path is longer than <code class="highlighter-rouge">max</code>. The function returns the
+number of vertices stored in the <code class="highlighter-rouge">path</code> array; if it cannot find a path,
+it returns zero. The <code class="highlighter-rouge">path</code> array is assumed to have enough space to
+hold the longest possible path (which would include all vertices).</p>
+
+<p>This could be solved with a standard BFS graph traversal algorithm, but
+there are two twists for this application:</p>
+
+<ul>
+  <li>
+    <p>The edges in the graph represent real distances, but the user of the
+<code class="highlighter-rouge">travel</code> program (the traveller) isn’t necessarily woried about
+real distances. They are more worried about the number of take-offs
+and landings (which they find scarey), so the length of a path is
+measured in terms of the number of edges, <em>not</em> the sum of the edge
+weights. Thus, the “shortest” path is the one with the minimum
+number of edges.</p>
+  </li>
+  <li>
+    <p>While the traveller isn’t worried about how far a single flight
+goes, aircraft <em>are</em> affected by this (e.g. they run out of fuel).
+The <code class="highlighter-rouge">max</code> parameter for <code class="highlighter-rouge">findPath()</code> allows a user to specify that
+they only want to consider flights whose length is at most <code class="highlighter-rouge">max</code>
+kilometers (i.e. only edges whose weight is not more than <code class="highlighter-rouge">max</code>).</p>
+  </li>
+</ul>
+
+<p>Your implementation of <code class="highlighter-rouge">findPath()</code> must satisfy both of the above.</p>
+
+<p>In implementing <code class="highlighter-rouge">findPath()</code>, you can make use of the <code class="highlighter-rouge">Queue</code> ADT that
+we’ve supplied. This will create a queue of <code class="highlighter-rouge">Vertex</code> numbers.</p>
+
+<p>Note that the default value for <code class="highlighter-rouge">max</code>, set in the <code class="highlighter-rouge">main</code> program is
+10000 km. Making the maximum flight distance smaller produces more
+interesting paths (see below), but if you make it too small (e.g.
+5000km) you end up isolating Australia from the rest of the world. With
+maximum flights of 6000km, the only way out of Australia in this data is
+via Guam. If you make the maxmimum flight length large enough (e.g.
+aircraft technology improves significantly), every city will be
+reachable from every other city in a single hop.</p>
+
+<p>Some example routes (don’t expect them to closely match reality):</p>
+
+<pre>
+<span class="text-muted"># when no max distance is given on the command line,</span>
+<span class="text-muted"># we assume that planes can fly up to 10000km before refuelling</span>
+<kbd is="shell">./travel Berlin Chicago</kbd>
+Least-hops route:
+Berlin
+-&gt;Chicago
+<kbd is="shell">./travel Sydney Chicago</kbd>
+Least-hops route:
+Sydney
+-&gt;Honolulu
+-&gt;Chicago
+<kbd is="shell">./travel Sydney London</kbd>
+Least-hops route:
+Sydney
+-&gt;Shanghai
+-&gt;London
+<kbd is="shell">./travel London Sydney</kbd>
+Least-hops route:
+London
+-&gt;Shanghai
+-&gt;Sydney
+<kbd is="shell">./travel Sydney 'Buenos Aires'</kbd>
+Least-hops route:
+Sydney
+-&gt;Honolulu
+-&gt;Chicago
+-&gt;Buenos Aires
+<span class="text-muted"># if no plane can fly more than 6000km wihout refuelling</span>
+<kbd is="shell">./travel Sydney London 6000</kbd>
+Least-hops route:
+Sydney
+-&gt;Guam
+-&gt;Manila
+-&gt;Bombay
+-&gt;Baghdad
+-&gt;London
+<span class="text-muted"># if no plane can fly more than 5000km wihout refuelling</span>
+<span class="text-muted"># you can't leave Australia under this scenario</span>
+<kbd is="shell">./travel Sydney 'Buenos Aires' 5000</kbd>
+No route from Sydney to Buenos Aires
+<span class="text-muted"># if no plane can fly more than 7000km wihout refuelling</span>
+<kbd is="shell">./travel Sydney 'Buenos Aires' 7000</kbd>
+Least-hops route:
+Sydney
+-&gt;Guam
+-&gt;Honolulu
+-&gt;Chicago
+-&gt;Panama City
+-&gt;Buenos Aires
+<span class="text-muted"># planes can fly up to 8000km wihout refuelling</span>
+<kbd is="shell">./travel Sydney 'Buenos Aires' 8000</kbd>
+Least-hops route:
+Sydney
+-&gt;Guam
+-&gt;Honolulu
+-&gt;Mexico City
+-&gt;Buenos Aires
+<span class="text-muted"># planes can fly up to 11000km wihout refuelling</span>
+<kbd is="shell">./travel Sydney 'Buenos Aires' 11000</kbd>
+Least-hops route:
+Sydney
+-&gt;Bombay
+-&gt;Azores
+-&gt;Buenos Aires
+<span class="text-muted"># planes can fly up to 12000km without refuelling</span>
+<span class="text-muted"># can reach Buenos Aires on a single flight</span>
+<kbd is="shell">./travel Sydney 'Buenos Aires' 12000</kbd>
+Least-hops route:
+Sydney
+-&gt;Buenos Aires
+<kbd is="shell">./travel Bombay Chicago 5000</kbd>
+Least-hops route:
+Bombay
+-&gt;Istanbul
+-&gt;Azores
+-&gt;Montreal
+-&gt;Chicago
+<kbd is="shell">./travel Sydney Sydney</kbd>
+Least-hops route:
+Sydney
+</pre>
+
+<p>The above routes were generated
+using an algorithm that checked vertices in order
+(vertex 0 before vertex 1 before vertex 2, etc.).
+If you check in a different order,
+you may generate different,
+but possibly equally valid, routes.</p>
+
+<p>Make the relevant changes to <code class="highlighter-rouge">Graph.c</code> to complete the above tasks.
+For this part, you may only submit <code class="highlighter-rouge">Graph.c</code>.</p>
+
+<!-- =============================================================== -->
+<h2 id="exercise-2">
+  Exercise 2: Web-Crawling
+  <small class="text-muted text-nowrap">(1 marks)</small></h2>
+
+<p>We can view the World Wide Web as a massive directed graph, where
+<em>pages</em> (identified by URLs) are the vertices and <em>hyperlinks</em> (HREFs)
+are the directed edges. Unlike the graphs we have studied in lectures,
+there is not a single central representation (e.g. adjacency matrix) for
+all the edges in the graph of the web; such a data structure would
+clearly be way too large to store. Instead, the “edges” are embedded
+in the “vertices”. Despite the unusual representation, the Web is
+clearly a graph, so the aim of this lab exercise is to build an
+in-memory graph structure for a very, very small subset of the Web.</p>
+
+<p><em>Web crawlers</em> are programs that navigate the Web automatically, moving
+from page to page, processing each page they visit. Crawlers typically
+use a standard graph traversal algorithm to:</p>
+
+<ul>
+  <li>maintain a list of pages to visit (a ToDo list)</li>
+  <li>“visit” the next page by grabbing its HTML content</li>
+  <li>scanning the HTML to extract whatever features they are interested
+in</li>
+  <li>collecting hyperlinks from the visited page, and adding these to the
+ToDo list</li>
+  <li>repeating the above steps
+(until there are no more pages to visit :-)</li>
+</ul>
+
+<p>You need to implement such a crawler, using a collection of supplied
+ADTs and a partially complete main program. Your crawler processes each
+page by finding any hyperlinks and inserting the implied edges into a
+directed <code class="highlighter-rouge">Graph</code> ADT based on an adjacency matrix. One difference
+between this <code class="highlighter-rouge">Graph</code> ADT and the ones we have looked at in lectures is
+that you dynamically add information about vertices, as well as edges.
+The following diagram shows what an instance of the <code class="highlighter-rouge">Graph</code> ADT might
+look like:</p>
+
+<center><img src="/~cs2521/19T0/week05/Pics/web-graph.png" /></center>
+
+<p>The <code class="highlighter-rouge">Graph</code> data structure allows for <code class="highlighter-rouge">maxV</code> vertices (URLs), where
+<code class="highlighter-rouge">maxV</code> is supplied when graph is created. Initially, there are no
+vertices or edges, but as the crawler examines the web, it adds the URLs
+of any pages that it visits and records the hyperlinks between them.
+This diagram shows what a web crawler might have discovered had it
+started crawling from the URL <code class="highlighter-rouge">http://example.com/index.html</code>, and so
+far examined four web pages.</p>
+
+<p>If we number the four pages from 0..3, with</p>
+
+<ul>
+  <li>page (vertex) 0 being <code class="highlighter-rouge">http://example.com/index.html</code>,</li>
+  <li>page (vertex) 1 being <code class="highlighter-rouge">http://example.com/category/index.html</code></li>
+  <li>page (vertex) 2 being <code class="highlighter-rouge">http://example.com/products.html</code></li>
+  <li>page (vertex) 3 being <code class="highlighter-rouge">http://example.com/products/abc.html</code></li>
+</ul>
+
+<p>The <code class="highlighter-rouge">vertices</code> array holds the actual URL strings and also, effectively,
+provides the mapping between URLs and vertex numbers. The <code class="highlighter-rouge">edges</code> array
+is a standard adjacency matrix. The top row tells us that page 0 has
+hyperlinks to pages 1 and 2. The second row tells us that page 1 has a
+hyperlink back to page 0. The third row similarly shows a hyperlink from
+page 2 back to page 0, but also a hyperlink to page 3.</p>
+
+<hr />
+
+<p>If you’ve done the setup correctly,
+you should find the following files in your lab directory:</p>
+
+<table border="0" cellpadding="4">
+<tr><td><tt>Makefile</tt></td><td>a set of dependencies used to control compilation.</td></tr>
+<tr><td><tt>crawler.c</tt></td><td>main program to crawl and build the graph &nbsp; <small>(not yet complete)</small></td></tr>
+</table>
+
+<p>It also contains <code class="highlighter-rouge">.c</code> and <code class="highlighter-rouge">.h</code> files for a collection of ADTs: standard
+ones such as <code class="highlighter-rouge">Set</code>, <code class="highlighter-rouge">Stack</code>, <code class="highlighter-rouge">Queue</code> and <code class="highlighter-rouge">Graph (a directed graph)</code>,
+along with some ADTs for working with Web data. There are also a set of
+files (<code class="highlighter-rouge">tg.c</code>, <code class="highlighter-rouge">tk.c</code>, <code class="highlighter-rouge">tq.c</code>, <code class="highlighter-rouge">ts.c</code>) which provide drivers for testing
+the various ADTs.</p>
+
+<p>The only file you need to modify is <code class="highlighter-rouge">crawler.c</code>, but you need to
+understand at least the interfaces to the functions in the various ADTs.
+This is described in comments at the start of each function in the <code class="highlighter-rouge">.c</code>
+files. You can also see examples of using the ADT functions in the
+<code class="highlighter-rouge">t?.c</code> files. Note that there’s no test file for the HTML parsing and
+URL-extracting code, because the supplied version of <code class="highlighter-rouge">crawl.c</code>
+effectively provides this.</p>
+
+<p>Note that HTML parsing code was borrowed from Dartmouth College. If you
+looks at the code, it has quite a different style to the rest of the
+code. This provides an interesting comparison with our code.</p>
+
+<p>The <code class="highlighter-rouge">crawl</code> program is used as follows:</p>
+
+<pre><kbd is="shell">./crawl <em>starting-URL</em> <em>max-urls-in-graph</em></kbd></pre>
+
+<p>The <code class="highlighter-rouge">starting-url</code> tells you which URL to start the crawl from,
+and should be of the form <code class="highlighter-rouge">http://x.y.z/</code>.
+The crawler uses this URL as both the starting point
+and uses a normalised version as the base against
+which to interpret other URLs.
+The <code class="highlighter-rouge">max-urls-in-graph</code> specifies
+the maximum number of URLs that can be stored in the <code class="highlighter-rouge">Graph</code>.
+Once this many URLs have been scanned,
+the crawling will stop,
+or will stop earlier if there are
+no more URLs left in the ToDo list.</p>
+
+<p>If you compile then run the supplied crawler
+on the UNSW handbook, you might see something like:</p>
+<pre>
+<kbd is="shell">./crawl http://www.handbook.unsw.edu.au/2017/  100</kbd>
+Found: 'http://www.unsw.edu.au'
+Found: 'https://my.unsw.edu.au/'
+Found: 'https://student.unsw.edu.au/'
+Found: 'http://www.futurestudents.unsw.edu.au/'
+Found: 'http://timetable.unsw.edu.au/'
+Found: 'https://student.unsw.edu.au/node/62'
+Found: 'http://www.library.unsw.edu.au/'
+Found: 'http://www.handbook.unsw.edu.au/2017/'
+Found: 'http://www.unsw.edu.au/faculties'
+Found: 'https://student.unsw.edu.au/node/4431'
+Found: 'https://student.unsw.edu.au/node/128'
+Found: 'http://www.unsw.edu.au/contacts'
+Found: 'http://www.handbook.unsw.edu.au/general/current/SSAPO/previousEditions.html'
+Found: 'http://www.handbook.unsw.edu.au/undergraduate/2017/'
+Found: 'http://www.handbook.unsw.edu.au/postgraduate/2017/'
+Found: 'http://www.handbook.unsw.edu.au/research/2017/'
+Found: 'http://www.handbook.unsw.edu.au/nonaward/2017/'
+Found: 'http://www.unsw.edu.au/future-students/domestic-undergraduate'
+Found: 'http://www.unsw.edu.au/future-students/postgraduate-coursework'
+Found: 'http://research.unsw.edu.au/future-students'
+Found: 'http://www.international.unsw.edu.au/#1'
+Found: 'https://student.unsw.edu.au/node/1334'
+Found: 'https://moodle.telt.unsw.edu.au/login/index.php'
+Found: 'https://student.unsw.edu.au/node/943'
+Found: 'https://apply.unsw.edu.au/'
+Found: 'https://student.unsw.edu.au/node/5450'
+Found: 'http://cgi.cse.unsw.edu.au/~nss/feest/'
+Found: 'http://www.unsw.edu.au/privacy'
+Found: 'http://www.unsw.edu.au/copyright-disclaimer'
+Found: 'http://www.unsw.edu.au/accessibility'
+</pre>
+
+<p>The supplied crawler simply scans the URL given on the command line,
+prints out any URLs that it finds, and then stops. It is not attempting
+to traverse any further than the supplied page. The second command-line
+argument, which limits the size of the <code class="highlighter-rouge">Graph</code> is effecitvely ignored
+here, since the supplied code does not build a <code class="highlighter-rouge">Graph</code>; you need to add
+the code to do this.</p>
+
+<p>If you run the supplied “crawler” on <code class="highlighter-rouge">http://www.cse.unsw.edu.au</code>, you
+don’t get very much, because the CSE website recently moved under the
+Engineering Faculty system and the above URL is just a redirection page
+to the new site. Copying/pasting the redirection URL gives you more
+interesting results.</p>
+
+<blockquote class="alert alert-warning">
+  <p><strong>Before you go running the “crawler” on other websites … DON’T!</strong>
+See the comments below.</p>
+</blockquote>
+
+<p>HTML is a difficult language to parse,
+given the way it is frequently (ab)used,
+and <tt>GetNextURL()</tt> makes some
+disgusting approximations which are OK for this lab,
+but wouldn’t be reasonable in a <em>real</em> Web crawler.</p>
+
+<hr />
+
+<p>Your task is to modify <code class="highlighter-rouge">crawl.c</code> so that it follows any URLs it finds
+and builds a <code class="highlighter-rouge">Graph</code> of the small region of the Web that it traverses
+before bumping in to the <code class="highlighter-rouge">max-urls-in-graph</code> limit.</p>
+
+<p><strong>Important:</strong> running crawlers outside the UNSW domain is problematic.
+Running crawlers that make very frequent URL requests is problematic. So:</p>
+
+<ul>
+  <li>DO NOT run your crawler on any website outside UNSW</li>
+  <li>YOU MUST include a delay (<code class="highlighter-rouge">sleep(1)</code>) between each URL access</li>
+</ul>
+
+<p>If you don’t do the above, there’s a chance that angry sites that are
+being hammered by your crawler will block UNSW from future access to
+those sites. Breaches of the above will result in disciplinary action.</p>
+
+<p>Your crawler can do either a breadth-first or depth-first search,
+and should follow roughly the graph traversal strategy described
+in lectures and tutes:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>add firstURL to the ToDo list
+initialise Graph to hold up to maxURLs
+initialise set of Seen URLs
+while (ToDo list not empty and Graph not filled) {
+	grab Next URL from ToDo list
+	if (not allowed) continue
+	foreach line in the opened URL {
+		foreach URL on that line {
+			if (Graph not filled or both URLs in Graph)
+				add an edge from Next to this URL
+			if (this URL not Seen already) {
+				add it to the Seen set
+				add it to the ToDo list
+			}
+		}
+	}
+	close the opened URL
+	sleep(1)
+}
+</code></pre></div></div>
+
+<p>This does not give all the details:
+you need to work them out yourself,
+based on the supplied ADT functions,
+and your understanding of graph traversal.
+If you use a <code class="highlighter-rouge">Stack</code> for the ToDo list, you’ll do depth-first search.
+If you use a <code class="highlighter-rouge">Queue</code> for the ToDo list, you’ll do breadth-first search.</p>
+
+<p>A couple more things to note:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">(not allowed)</code> refers to not using URLs outside UNSW</li>
+  <li>the <code class="highlighter-rouge">ToDo list</code> is a <code class="highlighter-rouge">Stack</code> or <code class="highlighter-rouge">Queue</code> rather than a List</li>
+  <li>if you don’t include the <code class="highlighter-rouge">sleep(1)</code> you will smash whatever web
+server you access</li>
+</ul>
+
+<p>If you test the crawler out on <code class="highlighter-rouge">www.cse.unsw.edu.au</code>, you don’t get
+particularly interesting results, because you’ll build a large
+adjacency matrix, most of which is empty, before you bump into
+<code class="highlighter-rouge">MaxURLsInGraph</code>. To assist in doing some feasible crawling and getting
+some more interesting output, I have set up a tiny set of self-contained
+web pages that you can crawl, starting from:</p>
+
+<pre>
+<kbd is="shell">./crawl http://www.cse.unsw.edu.au/~cs2521/mini-web/ 30</kbd>
+</pre>
+
+<p>You should use the output of <code class="highlighter-rouge">showGraph()</code> to check whether you are
+building a plausible <code class="highlighter-rouge">Graph</code>. Note that <code class="highlighter-rouge">showGraph()</code> has two modes:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">showGraph(g,0)</code> shows the URL for each vertex, followed by an
+indented list of connected vertices</li>
+  <li><code class="highlighter-rouge">showGraph(g,1)</code> shows just the adjacency matrix in a very compact
+form; it does not show the stored URLs</li>
+</ul>
+
+<h3 id="exercise-2-challenges">Exercise 2: Challenges</h3>
+
+<p>There are several aspects of the crawler that you could look to improve:</p>
+
+<ul>
+  <li>
+    <p>The existing crawler grabs all sorts of URLs
+that do not represent Web pages.
+Modify the code so that it filters out non-HTML output.</p>
+  </li>
+  <li>
+    <p>As noted above, <code class="highlighter-rouge">GetNextURL()</code> is a terrible kludge.
+Modify the code to parse HTML sensibly.</p>
+  </li>
+  <li>
+    <p>Modify <code class="highlighter-rouge">showGraph()</code> so that it can (also) produce output
+that could be fed into a graph drawing tool
+such as GraphViz or <a href="http://sigmajs.org">sigmajs</a>,
+to produce beautiful graph diagrams.</p>
+  </li>
+</ul>
+
+<h2 id="submitting">Submitting</h2>
+
+<p>You must get the lab marked by your tutor in your lab.</p>
+
+<p>Submit your work with the <em>give</em> command, like so:</p>
+
+<p><samp><kbd is="shell">give cs2521 lab05 Graph.c crawl.c</kbd></samp></p>
+
+<p>Or, if you are working from home, upload the relevant file(s) to
+the <tt>lab05</tt> activity on
+WebCMS3 or on
+<a href="https://cgi.cse.unsw.edu.au/~give/Student/give.php">Give Online</a>.</p>
+
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>COMP1927 13s1 Final Exam</title>
+<link rel='stylesheet' type='text/css' href='exam.css'></head>
+<body>
+<div align='center'>
+<table width='100%' border='0'>
+<tr valign='top'>
+<td align='left' width='25%'>
+  <span class='tiny'>COMP1927 13s1</span>
+</td>
+<td align='center' width='50%'>
+  <span class='heading'>COMP1927 13s1 Final Exam</span>
+</td>
+<td align='right' width='25%'>
+  <span class='tiny'>Computing 2</span>
+</td>
+</table>
+</div>
+<center><a href='index.html'>[Instructions]</a> <a target='C' href='C/index.html'>[C language]</a> <br><a href='Q01.html'>[Q1]</a> <a href='Q02.html'>[Q2]</a> <a href='Q03.html'>[Q3]</a> <a href='Q04.html'>[Q4]</a> <b>[Q5]</b> <a href='Q06.html'>[Q6]</a> <a href='Q07.html'>[Q7]</a> <a href='Q08.html'>[Q8]</a> <a href='Q09.html'>[Q9]</a> 
+</center>
+<hr>
+<div style='margin-left:40px;margin-right:40px'>
+<h3>Question 5 <span class='tiny'>(4 marks)</span></h3>
+<p>
+A <em>priority queue</em> is a linear structure where each item
+has an associated value which specifies its priority for removal
+from the structure.
+Answer the following questions on priority queues:
+</p>
+<ol type="A">
+<li><p>
+Consider a priority queue where the items are character values, and the
+priorities are determined by the alphabetical ordering of the items.
+Items which have <em>lower</em> alphabetical ordering are assigned
+higher priority (e.g. <tt>'A'</tt> has higher priority than <tt>'B'</tt>).
+Show the intermediate states of an initially-empty priority queue <tt>PQ</tt>
+when the following operations are performed on the queue in the order
+shown:
+</p>
+<pre>
+PQueueJoin(PQ, 'X')
+PQueueJoin(PQ, 'A')
+PQueueJoin(PQ, 'J')
+PQueueLeave(PQ)
+PQueueJoin(PQ, 'K')
+PQueueLeave(PQ)
+PQueueLeave(PQ)
+</pre>
+<p>
+For each state of the queue, write the items in order of highest priority
+to lowest priority.
+</p></li>
+<li><p>
+Priority queues (PQs) can be viewed as a generalisation of linear
+structures like Stacks and FIFO Queues.
+Briefly describe how you might implement Stacks and Queues
+as PQs.
+In particular, specify what kind of value could be used as the
+priority value and how the priority values would be ordered.
+</p></li>
+</ol>
+<p>
+Type the answer to this question into the file called
+<tt>q5.txt</tt> and submit it using the command:
+</p>
+<pre>
+submit q5
+</pre>
+
+
+</div>
+</body>
+</html>

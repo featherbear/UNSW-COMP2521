@@ -1,0 +1,64 @@
+#!/usr/bin/env zsh
+
+set -e
+
+webroot=/web/cs2521/19T0
+
+if [ -z "$1" ]
+then
+	echo "usage: 2521 fetch <activity-name>" >&2
+	exit 64
+fi
+
+case $1 in
+	lab?? | week??)
+		week=$1; week=${week#lab}; week=${week#week}
+		weekroot=$webroot/week${week}
+
+		[ -d $weekroot/files.ln ] && \
+			ln --symbolic --verbose $weekroot/files.ln/* .
+		[ -d $weekroot/files.cp ] && \
+			rsync --archive --info=name $weekroot/files.cp/ .
+		[ -d $weekroot/files ] && \
+			rsync --archive --info=name $weekroot/files/ .
+		;;
+
+	assign1 | textbuffer)
+		assroot=$webroot/assignments/textbuffer
+
+		[ -d $assroot/files.ln ] && \
+			ln --symbolic --verbose $assroot/files.ln/* .
+		[ -d $assroot/files.cp ] && \
+			rsync --archive --info=name $assroot/files.cp/ .
+		[ -d $assroot/files ] && \
+			rsync --archive --info=name $assroot/files/ .
+		;;
+
+	assign2huntviews)
+		assroot=$webroot/assignments/dracula
+		cat <<__EOF__
+========================================================================
+			    IMPORTANT NOTICE
+
+		    These files are provided as-is;
+	       if it breaks, you get to keep the pieces.
+========================================================================
+__EOF__
+		tar xvf $assroot/huntIV.tar
+		;;
+
+	assign2view)
+		assroot=$webroot/assignments/dracula
+		tar xvf $assroot/view.tar
+		;;
+
+	assign2hunt)
+		assroot=$webroot/assignments/dracula
+		tar xvf $assroot/hunt.tar
+		;;
+
+	*)
+		echo "2521 fetch: unknown activity '$1'" >&2
+		exit 64
+		;;
+esac

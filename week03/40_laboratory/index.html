@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Laboratory — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="/~cs2521/19T0/assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/week03/40_laboratory/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="/~cs2521/19T0/">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week03/">Week 3</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week03/40_laboratory/">Laboratory</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Laboratory</h1>
+</header>
+
+
+
+
+
+<h2 id="objectives">Objectives</h2>
+
+<ul>
+  <li>To practise implementing BST functions.</li>
+  <li>To practise using function pointers.</li>
+</ul>
+
+<h2 id="assessment">Assessment</h2>
+
+<dl class="dl-horizontal">
+  <dt>Deadline</dt>
+  <dd>
+    <p><strike>16 December 2018, 23:59:59</strike><br />
+<span class="text-primary">6 January 2019, 23:59:59</span></p>
+  </dd>
+  <dt>Marks</dt>
+  <dd>3</dd>
+  <dt>Submission</dt>
+  <dd><code class="highlighter-rouge">give cs2521 lab03</code></dd>
+</dl>
+
+<p>This lab should be done individually.</p>
+
+<h2 id="setting-up">Setting up</h2>
+
+<p>Create a directory for this lab, change into it,
+and retrieve the files with the <code class="highlighter-rouge">fetch</code> command:</p>
+
+<pre>
+<kbd is="shell">2521 fetch lab03</kbd>
+'./btree.h' -&gt; '/web/cs2521/19T0/week03/files.ln/btree.h'
+'./item_btree_node.h' -&gt; '/web/cs2521/19T0/week03/files.ln/item_btree_node.h'
+'./item.h' -&gt; '/web/cs2521/19T0/week03/files.ln/item.h'
+'./item_int.h' -&gt; '/web/cs2521/19T0/week03/files.ln/item_int.h'
+'./queue.cse32.o' -&gt; '/web/cs2521/19T0/week03/files.ln/queue.cse32.o'
+'./queue.cse64.o' -&gt; '/web/cs2521/19T0/week03/files.ln/queue.cse64.o'
+'./queue.h' -&gt; '/web/cs2521/19T0/week03/files.ln/queue.h'
+'./testable.h' -&gt; '/web/cs2521/19T0/week03/files.ln/testable.h'
+./
+Makefile
+btree.c
+test_btree.c
+</pre>
+
+<p>This will have provided you with several files
+(as you may have guessed by its output):</p>
+
+<dl class="dl-horizontal">
+  <dt><a href="../files.cp/Makefile"><code class="highlighter-rouge">Makefile</code></a></dt>
+  <dd>contains build rules.</dd>
+  <dt><a href="../files.ln/btree.h"><code class="highlighter-rouge">btree.h</code></a></dt>
+  <dd>A binary tree interface.
+Do not change this file.</dd>
+  <dt><a href="../files.cp/btree.c"><code class="highlighter-rouge">btree.c</code></a></dt>
+  <dd>A partial implementation of a binary tree;
+you need to modify this
+to finish implementing the interface.</dd>
+  <dt><a href="../files.cp/test_btree.c"><code class="highlighter-rouge">test_btree.c</code></a></dt>
+  <dd>A stub for you to write tests in.</dd>
+  <dt><a href="../files.ln/item.h"><code class="highlighter-rouge">item.h</code></a></dt>
+  <dd>A generic <code class="highlighter-rouge">Item</code> type.
+Do not change this file.</dd>
+  <dt><a href="../files.ln/item_int.h"><code class="highlighter-rouge">item_int.h</code></a></dt>
+  <dd>Support for <code class="highlighter-rouge">int</code>s as <code class="highlighter-rouge">Item</code>s.
+Do not change this file.</dd>
+  <dt><a href="../files.ln/item_btree_node.h"><code class="highlighter-rouge">item_btree_node.h</code></a></dt>
+  <dd>Support for <code class="highlighter-rouge">BTreeNode</code>s as <code class="highlighter-rouge">Item</code>s.
+Do not change this file.</dd>
+  <dt><a href="../files.ln/queue.h"><code class="highlighter-rouge">queue.h</code></a></dt>
+  <dd>A Queue ADT interface.
+Do not change this file.</dd>
+  <dt><a href="../files.ln/queue.cse32.o"><code class="highlighter-rouge">queue.cse32.o</code></a></dt>
+  <dd>A Queue ADT implementation,
+which we’ve provided as a precompiled binary
+for 32-bit CSE systems.</dd>
+  <dt><a href="../files.ln/queue.cse64.o"><code class="highlighter-rouge">queue.cse64.o</code></a></dt>
+  <dd>A Queue ADT implementation,
+which we’ve provided as a precompiled binary
+for 64-bit CSE systems.
+(You probably don’t need this file.)</dd>
+</dl>
+
+<p><a href="../files.tar">Download all the files</a>.</p>
+
+<p>The provided code contains
+tags marking unused variables.
+You should remove these tags
+as you implement those functions.</p>
+
+<p>The syntax for
+manipulating function pointers
+is sufficiently opaque
+that type aliases are
+almost a requirement
+for legible code.</p>
+
+<!-- =============================================================== -->
+<h2 id="exercise-0">
+  Exercise 0: <code>test_btree.c</code></h2>
+
+<p>In <code class="highlighter-rouge">test_btree.c</code>,
+for each of the following tasks,
+you must write <em>assert(3)</em>-based unit tests
+to test your functions.
+You will lose half the marks for that exercise
+if you don’t have reasonable tests.</p>
+
+<!-- =============================================================== -->
+<h2 id="exercise-1">
+  Exercise 1: Count Leaves
+  <small class="text-muted text-nowrap">(0.5 marks)</small></h2>
+
+<p>In <code class="highlighter-rouge">btree.c</code>,
+implement the function <code class="highlighter-rouge">btree_size_leaf</code>:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/** Returns the number of leaf nodes in the tree. */</span>
+<span class="kt">size_t</span> <span class="n">btree_size_leaf</span> <span class="p">(</span><span class="n">BTreeNode</span> <span class="n">tree</span><span class="p">);</span>
+</code></pre></div></div>
+
+<!-- =============================================================== -->
+<h2 id="exercise-2">
+  Exercise 2: [thud]
+  <small class="text-muted text-nowrap">(0.5 marks)</small></h2>
+
+<p>In <code class="highlighter-rouge">btree.c</code>,
+implement the function <code class="highlighter-rouge">btree_drop</code>:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/** Destroy a tree, releasing all resources it requires. */</span>
+<span class="kt">void</span> <span class="n">btree_drop</span> <span class="p">(</span><span class="n">BTreeNode</span> <span class="n">tree</span><span class="p">);</span>
+</code></pre></div></div>
+
+<!-- =============================================================== -->
+<h2 id="exercise-3">
+  Exercise 3: Keep a Level(-Order) Head
+  <small class="text-muted text-nowrap">(1 mark)</small></h2>
+
+<p>In <code class="highlighter-rouge">btree.c</code>,
+there’s some very useful mechanics
+for traversing a tree.
+<code class="highlighter-rouge">btree.h</code> only exposes one function,
+<code class="highlighter-rouge">btree_traverse</code>, which takes a tree,
+and two parameters describing what to do:
+a <code class="highlighter-rouge">btree_traversal</code>, an enumeration describing
+prefix-, infix-, postfix-, and level-order,
+and a <code class="highlighter-rouge">btree_visitor_fp</code>,
+which is either NULL
+or a pointer to a <code class="highlighter-rouge">void</code>-returning function
+that takes a <code class="highlighter-rouge">btree_node</code> reference.
+If the last argument is <code class="highlighter-rouge">NULL</code>,
+it returns an array of <code class="highlighter-rouge">btree_node</code> pointers,
+otherwise it returns NULL.</p>
+
+<p>This seems all a bit opaque,
+so here’s an example that produces an array:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">size_t</span> <span class="n">n_nodes</span> <span class="o">=</span> <span class="n">btree_size</span> <span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="n">BTreeNode</span> <span class="o">*</span><span class="n">nodes</span> <span class="o">=</span>
+	<span class="n">btree_traverse</span> <span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">BTREE_TRAVERSE_PREFIX</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n_nodes</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">BTreeNode</span> <span class="n">node</span> <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+	<span class="n">Item</span> <span class="n">nvalue</span> <span class="o">=</span> <span class="n">btree_node_value</span> <span class="p">(</span><span class="n">node</span><span class="p">);</span>
+
+	<span class="kt">char</span> <span class="o">*</span><span class="n">str</span> <span class="o">=</span> <span class="n">item_show</span> <span class="p">(</span><span class="n">nvalue</span><span class="p">);</span>
+	<span class="n">printf</span> <span class="p">(</span><span class="s">"%s "</span><span class="p">,</span> <span class="n">str</span><span class="p">);</span>
+	<span class="n">free</span> <span class="p">(</span><span class="n">str</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">free</span> <span class="p">(</span><span class="n">nodes</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>And here’s an example that
+prints the nodes as it goes.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="kt">void</span> <span class="nf">node_print</span> <span class="p">(</span><span class="n">BTreeNode</span> <span class="n">node</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">Item</span> <span class="n">nvalue</span> <span class="o">=</span> <span class="n">btree_node_value</span> <span class="p">(</span><span class="n">node</span><span class="p">);</span>
+
+	<span class="kt">char</span> <span class="o">*</span><span class="n">str</span> <span class="o">=</span> <span class="n">item_show</span> <span class="p">(</span><span class="n">nvalue</span><span class="p">);</span>
+	<span class="n">printf</span> <span class="p">(</span><span class="s">"%s "</span><span class="p">,</span> <span class="n">str</span><span class="p">);</span>
+	<span class="n">free</span> <span class="p">(</span><span class="n">str</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">btree_traverse</span> <span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">BTREE_TRAVERSE_PREFIX</span><span class="p">,</span> <span class="n">node_print</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>There’s some code to make that work;
+if you’re interested,
+have a close read of
+<code class="highlighter-rouge">btree_traverse</code> and
+<code class="highlighter-rouge">btree_traverse_visit</code>.
+We’ll talk more about
+stateful iteration
+later on in the course.</p>
+
+<p>In <code class="highlighter-rouge">btree.c</code>,
+you should implement
+the function <code class="highlighter-rouge">btree_traverse_level</code>,
+which performs the level-order traversal
+of a binary tree.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="kt">void</span> <span class="n">btree_traverse_level</span> <span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="p">,</span> <span class="n">traverse_state</span> <span class="o">*</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Here’s a diagram to give you an idea of
+how a level-order traversal
+scans the nodes in a tree:</p>
+
+<figure class="text-center">
+  <p><img class="img-fluid" width="80%" style="margin: 24px auto" src="/~cs2521/19T0/week03/levelorder.svg" /></p>
+</figure>
+
+<p>The output from this traversal would be
+<script type="math/tex">[5, 3, 7, 2, 4, 6, 9, 1, 8]</script>.</p>
+
+<p>A level-order traversal
+cannot be done recursively —
+at least, not easily —
+and is instead typically implemented
+using a queue of items.
+The algorithm is roughly:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">level_order</span> <span class="n">bst</span> <span class="o">=</span> <span class="k">do</span>
+	<span class="n">q</span> <span class="o">=</span> <span class="n">new</span> <span class="no">Queue</span>
+	<span class="n">q</span><span class="p">.</span><span class="nf">join</span> <span class="n">bst</span><span class="p">.</span><span class="nf">root</span>
+	<span class="k">while</span> <span class="n">q</span><span class="p">.</span><span class="nf">size</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">do</span>
+		<span class="n">node</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="nf">leave</span>
+		<span class="n">visit</span> <span class="n">node</span>
+		<span class="n">q</span><span class="p">.</span><span class="nf">join</span> <span class="n">node</span><span class="p">.</span><span class="nf">left</span>  <span class="k">if</span> <span class="n">exists</span> <span class="n">node</span><span class="p">.</span><span class="nf">left</span>
+		<span class="n">q</span><span class="p">.</span><span class="nf">join</span> <span class="n">node</span><span class="p">.</span><span class="nf">right</span> <span class="k">if</span> <span class="n">exists</span> <span class="n">node</span><span class="p">.</span><span class="nf">right</span>
+	<span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>We’ve provided a Queue ADT
+interface and implementation,
+but with a twist:
+we’ve only given you a compiled object
+for the implementation.
+(You’ll want to do this exercise on CSE.)</p>
+
+<p>We’ve also changed how Item works a little,
+so you need to explicitly turn values into Items,
+and explicitly turn Items back into values:
+for <code class="highlighter-rouge">int</code>s,
+use <code class="highlighter-rouge">int_item_new</code> to make an Item,
+and <code class="highlighter-rouge">int_item</code> to retrieve the value;
+for <code class="highlighter-rouge">BTreeNode</code>s,
+use <code class="highlighter-rouge">BTreeNode_item_new</code> to make an Item,
+and <code class="highlighter-rouge">BTreeNode_item</code> to retrieve the value.</p>
+
+<!-- =============================================================== -->
+<h2 id="exercise-4">
+  Exercise 4: BSTs and Function Pointers
+  <small class="text-muted text-nowrap">(1 mark)</small></h2>
+
+<p>Write a function</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>size_t btree_count_if (BTreeNode tree, btree_pred_fp pred);
+</code></pre></div></div>
+
+<p>which traverses a binary tree,
+and counts the number of items in the tree
+for which the application of <code class="highlighter-rouge">pred</code>
+returns a true value.</p>
+
+<div class="row">
+  <div class="col-6">
+
+    <p>For example, given the tree</p>
+
+    <figure class="text-center">
+      <p><img class="img-fluid" width="80%" style="margin: 24px auto" src="/~cs2521/19T0/week03/smoltree.svg" /></p>
+    </figure>
+
+  </div>
+  <div class="col-6">
+
+    <p>and a function</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="n">even_p</span> <span class="p">(</span><span class="n">Item</span> <span class="n">n</span><span class="p">);</span>
+</code></pre></div>    </div>
+
+    <p>which returns <code class="highlighter-rouge">true</code>
+if <code class="highlighter-rouge">n</code> is even,
+and <code class="highlighter-rouge">false</code> otherwise –</p>
+
+  </div>
+</div>
+
+<p>– calling</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">n_even_elems</span> <span class="o">=</span> <span class="n">btree_count_if</span> <span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">even_p</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>would return the value 3 in <code class="highlighter-rouge">n_even_elems</code>.</p>
+
+<p>You will need to write
+some predicate functions,
+including <code class="highlighter-rouge">even_p</code>, <code class="highlighter-rouge">odd_p</code>,
+and <code class="highlighter-rouge">negative_p</code>.</p>
+
+<p>In your <code class="highlighter-rouge">test_btree.c</code> file,
+when you write test cases to test your function,
+write a suite of tests
+that use all predicates (<code class="highlighter-rouge">even_p</code>, <code class="highlighter-rouge">odd_p</code>, <code class="highlighter-rouge">negative_p</code>).</p>
+
+<h2 id="submitting">Submitting</h2>
+
+<p>You must get the lab marked by your tutor in your lab.</p>
+
+<p>Submit your work with the <em>give</em> command, like so:</p>
+
+<p><samp><kbd is="shell">give cs2521 lab03 btree.c test_btree.c</kbd></samp></p>
+
+<p>Or, if you are working from home, upload the relevant file(s) to
+the <tt>lab03</tt> activity on
+WebCMS3 or on
+<a href="https://cgi.cse.unsw.edu.au/~give/Student/give.php">Give Online</a>.</p>
+
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

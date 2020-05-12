@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Laboratory — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="/~cs2521/19T0/assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/week02/40_laboratory/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="/~cs2521/19T0/">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week02/">Week 2</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week02/40_laboratory/">Laboratory</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Laboratory</h1>
+</header>
+
+
+
+
+<h2 id="objectives">Objectives</h2>
+
+<ul>
+  <li>To practise implementing and testing ADTs</li>
+</ul>
+
+<h2 id="assessment">Assessment</h2>
+
+<dl class="dl-horizontal">
+  <dt>Deadline</dt>
+  <dd>9 December 2018, 23:59:59</dd>
+  <dt>Marks</dt>
+  <dd>3</dd>
+  <dt>Submission</dt>
+  <dd><code class="highlighter-rouge">give cs2521 lab02</code></dd>
+</dl>
+
+<p>This lab should be done individually.</p>
+
+<h2 id="setting-up">Setting up</h2>
+
+<p>Create a directory for this lab, change into it,
+and retrieve the files with the <code class="highlighter-rouge">fetch</code> command:</p>
+
+<pre>
+<kbd is="shell">2521 fetch lab02</kbd>
+'./item.h' -&gt; '/web/cs2521/19T0/week02/files.ln/item.h'
+'./item_int.h' -&gt; '/web/cs2521/19T0/week02/files.ln/item_int.h'
+'./queue.h' -&gt; '/web/cs2521/19T0/week02/files.ln/queue.h'
+'./stack.h' -&gt; '/web/cs2521/19T0/week02/files.ln/stack.h'
+'./testable.h' -&gt; '/web/cs2521/19T0/week02/files.ln/testable.h'
+./
+Makefile
+queue_array.c
+queue_list.c
+stack_array.c
+test_queue.c
+test_stack.c
+</pre>
+
+<p>This will have provided you with several files
+(as you may have guessed by its output):</p>
+
+<dl class="dl-horizontal">
+  <dt><a href="../files.cp/Makefile"><code class="highlighter-rouge">Makefile</code></a></dt>
+  <dd>contains build rules</dd>
+  <dt><a href="../files.ln/stack.h"><code class="highlighter-rouge">stack.h</code></a></dt>
+  <dd>a Stack ADT interface.</dd>
+  <dt><a href="../files.cp/test_stack.c"><code class="highlighter-rouge">test_stack.c</code></a></dt>
+  <dd>some simple tests for a Stack ADT;
+you will need to add more!</dd>
+  <dt><a href="../files.cp/stack_array.c"><code class="highlighter-rouge">stack_array.c</code></a></dt>
+  <dd>an array-based implementation of a Stack ADT.</dd>
+  <dt><a href="../files.ln/queue.h"><code class="highlighter-rouge">queue.h</code></a></dt>
+  <dd>A Queue ADT interface.</dd>
+  <dt><a href="../files.cp/test_queue.c"><code class="highlighter-rouge">test_queue.c</code></a></dt>
+  <dd>A very empty file,
+for you to write tests for a Queue ADT in.</dd>
+  <dt><a href="../files.cp/queue_array.c"><code class="highlighter-rouge">queue_array.c</code></a></dt>
+  <dd>An array-based implementation of a Queue ADT.</dd>
+  <dt><a href="../files.cp/queue_list.c"><code class="highlighter-rouge">queue_list.c</code></a></dt>
+  <dd>A linked-list-based Queue ADT implementation
+… with bugs.</dd>
+  <dt><a href="../files.ln/item.h"><code class="highlighter-rouge">item.h</code></a></dt>
+  <dd>The generic <code class="highlighter-rouge">Item</code> type,
+specialised for integers.</dd>
+  <dt><a href="../files.ln/testable.h"><code class="highlighter-rouge">testable.h</code></a></dt>
+  <dd>A ‘trait’ of things
+providing either white-box or black-box tests.</dd>
+</dl>
+
+<p><a href="../files.tar">Download all the files</a>.</p>
+
+<p>These programs are incomplete,
+and you will need to modify the <code class="highlighter-rouge">.c</code> files
+as outlined in the instructions below.
+As for last week,
+you’ll be able to use <code class="highlighter-rouge">make</code>
+to build and rebuild the programs you change.</p>
+
+<pre>
+<kbd is="shell">make</kbd>
+2521 3c    -c -o test_stack.o test_stack.c
+2521 3c    -c -o stack_array.o stack_array.c
+2521 3c   test_stack.o stack_array.o   -o test_stack
+2521 3c    -c -o test_queue.o test_queue.c
+2521 3c    -c -o queue_array.o queue_array.c
+2521 3c   test_queue.o queue_array.o   -o test_queue_array
+2521 3c    -c -o queue_list.o queue_list.c
+2521 3c   test_queue.o queue_list.o   -o test_queue_list
+</pre>
+
+<p>The provided code contains
+tags marking unused variables.
+You should remove these tags
+as you implement those functions.</p>
+
+<!-- =============================================================== -->
+<h2 id="exercise-1">
+  Exercise 1: Implementing a Stack ADT with Bounds Checking
+  <small class="text-muted text-nowrap">(1 mark)</small></h2>
+
+<p>In the lecture,
+we developed a stack ADT implementation
+which used arrays.
+This had some serious shortcomings!</p>
+
+<p>Pushing an item onto the stack
+when the maximum number of items has been reached,
+or popping from the stack when the stack is empty,
+leads to out of bounds array access.
+Without protections in place (like those offered by <code class="highlighter-rouge">3c</code>)
+this can cause other program variables
+to be unintentionally overwritten,
+or may result in apparently-random crashes.
+It is good programming practice
+to make ADT implementations
+robust against out-of-bounds errors
+and similar memory errors.</p>
+
+<p>The provided file, <code class="highlighter-rouge">stack_array.c</code>,
+has the same problems.
+You need to modify
+the implementation in <code class="highlighter-rouge">stack_array.c</code>
+to provide the following behaviour:</p>
+
+<ul>
+  <li>
+    <p>when an attempt is made
+to push an item onto a stack
+that is already full,
+the array is <em>resized</em>
+to accommodate the extra element.
+Make sure the stack is
+only resized when it is full,
+and make the resized array be two times bigger.</p>
+  </li>
+  <li>
+    <p>when an attempt is made
+to pop from an empty stack,
+it prints the message <code class="highlighter-rouge">"stack underflow"</code>
+to standard error,
+and calls the function <code class="highlighter-rouge">abort</code> to terminate the program.</p>
+  </li>
+  <li>
+    <p>when the size of the stack drops below <script type="math/tex">\frac{1}{4}</script>
+of the size of the array,
+the array size should be resized to half of its size.
+The array size should <em>never</em> drop
+below its original starting size.</p>
+  </li>
+</ul>
+
+<blockquote class="alert alert-info">
+  <p><strong>HINT</strong>
+Look at the C function <em>realloc(3)</em>.
+Note that this can only be used to resize memory
+that has been dynamically allocated
+using <em>malloc(3)</em> or <em>calloc(3)</em>.
+If you declare an array
+as a local variable (e.g., <code class="highlighter-rouge">int array[100];</code>),
+you <strong>cannot</strong> use <em>realloc(3)</em> to resize it.</p>
+</blockquote>
+
+<p>While you are developing your implementation,
+add some unit tests which have access to,
+and can verify the correctness of,
+the internal structure of your ADT
+to the <code class="highlighter-rouge">white_box_tests</code> function in <code class="highlighter-rouge">stack_array.c</code>.</p>
+
+<p>Add test cases to <code class="highlighter-rouge">test_stack.c</code>
+that would have triggered the out of bounds conditions
+to test that your code works properly.
+Be brutal with your tests!
+Also check that popping an empty stack
+generates the appropriate error messages.
+Remember that the tests you create in <code class="highlighter-rouge">test_stack.c</code>
+should be black box tests,
+and can only use the <code class="highlighter-rouge">typedef</code>s and functions
+declared in the <code class="highlighter-rouge">stack.h</code> interface.</p>
+
+<!-- =============================================================== -->
+<h2 id="exercise-2">
+  Exercise 2: Creating black box tests for a Queue
+  <small class="text-muted text-nowrap">(0.5 marks)</small></h2>
+
+<p>In <code class="highlighter-rouge">test_queue.c</code>,
+write a comprehensive set of black box tests
+for the <code class="highlighter-rouge">queue.h</code> interface.</p>
+
+<p>When you have finished writing your tests,
+use the provided <code class="highlighter-rouge">Makefile</code> to compile <code class="highlighter-rouge">test_queue.c</code>:
+it is set up to compile
+<code class="highlighter-rouge">queue_array.c</code> or <code class="highlighter-rouge">queue_list.c</code>, and <code class="highlighter-rouge">test_queue.c</code> together
+to give <code class="highlighter-rouge">test_queue_array</code> and <code class="highlighter-rouge">test_queue_list</code>, respectively.</p>
+
+<p>Try running the <code class="highlighter-rouge">test_queue_array</code> program.
+Does the provided code pass your tests?
+It should … provided that
+you do not insert more than 10 items.
+The code contains an <em>abort(3)</em> statement
+that will kill the program in this situation.</p>
+
+<p>Try running the <code class="highlighter-rouge">test_queue_list</code> program.
+Does the provided code pass your tests?
+It should not; it should contain errors that you need to fix.</p>
+
+<!-- =============================================================== -->
+<h2 id="exercise-3">
+  Exercise 3: Debugging a linked-list Queue
+  <small class="text-muted text-nowrap">(0.5 marks)</small></h2>
+
+<p>In <code class="highlighter-rouge">queue_list.c</code>,
+write some white-box tests,
+and try to find and fix any errors
+in the <code class="highlighter-rouge">queue_list.c</code> implementation provided.
+Make sure the implementation passes
+all your black-box and white-box tests.</p>
+
+<!-- =============================================================== -->
+<h2 id="exercise-4">
+  Exercise 4: Queue Faster!
+  <small class="text-muted text-nowrap">(1 marks)</small></h2>
+
+<p>The array-based Queue implementation
+in <code class="highlighter-rouge">queue_array.c</code> is woefully inefficient.
+When an item is removed,
+all the remaining items shuffle down one place in the array.
+This means the <code class="highlighter-rouge">queue_de</code> function
+has time complexity <script type="math/tex">O(n)</script>,
+because if we have <script type="math/tex">n</script> items in the array,
+we would need to shift approximately <script type="math/tex">n</script> items.</p>
+
+<p>Modify the queue implementation so that
+both <code class="highlighter-rouge">queue_en</code> and <code class="highlighter-rouge">queue_de</code> are <script type="math/tex">O(1)</script> operations –
+that is, the amount of work done in the function
+does not depend on the size of the queue.</p>
+
+<blockquote class="alert alert-info">
+  <p><strong>HINT</strong>
+Store the index of the start of the queue
+and the end of the queue.
+This way when you get an element,
+you do not have to shift all the elements over;
+you can just update the index of the start of the queue.</p>
+</blockquote>
+
+<p>You should also still make sure
+your implementation checks that
+the queue never exceeds its maximum
+and that it never tries to get
+an element from an empty queue.
+In this case, you should
+print out an error message
+and call <em>abort(3)</em>.
+(Unlike the first part of this lab,
+you <em>do not</em> have to resize the array
+when it becomes full).</p>
+
+<p>Write some white-box unit tests
+to confirm that your new implementation works,
+and recompile and run against
+your original black box tests.
+If your implementation and tests are correct,
+they should all still work.</p>
+
+<h2 id="submitting">Submitting</h2>
+
+<p>You must get the lab marked by your tutor in your lab.</p>
+
+<p>Submit your work with the <em>give</em> command, like so:</p>
+
+<p><samp><kbd is="shell">give cs2521 lab02 stack_array.c test_stack.c queue_array.c queue_list.c test_queue.c</kbd></samp></p>
+
+<p>Or, if you are working from home, upload the relevant file(s) to
+the <tt>lab02</tt> activity on
+WebCMS3 or on
+<a href="https://cgi.cse.unsw.edu.au/~give/Student/give.php">Give Online</a>.</p>
+
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

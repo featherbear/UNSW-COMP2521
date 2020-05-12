@@ -1,0 +1,334 @@
+[course]
+  code = "COMP2521"
+  account = "cs2521"
+  session = "19x1"
+  email = "cs2521@cse.unsw.edu.au"
+  name = "Data Structures and Algorithms"
+
+[[week]]
+  week = 1
+  release_activities = "2018-11-26 00:00:00 +1100"
+  release_solutions = "2018-12-03 00:00:00 +1100"
+
+[[week]]
+  week = 2
+  release_activities = "2018-12-03 00:00:00 +1100"
+  release_solutions = "2018-12-10 00:00:00 +1100"
+
+[[week]]
+  week = 3
+  release_activities = "2018-12-10 00:00:00 +1100"
+  release_solutions = "2018-12-17 00:00:00 +1100"
+
+[[week]]
+  week = 4
+  release_activities = "2018-12-31 00:00:00 +1100"
+  release_solutions = "2019-01-07 00:00:00 +1100"
+
+[[week]]
+  week = 5
+  release_activities = "2019-01-07 00:00:00 +1100"
+  release_solutions = "2019-01-14 00:00:00 +1100"
+
+[[week]]
+  week = 6
+  release_activities = "2019-01-14 00:00:00 +1100"
+  release_solutions = "2019-01-21 00:00:00 +1100"
+
+[[week]]
+  week = 7
+  release_activities = "2019-01-21 00:00:00 +1100"
+  release_solutions = "2019-01-28 00:00:00 +1100"
+
+[[week]]
+  week = 8
+  release_activities = "2019-02-04 00:00:00 +1100"
+  release_solutions = "2019-02-11 00:00:00 +1100"
+
+########################################################################
+
+[[staff]]
+  upi = 9300035
+  user = ["jas", "z9300035"]
+  name = "John Shepherd"
+  role = "Convenor"
+
+[[staff]]
+  upi = 5017851
+  user = ["jashankj", "z5017851"]
+  name = "Jashank Jeremy"
+  role = "Lecturer"
+
+[[staff]]
+  upi = 3207186
+  user = ["simm", "z3207186", "smau748"]
+  name = "Sim Mautner"
+  role = "Tutor"
+
+[[staff]]
+  upi = 3217818
+  user = ["z3217818", "cses186"]
+  name = "Cliff Sesel"
+  role = "Tutor"
+
+[[staff]]
+  upi = 3418003
+  user = ["hsmith", "z3418003", "hsmi665"]
+  name = "Hayden Smith"
+  role = "Tutor"
+
+[[staff]]
+  upi = 5062732
+  user = ["z5062732"]
+  name = "Hussein Debel"
+  role = "Tutor"
+
+[[staff]]
+  upi = 5110198
+  user = ["z5110198"]
+  name = "Deepanjan Chakrabarty"
+  role = "Tutor"
+
+[[staff]]
+  upi = 5122536
+  user = ["z5122536"]
+  name = "Olga Popovic"
+  role = "Tutor"
+
+[[staff]]
+  upi = 5161594
+  user = ["z5161594"]
+  name = "Elizabeth Willer"
+  role = "Tutor"
+
+[[staff]]
+  upi = 5164705
+  user = ["z5164705"]
+  name = "Gal Aharon"
+  role = "Tutor"
+
+[[staff]]
+  upi = 5206624
+  user = ["z5206624"]
+  name = "Kristian Nolev"
+  role = "Tutor"
+
+########################################################################
+
+[[class]]
+  type = "Lec"
+  nss_id = 1652
+  nss_code = "1UGA"
+  handle = "lec1"
+  [[class.meeting]]
+    location = "K-J17-G03 Ainsworth G03"
+    day = "Tue"
+    start = "14:00"
+    end = "17:00"
+    weeks = "1-3,4-8"
+    instructor = [ 5017851 ]
+  [[class.meeting]]
+    location = "K-J17-G03 Ainsworth G03"
+    day = "Thu"
+    start = "10:00"
+    end = "13:00"
+    weeks = "1-3,4-8"
+    instructor = [ 5017851 ]
+
+[[class]]
+  type = "TLB"
+  nss_id = 1656
+  nss_code = "M10A"
+  handle = "mon10-sitar"
+  [[class.meeting]]
+    location = "K-G14-252 Webster 252"
+    day = "Mon"
+    start = "10:00"
+    end = "11:00"
+    weeks = "1-3,4-8"
+    instructor = [ 3418003 ]
+  [[class.meeting]]
+    location = "K-J17-306 Sitar Lab J17 306"
+    day = "Mon"
+    start = "11:00"
+    end = "13:00"
+    weeks = "1-3,4-8"
+    instructor = [ 3418003, 5164705 ]
+
+[[class]]
+  type = "TLB"
+  nss_id = 1657
+  nss_code = "M14A"
+  handle = "mon14-sitar"
+  [[class.meeting]]
+    location = "K-G14-252 Webster 252"
+    day = "Mon"
+    start = "14:00"
+    end = "15:00"
+    weeks = "1-3,4-8"
+    instructor = [ 3418003 ]
+  [[class.meeting]]
+    location = "K-J17-306 Sitar Lab J17 306"
+    day = "Mon"
+    start = "15:00"
+    end = "16:00"
+    weeks = "1-3,4-8"
+    instructor = [ 3418003, 5206624 ]
+
+[[class]]
+  type = "TLB"
+  nss_id = 1658
+  nss_code = "T10A"
+  handle = "tue10-sitar"
+  [[class.meeting]]
+    location = "K-G14-252 Webster 252"
+    day = "Tue"
+    start = "10:00"
+    end = "11:00"
+    weeks = "1-3,4-8"
+    instructor = [ 5062732 ]
+  [[class.meeting]]
+    location = "K-J17-306 Sitar Lab J17 306"
+    day = "Tue"
+    start = "11:00"
+    end = "13:00"
+    weeks = "1-3,4-8"
+    instructor = [ 5062732, 3217818 ]
+
+[[class]]
+  type = "TLB"
+  nss_id = 1659
+  nss_code = "T17A"
+  handle = "tue17-sitar"
+  [[class.meeting]]
+    location = "K-G14-252 Webster 252"
+    day = "Tue"
+    start = "17:00"
+    end = "18:00"
+    weeks = "1-3,4-8"
+    instructor = [ 5164705 ]
+  [[class.meeting]]
+    location = "K-J17-306 Sitar Lab J17 306"
+    day = "Tue"
+    start = "18:00"
+    end = "20:00"
+    weeks = "1-3,4-8"
+    instructor = [ 5164705, 5110198 ]
+
+[[class]]
+  type = "TLB"
+  nss_id = 1660
+  nss_code = "W10A"
+  handle = "wed10-sitar"
+  [[class.meeting]]
+    location = "K-G14-252 Webster 252"
+    day = "Wed"
+    start = "10:00"
+    end = "11:00"
+    weeks = "1-3,4-8"
+    instructor = [ 3207186 ]
+  [[class.meeting]]
+    location = "K-J17-306 Sitar Lab J17 306"
+    day = "Wed"
+    start = "11:00"
+    end = "13:00"
+    weeks = "1-3,4-8"
+    instructor = [ 3207186, 5122536 ]
+
+[[class]]
+  type = "TLB"
+  nss_id = 1661
+  nss_code = "W14A"
+  handle = "wed14-sitar"
+  [[class.meeting]]
+    location = "K-G14-252 Webster 252"
+    day = "Wed"
+    start = "14:00"
+    end = "15:00"
+    weeks = "1-3,4-8"
+    instructor = [ 3207186 ]
+  [[class.meeting]]
+    location = "K-J17-306 Sitar Lab J17 306"
+    day = "Wed"
+    start = "15:00"
+    end = "16:00"
+    weeks = "1-3,4-8"
+    instructor = [ 3207186, 5161594 ]
+
+[[class]]
+  type = "TLB"
+  nss_id = 1655
+  nss_code = "H14A"
+  handle = "thu14-sitar"
+  [[class.meeting]]
+    location = "K-D16-G01 Goldstein G01"
+    day = "Thu"
+    start = "14:00"
+    end = "15:00"
+    weeks = "1-3,4-8"
+    instructor = [ 5161594 ]
+  [[class.meeting]]
+    location = "K-J17-306 Sitar Lab J17 306"
+    day = "Thu"
+    start = "15:00"
+    end = "17:00"
+    weeks = "1-3,4-8"
+    instructor = [ 5161594, 3217818 ]
+
+[[class]]
+  type = "TLB"
+  nss_id = 1653
+  nss_code = "F10A"
+  handle = "fri10-sitar"
+  [[class.meeting]]
+    location = "K-D16-G02 Goldstein G02"
+    day = "Fri"
+    start = "10:00"
+    end = "11:00"
+    weeks = "1-3,4-8"
+    instructor = [ 5122536 ]
+  [[class.meeting]]
+    location = "K-J17-306 Sitar Lab J17 306"
+    day = "Fri"
+    start = "11:00"
+    end = "13:00"
+    weeks = "1-3,4-8"
+    instructor = [ 5122536, 5206624 ]
+
+[[class]]
+  type = "TLB"
+  nss_id = 1654
+  nss_code = "F14A"
+  handle = "fri14-sitar"
+  [[class.meeting]]
+    location = "K-D16-G01 Goldstein G01"
+    day = "Fri"
+    start = "14:00"
+    end = "15:00"
+    weeks = "1-3,4-8"
+    instructor = [ 3217818 ]
+  [[class.meeting]]
+    location = "K-J17-306 Sitar Lab J17 306"
+    day = "Fri"
+    start = "15:00"
+    end = "17:00"
+    weeks = "1-3,4-8"
+    instructor = [ 3217818, 5110198 ]
+
+########################################################################
+
+[site]
+  navbar = [
+    ["/webcms/", "WebCMS3"],
+    ["/outline/", "Outline"],
+    ["/resources/style-guide/", "Style Guide"],
+    ["/", "|"],
+    ["/week01/", "1"],
+    ["/week02/", "2"],
+    ["/week03/", "3"],
+    ["/week04/", "4"],
+    ["/week05/", "5"],
+    ["/week06/", "6"],
+    ["/week07/", "7"],
+    ["/week08/", "8"],
+  ]

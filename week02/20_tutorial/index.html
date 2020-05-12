@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Tutorial — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="/~cs2521/19T0/assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/week02/20_tutorial/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="/~cs2521/19T0/">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week02/">Week 2</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week02/20_tutorial/">Tutorial</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Tutorial</h1>
+</header>
+
+
+
+
+
+<h2 id="assignment-1">Assignment 1</h2>
+
+<p>Ask your tutor
+any questions you have
+about assignment 1!</p>
+
+<p>Your implementation must keep
+the lines of a textbuffer
+in a linked data structure
+such as a linked list,
+or variant of that.
+Each line must be represented as
+a dynamically allocated character array.
+Discuss what this means.</p>
+
+<p>Consider the following code,
+derived from a submission test –</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">Textbuffer</span> <span class="n">tb</span> <span class="o">=</span> <span class="n">textbuffer_new</span> <span class="p">(</span>
+		<span class="s">"1.1 abc</span><span class="se">\n</span><span class="s">"</span>
+		<span class="s">"1.2 def</span><span class="se">\n</span><span class="s">"</span>
+	<span class="p">);</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">str</span> <span class="o">=</span> <span class="n">textbuffer_to_str</span> <span class="p">(</span><span class="n">tb1</span><span class="p">);</span>
+	<span class="n">printf</span> <span class="p">(</span><span class="s">"Original Tb:</span><span class="se">\n</span><span class="s">%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">str</span><span class="p">);</span>
+	<span class="n">free</span> <span class="p">(</span><span class="n">str</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Can we modify the string passed into
+the <code class="highlighter-rouge">textbuffer_new</code> function?</p>
+
+<p>Think of some testing ideas
+with your class and your tutor.</p>
+
+<h2 id="using-stacks-and-queues">Using Stacks and Queues</h2>
+
+<p>Consider the following interfaces
+given in lectures,
+for a stack and a queue:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ... queue.h</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">queue</span> <span class="o">*</span><span class="n">Queue</span><span class="p">;</span>
+<span class="n">Queue</span> <span class="n">queue_new</span> <span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">queue_drop</span> <span class="p">(</span><span class="n">Queue</span><span class="p">);</span>
+<span class="n">Item</span> <span class="n">queue_de</span> <span class="p">(</span><span class="n">Queue</span> <span class="n">q</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">queue_en</span> <span class="p">(</span><span class="n">Queue</span><span class="p">,</span> <span class="n">Item</span><span class="p">);</span>
+<span class="kt">size_t</span> <span class="n">queue_size</span> <span class="p">(</span><span class="n">Queue</span><span class="p">);</span>
+</code></pre></div></div>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ... stack.h</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">stack</span> <span class="o">*</span><span class="n">Stack</span><span class="p">;</span>
+<span class="n">Stack</span> <span class="n">stack_new</span> <span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">stack_drop</span> <span class="p">(</span><span class="n">Stack</span><span class="p">);</span>
+<span class="n">Item</span> <span class="n">stack_pop</span> <span class="p">(</span><span class="n">Stack</span> <span class="n">s</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">stack_push</span> <span class="p">(</span><span class="n">Stack</span><span class="p">,</span> <span class="n">Item</span><span class="p">);</span>
+<span class="kt">size_t</span> <span class="n">stack_size</span> <span class="p">(</span><span class="n">Stack</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Using two stack data structures,
+show how you can implement
+a queue data structure.</p>
+
+<p>Using two queue data structures,
+show how you can implement
+a stack data structure.</p>
+
+<p>Using only the functions
+for manipulating stacks
+in the stack interface,
+write a function
+that joins two stacks <code class="highlighter-rouge">stack1</code> and <code class="highlighter-rouge">stack2</code>,
+such that <code class="highlighter-rouge">stack1</code> is “stacked” on <code class="highlighter-rouge">stack2</code>.
+(Note that the contents of <code class="highlighter-rouge">stack1</code>
+do not need to be preserved.)</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">stack_stacks</span> <span class="p">(</span><span class="n">Stack</span> <span class="n">stack1</span><span class="p">,</span> <span class="n">Stack</span> <span class="n">stack2</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="implementing-a-stack-with-a-linked-list">Implementing a Stack with a Linked List</h2>
+
+<p>As we did in the lectures,
+implement from the Stack interface
+given in Exercise 1,
+using a linked list structure.
+How will you represent your stack?</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="k">struct</span> <span class="n">stack</span> <span class="n">stack</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">stack_node</span> <span class="n">stack_node</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="n">stack</span> <span class="p">{</span>
+	<span class="c1">// You need to decide what goes in here</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">stack_node</span> <span class="p">{</span>
+	<span class="c1">// You need to decide what goes in here</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>Assume you have the following
+local helper function to create nodes –</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="n">stack_node</span> <span class="o">*</span><span class="n">stack_node_new</span> <span class="p">(</span><span class="n">Item</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="emordnilap">Emordnilap!</h2>
+
+<p>An emordnilap is a string of characters
+which have the property that
+they can be read the same from either end,
+ignoring whitespace, punctuation, and case.
+It will always have
+an even number of characters that match:
+“tacocat” and “Madam, I’m Adam” are not emordnilaps,
+but “Hannah” and “rats live on no evil star” are.</p>
+
+<p>Write a program which,
+given a string,
+will print “yes” if it is an emordnilap,
+and “no” otherwise.</p>
+
+<pre>
+<kbd is="shell">./emordnilap Hannah</kbd>
+yes
+<kbd is="shell">./emordnilap "rats live on no evil star"</kbd>
+yes
+<kbd is="shell">./emordnilap "tacocat"</kbd>
+no
+<kbd is="shell">./emordnilap "Madam, I'm Adam"</kbd>
+no
+<kbd is="shell">./emordnilap "Citation Needed"</kbd>
+no
+</pre>
+
+<p><strong class="text-info">HINT</strong>
+This is very similar to
+the balanced brackets problem
+from the lecture.</p>
+
+<p><strong class="text-danger">CHALLENGE</strong>
+Modify your solution to match palindromes.</p>
+
+<h2 id="on-testing">On Testing</h2>
+
+<p>What is the difference between black box and white box testing?</p>
+
+<h2 id="on-black-box-testing">On Black-Box Testing</h2>
+
+<p>Let’s say we have a set of tests in a file <code class="highlighter-rouge">test_stack.c</code>,
+which includes the <code class="highlighter-rouge">stack.h</code> interface from Exercise 1 –</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;assert.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+</span>
+<span class="cp">#include "stack.h"
+</span>
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">printf</span> <span class="p">(</span><span class="s">"Testing new stack</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">Stack</span> <span class="n">s</span> <span class="o">=</span> <span class="n">stack_new</span><span class="p">();</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="n">printf</span> <span class="p">(</span><span class="s">"Test passed</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">EXIT_SUCCESS</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>When compiling my test file,
+I get the following compile error:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>test_stack.c:11:5: error: dereferencing pointer to incomplete type
+</code></pre></div></div>
+
+<p>What does this mean?</p>
+
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

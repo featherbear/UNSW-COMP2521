@@ -1,0 +1,765 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Tuesday lecture code — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="/~cs2521/19T0/assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/week08/02_provided/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="/~cs2521/19T0/">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week08/">Week 8</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week08/02_provided/">Tuesday lecture code</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Tuesday lecture code</h1>
+</header>
+
+
+
+
+
+<nav id="top" class="text-center">
+  <ul class="list-inline">
+<li class="list-inline-item text-muted">jump to...</li>
+
+<li class="list-inline-item"><a href="#hash.c">hash.c</a></li>
+
+<li class="list-inline-item"><a href="#ht.h">ht.h</a></li>
+
+<li class="list-inline-item"><a href="#htc.c">htc.c</a></li>
+
+<li class="list-inline-item"><a href="#ht_none.c">ht_none.c</a></li>
+
+<li class="list-inline-item"><a href="#ht_ll.c">ht_ll.c</a></li>
+
+<li class="list-inline-item"><a href="#ht.c">ht.c</a></li>
+
+</ul>
+</nav>
+
+<section id="hash.c">
+  <p class="float-right text-right"><small>
+  <a href="../02_lecture/hash.c">(download)</a><br />
+  <a href="#top">(back to top)</a>
+</small></p>
+  <h2><em>hash.c</em></h2>
+  <div class="clearfix"></div>
+  <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cp">#include &lt;assert.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;limits.h&gt;
+#include &lt;err.h&gt;
+#include &lt;sysexits.h&gt;
+</span>
+<span class="cp">#ifndef SIZE_T_MAX
+#define SIZE_T_MAX 1ULL&lt;&lt;31
+#endif
+</span>
+<span class="k">enum</span> <span class="n">approach</span> <span class="p">{</span>
+	<span class="n">HASH_PHP</span><span class="p">,</span>
+	<span class="n">HASH_PLUS</span><span class="p">,</span>
+	<span class="n">HASH_PLUSTIMES</span><span class="p">,</span>
+	<span class="n">HASH_PLUSPLUS</span><span class="p">,</span>
+	<span class="n">HASH_UNIVERSAL</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="kt">size_t</span> <span class="n">key_hash</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">k</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">N</span><span class="p">,</span> <span class="k">enum</span> <span class="n">approach</span> <span class="n">approach</span><span class="p">);</span>
+
+<span class="cp">#define wrapping_add(x,y,max) \
+	(((x) + (y)) % (max))    
+</span>    
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">!=</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="n">argc</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">)</span>
+		<span class="n">errx</span> <span class="p">(</span><span class="n">EX_USAGE</span><span class="p">,</span> <span class="s">"usage: hash &lt;size&gt; [&lt;approach&gt;]"</span><span class="p">);</span>
+
+	<span class="kt">size_t</span> <span class="n">ht_size</span> <span class="o">=</span> <span class="p">(</span><span class="kt">size_t</span><span class="p">)</span> <span class="n">strtol</span> <span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+
+	<span class="k">enum</span> <span class="n">approach</span> <span class="n">app</span> <span class="o">=</span> <span class="n">HASH_UNIVERSAL</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">argc</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kt">long</span> <span class="n">x</span> <span class="o">=</span> <span class="n">strtol</span> <span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+		<span class="n">assert</span> <span class="p">(</span><span class="n">HASH_PHP</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&amp;&amp;</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">HASH_UNIVERSAL</span><span class="p">);</span>
+		<span class="n">app</span> <span class="o">=</span> <span class="p">(</span><span class="k">enum</span> <span class="n">approach</span><span class="p">)</span> <span class="n">x</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="n">BUFSIZ</span><span class="p">];</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">fgets</span> <span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">BUFSIZ</span><span class="p">,</span> <span class="n">stdin</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+		<span class="o">*</span><span class="p">(</span><span class="n">strrchr</span> <span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="sc">'\n'</span><span class="p">))</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+		<span class="n">printf</span> <span class="p">(</span><span class="s">"%zu</span><span class="se">\t</span><span class="s">%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">key_hash</span> <span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">ht_size</span><span class="p">,</span> <span class="n">app</span><span class="p">),</span> <span class="n">buf</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">size_t</span> <span class="nf">key_hash</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">k</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">N</span><span class="p">,</span> <span class="k">enum</span> <span class="n">approach</span> <span class="n">approach</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">switch</span> <span class="p">(</span><span class="n">approach</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="n">HASH_PHP</span><span class="p">:</span>
+		<span class="k">return</span> <span class="n">strlen</span> <span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span><span class="p">;</span>
+
+	<span class="k">case</span> <span class="n">HASH_PLUS</span><span class="p">:</span> <span class="p">{</span>
+		<span class="kt">size_t</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">'\0'</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="c1">// h += k[i];</span>
+			<span class="n">h</span> <span class="o">=</span> <span class="n">wrapping_add</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="p">(</span><span class="kt">unsigned</span><span class="p">)</span> <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">SIZE_T_MAX</span><span class="p">);</span>
+		<span class="k">return</span> <span class="n">h</span> <span class="o">%</span> <span class="n">N</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">case</span> <span class="n">HASH_PLUSTIMES</span><span class="p">:</span> <span class="p">{</span>
+		<span class="kt">size_t</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">'\0'</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="c1">// h += k[i] * i;</span>
+			<span class="n">h</span> <span class="o">=</span> <span class="n">wrapping_add</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">i</span> <span class="o">*</span> <span class="p">(</span><span class="kt">unsigned</span><span class="p">)</span> <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">SIZE_T_MAX</span><span class="p">);</span>
+		<span class="k">return</span> <span class="n">h</span> <span class="o">%</span> <span class="n">N</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">case</span> <span class="n">HASH_PLUSPLUS</span><span class="p">:</span> <span class="p">{</span>
+		<span class="kt">size_t</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="kt">unsigned</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">127</span><span class="p">;</span> <span class="c1">// prime!</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">'\0'</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+<span class="c">#if 0
+			printf ("at [%zu], a * h + k[i] = %u * %zu + %hhu\n",
+					i, a, h, k[i]);
+#endif
+</span>			<span class="n">h</span> <span class="o">=</span> <span class="n">wrapping_add</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">h</span><span class="p">,</span> <span class="p">(</span><span class="kt">unsigned</span><span class="p">)</span> <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">SIZE_T_MAX</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="n">h</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">case</span> <span class="n">HASH_UNIVERSAL</span><span class="p">:</span> <span class="p">{</span>
+		<span class="kt">size_t</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="kt">unsigned</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">31415</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">21783</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="sc">'\0'</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+<span class="c">#if 0
+			printf ("at [%zu], a * h + k[i] ="
+					" %u * %zu + %hhu ="
+					" %zu\n",
+					i, a, h, k[i], ((a * h) + k[i]) % N);
+#endif
+</span>			<span class="n">h</span> <span class="o">=</span> <span class="n">wrapping_add</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">h</span><span class="p">,</span> <span class="p">(</span><span class="kt">unsigned</span><span class="p">)</span><span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">SIZE_T_MAX</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="k">return</span> <span class="n">h</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div>  </div>
+
+  <hr />
+</section>
+<section id="ht.h">
+  <p class="float-right text-right"><small>
+  <a href="../02_lecture/ht.h">(download)</a><br />
+  <a href="#top">(back to top)</a>
+</small></p>
+  <h2><em>ht.h</em></h2>
+  <div class="clearfix"></div>
+  <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdlib.h&gt;
+#include &lt;limits.h&gt;
+</span>
+<span class="cp">#ifndef SIZE_T_MAX
+#define SIZE_T_MAX 1ULL&lt;&lt;31
+#endif
+</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">ht</span> <span class="n">ht</span><span class="p">;</span>
+
+<span class="k">typedef</span> <span class="kt">char</span> <span class="o">*</span><span class="n">key</span><span class="p">;</span>
+<span class="cp">#define key_clone(x) (strdup(x))
+#define key_drop(x) (free((x)))
+#define key_eq(a,b) (strcmp((a), (b)) == 0)
+</span>
+<span class="k">typedef</span> <span class="kt">char</span> <span class="o">*</span><span class="n">value</span><span class="p">;</span>
+<span class="cp">#define value_clone(x) (strdup(x))
+#define value_drop(x) (free(x))
+</span>
+<span class="n">ht</span> <span class="o">*</span><span class="n">ht_new</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">size</span><span class="p">);</span>
+<span class="n">value</span> <span class="n">ht_select</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">ht_insert</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">ht_update</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">ht_upsert</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">ht_delete</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">ht_keys</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="p">,</span> <span class="n">key</span> <span class="o">*</span><span class="p">);</span>
+<span class="kt">size_t</span> <span class="n">ht_count</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">ht_drop</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="n">ht_show</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="p">);</span>
+
+<span class="cp">#define HASH_UNIVERSAL
+</span>
+<span class="cp">#define wrapping_add(x,y,max) \
+	(((x) + (y)) % (max))
+</span>
+<span class="cp">#ifdef HASH_PHP
+#define key_hash(k,N) \
+	({ \
+		strlen ((k)) % (N); \
+	})
+#endif
+</span>
+<span class="cp">#ifdef HASH_PLUS
+#define key_hash(k,N) \
+	({ \
+		size_t h = 0; \
+		for (size_t i = 0; k[i] != '\0'; i++) \
+			h = wrapping_add (h, (unsigned)k[i], SIZE_T_MAX); \
+		h % N; \
+	})
+#endif
+</span>
+<span class="cp">#ifdef HASH_PLUSPLUS
+#define key_hash(k,N) \
+	({ \
+		size_t h = 0; \
+		unsigned a = 127; \
+		for (size_t i = 0; k[i] != '\0'; i++) \
+			h = wrapping_add (a * h, (unsigned)k[i], SIZE_T_MAX) % N; \
+		h; \
+	})
+#endif
+</span>
+<span class="cp">#ifdef HASH_UNIVERSAL
+#define key_hash(k,N) \
+	({ \
+		size_t h = 0; \
+		unsigned a = 31415, b = 21783; \
+		for (size_t i = 0; k[i] != '\0'; i++) { \
+			a = (a * b) % (N - 1); \
+			h = wrapping_add (a * h, (unsigned)k[i], SIZE_T_MAX) % N; \
+		} \
+		h; \
+	})
+#endif
+</span>
+</code></pre></div>  </div>
+
+  <hr />
+</section>
+<section id="htc.c">
+  <p class="float-right text-right"><small>
+  <a href="../02_lecture/htc.c">(download)</a><br />
+  <a href="#top">(back to top)</a>
+</small></p>
+  <h2><em>htc.c</em></h2>
+  <div class="clearfix"></div>
+  <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;string.h&gt;
+#include &lt;stdio.h&gt;
+</span>
+<span class="cp">#include "ht.h"
+</span>
+<span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">size_t</span> <span class="n">ht_size</span> <span class="o">=</span> <span class="mi">17</span><span class="p">;</span>
+	<span class="n">ht</span> <span class="o">*</span><span class="n">ht</span> <span class="o">=</span> <span class="n">ht_new</span> <span class="p">(</span><span class="n">ht_size</span><span class="p">);</span>
+	<span class="n">ht_show</span> <span class="p">(</span><span class="n">ht</span><span class="p">);</span>
+
+	<span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="n">BUFSIZ</span><span class="p">];</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">fgets</span> <span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">BUFSIZ</span><span class="p">,</span> <span class="n">stdin</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+		<span class="c1">// lose the newline</span>
+		<span class="o">*</span><span class="p">(</span><span class="n">strrchr</span> <span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="sc">'\n'</span><span class="p">))</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+		<span class="c1">// split on tab</span>
+		<span class="kt">char</span> <span class="o">*</span><span class="n">val</span> <span class="o">=</span> <span class="n">strchr</span> <span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="sc">'\t'</span><span class="p">);</span>
+		<span class="o">*</span><span class="n">val</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+		<span class="n">val</span><span class="o">++</span><span class="p">;</span>
+
+		<span class="c1">//printf ("'%s' [%zu]\n", buf, key_hash (buf, ht_size));</span>
+		<span class="n">ht_insert</span> <span class="p">(</span><span class="n">ht</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">val</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="n">ht_show</span> <span class="p">(</span><span class="n">ht</span><span class="p">);</span>
+<span class="p">}</span>
+
+</code></pre></div>  </div>
+
+  <hr />
+</section>
+<section id="ht_none.c">
+  <p class="float-right text-right"><small>
+  <a href="../02_lecture/ht_none.c">(download)</a><br />
+  <a href="#top">(back to top)</a>
+</small></p>
+  <h2><em>ht_none.c</em></h2>
+  <div class="clearfix"></div>
+  <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;assert.h&gt;
+#include &lt;err.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sysexits.h&gt;
+</span>
+<span class="cp">#include "ht.h"
+</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">ht_entry</span> <span class="n">ht_entry</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">ht</span> <span class="p">{</span>
+	<span class="kt">size_t</span> <span class="n">nitems</span><span class="p">,</span> <span class="n">nslots</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">ht_entry</span> <span class="p">{</span> <span class="n">key</span> <span class="n">key</span><span class="p">;</span> <span class="n">value</span> <span class="n">value</span><span class="p">;</span> <span class="p">}</span> <span class="o">*</span><span class="n">entries</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">ht</span> <span class="o">*</span><span class="nf">ht_new</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">size</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">ht</span> <span class="o">*</span><span class="n">new</span> <span class="o">=</span> <span class="n">malloc</span> <span class="p">(</span><span class="k">sizeof</span> <span class="o">*</span><span class="n">new</span><span class="p">);</span>
+	<span class="o">*</span><span class="n">new</span> <span class="o">=</span> <span class="p">(</span><span class="n">ht</span><span class="p">)</span> <span class="p">{</span>
+		<span class="p">.</span><span class="n">nitems</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">nslots</span> <span class="o">=</span> <span class="n">size</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">entries</span> <span class="o">=</span> <span class="n">calloc</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="k">sizeof</span> <span class="p">(</span><span class="n">ht_entry</span><span class="p">))</span>
+	<span class="p">};</span>
+	<span class="k">return</span> <span class="n">new</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">ht_insert</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="n">ht</span><span class="p">,</span> <span class="n">key</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="n">value</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">size_t</span> <span class="n">hash</span> <span class="o">=</span> <span class="n">key_hash</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">nslots</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">ht</span><span class="o">-&gt;</span><span class="n">entries</span><span class="p">[</span><span class="n">hash</span><span class="p">].</span><span class="n">key</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">);</span>
+
+	<span class="n">ht</span><span class="o">-&gt;</span><span class="n">entries</span><span class="p">[</span><span class="n">hash</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ht_entry</span><span class="p">)</span> <span class="p">{</span>
+		<span class="p">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key_clone</span> <span class="p">(</span><span class="n">key</span><span class="p">),</span>
+		<span class="p">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value_clone</span> <span class="p">(</span><span class="n">value</span><span class="p">),</span>
+	<span class="p">};</span>
+	<span class="n">ht</span><span class="o">-&gt;</span><span class="n">nitems</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">ht_resize</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="n">ht</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">old</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">new</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">ht_entry</span> <span class="o">*</span><span class="n">old_entries</span> <span class="o">=</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">entries</span><span class="p">;</span>
+	<span class="n">ht</span><span class="o">-&gt;</span><span class="n">entries</span> <span class="o">=</span> <span class="n">calloc</span> <span class="p">(</span><span class="n">new</span><span class="p">,</span> <span class="k">sizeof</span> <span class="p">(</span><span class="n">ht_entry</span><span class="p">));</span>
+	<span class="n">ht</span><span class="o">-&gt;</span><span class="n">nslots</span> <span class="o">=</span> <span class="n">new</span><span class="p">;</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">nitems</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">old</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">ht_insert</span> <span class="p">(</span><span class="n">ht</span><span class="p">,</span> <span class="n">old_entries</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+	<span class="p">}</span>
+	<span class="n">free</span> <span class="p">(</span><span class="n">old_entries</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">ht_drop</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="n">ht</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">free</span> <span class="p">(</span><span class="n">ht</span><span class="o">-&gt;</span><span class="n">entries</span><span class="p">);</span>
+	<span class="n">free</span> <span class="p">(</span><span class="n">ht</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">ht_show</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="n">ht</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">ht</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">printf</span> <span class="p">(</span><span class="s">"ht&lt;%p&gt;, contains %zu items</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">ht</span><span class="p">,</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">nitems</span><span class="p">);</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">nslots</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">printf</span> <span class="p">(</span><span class="s">"</span><span class="se">\t</span><span class="s">[%zu] =</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+		<span class="n">ht_entry</span> <span class="o">*</span><span class="n">curr</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ht</span><span class="o">-&gt;</span><span class="n">entries</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+		<span class="n">printf</span> <span class="p">(</span><span class="s">"</span><span class="se">\t\t</span><span class="s">{ '%s' =&gt; '%s' }</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">key</span><span class="p">,</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div>  </div>
+
+  <hr />
+</section>
+<section id="ht_ll.c">
+  <p class="float-right text-right"><small>
+  <a href="../02_lecture/ht_ll.c">(download)</a><br />
+  <a href="#top">(back to top)</a>
+</small></p>
+  <h2><em>ht_ll.c</em></h2>
+  <div class="clearfix"></div>
+  <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;assert.h&gt;
+#include &lt;err.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sysexits.h&gt;
+</span>
+<span class="cp">#include "ht.h"
+</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">ht_entry</span> <span class="n">ht_entry</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">ht</span> <span class="p">{</span>
+	<span class="kt">size_t</span> <span class="n">nitems</span><span class="p">,</span> <span class="n">nslots</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">ht_entry</span> <span class="p">{</span>
+		<span class="n">key</span> <span class="n">key</span><span class="p">;</span>
+		<span class="n">value</span> <span class="n">value</span><span class="p">;</span>
+		<span class="n">ht_entry</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span>
+	<span class="p">}</span> <span class="o">**</span><span class="n">entries</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">ht</span> <span class="o">*</span><span class="nf">ht_new</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">size</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">ht</span> <span class="o">*</span><span class="n">new</span> <span class="o">=</span> <span class="n">malloc</span> <span class="p">(</span><span class="k">sizeof</span> <span class="o">*</span><span class="n">new</span><span class="p">);</span>
+	<span class="o">*</span><span class="n">new</span> <span class="o">=</span> <span class="p">(</span><span class="n">ht</span><span class="p">)</span> <span class="p">{</span>
+		<span class="p">.</span><span class="n">nitems</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">nslots</span> <span class="o">=</span> <span class="n">size</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">entries</span> <span class="o">=</span> <span class="n">calloc</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="k">sizeof</span> <span class="p">(</span><span class="n">ht_entry</span> <span class="o">*</span><span class="p">))</span>
+	<span class="p">};</span>
+	<span class="k">return</span> <span class="n">new</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">ht_insert</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="n">ht</span><span class="p">,</span> <span class="n">key</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="n">value</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">size_t</span> <span class="n">hash</span> <span class="o">=</span> <span class="n">key_hash</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">nslots</span><span class="p">);</span>
+	<span class="n">ht_entry</span> <span class="o">*</span><span class="n">new</span> <span class="o">=</span> <span class="n">malloc</span> <span class="p">(</span><span class="k">sizeof</span> <span class="o">*</span><span class="n">new</span><span class="p">);</span>
+	<span class="p">(</span><span class="o">*</span><span class="n">new</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">ht_entry</span><span class="p">)</span> <span class="p">{</span>
+		<span class="p">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key_clone</span> <span class="p">(</span><span class="n">key</span><span class="p">),</span>
+		<span class="p">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value_clone</span> <span class="p">(</span><span class="n">value</span><span class="p">),</span>
+		<span class="p">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">entries</span><span class="p">[</span><span class="n">hash</span><span class="p">],</span>
+	<span class="p">};</span>
+	<span class="n">ht</span><span class="o">-&gt;</span><span class="n">entries</span><span class="p">[</span><span class="n">hash</span><span class="p">]</span> <span class="o">=</span> <span class="n">new</span><span class="p">;</span>
+	<span class="n">ht</span><span class="o">-&gt;</span><span class="n">nitems</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">value</span> <span class="nf">ht_select</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="n">ht</span><span class="p">,</span> <span class="n">key</span> <span class="n">key</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">size_t</span> <span class="n">hash</span> <span class="o">=</span> <span class="n">key_hash</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">nslots</span><span class="p">);</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="n">ht_entry</span> <span class="o">*</span><span class="n">curr</span> <span class="o">=</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">entries</span><span class="p">[</span><span class="n">hash</span><span class="p">];</span>
+		 <span class="n">curr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">)</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">key_eq</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">key</span><span class="p">))</span>
+			<span class="k">return</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">;</span>
+
+	<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">ht_delete</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="n">ht</span><span class="p">,</span> <span class="n">key</span> <span class="n">key</span><span class="p">)</span>
+<span class="p">{</span>
+   	<span class="kt">size_t</span> <span class="n">hash</span> <span class="o">=</span> <span class="n">key_hash</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">nslots</span><span class="p">);</span>
+	<span class="k">for</span> <span class="p">(</span><span class="n">ht_entry</span> <span class="o">*</span><span class="n">prev</span><span class="p">,</span> <span class="o">*</span><span class="n">curr</span> <span class="o">=</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">entries</span><span class="p">[</span><span class="n">hash</span><span class="p">];</span>
+		 <span class="n">curr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">prev</span> <span class="o">=</span> <span class="n">curr</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="n">key_eq</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">key</span><span class="p">))</span> <span class="k">continue</span><span class="p">;</span>
+		<span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+		<span class="n">value_drop</span> <span class="p">(</span><span class="n">curr</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">);</span>
+		<span class="n">key_drop</span> <span class="p">(</span><span class="n">curr</span><span class="o">-&gt;</span><span class="n">key</span><span class="p">);</span>
+		<span class="n">free</span> <span class="p">(</span><span class="n">curr</span><span class="p">);</span>
+		<span class="n">curr</span> <span class="o">=</span> <span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">ht_drop</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="n">ht</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">free</span> <span class="p">(</span><span class="n">ht</span><span class="o">-&gt;</span><span class="n">entries</span><span class="p">);</span>
+	<span class="n">free</span> <span class="p">(</span><span class="n">ht</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">ht_show</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="n">ht</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">ht</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">printf</span> <span class="p">(</span><span class="s">"ht&lt;%p&gt;, contains %zu items</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">ht</span><span class="p">,</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">nitems</span><span class="p">);</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">nslots</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">printf</span> <span class="p">(</span><span class="s">"</span><span class="se">\t</span><span class="s">[%zu] =</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+		<span class="k">for</span> <span class="p">(</span><span class="n">ht_entry</span> <span class="o">*</span><span class="n">curr</span> <span class="o">=</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">entries</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+			 <span class="n">curr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">)</span>
+			<span class="n">printf</span> <span class="p">(</span><span class="s">"</span><span class="se">\t\t</span><span class="s">{ '%s' =&gt; '%s' }</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">key</span><span class="p">,</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div>  </div>
+
+  <hr />
+</section>
+<section id="ht.c">
+  <p class="float-right text-right"><small>
+  <a href="../02_lecture/ht.c">(download)</a><br />
+  <a href="#top">(back to top)</a>
+</small></p>
+  <h2><em>ht.c</em></h2>
+  <div class="clearfix"></div>
+  <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;assert.h&gt;
+#include &lt;err.h&gt;
+#include &lt;stdbool.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sysexits.h&gt;
+</span>
+<span class="cp">#include "ht.h"
+</span>
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">ht_entry</span> <span class="n">ht_entry</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">ht</span> <span class="p">{</span>
+	<span class="kt">size_t</span> <span class="n">count</span><span class="p">;</span>
+	<span class="kt">size_t</span> <span class="n">size</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">ht_entry</span> <span class="p">{</span>
+		<span class="kt">char</span> <span class="o">*</span><span class="n">key</span><span class="p">;</span>
+		<span class="kt">char</span> <span class="o">*</span><span class="n">value</span><span class="p">;</span>
+		<span class="n">ht_entry</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span>
+	<span class="p">}</span> <span class="o">**</span><span class="n">table</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="n">ht</span> <span class="o">*</span><span class="nf">ht_new</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">size</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">ht</span> <span class="o">*</span><span class="n">new</span> <span class="o">=</span> <span class="n">malloc</span> <span class="p">(</span><span class="k">sizeof</span> <span class="o">*</span><span class="n">new</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">new</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="n">err</span> <span class="p">(</span><span class="n">EX_OSERR</span><span class="p">,</span> <span class="s">"couldn't allocate ht"</span><span class="p">);</span>
+
+	<span class="p">(</span><span class="o">*</span><span class="n">new</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">ht</span><span class="p">){</span>
+		<span class="p">.</span><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">calloc</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="k">sizeof</span> <span class="p">(</span><span class="n">ht_entry</span> <span class="o">*</span><span class="p">)),</span>
+	<span class="p">};</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">new</span><span class="o">-&gt;</span><span class="n">table</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">err</span> <span class="p">(</span><span class="n">EX_OSERR</span><span class="p">,</span> <span class="s">"couldn't allocate hashtable entries"</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">new</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">value</span> <span class="nf">ht_select</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="n">ht</span><span class="p">,</span> <span class="n">key</span> <span class="n">key</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">ht</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">key</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+
+	<span class="kt">size_t</span> <span class="n">hash</span> <span class="o">=</span> <span class="n">key_hash</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">);</span>
+	<span class="n">ht_entry</span> <span class="o">**</span><span class="n">curr</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ht</span><span class="o">-&gt;</span><span class="n">table</span><span class="p">[</span><span class="n">hash</span><span class="p">];</span>
+	<span class="k">while</span> <span class="p">(</span><span class="o">*</span><span class="n">curr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">key_eq</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="o">*</span><span class="n">curr</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">key</span><span class="p">))</span>
+			<span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="n">curr</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">;</span>
+		<span class="n">curr</span> <span class="o">=</span> <span class="o">&amp;</span><span class="p">((</span><span class="o">*</span><span class="n">curr</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">ht_insert</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="n">ht</span><span class="p">,</span> <span class="n">key</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="n">value</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">ht</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">key</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">value</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+
+	<span class="c1">// create a new entry</span>
+	<span class="n">ht_entry</span> <span class="o">*</span><span class="n">new</span> <span class="o">=</span> <span class="n">malloc</span> <span class="p">(</span><span class="k">sizeof</span> <span class="o">*</span><span class="n">new</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">new</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="n">err</span> <span class="p">(</span><span class="n">EX_OSERR</span><span class="p">,</span> <span class="s">"couldn't allocate ht_entry"</span><span class="p">);</span>
+	<span class="p">(</span><span class="o">*</span><span class="n">new</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">ht_entry</span><span class="p">)</span> <span class="p">{</span>
+		<span class="p">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key_clone</span> <span class="p">(</span><span class="n">key</span><span class="p">),</span>
+		<span class="p">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value_clone</span> <span class="p">(</span><span class="n">value</span><span class="p">),</span>
+		<span class="p">.</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span>
+	<span class="p">};</span>
+
+	<span class="c1">// tail-insert into the chain</span>
+	<span class="kt">size_t</span> <span class="n">hash</span> <span class="o">=</span> <span class="n">key_hash</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">);</span>
+	<span class="n">ht_entry</span> <span class="o">**</span><span class="n">curr</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ht</span><span class="o">-&gt;</span><span class="n">table</span><span class="p">[</span><span class="n">hash</span><span class="p">];</span>
+	<span class="k">while</span> <span class="p">(</span><span class="o">*</span><span class="n">curr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">curr</span> <span class="o">=</span> <span class="o">&amp;</span><span class="p">((</span><span class="o">*</span><span class="n">curr</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
+	<span class="p">(</span><span class="o">*</span><span class="n">curr</span><span class="p">)</span> <span class="o">=</span> <span class="n">new</span><span class="p">;</span>
+
+	<span class="n">ht</span><span class="o">-&gt;</span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">ht_update</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="n">ht</span><span class="p">,</span> <span class="n">key</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="n">value</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">ht</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">key</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">value</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+
+	<span class="kt">size_t</span> <span class="n">hash</span> <span class="o">=</span> <span class="n">key_hash</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">);</span>
+	<span class="n">ht_entry</span> <span class="o">**</span><span class="n">curr</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ht</span><span class="o">-&gt;</span><span class="n">table</span><span class="p">[</span><span class="n">hash</span><span class="p">];</span>
+	<span class="k">while</span> <span class="p">(</span><span class="o">*</span><span class="n">curr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">key_eq</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="o">*</span><span class="n">curr</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">key</span><span class="p">))</span> <span class="k">break</span><span class="p">;</span>
+		<span class="n">curr</span> <span class="o">=</span> <span class="o">&amp;</span><span class="p">((</span><span class="o">*</span><span class="n">curr</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">curr</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+
+	<span class="n">value_drop</span> <span class="p">((</span><span class="o">*</span><span class="n">curr</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">);</span>
+	<span class="p">(</span><span class="o">*</span><span class="n">curr</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">value</span> <span class="o">=</span> <span class="n">value_clone</span> <span class="p">(</span><span class="n">value</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">ht_upsert</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="n">ht</span><span class="p">,</span> <span class="n">key</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="n">value</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">ht</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">key</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">value</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+
+	<span class="c1">// if exists, update, else insert</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">ht_select</span> <span class="p">(</span><span class="n">ht</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">ht_update</span> <span class="p">(</span><span class="n">ht</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+	<span class="k">else</span>
+		<span class="n">ht_insert</span> <span class="p">(</span><span class="n">ht</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">ht_delete</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="n">ht</span><span class="p">,</span> <span class="n">key</span> <span class="n">key</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">ht</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">key</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+
+	<span class="kt">size_t</span> <span class="n">hash</span> <span class="o">=</span> <span class="n">key_hash</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">);</span>
+	<span class="n">ht_entry</span> <span class="o">*</span><span class="n">prev</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">*</span><span class="n">curr</span> <span class="o">=</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">table</span><span class="p">[</span><span class="n">hash</span><span class="p">];</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="n">curr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">key_eq</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">key</span><span class="p">))</span> <span class="k">break</span><span class="p">;</span>
+		<span class="n">prev</span> <span class="o">=</span> <span class="n">curr</span><span class="p">;</span>
+		<span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">prev</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">prev</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="p">(</span><span class="n">curr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="o">?</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">:</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="k">else</span>
+		<span class="n">ht</span><span class="o">-&gt;</span><span class="n">table</span><span class="p">[</span><span class="n">hash</span><span class="p">]</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">curr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">key_drop</span> <span class="p">(</span><span class="n">curr</span><span class="o">-&gt;</span><span class="n">key</span><span class="p">);</span>
+		<span class="n">value_drop</span> <span class="p">(</span><span class="n">curr</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">);</span>
+		<span class="n">free</span> <span class="p">(</span><span class="n">curr</span><span class="p">);</span>
+		<span class="n">ht</span><span class="o">-&gt;</span><span class="n">count</span><span class="o">--</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">ht_drop</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="n">ht</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">ht</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">for</span> <span class="p">(</span><span class="n">ht_entry</span> <span class="o">*</span><span class="n">tmp</span><span class="p">,</span> <span class="o">*</span><span class="n">curr</span> <span class="o">=</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">table</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+			 <span class="n">curr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">tmp</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+			<span class="n">key_drop</span> <span class="p">(</span><span class="n">curr</span><span class="o">-&gt;</span><span class="n">key</span><span class="p">);</span>
+			<span class="n">value_drop</span> <span class="p">(</span><span class="n">curr</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">);</span>
+			<span class="n">free</span> <span class="p">(</span><span class="n">curr</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+
+	<span class="n">free</span> <span class="p">(</span><span class="n">ht</span><span class="o">-&gt;</span><span class="n">table</span><span class="p">);</span>
+	<span class="n">free</span> <span class="p">(</span><span class="n">ht</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">ht_keys</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="n">ht</span><span class="p">,</span> <span class="n">key</span> <span class="o">*</span><span class="n">dest</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">ht</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">dest</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+
+	<span class="kt">size_t</span> <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="k">for</span> <span class="p">(</span><span class="n">ht_entry</span> <span class="o">*</span><span class="n">curr</span> <span class="o">=</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">table</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+			 <span class="n">curr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">)</span>
+			<span class="n">dest</span><span class="p">[</span><span class="n">idx</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">key</span><span class="p">;</span>
+
+	<span class="n">assert</span> <span class="p">(</span><span class="n">idx</span> <span class="o">&lt;=</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">count</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">size_t</span> <span class="nf">ht_count</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="n">ht</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">ht</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">ht_show</span> <span class="p">(</span><span class="n">ht</span> <span class="o">*</span><span class="n">ht</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">assert</span> <span class="p">(</span><span class="n">ht</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
+	<span class="n">printf</span> <span class="p">(</span><span class="s">"ht&lt;%p&gt;, contains %zu items</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">ht</span><span class="p">,</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">count</span><span class="p">);</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">printf</span> <span class="p">(</span><span class="s">"</span><span class="se">\t</span><span class="s">[%zu] =</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+		<span class="k">for</span> <span class="p">(</span><span class="n">ht_entry</span> <span class="o">*</span><span class="n">curr</span> <span class="o">=</span> <span class="n">ht</span><span class="o">-&gt;</span><span class="n">table</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+			 <span class="n">curr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">)</span>
+			<span class="n">printf</span> <span class="p">(</span><span class="s">"</span><span class="se">\t\t</span><span class="s">{ '%s' =&gt; '%s' }</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">key</span><span class="p">,</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">value</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div>  </div>
+
+  <hr />
+</section>
+
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

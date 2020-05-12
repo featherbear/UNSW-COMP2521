@@ -1,0 +1,16 @@
+//! fdp
+graph "G" {
+    node [fontname="Fira Sans", shape=circle];
+    a -- b; a -- j;
+    b -- c; b -- d; b -- e; b -- f;
+    c -- d; c -- e; c -- f;
+    d -- e; d -- f;
+    e -- f;
+    f -- g;
+    g -- h; g -- m;
+    h -- i; h -- k;
+    i -- j; i -- k;
+    j -- k;
+    // l;
+    // m;
+}

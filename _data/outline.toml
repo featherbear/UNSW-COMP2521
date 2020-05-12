@@ -1,0 +1,166 @@
+outcomes = [
+'be familiar with fundamental data structures and algorithms',
+'be able to analyse the performance characteristics of algorithms',
+'be able to measure the performance behaviour of programs',
+'be able to choose/develop an appropriate data structure for a given problem',
+'be able to choose/develop appropriate algorithms to manipulate this data structure',
+'be able to reason about the effectiveness of data structures and algorithms for solving a given problem',
+'be able to package a set of data structures and algorithms as an abstract data type',
+'be able to develop and maintain software systems in C that contain thousands of lines of code'
+]
+
+[[capabilities]]
+cap = "scholarship: understanding of their discipline in its interdisciplinary context"
+from = "lectures, assignments"
+
+[[capabilities]]
+cap = "scholarship: capable of independent and collaborative enquiry"
+from = "lab work, assignments"
+
+[[capabilities]]
+cap = "scholarship: rigorous in their analysis, critique, and reflection"
+from = "tutorials"
+
+[[capabilities]]
+cap = "scholarship: able to apply their knowledge and skills to solving problems"
+from = "tutorials, lab work, assignments"
+
+[[capabilities]]
+cap = "scholarship: ethical practitioners"
+from = "all course-work, by doing it yourself"
+
+[[capabilities]]
+cap = "scholarship: capable of effective communication"
+from = "blog, tutorials"
+
+[[capabilities]]
+cap = "scholarship: digitally literate"
+from = "everywhere in CSE"
+
+[[capabilities]]
+cap = "leadership: enterprising, innovative and creative"
+from = "assignments"
+
+[[capabilities]]
+cap = "leadership: collaborative team workers"
+from = "lab work, assignments"
+
+[[capabilities]]
+cap = "professionalism: capable of operating within an agreed Code of Practice"
+from = "all prac work"
+
+########################################################################
+
+[[assessments]]
+item = "Prac Exams"
+due = "weeks 5, 8"
+marks = 10.0
+outcomes = "1..8"
+
+[[assessments]]
+item = "Lab Exercises"
+due = "each week"
+marks = 10.0
+outcomes = "1..7"
+
+[[assessments]]
+item = "Assignment 1"
+due = "week 3"
+marks = 10.0
+outcomes = "1..7"
+
+[[assessments]]
+item = "Assignment 2"
+due = "week 8"
+marks = 15.0
+outcomes = "2..5,7,8"
+
+[[assessments]]
+item = "Final Exam"
+due = "exam period"
+marks = 55.0
+outcomes = "1..8"
+
+########################################################################
+[[schedule]]
+lecture_topics = [
+  'introduction',
+  'review: linked lists',
+  'review: ADTs',
+  'review: structured data',
+]
+tutlab_topics = [
+  'linked list revision',
+  'ADT revision',
+]
+assessment = ['assn1 released']
+
+[[schedule]]
+lecture_topics = [
+  'algorithm analysis',
+  'complexity',
+  'recursion',
+  'trees',
+]
+tutlab_topics = [
+  'ADTs',
+  'benchmarking and profiling',
+]
+
+[[schedule]]
+lecture_topics = [
+  'sorting',
+]
+tutlab_topics = [
+  'trees',
+]
+assessment = ['assn1 due']
+
+[[schedule]]
+lecture_topics = [
+  'graph representation',
+  'graph traversal',
+]
+tutlab_topics = [
+  'algorithmic complexity',
+  'sorting',
+]
+assessment = ['assn2 released']
+
+[[schedule]]
+lecture_topics = [
+  'graph algorithms',
+]
+tutlab_topics = [
+  'more sorting',
+]
+assessment = ['prac exam 1']
+
+[[schedule]]
+lecture_topics = [
+  'search trees',
+  'balancing trees',
+# 'symbol tables',
+]
+tutlab_topics = [
+  'graphs',
+]
+
+[[schedule]]
+lecture_topics = [
+  'hash tables',
+  'tries',
+]
+tutlab_topics = [
+  'graph algorithms',
+]
+
+[[schedule]]
+lecture_topics = [
+  'revision',
+]
+tutlab_topics = [
+  'balanced trees',
+  'hash tables',
+]
+assessment = ['assn2 due', 'prac exam 2']

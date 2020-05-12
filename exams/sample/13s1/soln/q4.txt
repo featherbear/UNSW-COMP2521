@@ -1,0 +1,34 @@
+Question 4 ... COMP1927 13s1 Final Exam
+
+
+A.
+
+On the first iteration of outer loop, 5 comparisons
+On the second iteration of outer loop, 4 comparisons
+On the third iteration of outer loop, 3 comparisons
+On the fourth iteration of outer loop, 2 comparisons
+On the final iteration of the outer loop, 1 comparison
+Total comparisons = 5 + 4 + 3 + 2 + 1 = 15
+
+
+B.
+
+On the first iteration of outer loop, n-1 comparisons
+On the second iteration of outer loop, n-2 comparisons
+On the third iteration of outer loop, n-3 comparisons
+...
+On the final iteration of the outer loop, 1 comparison
+
+Total comparisons = (n-1) + (n-2) + ... 1 = n(n-1)/2
+
+
+C.
+
+Complexity = O(n^2)
+
+
+D.
+
+(a[j] < a[min])
+
+Something like ((a[j] - a[min]) < 0) is not as good as the above

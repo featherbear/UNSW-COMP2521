@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <title>Tutorial Solutions — COMP2521 19T0: Data Structures and Algorithms</title>
+
+  <link rel="stylesheet" href="/~cs2521/19T0/assets/main.css" />
+  <link rel="canonical" href="https://www.cse.unsw.edu.au/~cs2521/19T0/week03/20_tutorial_solutions/" />
+</head>
+<body class="d-flex flex-column" style="min-height: 100vh;">
+
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary no-print" id="header-navbar">
+    <button class="navbar-toggler navbar-toggler-right"
+            type="button" data-toggle="collapse" data-target="#navmenu"
+            aria-controls="navmenu" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="container">
+    <a class="navbar-brand" href="/~cs2521/19T0/">
+      COMP2521 19T0
+    </a>
+
+    <div class="collapse navbar-collapse" id="navmenu">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/webcms/">WebCMS3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/outline/">Outline</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/textbuffer/">A1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/assignments/dracula/">A2</a></li>
+        <li class="navbar-text px-4">|</li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week01/">1</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week02/">2</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week03/">3</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week04/">4</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week05/">5</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week06/">6</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week07/">7</a></li>
+        <li class="nav-item"><a class="nav-link" href="/~cs2521/19T0/week08/">8</a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" id="breadcrumb">
+  
+  <ol class="breadcrumb no-print" style="margin: 0">
+    
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/">Home</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week03/">Week 3</a>
+      </li>
+      
+    
+      
+      
+      
+      <li class="breadcrumb-item">
+        <a href="/~cs2521/19T0/week03/20_tutorial_solutions/">Tutorial Solutions</a>
+      </li>
+      
+    
+  </ol>
+  
+</div>
+
+
+  <main class="container" aria-label="Content" style="flex: 1;">
+    <main style="max-width: 88ex; margin: 0 auto;">
+
+<header class="text-center">
+  <h1 class="display-4">Tutorial Solutions</h1>
+</header>
+
+
+
+
+
+<h2 id="algorithmic-complexity-i">Algorithmic Complexity (I)</h2>
+
+<p>Consider two functions <code class="highlighter-rouge">f()</code> and <code class="highlighter-rouge">g()</code>
+which both perform the same task.</p>
+
+<p>The time cost for <code class="highlighter-rouge">f(n)</code> is <script type="math/tex">T(f(n)) = 100n</script>, while
+the time cost for <code class="highlighter-rouge">g(n)</code> is <script type="math/tex">T(g(n)) = 2n^2</script>.</p>
+
+<ul>
+  <li>Which function is faster for <script type="math/tex">n = 10</script>?</li>
+  <li>Which function is faster for <script type="math/tex">n = 20</script>?</li>
+  <li>Which function is faster for <script type="math/tex">n = 100</script>?</li>
+  <li>Which function is faster for <script type="math/tex">n = 1000</script>?</li>
+  <li>What is the crossover point where
+<code class="highlighter-rouge">f()</code> becomes more efficient than <code class="highlighter-rouge">g()</code>?</li>
+</ul>
+
+<aside class="answer">
+  <blockquote>
+    <p>For <script type="math/tex">n = 10</script>,   <script type="math/tex">T(f(n)) = 1000</script>,   <script type="math/tex">T(g(n)) = 200</script>.<br />
+For <script type="math/tex">n = 20</script>,   <script type="math/tex">T(f(n)) = 2000</script>,   <script type="math/tex">T(g(n)) = 800</script>.<br />
+For <script type="math/tex">n = 100</script>,  <script type="math/tex">T(f(n)) = 10000</script>,  <script type="math/tex">T(g(n)) = 20000</script>.<br />
+For <script type="math/tex">n = 1000</script>, <script type="math/tex">T(f(n)) = 100000</script>, <script type="math/tex">T(g(n)) = 2000000</script>.<br /></p>
+
+    <p>The crossover occurs when <script type="math/tex">T(f(n)) = T(g(n))</script>,
+so <script type="math/tex">100n = 2n^2</script>.
+With some careful manipulation,
+<script type="math/tex">n = 50</script> is the crossover point.</p>
+  </blockquote>
+</aside>
+
+<h2 id="algorithmic-complexity-ii">Algorithmic Complexity (II)</h2>
+
+<p>Analyze the behaviour of each of the following functions,
+and determine their algorithmic complexity:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">f3</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">puts</span> <span class="p">(</span><span class="s">"hello!"</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<aside class="answer">
+  <blockquote>
+    <p>The outer loop executes <script type="math/tex">n</script> times.
+The inner loop executes <script type="math/tex">n</script> times.
+The total number of steps is <script type="math/tex">n^2</script>.
+Therefore, the time complexity of this code
+is <script type="math/tex">O(n^2)</script>, or quadratic.</p>
+  </blockquote>
+</aside>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="nf">found</span> <span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">val</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">val</span><span class="p">)</span> <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+	<span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<aside class="answer">
+  <blockquote>
+    <p>The function scans the array from start to finish,
+and examines all <code class="highlighter-rouge">n</code> elements.
+Each element is compared against
+the value being searched for, <code class="highlighter-rouge">val</code>.
+If <code class="highlighter-rouge">val</code> is found,
+the function immediately returns,
+and the rest of the array is ignored.
+The analysis is more complicated,
+because the performance can be different
+for different arrays and search values.</p>
+
+    <ul>
+      <li><strong>Best case</strong>:
+<code class="highlighter-rouge">val</code> is the first element in the array.
+In this case, only one comparison occurs.</li>
+      <li><strong>Worst case</strong>:
+<code class="highlighter-rouge">val</code> is not in the array,
+or only occurs as the last element.
+In this case there are <code class="highlighter-rouge">n</code> comparisons.</li>
+      <li><strong>Average case</strong>:
+<code class="highlighter-rouge">val</code> occurs somewhere
+in the middle of the array.
+If each value is equally likely
+to be searched for,
+then, on average,
+there will be <code class="highlighter-rouge">n/2</code> comparisons.</li>
+    </ul>
+
+    <p>The most interesting case is the worst case,
+since it gives us an upper bound on the performance.
+We would normally quote the algorithmic complexity
+as the complexity of the worst case;
+in this case <em>O(n)</em>.</p>
+  </blockquote>
+</aside>
+
+<h2 id="algorithmic-complexity-iii">Algorithmic Complexity (III)</h2>
+
+<p>Calculate how long <script type="math/tex">T(n)</script> steps would take
+for different sizes of <script type="math/tex">n</script>
+for the various <script type="math/tex">T(n)</script> functions in the table below.</p>
+
+<p>Assume you are running it on a computer
+that performs one billion steps per second
+(roughly on par with a current smartphone).</p>
+
+<table border="1" cellspacing="0" cellpadding="6" contenteditable="true" width="100%" style="text-align: center">
+<tr>
+<th width="10%">$$T(n)=$$<br />n</th>
+<th width="15%">$$\log n$$</th>
+<th width="15%">$$n$$</th>
+<th width="15%">$$n\log n$$</th>
+<th width="15%">$$n^2$$</th>
+<th width="15%">$$n^3$$</th>
+<th width="15%">$$2^n$$</th>
+</tr>
+<tr><th>10   </th><td>?</td><td>?</td><td>?</td><td>?</td><td>?</td><td>?</td></tr>
+<tr><th>20   </th><td>?</td><td>?</td><td>?</td><td>?</td><td>?</td><td>?</td></tr>
+<tr><th>50   </th><td>?</td><td>?</td><td>?</td><td>?</td><td>?</td><td>?</td></tr>
+<tr><th>100  </th><td>?</td><td>?</td><td>?</td><td>?</td><td>?</td><td>?</td></tr>
+<tr><th>1000 </th><td>?</td><td>?</td><td>?</td><td>?</td><td>?</td><td>?</td></tr>
+<tr><th>10000</th><td>?</td><td>?</td><td>?</td><td>?</td><td>?</td><td>?</td></tr>
+</table>
+
+<p class="text-center text-muted"><em>(Click the table to edit!)</em></p>
+
+<aside class="answer">
+  <blockquote>
+    <table border="1" cellspacing="0" cellpadding="6" width="100%" style="text-align: center">
+<tr>
+<th width="10%">$$T(n)=$$<br />n</th>
+<th width="15%">$$\log n$$</th>
+<th width="15%">$$n$$</th>
+<th width="15%">$$n\log n$$</th>
+<th width="15%">$$n^2$$</th>
+<th width="15%">$$n^3$$</th>
+<th width="15%">$$2^n$$</th>
+</tr>
+<tr><th scope="row">10   </th><td>2.30 ns</td><td>10.00 ns</td><td>23.03 ns</td><td>100.00 ns</td><td>1.00 μs</td><td>1.02 μs</td></tr>
+<tr><th scope="row">20   </th><td>3.00 ns</td><td>20.00 ns</td><td>59.91 ns</td><td>400.00 ns</td><td>8.00 μs</td><td>1.05 ms</td></tr>
+<tr><th scope="row">50   </th><td>3.91 ns</td><td>50.00 ns</td><td>195.60 ns</td><td>2.50 μs</td><td>125.00 μs</td><td>1.86 wk</td></tr>
+<tr><th scope="row">100  </th><td>4.61 ns</td><td>100.00 ns</td><td>460.52 ns</td><td>10.00 μs</td><td>1.00 ms</td><td>4.02e13 yr</td></tr>
+<tr><th scope="row">1000 </th><td>6.91 ns</td><td>1.00 μs</td><td>6.91 μs</td><td>1.00 ms</td><td>1.00 s</td><td>3.40e284 yr</td></tr>
+<tr><th scope="row">10000</th><td>9.21 ns</td><td>10.00 μs</td><td>92.10 μs</td><td>100.00 ms</td><td>16.67 min</td><td>[∞]</td></tr>
+</table>
+  </blockquote>
+</aside>
+
+<p>For what size of n does the computation time
+for <script type="math/tex">T(n) = 2^n</script> become too large to be practical?
+Would it help if we used a computer
+that was a million times faster?</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>When <script type="math/tex">n\ge50</script>,
+the computation time for <script type="math/tex">T(n)=2^n</script>
+has started to become too large to be practical.
+At <script type="math/tex">n\ge100</script>,
+it would be effectively impossible
+to wait for it to finish …
+unless you are blessed with the gift of eternal life.</p>
+
+    <p>Even if we were to increase the speed of the machine
+by a factor of a million,
+for <script type="math/tex">n=100</script> it would still take ~40,000,000 years.</p>
+  </blockquote>
+</aside>
+
+<h2 id="recursive-functions">Recursive Functions</h2>
+
+<p>Write a recursive function</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="n">all_even</span> <span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">l</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">r</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>which takes an array, and the left-most and right-most indices of
+the current segment of the array as arguments,
+and checks if all elements in an array are even.</p>
+
+<p>Use a divide and conquer approach,
+by splitting the array in half,
+first checking if all the elements
+in the left half are even,
+and then, only if necessary,
+checking the right half.</p>
+
+<aside class="answer">
+  <blockquote>
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="nf">all_even</span> <span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">[],</span> <span class="kt">size_t</span> <span class="n">l</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">r</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">l</span>  <span class="o">&gt;</span> <span class="n">r</span><span class="p">)</span> <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">==</span> <span class="n">r</span><span class="p">)</span> <span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="kt">size_t</span> <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span> <span class="o">+</span> <span class="n">r</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">all_even</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">mid</span><span class="p">)</span>
+		<span class="o">&amp;&amp;</span> <span class="n">all_even</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </blockquote>
+</aside>
+
+<p>What would the worst-case time complexity be in big-O notation?</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>In the worst case (that all elements are even),
+all elements in the array must be checked,
+so the time complexity ends up being <script type="math/tex">O(n)</script>.</p>
+  </blockquote>
+</aside>
+
+<h2 id="binary-search-trees">Binary Search Trees</h2>
+
+<p>Insert these keys into a BST,
+assuming normal integer ordering:
+<script type="math/tex">[ 10, 20, 5, 30, 15, 25, 24 ]</script>.</p>
+
+<p>What is the height of this tree?</p>
+
+<aside class="answer">
+  <blockquote>
+    <figure class="text-center">
+      <p><img style="margin: 24px auto" src="/~cs2521/19T0/week03/bst1.svg" /></p>
+    </figure>
+
+    <p>This tree has height 4.</p>
+  </blockquote>
+</aside>
+
+<p>Delete <script type="math/tex">[5, 30, 20]</script>,
+assuming we replace nodes
+with the left-most node
+of the right sub-tree when necessary.</p>
+
+<p>What is the height of the tree after this deletion?</p>
+
+<aside class="answer">
+  <blockquote>
+    <ul>
+      <li>
+        <p>After deleting 5:</p>
+
+        <figure class="text-center">
+          <p><img style="margin: 24px auto" src="/~cs2521/19T0/week03/bst2.svg" /></p>
+        </figure>
+      </li>
+      <li>
+        <p>After deleting 30:</p>
+
+        <figure class="text-center">
+          <p><img style="margin: 24px auto" src="/~cs2521/19T0/week03/bst3.svg" /></p>
+        </figure>
+      </li>
+      <li>
+        <p>After deleting 20:</p>
+
+        <figure class="text-center">
+          <p><img style="margin: 24px auto" src="/~cs2521/19T0/week03/bst4.svg" /></p>
+        </figure>
+      </li>
+    </ul>
+
+    <p>This tree has height 2.</p>
+  </blockquote>
+</aside>
+
+<p>Show the output obtained by traversing the tree
+and printing out each node in the following orders:</p>
+
+<ul>
+  <li>prefix (NLR):</li>
+  <li>postfix (LRN):</li>
+  <li>infix (LNR):</li>
+  <li>level-order:</li>
+</ul>
+
+<aside class="answer">
+  <blockquote>
+    <ul>
+      <li>prefix (NLR):
+<script type="math/tex">[ 10, 24, 15, 25 ]</script></li>
+      <li>postfix (LRN):
+<script type="math/tex">[ 15, 25, 24, 10 ]</script></li>
+      <li>infix (LNR):
+<script type="math/tex">[ 10, 15, 24, 25 ]</script></li>
+      <li>level-order:
+<script type="math/tex">[ 10, 24, 15, 25 ]</script></li>
+    </ul>
+  </blockquote>
+</aside>
+
+<h2 id="functions-in-a-binary-search-tree">Functions in a Binary Search Tree</h2>
+
+<p>Assume the following representation of a binary tree:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="k">struct</span> <span class="n">btree_node</span> <span class="n">btree_node</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="n">btree_node</span> <span class="p">{</span>
+	<span class="n">Item</span> <span class="n">item</span><span class="p">;</span>
+	<span class="n">btree_node</span> <span class="o">*</span><span class="n">left</span><span class="p">;</span>
+	<span class="n">btree_node</span> <span class="o">*</span><span class="n">right</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h3 id="int_btree_sum"><code class="highlighter-rouge">int_btree_sum</code></h3>
+
+<p>Assume our binary tree holds items of type <code class="highlighter-rouge">int</code>.
+Write a function to recursively sum
+the items of a binary tree.
+Your function should have the following prototype:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">int_btree_sum</span> <span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="n">tree</span><span class="p">);</span>
+</code></pre></div></div>
+
+<aside class="answer">
+  <blockquote>
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">int_btree_sum</span> <span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="n">tree</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">tree</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">item</span>
+		 <span class="o">+</span> <span class="n">int_btree_sum</span> <span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span>
+		 <span class="o">+</span> <span class="n">int_btree_sum</span> <span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </blockquote>
+</aside>
+
+<h3 id="btree_search"><code class="highlighter-rouge">btree_search</code></h3>
+
+<p>Write two functions that search
+for a given item in a binary search tree,
+returning <code class="highlighter-rouge">true</code> if the item is found,
+and <code class="highlighter-rouge">false</code> otherwise.
+One should be iterative;
+the other should be recursive:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="n">btree_search_iter</span> <span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="n">tree</span><span class="p">,</span> <span class="n">Item</span> <span class="n">key</span><span class="p">);</span>
+<span class="n">bool</span> <span class="n">btree_search_rec</span> <span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="n">tree</span><span class="p">,</span> <span class="n">Item</span> <span class="n">key</span><span class="p">);</span>
+</code></pre></div></div>
+
+<aside class="answer">
+  <blockquote>
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bool</span> <span class="nf">btree_search_iter</span> <span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="n">tree</span><span class="p">,</span> <span class="n">Item</span> <span class="n">key</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">bool</span> <span class="n">found</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+	<span class="n">btree_node</span> <span class="o">*</span><span class="n">curr</span> <span class="o">=</span> <span class="n">tree</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">curr</span> <span class="o">!=</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">found</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">key</span> <span class="o">&lt;</span>  <span class="n">curr</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">)</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">key</span>  <span class="o">&gt;</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">)</span> <span class="n">curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">key</span> <span class="o">==</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">)</span> <span class="n">found</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">found</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">bool</span> <span class="nf">btree_search_rec</span> <span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="n">tree</span><span class="p">,</span> <span class="n">Item</span> <span class="n">key</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">tree</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">key</span> <span class="o">&lt;</span>  <span class="n">tree</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">)</span> <span class="k">return</span> <span class="n">btree_search_rec</span> <span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">key</span>  <span class="o">&gt;</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">)</span> <span class="k">return</span> <span class="n">btree_search_rec</span> <span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>
+	<span class="k">return</span> <span class="n">key</span> <span class="o">==</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </blockquote>
+</aside>
+
+<p>Which one do you find more pleasant?</p>
+
+<aside class="answer">
+  <blockquote>
+    <p>… there’s no objective answer to this one.
+<small>
+(I like the elegance of the recursion, though.)
+</small></p>
+  </blockquote>
+</aside>
+
+<h3 id="btree_drop"><code class="highlighter-rouge">btree_drop</code></h3>
+
+<p>Write a function that will free
+all the memory associated with a tree:</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">btree_drop</span> <span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="n">tree</span><span class="p">);</span>
+</code></pre></div></div>
+
+<aside class="answer">
+  <blockquote>
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">btree_drop</span> <span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="n">tree</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">tree</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+	<span class="n">btree_drop</span> <span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
+	<span class="n">btree_drop</span> <span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+	<span class="n">free</span> <span class="p">(</span><span class="n">tree</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </blockquote>
+</aside>
+
+<h3 id="btree_insert"><code class="highlighter-rouge">btree_insert</code></h3>
+
+<p>Write a function that
+inserts an item into a binary search tree,
+maintaining the search-tree property.
+It should return the new root of the tree.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">btree_node</span> <span class="o">*</span><span class="n">btree_insert</span> <span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="n">root</span><span class="p">,</span> <span class="n">Item</span> <span class="n">it</span><span class="p">);</span>
+</code></pre></div></div>
+
+<aside class="answer">
+  <blockquote>
+    <p>Iteratively:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define btree_insert_iter btree_insert
+</span><span class="n">btree_node</span> <span class="o">*</span><span class="nf">btree_insert_iter</span> <span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="n">root</span><span class="p">,</span> <span class="n">Item</span> <span class="n">it</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">btree_node</span> <span class="o">*</span><span class="n">curr</span> <span class="o">=</span> <span class="n">root</span><span class="p">;</span>
+	<span class="n">btree_node</span> <span class="o">*</span><span class="n">prev</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="n">curr</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">prev</span> <span class="o">=</span> <span class="n">curr</span><span class="p">;</span>
+		<span class="n">curr</span> <span class="o">=</span> <span class="p">(</span><span class="n">it</span> <span class="o">&lt;=</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">)</span>
+			 <span class="o">?</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">left</span>
+			 <span class="o">:</span> <span class="n">curr</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">prev</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">btree_node_new</span> <span class="p">(</span><span class="n">it</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">it</span> <span class="o">&lt;</span> <span class="n">prev</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">prev</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">btree_node_new</span> <span class="p">(</span><span class="n">it</span><span class="p">);</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="n">prev</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">btree_node_new</span> <span class="p">(</span><span class="n">it</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">root</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+
+    <p>Recursively:</p>
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define btree_insert_rec btree_insert
+</span><span class="n">btree_node</span> <span class="o">*</span><span class="nf">btree_insert_rec</span> <span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="n">tree</span><span class="p">,</span> <span class="n">Item</span> <span class="n">it</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">tree</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">btree_node_new</span> <span class="p">(</span><span class="n">it</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">it</span> <span class="o">&lt;=</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">btree_insert_rec</span> <span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">it</span><span class="p">);</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+		<span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">btree_insert_rec</span> <span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">it</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">tree</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
+  </blockquote>
+</aside>
+
+<h3 id="btree_traverse-with-function-pointers"><code class="highlighter-rouge">btree_traverse</code>, with function pointers</h3>
+
+<p>Consider a function <code class="highlighter-rouge">btree_traverse</code>
+that traverses a binary tree,
+taking a function pointer.
+What would its prototype be?
+How would you call the function?</p>
+
+<p>Assume it takes functions with prototypes like</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">item_show</span> <span class="p">(</span><span class="n">Item</span> <span class="n">it</span><span class="p">);</span>
+</code></pre></div></div>
+
+<aside class="answer">
+  <blockquote>
+    <p>Assuming an in-order traversal:</p>
+
+    <pre><code class="language-c)">void btree_traverse (btree_node *tree, void (*visit) (Item))
+{
+	if (tree == NULL) return;
+
+	btree_traverse (tree-&gt;left, visit);
+	(*visit) (tree-&gt;item);
+	btree_traverse (tree-&gt;right, visit);
+}
+</code></pre>
+
+    <p>But C’s function pointer syntax is a bit awkward.
+A potentially nicer way to do it:</p>
+
+    <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">visitor_fp</span><span class="p">)(</span><span class="n">Item</span><span class="p">);</span>
+<span class="kt">void</span> <span class="n">btree_traverse</span> <span class="p">(</span><span class="n">btree_node</span> <span class="o">*</span><span class="n">tree</span><span class="p">,</span> <span class="n">visitor_fp</span> <span class="n">visit</span><span class="p">);</span>
+</code></pre></div>    </div>
+
+    <p>And, of course,
+we don’t have to use <code class="highlighter-rouge">&amp;</code> when taking a function pointer,
+and we don’t have to use <code class="highlighter-rouge">*</code> when invoking one.</p>
+  </blockquote>
+</aside>
+
+
+
+</main>
+
+  </main>
+
+  <footer class="mt-3 py-3 text-center no-print bg-dark">
+  <p class="text-muted">
+    <strong>COMP2521 19T0: Data Structures and Algorithms</strong>
+    is brought to you by <br />
+    the <a href="https://www.cse.unsw.edu.au/">School of Computer Science and Engineering</a>
+    at the <a href="https://www.unsw.edu.au/">University of New South Wales</a>, Sydney.<br />
+    For all enquiries, please email the class account at
+    <a href="mailto:cs2521@cse.unsw.edu.au">cs2521@cse.unsw.edu.au</a><br />
+
+    <small>CRICOS Provider 00098G</small>
+  </p>
+</footer>
+
+  <script type="text/javascript" async="1"
+  src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+  integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+  integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script type="text/javascript" async="1"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+  integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  // Hide navigiation in iframe
+  if (window.self !== window.top)
+    document.body.classList.add("iframe");
+</script>
+
+</body>
+</html>

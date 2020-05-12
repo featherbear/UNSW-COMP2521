@@ -1,0 +1,22 @@
+#!/usr/bin/env zsh
+# NAME: gv2pdf -- Graphviz to PDF
+# SYNOPSIS: gv2pdf <graph.gv>
+
+set -e
+
+src=$1
+
+if grep -E --quiet '^//! ' $src
+then
+	engine=$(grep -E '^//! ' $src | sed -e 's@^//! @@')
+elif grep --quiet '^digraph' $src
+then
+	echo "gv2pdf: guessing engine 'dot'"
+	engine=dot
+elif grep --quiet '^graph' $src
+then
+	echo "gv2pdf: guessing engine 'neato'"
+	engine=neato
+fi
+
+${engine} -Tpdf ${1} -o ${1%.gv}.pdf
