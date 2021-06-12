@@ -1,427 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Tutorial Four - Heaps and Graphs - COMP2521 Summer Fun</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
-
-
-<meta name="author" content="z5206677" /><meta name="description" content="Heaps Heaps are a form of data representation, often for priority queues - where the max (or min) value is at the top of the tree" /><meta name="keywords" content="Hugo, theme, even" />
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.52 with even 4.0.0" />
-
-
-<link rel="canonical" href="../../post/tut04/" />
-<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
-<link rel="manifest" href="../../manifest.json">
-<link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
-
-
-<link href="../../dist/even.93844dae.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="Tutorial Four - Heaps and Graphs" />
-<meta property="og:description" content="Heaps Heaps are a form of data representation, often for priority queues - where the max (or min) value is at the top of the tree" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="/post/tut04/" /><meta property="article:published_time" content="2019-01-03T14:10:18&#43;11:00"/>
-<meta property="article:modified_time" content="2019-01-03T14:10:18&#43;11:00"/>
-
-<meta itemprop="name" content="Tutorial Four - Heaps and Graphs">
-<meta itemprop="description" content="Heaps Heaps are a form of data representation, often for priority queues - where the max (or min) value is at the top of the tree">
-
-
-<meta itemprop="datePublished" content="2019-01-03T14:10:18&#43;11:00" />
-<meta itemprop="dateModified" content="2019-01-03T14:10:18&#43;11:00" />
-<meta itemprop="wordCount" content="391">
-
-
-
-<meta itemprop="keywords" content="" />
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Tutorial Four - Heaps and Graphs"/>
-<meta name="twitter:description" content="Heaps Heaps are a form of data representation, often for priority queues - where the max (or min) value is at the top of the tree"/>
-
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
-
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
-
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="../../" class="logo">COMP2521 Musings</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="../../">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="https://github.com/featherbear/UNSW-COMP2521">
-        <li class="mobile-menu-item">GitHub</li>
-      </a><a href="../../categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a><a href="../../almanac.html">
-        <li class="mobile-menu-item">Algos</li>
-      </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="../../" class="logo">COMP2521 Musings</a>
-</div>
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="../../">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="https://github.com/featherbear/UNSW-COMP2521">GitHub</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="../../categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="../../almanac.html">Algos</a>
-      </li>
-  </ul>
-</nav>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
-    
-    <header class="post-header">
-      <h1 class="post-title">Tutorial Four - Heaps and Graphs</h1>
-
-      <div class="post-meta">
-        <span class="post-time"> 2019-01-03 </span>
-        <div class="post-category">
-            <a href="../../categories/tutorial-/-labs/"> Tutorial / Labs </a>
-            </div>
-        
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content always-active">
-    <nav id="TableOfContents">
-<ul>
-<li><a href="#heaps">Heaps</a>
-<ul>
-<li><a href="#representation">Representation</a></li>
-<li><a href="#properties">Properties</a></li>
-<li><a href="#deleting-a-node">Deleting a node</a></li>
-</ul></li>
-<li><a href="#graphs">Graphs</a>
-<ul>
-<li><a href="#graph-adt">Graph ADT</a>
-<ul>
-<li><a href="#example">Example</a>
-<ul>
-<li><a href="#adjacency-matrix">Adjacency Matrix</a></li>
-<li><a href="#adjacency-list">Adjacency List</a></li>
-</ul></li>
-<li><a href="#counting-edges">Counting Edges</a></li>
-</ul></li>
-<li><a href="#adjacency-matrix-optimisation">Adjacency Matrix Optimisation</a></li>
-</ul></li>
-</ul>
-</nav>
-  </div>
-</div>
-    <div class="post-content">
-      
-
-<h1 id="heaps">Heaps</h1>
-
-<p><a href="../binary-heaps">Heaps</a> are a form of data representation, often for priority queues - where the max (or min) value is at the top of the tree</p>
-
-<h2 id="representation">Representation</h2>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">   1 
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Tutorial Four - Heaps and Graphs - COMP2521 Summer Fun</title><meta name=renderer content=webkit><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content=no-transform><meta http-equiv=cache-control content=no-siteapp><meta name=theme-color content=#f8f5ec><meta name=msapplication-navbutton-color content=#f8f5ec><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=#f8f5ec><meta name=author content=z5206677><meta name=description content="Heaps Heaps are a form of data representation, often for priority queues - where the max (or min) value is at the top of the tree"><meta name=keywords content=Hugo,theme,even><meta name=generator content="Hugo 0.52 with even 4.0.0"><link rel=canonical href=../../post/tut04/><link rel=apple-touch-icon sizes=180x180 href=../../apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=../../favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=../../favicon-16x16.png><link rel=manifest href=../../manifest.json><link rel=mask-icon href=../../safari-pinned-tab.svg color=#5bbad5><link href=../../dist/even.93844dae.min.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property=og:title content="Tutorial Four - Heaps and Graphs"><meta property=og:description content="Heaps Heaps are a form of data representation, often for priority queues - where the max (or min) value is at the top of the tree"><meta property=og:type content=article><meta property=og:url content=/post/tut04/><meta property=article:published_time content=2019-01-03T14:10:18&#43;11:00><meta property=article:modified_time content=2019-01-03T14:10:18&#43;11:00><meta itemprop=name content="Tutorial Four - Heaps and Graphs"><meta itemprop=description content="Heaps Heaps are a form of data representation, often for priority queues - where the max (or min) value is at the top of the tree"><meta itemprop=datePublished content=2019-01-03T14:10:18&#43;11:00><meta itemprop=dateModified content=2019-01-03T14:10:18&#43;11:00><meta itemprop=wordCount content=391><meta itemprop=keywords content><meta name=twitter:card content=summary><meta name=twitter:title content="Tutorial Four - Heaps and Graphs"><meta name=twitter:description content="Heaps Heaps are a form of data representation, often for priority queues - where the max (or min) value is at the top of the tree"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=../../ class=logo>COMP2521 Musings</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=../../><li class=mobile-menu-item>Home</li></a><a href=https://github.com/featherbear/UNSW-COMP2521><li class=mobile-menu-item>GitHub</li></a><a href=../../categories/><li class=mobile-menu-item>Categories</li></a><a href=../../almanac.html><li class=mobile-menu-item>Algos</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=../../ class=logo>COMP2521 Musings</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=../../>Home</a></li><li class=menu-item><a class=menu-item-link href=https://github.com/featherbear/UNSW-COMP2521>GitHub</a></li><li class=menu-item><a class=menu-item-link href=../../categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=../../almanac.html>Algos</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>Tutorial Four - Heaps and Graphs</h1><div class=post-meta><span class=post-time>2019-01-03</span><div class=post-category><a href=../../categories/tutorial-/-labs/>Tutorial / Labs</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><a href=#heaps>Heaps</a><ul><li><a href=#representation>Representation</a></li><li><a href=#properties>Properties</a></li><li><a href=#deleting-a-node>Deleting a node</a></li></ul></li><li><a href=#graphs>Graphs</a><ul><li><a href=#graph-adt>Graph ADT</a><ul><li><a href=#example>Example</a><ul><li><a href=#adjacency-matrix>Adjacency Matrix</a></li><li><a href=#adjacency-list>Adjacency List</a></li></ul></li><li><a href=#counting-edges>Counting Edges</a></li></ul></li><li><a href=#adjacency-matrix-optimisation>Adjacency Matrix Optimisation</a></li></ul></li></ul></nav></div></div><div class=post-content><h1 id=heaps>Heaps</h1><p><a href=../binary-heaps>Heaps</a> are a form of data representation, often for priority queues - where the max (or min) value is at the top of the tree</p><h2 id=representation>Representation</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></pre></td><td class=lntd><pre class=chroma>   1 
  3   5
-7 6 9 8</pre></td></tr></table>
-</div>
-</div>
-<p><code>Items: [X, 1, 3, 5, 7, 6, 9, 8]</code><br />
-<code>Index:  0  1  2  3  4  5  6  7</code></p>
-
-<h2 id="properties">Properties</h2>
-
-<ul>
-<li><strong>Heap ordering property</strong> - Node is always bigger (or always smaller) than children<br /></li>
-<li><strong>Complete tree property</strong> - Filled as much as possible (minimum possible depth)</li>
-</ul>
-
-<h2 id="deleting-a-node">Deleting a node</h2>
-
-<p>Switch the node with its bottom-most right-most value, and perform a fix-down</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="c1">// move value at a[k] to correct position
-</span><span class="c1"></span><span class="kt">void</span> <span class="nf">heap_fixdown</span> <span class="p">(</span><span class="n">Item</span> <span class="n">a</span><span class="p">[],</span> <span class="n">size_t</span> <span class="n">k</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">while</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">size_t</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k</span><span class="p">;</span> <span class="c1">// choose greater child
-</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="o">&amp;&amp;</span> <span class="n">item_cmp</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">j</span><span class="o">++</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">item_cmp</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
-    <span class="n">swap</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">j</span><span class="p">);</span>
-    <span class="n">k</span> <span class="o">=</span> <span class="n">j</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span></code></pre></td></tr></table>
-</div>
-</div>
-<h1 id="graphs">Graphs</h1>
-
-<ul>
-<li><strong>path</strong> - A to B</li>
-<li><strong>cycle</strong> - A to B to A</li>
-<li><strong>spanning tree</strong> - all vertices only have one connection</li>
-<li><strong>clique</strong> - all vertices are connected to each other</li>
-</ul>
-
-<h2 id="graph-adt">Graph ADT</h2>
-
-<ul>
-<li><strong>Adjacency Matrix</strong> - An array (size n) of an array (size n)</li>
-<li><strong>Adjacency List</strong> - An array (size n) of linked lists</li>
-</ul>
-
-<h3 id="example">Example</h3>
-
-<p><img src="Snipaste_2019-01-03_14-36-21.png" alt="" /></p>
-
-<h4 id="adjacency-matrix">Adjacency Matrix</h4>
-
-<table>
-<thead>
-<tr>
-<th align="center"></th>
-<th align="center"></th>
-<th align="center"></th>
-<th align="center"></th>
-<th align="center"></th>
-<th align="center"></th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td align="center">0</td>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-</tr>
-
-<tr>
-<td align="center">1</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">1</td>
-<td align="center">0</td>
-<td align="center">0</td>
-</tr>
-
-<tr>
-<td align="center">1</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">0</td>
-</tr>
-
-<tr>
-<td align="center">0</td>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-</tr>
-
-<tr>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">1</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">1</td>
-</tr>
-
-<tr>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">1</td>
-<td align="center">0</td>
-</tr>
-</tbody>
-</table>
-
-<p>Connected if <code>(g[i][j] == 1)</code></p>
-
-<h4 id="adjacency-list">Adjacency List</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></pre></td>
-<td class="lntd">
-<pre class="chroma">0: 1 -&gt; 2 -&gt; NULL
+7 6 9 8</pre></td></tr></table></div></div><p><code>Items: [X, 1, 3, 5, 7, 6, 9, 8]</code><br><code>Index: 0 1 2 3 4 5 6 7</code></p><h2 id=properties>Properties</h2><ul><li><strong>Heap ordering property</strong> - Node is always bigger (or always smaller) than children<br></li><li><strong>Complete tree property</strong> - Filled as much as possible (minimum possible depth)</li></ul><h2 id=deleting-a-node>Deleting a node</h2><p>Switch the node with its bottom-most right-most value, and perform a fix-down</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=c1>// move value at a[k] to correct position
+</span><span class=c1></span><span class=kt>void</span> <span class=nf>heap_fixdown</span> <span class=p>(</span><span class=n>Item</span> <span class=n>a</span><span class=p>[],</span> <span class=n>size_t</span> <span class=n>k</span><span class=p>)</span> <span class=p>{</span>
+  <span class=k>while</span> <span class=p>(</span><span class=mi>2</span> <span class=o>*</span> <span class=n>k</span> <span class=o>&lt;=</span> <span class=n>N</span><span class=p>)</span> <span class=p>{</span>
+    <span class=n>size_t</span> <span class=n>j</span> <span class=o>=</span> <span class=mi>2</span> <span class=o>*</span> <span class=n>k</span><span class=p>;</span> <span class=c1>// choose greater child
+</span><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=n>j</span> <span class=o>&lt;</span> <span class=n>N</span> <span class=o>&amp;&amp;</span> <span class=n>item_cmp</span> <span class=p>(</span><span class=n>a</span><span class=p>[</span><span class=n>j</span><span class=p>],</span> <span class=n>a</span><span class=p>[</span><span class=n>j</span><span class=o>+</span><span class=mi>1</span><span class=p>])</span> <span class=o>&lt;</span> <span class=mi>0</span><span class=p>)</span> <span class=n>j</span><span class=o>++</span><span class=p>;</span>
+    <span class=k>if</span> <span class=p>(</span><span class=n>item_cmp</span> <span class=p>(</span><span class=n>a</span><span class=p>[</span><span class=n>k</span><span class=p>],</span> <span class=n>a</span><span class=p>[</span><span class=n>j</span><span class=p>])</span> <span class=o>&gt;=</span> <span class=mi>0</span><span class=p>)</span> <span class=k>break</span><span class=p>;</span>
+    <span class=n>swap</span> <span class=p>(</span><span class=n>a</span><span class=p>,</span> <span class=n>k</span><span class=p>,</span> <span class=n>j</span><span class=p>);</span>
+    <span class=n>k</span> <span class=o>=</span> <span class=n>j</span><span class=p>;</span>
+  <span class=p>}</span>
+<span class=p>}</span></code></pre></td></tr></table></div></div><h1 id=graphs>Graphs</h1><ul><li><strong>path</strong> - A to B</li><li><strong>cycle</strong> - A to B to A</li><li><strong>spanning tree</strong> - all vertices only have one connection</li><li><strong>clique</strong> - all vertices are connected to each other</li></ul><h2 id=graph-adt>Graph ADT</h2><ul><li><strong>Adjacency Matrix</strong> - An array (size n) of an array (size n)</li><li><strong>Adjacency List</strong> - An array (size n) of linked lists</li></ul><h3 id=example>Example</h3><p><img src=Snipaste_2019-01-03_14-36-21.png alt></p><h4 id=adjacency-matrix>Adjacency Matrix</h4><table><thead><tr><th align=center></th><th align=center></th><th align=center></th><th align=center></th><th align=center></th><th align=center></th></tr></thead><tbody><tr><td align=center>0</td><td align=center>1</td><td align=center>1</td><td align=center>0</td><td align=center>0</td><td align=center>0</td></tr><tr><td align=center>1</td><td align=center>0</td><td align=center>0</td><td align=center>1</td><td align=center>0</td><td align=center>0</td></tr><tr><td align=center>1</td><td align=center>0</td><td align=center>0</td><td align=center>1</td><td align=center>1</td><td align=center>0</td></tr><tr><td align=center>0</td><td align=center>1</td><td align=center>1</td><td align=center>0</td><td align=center>0</td><td align=center>0</td></tr><tr><td align=center>0</td><td align=center>0</td><td align=center>1</td><td align=center>0</td><td align=center>0</td><td align=center>1</td></tr><tr><td align=center>0</td><td align=center>0</td><td align=center>0</td><td align=center>0</td><td align=center>1</td><td align=center>0</td></tr></tbody></table><p>Connected if <code>(g[i][j] == 1)</code></p><h4 id=adjacency-list>Adjacency List</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></pre></td><td class=lntd><pre class=chroma>0: 1 -&gt; 2 -&gt; NULL
 1: 0 -&gt; 3 -&gt; NULL
 2: 0 -&gt; 3 -&gt; 4 -&gt; NULL
 3: 1-&gt; 2 -&gt; NULL
 4: 2 -&gt; 5 -&gt; NULL
-5: 4 -&gt; NULL</pre></td></tr></table>
-</div>
-</div>
-<p>Connected if <code>for (adjnode v = g-&gt;n[i]; v; v = v-&gt;next) if (v.item == j) return true;)); return false</code></p>
-
-<h3 id="counting-edges">Counting Edges</h3>
-
-<p>Find the number of <code>true</code> items in the adjacency list, and then divide by two</p>
-
-<p>If using an adjacency list (with results <code>(a,b)</code>), count while <code>a &lt; b</code></p>
-
-<p>Matrix - dense<br />
-List - sparse</p>
-
-<h2 id="adjacency-matrix-optimisation">Adjacency Matrix Optimisation</h2>
-
-<p>Since an adjacency matrix is mirrored diagonally (for simple graphs) - we are using unecessary memory, so we should cut down!</p>
-
-<p><img src="Snipaste_2019-01-03_14-54-44.png" alt="" /></p>
-
-<p><code>v . nV - (v(v+1)/2)</code></p>
-
-    </div>
-
-    <footer class="post-footer">
-      
-      <nav class="post-nav">
-        <a class="prev" href="../../post/ass02/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Assignment Two - Fury of Dracula</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="../../post/lec08/">
-            <span class="next-text nav-default">Lecture 8 - Directed and Weighted Graphs</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
-        </div>
-        
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:z5206677@student.unsw.edu.au" class="iconfont icon-email" title="email"></a>
-      <a href="https://www.linkedin.com/in/andrewjinmengwong/" class="iconfont icon-linkedin" title="linkedin"></a>
-      <a href="https://github.com/featherbear" class="iconfont icon-github" title="github"></a>
-      <a href="https://www.instagram.com/_andrewjwong/" class="iconfont icon-instagram" title="instagram"></a>
-  <a href="../../index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  
-
-  <span class="copyright-year">
-    &copy; 
-    2018 - 
-    2019
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">Andrew Wong (z5206677)</span>
-  </span>
-</div>
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="../../dist/even.ece58db6.min.js"></script>
-
-
-
-
-
-
-
-
-</body>
-</html>
+5: 4 -&gt; NULL</pre></td></tr></table></div></div><p>Connected if <code>for (adjnode v = g-&gt;n[i]; v; v = v-&gt;next) if (v.item == j) return true;)); return false</code></p><h3 id=counting-edges>Counting Edges</h3><p>Find the number of <code>true</code> items in the adjacency list, and then divide by two</p><p>If using an adjacency list (with results <code>(a,b)</code>), count while <code>a &lt; b</code></p><p>Matrix - dense<br>List - sparse</p><h2 id=adjacency-matrix-optimisation>Adjacency Matrix Optimisation</h2><p>Since an adjacency matrix is mirrored diagonally (for simple graphs) - we are using unecessary memory, so we should cut down!</p><p><img src=Snipaste_2019-01-03_14-54-44.png alt></p><p><code>v . nV - (v(v+1)/2)</code></p></div><footer class=post-footer><nav class=post-nav><a class=prev href=../../post/ass02/><i class="iconfont icon-left"></i><span class="prev-text nav-default">Assignment Two - Fury of Dracula</span>
+<span class="prev-text nav-mobile">Prev</span></a>
+<a class=next href=../../post/lec08/><span class="next-text nav-default">Lecture 8 - Directed and Weighted Graphs</span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article><script>(function(f,a,t,h,o,m){a[h]=a[h]||function(){(a[h].q=a[h].q||[]).push(arguments)};o=f.createElement('script'),m=f.getElementsByTagName('script')[0];o.async=1;o.src=t;o.id='fathom-script';m.parentNode.insertBefore(o,m)})(document,window,'//ss.featherbear.cc/tracker.js','fathom');fathom('set','siteId','NEQTU');fathom('trackPageview');</script></div></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:z5206677@student.unsw.edu.au class="iconfont icon-email" title=email></a><a href=https://www.linkedin.com/in/andrewjinmengwong/ class="iconfont icon-linkedin" title=linkedin></a><a href=https://github.com/featherbear class="iconfont icon-github" title=github></a><a href=https://www.instagram.com/_andrewjwong/ class="iconfont icon-instagram" title=instagram></a><a href=../../index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2018 -
+2021
+<span class=heart><i class="iconfont icon-heart"></i></span><span class=author>Andrew Wong (z5206677)</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=../../dist/even.ece58db6.min.js></script></body></html>

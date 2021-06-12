@@ -1,909 +1,189 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>fibonacci.c - COMP2521 Summer Fun</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
-
-
-<meta name="author" content="z5206677" /><meta name="description" content="A look at Fibonacci algorithm approaches" /><meta name="keywords" content="Hugo, theme, even" />
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.52 with even 4.0.0" />
-
-
-<link rel="canonical" href="../../post/c-fibonacci/" />
-<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
-<link rel="manifest" href="../../manifest.json">
-<link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
-
-
-<link href="../../dist/even.93844dae.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="fibonacci.c" />
-<meta property="og:description" content="A look at Fibonacci algorithm approaches" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="/post/c-fibonacci/" /><meta property="article:published_time" content="2018-12-05T17:13:11&#43;11:00"/>
-<meta property="article:modified_time" content="2018-12-05T17:13:11&#43;11:00"/>
-
-<meta itemprop="name" content="fibonacci.c">
-<meta itemprop="description" content="A look at Fibonacci algorithm approaches">
-
-
-<meta itemprop="datePublished" content="2018-12-05T17:13:11&#43;11:00" />
-<meta itemprop="dateModified" content="2018-12-05T17:13:11&#43;11:00" />
-<meta itemprop="wordCount" content="912">
-
-
-
-<meta itemprop="keywords" content="" />
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="fibonacci.c"/>
-<meta name="twitter:description" content="A look at Fibonacci algorithm approaches"/>
-
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
-
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
-
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="../../" class="logo">COMP2521 Musings</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="../../">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="https://github.com/featherbear/UNSW-COMP2521">
-        <li class="mobile-menu-item">GitHub</li>
-      </a><a href="../../categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a><a href="../../almanac.html">
-        <li class="mobile-menu-item">Algos</li>
-      </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="../../" class="logo">COMP2521 Musings</a>
-</div>
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="../../">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="https://github.com/featherbear/UNSW-COMP2521">GitHub</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="../../categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="../../almanac.html">Algos</a>
-      </li>
-  </ul>
-</nav>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
-    
-    <header class="post-header">
-      <h1 class="post-title">fibonacci.c</h1>
-
-      <div class="post-meta">
-        <span class="post-time"> 2018-12-05 </span>
-        <div class="post-category">
-            <a href="../../categories/posts/"> Posts </a>
-            </div>
-        
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content always-active">
-    <nav id="TableOfContents">
-<ul>
-<li><a href="#approaches">Approaches</a>
-<ul>
-<li><a href="#iterative">Iterative</a></li>
-<li><a href="#recursive">Recursive</a></li>
-</ul></li>
-<li><a href="#performance">Performance</a></li>
-<li><a href="#optimisation-multiple-calls">Optimisation - Multiple Calls</a>
-<ul>
-<li><a href="#generating-100000-fibonacci-numbers">Generating 100000 Fibonacci numbers&hellip;</a></li>
-</ul></li>
-</ul>
-</nav>
-  </div>
-</div>
-    <div class="post-content">
-      
-
-<blockquote>
-<p>The fibonacci function is a great (or horrible) way to demonstrate the pros and cons of iterative and recursive approaches</p>
-</blockquote>
-
-<h1 id="approaches">Approaches</h1>
-
-<h2 id="iterative">Iterative</h2>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">int</span> <span class="nf">fib</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">prev1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="kt">int</span> <span class="n">prev2</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-
-  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">prev1</span><span class="p">;</span>
-    <span class="n">prev1</span> <span class="o">=</span> <span class="n">prev2</span><span class="p">;</span>
-    <span class="n">prev2</span> <span class="o">+=</span> <span class="n">tmp</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="n">prev1</span><span class="p">;</span>
-<span class="p">}</span></code></pre></td></tr></table>
-</div>
-</div>
-<h2 id="recursive">Recursive</h2>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">int</span> <span class="nf">fib</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">switch</span> <span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="mi">0</span><span class="o">:</span>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">case</span> <span class="mi">1</span><span class="o">:</span>  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="k">default</span><span class="o">:</span> <span class="k">return</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">);</span>
-    <span class="p">}</span></code></pre></td></tr></table>
-</div>
-</div>
-<p>Spot an issue?</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">fib</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">=</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="nx">fib</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">=</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="nx">fib</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="nx">fib</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="nx">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="nx">fib</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
-
-<span class="nx">fib</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>          <span class="p">]</span> <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-       <span class="o">=</span> <span class="p">[</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">]</span> <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-</code></pre></td></tr></table>
-</div>
-</div>
-<p>Let&rsquo;s call <code>fib(5)</code>&hellip;</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">fib</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">=</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>                       <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-       <span class="o">=</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>            <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>   <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="c1">//       ^                   ^                     
-</span><span class="c1">// See an issue? We&#39;re going to call `fib(3)` twice
-</span><span class="c1"></span>       <span class="o">=</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>    <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="c1">//       ^                    ^         ^               `
-</span><span class="c1">// And `fib(2)` is going to be called three times!
-</span><span class="c1"></span></code></pre></td></tr></table>
-</div>
-</div>
-<p><code>fib(5)</code> will eventually end up doing something like:</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">fib</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">=</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</code></pre></td></tr></table>
-</div>
-</div>
-<p>(more than) 8 operations for something that should only need 5&hellip;</p>
-
-<p>Let&rsquo;s blow up this execution</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">fib</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">=</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>                                                                                             <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-         <span class="nx">fib</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">=</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span>                                               <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>                             <span class="nx">fib</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>                           <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-                  <span class="nx">fib</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>                           <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>       <span class="nx">fib</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>     <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>                <span class="nx">fib</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>     <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>       <span class="nx">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
-                           <span class="nx">fib</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>     <span class="o">+</span> <span class="nx">fib</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>       <span class="nx">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>            <span class="nx">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>   <span class="nx">fib</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>                     <span class="nx">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>   <span class="nx">fib</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
-                                    <span class="nx">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>   <span class="nx">fib</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>                       <span class="o">=</span> <span class="mi">1</span>                                         <span class="o">=</span> <span class="mi">1</span>
-                                  <span class="o">=</span> <span class="mi">1</span>                                                                                <span class="o">=</span> <span class="mi">2</span>
-                         <span class="o">=</span> <span class="mi">2</span>
-                <span class="o">=</span> <span class="mi">3</span>
-       <span class="o">=</span> <span class="mi">5</span>
-</code></pre></td></tr></table>
-</div>
-</div>
-<p>15 executions of <code>fib()</code>, to what only needed 5?</p>
-
-<h1 id="performance">Performance</h1>
-
-<p>Let&rsquo;s compare the two approaches</p>
-
-<table>
-<thead>
-<tr>
-<th align="right">n</th>
-<th align="center">fib</th>
-<th align="center">Operations (Iterative)</th>
-<th align="center">Operations (Recursive)</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td align="right">1</td>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">1</td>
-</tr>
-
-<tr>
-<td align="right">2</td>
-<td align="center">1</td>
-<td align="center">2</td>
-<td align="center">3</td>
-</tr>
-
-<tr>
-<td align="right">3</td>
-<td align="center">2</td>
-<td align="center">3</td>
-<td align="center">5</td>
-</tr>
-
-<tr>
-<td align="right">4</td>
-<td align="center">3</td>
-<td align="center">4</td>
-<td align="center">9</td>
-</tr>
-
-<tr>
-<td align="right">5</td>
-<td align="center">5</td>
-<td align="center">5</td>
-<td align="center">15</td>
-</tr>
-
-<tr>
-<td align="right">6</td>
-<td align="center">8</td>
-<td align="center">6</td>
-<td align="center">25</td>
-</tr>
-
-<tr>
-<td align="right">7</td>
-<td align="center">13</td>
-<td align="center">7</td>
-<td align="center">41</td>
-</tr>
-
-<tr>
-<td align="right">8</td>
-<td align="center">21</td>
-<td align="center">8</td>
-<td align="center">67</td>
-</tr>
-
-<tr>
-<td align="right">9</td>
-<td align="center">34</td>
-<td align="center">9</td>
-<td align="center">109</td>
-</tr>
-
-<tr>
-<td align="right">10</td>
-<td align="center">55</td>
-<td align="center">10</td>
-<td align="center">177</td>
-</tr>
-
-<tr>
-<td align="right">11</td>
-<td align="center">89</td>
-<td align="center">11</td>
-<td align="center">287</td>
-</tr>
-
-<tr>
-<td align="right">12</td>
-<td align="center">144</td>
-<td align="center">12</td>
-<td align="center">465</td>
-</tr>
-
-<tr>
-<td align="right">13</td>
-<td align="center">233</td>
-<td align="center">13</td>
-<td align="center">753</td>
-</tr>
-
-<tr>
-<td align="right">14</td>
-<td align="center">377</td>
-<td align="center">14</td>
-<td align="center">1219</td>
-</tr>
-
-<tr>
-<td align="right">15</td>
-<td align="center">610</td>
-<td align="center">15</td>
-<td align="center">1973</td>
-</tr>
-
-<tr>
-<td align="right">16</td>
-<td align="center">987</td>
-<td align="center">16</td>
-<td align="center">3193</td>
-</tr>
-
-<tr>
-<td align="right">17</td>
-<td align="center">1597</td>
-<td align="center">17</td>
-<td align="center">5167</td>
-</tr>
-
-<tr>
-<td align="right">18</td>
-<td align="center">2584</td>
-<td align="center">18</td>
-<td align="center">8361</td>
-</tr>
-
-<tr>
-<td align="right">19</td>
-<td align="center">4181</td>
-<td align="center">19</td>
-<td align="center">13529</td>
-</tr>
-
-<tr>
-<td align="right">20</td>
-<td align="center">6765</td>
-<td align="center">20</td>
-<td align="center">21891</td>
-</tr>
-
-<tr>
-<td align="right">21</td>
-<td align="center">10946</td>
-<td align="center">21</td>
-<td align="center">35421</td>
-</tr>
-
-<tr>
-<td align="right">22</td>
-<td align="center">17711</td>
-<td align="center">22</td>
-<td align="center">57313</td>
-</tr>
-
-<tr>
-<td align="right">23</td>
-<td align="center">28657</td>
-<td align="center">23</td>
-<td align="center">92735</td>
-</tr>
-
-<tr>
-<td align="right">24</td>
-<td align="center">46368</td>
-<td align="center">24</td>
-<td align="center">150049</td>
-</tr>
-
-<tr>
-<td align="right">25</td>
-<td align="center">75025</td>
-<td align="center">25</td>
-<td align="center">242785</td>
-</tr>
-
-<tr>
-<td align="right">26</td>
-<td align="center">121393</td>
-<td align="center">26</td>
-<td align="center">392835</td>
-</tr>
-
-<tr>
-<td align="right">27</td>
-<td align="center">196418</td>
-<td align="center">27</td>
-<td align="center">635621</td>
-</tr>
-
-<tr>
-<td align="right">28</td>
-<td align="center">317811</td>
-<td align="center">28</td>
-<td align="center">1028457</td>
-</tr>
-
-<tr>
-<td align="right">29</td>
-<td align="center">514229</td>
-<td align="center">29</td>
-<td align="center">1664079</td>
-</tr>
-
-<tr>
-<td align="right">30</td>
-<td align="center">832040</td>
-<td align="center">30</td>
-<td align="center">2692537</td>
-</tr>
-
-<tr>
-<td align="right">31</td>
-<td align="center">1346269</td>
-<td align="center">31</td>
-<td align="center">4356617</td>
-</tr>
-
-<tr>
-<td align="right">32</td>
-<td align="center">2178309</td>
-<td align="center">32</td>
-<td align="center">7049155</td>
-</tr>
-
-<tr>
-<td align="right">33</td>
-<td align="center">3524578</td>
-<td align="center">33</td>
-<td align="center">11405773</td>
-</tr>
-
-<tr>
-<td align="right">34</td>
-<td align="center">5702887</td>
-<td align="center">34</td>
-<td align="center">18454929</td>
-</tr>
-
-<tr>
-<td align="right">35</td>
-<td align="center">9227465</td>
-<td align="center">35</td>
-<td align="center">29860703</td>
-</tr>
-
-<tr>
-<td align="right">36</td>
-<td align="center">14930352</td>
-<td align="center">36</td>
-<td align="center">48315633</td>
-</tr>
-
-<tr>
-<td align="right">37</td>
-<td align="center">24157817</td>
-<td align="center">37</td>
-<td align="center">78176337</td>
-</tr>
-
-<tr>
-<td align="right">38</td>
-<td align="center">39088169</td>
-<td align="center">38</td>
-<td align="center">126491971</td>
-</tr>
-
-<tr>
-<td align="right">39</td>
-<td align="center">63245986</td>
-<td align="center">39</td>
-<td align="center">204668309</td>
-</tr>
-
-<tr>
-<td align="right">40</td>
-<td align="center">102334155</td>
-<td align="center">40</td>
-<td align="center">331160281</td>
-</tr>
-
-<tr>
-<td align="right">41</td>
-<td align="center">165580141</td>
-<td align="center">41</td>
-<td align="center">535828591</td>
-</tr>
-
-<tr>
-<td align="right">42</td>
-<td align="center">267914296</td>
-<td align="center">42</td>
-<td align="center">866988873</td>
-</tr>
-
-<tr>
-<td align="right">43</td>
-<td align="center">433494437</td>
-<td align="center">43</td>
-<td align="center">1402817465</td>
-</tr>
-
-<tr>
-<td align="right">44</td>
-<td align="center">701408733</td>
-<td align="center">44</td>
-<td align="center">2269806339</td>
-</tr>
-
-<tr>
-<td align="right">45</td>
-<td align="center">1134903170</td>
-<td align="center">45</td>
-<td align="center">3672623805</td>
-</tr>
-</tbody>
-</table>
-
-<p><img src="../../post/fibonacci_iterative-recursive.png" alt="" /><br />
-As the Fibonacci sequence gets larger, the number of iterative operations increase constantly, whilst the number ofrecursive operations increase exponentially.. that&rsquo;s bad..<br />
-<em>Well, <code>ops(n) = ops(n-1) + ops(n-2) + 1</code><br />
-So the 46th Fibonacci number will take <code>2269806339 + 3672623805 + 1 =</code><s><code>5942430145</code></s><code>alot</code> of operations</em></p>
-
-<p>So, the iterative approach is clearly the better algorithm for Fibonacci numbers..</p>
-
-<h1 id="optimisation-multiple-calls">Optimisation - Multiple Calls</h1>
-
-<p>If we need to get several Fibonacci numbers, it might be worthwhile to cache all of the results.</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="k">struct</span> <span class="n">fibonacci</span> <span class="p">{</span>
-  <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">int</span> <span class="n">size</span><span class="p">;</span>
-  <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">int</span> <span class="o">*</span><span class="n">items</span><span class="p">;</span>
-<span class="p">};</span>
-
-<span class="k">struct</span> <span class="n">fibonacci</span> <span class="n">fibonacci</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-  <span class="p">.</span><span class="n">items</span> <span class="o">=</span> <span class="nb">NULL</span>
-<span class="p">};</span>
-
-<span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">int</span> <span class="nf">ulint_max</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span> <span class="o">?</span> <span class="nl">a</span> <span class="p">:</span> <span class="n">b</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">int</span> <span class="nf">fib</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="n">fibonacci</span><span class="p">.</span><span class="n">size</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">init</span> <span class="o">=</span> <span class="n">fibonacci</span><span class="p">.</span><span class="n">items</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">;</span>
-
-    <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">int</span> <span class="n">oldSize</span> <span class="o">=</span> <span class="n">ulint_max</span><span class="p">(</span><span class="n">fibonacci</span><span class="p">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
-
-    <span class="n">fibonacci</span><span class="p">.</span><span class="n">items</span> <span class="o">=</span> <span class="n">realloc</span><span class="p">(</span><span class="n">fibonacci</span><span class="p">.</span><span class="n">items</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">int</span><span class="p">)</span> <span class="o">*</span> <span class="n">ulint_max</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="p">));</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="n">init</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">fibonacci</span><span class="p">.</span><span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-      <span class="n">fibonacci</span><span class="p">.</span><span class="n">items</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-      <span class="n">fibonacci</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">oldSize</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">fibonacci</span><span class="p">.</span><span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fibonacci</span><span class="p">.</span><span class="n">items</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="p">.</span><span class="n">items</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">2</span><span class="p">];</span>
-    <span class="p">}</span>
-
-    <span class="n">fibonacci</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
-  <span class="p">}</span>
-
-  <span class="k">return</span> <span class="n">fibonacci</span><span class="p">.</span><span class="n">items</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
-<span class="p">}</span>
-
-<span class="o">//</span> <span class="n">Don</span><span class="err">&#39;</span><span class="n">t</span> <span class="n">forget</span> <span class="n">to</span> <span class="n">call</span> <span class="err">`</span><span class="n">free</span><span class="p">(</span><span class="n">fibonacci</span><span class="p">.</span><span class="n">items</span><span class="p">);</span><span class="err">`</span></code></pre></td></tr></table>
-</div>
-</div>
-<h2 id="generating-100000-fibonacci-numbers">Generating 100000 Fibonacci numbers&hellip;</h2>
-
-<p>With the caching approach, we get incredibly fast times!</p>
-
-<table>
-<thead>
-<tr>
-<th align="center">type</th>
-<th align="center">time</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td align="center">real</td>
-<td align="center">0m0.006s</td>
-</tr>
-
-<tr>
-<td align="center">user</td>
-<td align="center">0m0.006s</td>
-</tr>
-
-<tr>
-<td align="center">sys</td>
-<td align="center">0m0.000s</td>
-</tr>
-</tbody>
-</table>
-
-<p>As opposed to the standard iterative (non-caching) approach</p>
-
-<table>
-<thead>
-<tr>
-<th align="center">type</th>
-<th align="center">time</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td align="center">real</td>
-<td align="center">0m7.464s</td>
-</tr>
-
-<tr>
-<td align="center">user</td>
-<td align="center">0m7.454s</td>
-</tr>
-
-<tr>
-<td align="center">sys</td>
-<td align="center">0m0.000s</td>
-</tr>
-</tbody>
-</table>
-
-<p>As for the recursive approach, <strong>we get no way close the performance of the iterative approaches</strong>&hellip;<br />
-Generating <em>just</em> 50 Fibonacci numbers (<strong>0.05%</strong>) takes forever.</p>
-
-<table>
-<thead>
-<tr>
-<th align="center">type</th>
-<th align="center">time</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td align="center">real</td>
-<td align="center">6m39.595s</td>
-</tr>
-
-<tr>
-<td align="center">user</td>
-<td align="center">6m38.480s</td>
-</tr>
-
-<tr>
-<td align="center">sys</td>
-<td align="center">0m00.001s</td>
-</tr>
-</tbody>
-</table>
-
-<p>So, yes - the iterative approach is <u>MUCH</u> better.<br />
-Although we do use way more memory - these days, it&rsquo;s not that bad&hellip;</p>
-
-<blockquote>
-<p>&hellip; as long as it&rsquo;s not a memory leak.</p>
-</blockquote>
-
-    </div>
-
-    <footer class="post-footer">
-      
-      <nav class="post-nav">
-        <a class="prev" href="../../post/binary-heaps/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Binary Heaps</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="../../post/lec04/">
-            <span class="next-text nav-default">Lecture 4 - Applications of Recursion</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
-        </div>
-        
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:z5206677@student.unsw.edu.au" class="iconfont icon-email" title="email"></a>
-      <a href="https://www.linkedin.com/in/andrewjinmengwong/" class="iconfont icon-linkedin" title="linkedin"></a>
-      <a href="https://github.com/featherbear" class="iconfont icon-github" title="github"></a>
-      <a href="https://www.instagram.com/_andrewjwong/" class="iconfont icon-instagram" title="instagram"></a>
-  <a href="../../index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  
-
-  <span class="copyright-year">
-    &copy; 
-    2018 - 
-    2019
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">Andrew Wong (z5206677)</span>
-  </span>
-</div>
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="../../dist/even.ece58db6.min.js"></script>
-
-
-
-
-
-
-
-
-</body>
-</html>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>fibonacci.c - COMP2521 Summer Fun</title><meta name=renderer content=webkit><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content=no-transform><meta http-equiv=cache-control content=no-siteapp><meta name=theme-color content=#f8f5ec><meta name=msapplication-navbutton-color content=#f8f5ec><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=#f8f5ec><meta name=author content=z5206677><meta name=description content="A look at Fibonacci algorithm approaches"><meta name=keywords content=Hugo,theme,even><meta name=generator content="Hugo 0.52 with even 4.0.0"><link rel=canonical href=../../post/c-fibonacci/><link rel=apple-touch-icon sizes=180x180 href=../../apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=../../favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=../../favicon-16x16.png><link rel=manifest href=../../manifest.json><link rel=mask-icon href=../../safari-pinned-tab.svg color=#5bbad5><link href=../../dist/even.93844dae.min.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property=og:title content=fibonacci.c><meta property=og:description content="A look at Fibonacci algorithm approaches"><meta property=og:type content=article><meta property=og:url content=/post/c-fibonacci/><meta property=article:published_time content=2018-12-05T17:13:11&#43;11:00><meta property=article:modified_time content=2018-12-05T17:13:11&#43;11:00><meta itemprop=name content=fibonacci.c><meta itemprop=description content="A look at Fibonacci algorithm approaches"><meta itemprop=datePublished content=2018-12-05T17:13:11&#43;11:00><meta itemprop=dateModified content=2018-12-05T17:13:11&#43;11:00><meta itemprop=wordCount content=912><meta itemprop=keywords content><meta name=twitter:card content=summary><meta name=twitter:title content=fibonacci.c><meta name=twitter:description content="A look at Fibonacci algorithm approaches"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=../../ class=logo>COMP2521 Musings</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=../../><li class=mobile-menu-item>Home</li></a><a href=https://github.com/featherbear/UNSW-COMP2521><li class=mobile-menu-item>GitHub</li></a><a href=../../categories/><li class=mobile-menu-item>Categories</li></a><a href=../../almanac.html><li class=mobile-menu-item>Algos</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=../../ class=logo>COMP2521 Musings</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=../../>Home</a></li><li class=menu-item><a class=menu-item-link href=https://github.com/featherbear/UNSW-COMP2521>GitHub</a></li><li class=menu-item><a class=menu-item-link href=../../categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=../../almanac.html>Algos</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>fibonacci.c</h1><div class=post-meta><span class=post-time>2018-12-05</span><div class=post-category><a href=../../categories/posts/>Posts</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><a href=#approaches>Approaches</a><ul><li><a href=#iterative>Iterative</a></li><li><a href=#recursive>Recursive</a></li></ul></li><li><a href=#performance>Performance</a></li><li><a href=#optimisation-multiple-calls>Optimisation - Multiple Calls</a><ul><li><a href=#generating-100000-fibonacci-numbers>Generating 100000 Fibonacci numbers&hellip;</a></li></ul></li></ul></nav></div></div><div class=post-content><blockquote><p>The fibonacci function is a great (or horrible) way to demonstrate the pros and cons of iterative and recursive approaches</p></blockquote><h1 id=approaches>Approaches</h1><h2 id=iterative>Iterative</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=kt>unsigned</span> <span class=kt>long</span> <span class=kt>int</span> <span class=nf>fib</span><span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span> <span class=kt>int</span> <span class=n>n</span><span class=p>)</span> <span class=p>{</span>
+  <span class=kt>int</span> <span class=n>prev1</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+  <span class=kt>int</span> <span class=n>prev2</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+
+  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=n>n</span><span class=p>;</span> <span class=n>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+    <span class=kt>int</span> <span class=n>tmp</span> <span class=o>=</span> <span class=n>prev1</span><span class=p>;</span>
+    <span class=n>prev1</span> <span class=o>=</span> <span class=n>prev2</span><span class=p>;</span>
+    <span class=n>prev2</span> <span class=o>+=</span> <span class=n>tmp</span><span class=p>;</span>
+  <span class=p>}</span>
+  <span class=k>return</span> <span class=n>prev1</span><span class=p>;</span>
+<span class=p>}</span></code></pre></td></tr></table></div></div><h2 id=recursive>Recursive</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=kt>unsigned</span> <span class=kt>long</span> <span class=kt>int</span> <span class=nf>fib</span><span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span> <span class=kt>int</span> <span class=n>n</span><span class=p>)</span> <span class=p>{</span>
+  <span class=k>switch</span> <span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=p>{</span>
+    <span class=k>case</span> <span class=mi>0</span><span class=o>:</span>  <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+    <span class=k>case</span> <span class=mi>1</span><span class=o>:</span>  <span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
+    <span class=k>default</span><span class=o>:</span> <span class=k>return</span> <span class=n>fib</span><span class=p>(</span><span class=n>n</span><span class=o>-</span><span class=mi>1</span><span class=p>)</span> <span class=o>+</span> <span class=n>fib</span><span class=p>(</span><span class=n>n</span><span class=o>-</span><span class=mi>2</span><span class=p>);</span>
+	<span class=p>}</span></code></pre></td></tr></table></div></div><p>Spot an issue?</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-js data-lang=js><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-js data-lang=js><span class=nx>fib</span><span class=p>(</span><span class=mi>5</span><span class=p>)</span> <span class=o>=</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>4</span><span class=p>)</span> <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span>
+<span class=nx>fib</span><span class=p>(</span><span class=mi>4</span><span class=p>)</span> <span class=o>=</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span> <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span>
+<span class=nx>fib</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span> <span class=o>=</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span> <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span>
+<span class=nx>fib</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span> <span class=o>=</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span> <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span>
+<span class=nx>fib</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span> <span class=o>=</span> <span class=mi>1</span>
+<span class=nx>fib</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span> <span class=o>=</span> <span class=mi>0</span>
+
+<span class=nx>fib</span><span class=p>(</span><span class=mi>5</span><span class=p>)</span> <span class=o>=</span> <span class=p>[</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>4</span><span class=p>)</span>          <span class=p>]</span> <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span>
+       <span class=o>=</span> <span class=p>[</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span> <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span> <span class=p>]</span> <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div><p>Let&rsquo;s call <code>fib(5)</code>&hellip;</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-js data-lang=js><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-js data-lang=js><span class=nx>fib</span><span class=p>(</span><span class=mi>5</span><span class=p>)</span> <span class=o>=</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>4</span><span class=p>)</span>                       <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span>
+       <span class=o>=</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span>            <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span>   <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span>
+<span class=c1>//       ^                   ^                     
+</span><span class=c1>// See an issue? We&#39;re going to call `fib(3)` twice
+</span><span class=c1></span>       <span class=o>=</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span> <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span>    <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span>  <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span> <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span>
+<span class=c1>//       ^                    ^         ^               `
+</span><span class=c1>// And `fib(2)` is going to be called three times!
+</span><span class=c1></span></code></pre></td></tr></table></div></div><p><code>fib(5)</code> will eventually end up doing something like:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-js data-lang=js><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-js data-lang=js><span class=nx>fib</span><span class=p>(</span><span class=mi>5</span><span class=p>)</span> <span class=o>=</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span> <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span> <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span> <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span> <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span> <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span> <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span> <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div><p>(more than) 8 operations for something that should only need 5&hellip;</p><p>Let&rsquo;s blow up this execution</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-js data-lang=js><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-js data-lang=js><span class=nx>fib</span><span class=p>(</span><span class=mi>5</span><span class=p>)</span> <span class=o>=</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>4</span><span class=p>)</span>                                                                                             <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span>
+         <span class=nx>fib</span><span class=p>(</span><span class=mi>4</span><span class=p>)</span> <span class=o>=</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span> <span class=o>+</span>                                               <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span>                             <span class=nx>fib</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span> <span class=o>=</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span>                           <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span>
+                  <span class=nx>fib</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span> <span class=o>=</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span>                           <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span>       <span class=nx>fib</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span> <span class=o>=</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span>     <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span>                <span class=nx>fib</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span> <span class=o>=</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span>     <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span>       <span class=nx>fib</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span> <span class=o>=</span> <span class=mi>1</span>
+                           <span class=nx>fib</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span> <span class=o>=</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span>     <span class=o>+</span> <span class=nx>fib</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span>       <span class=nx>fib</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span> <span class=o>=</span> <span class=mi>1</span>            <span class=nx>fib</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span> <span class=o>=</span> <span class=mi>1</span>   <span class=nx>fib</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span> <span class=o>=</span> <span class=mi>0</span>                     <span class=nx>fib</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span> <span class=o>=</span> <span class=mi>1</span>   <span class=nx>fib</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span> <span class=o>=</span> <span class=mi>0</span>
+                                    <span class=nx>fib</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span> <span class=o>=</span> <span class=mi>1</span>   <span class=nx>fib</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span> <span class=o>=</span> <span class=mi>0</span>                       <span class=o>=</span> <span class=mi>1</span>                                         <span class=o>=</span> <span class=mi>1</span>
+                                  <span class=o>=</span> <span class=mi>1</span>                                                                                <span class=o>=</span> <span class=mi>2</span>
+                         <span class=o>=</span> <span class=mi>2</span>
+                <span class=o>=</span> <span class=mi>3</span>
+       <span class=o>=</span> <span class=mi>5</span>
+</code></pre></td></tr></table></div></div><p>15 executions of <code>fib()</code>, to what only needed 5?</p><h1 id=performance>Performance</h1><p>Let&rsquo;s compare the two approaches</p><table><thead><tr><th align=right>n</th><th align=center>fib</th><th align=center>Operations (Iterative)</th><th align=center>Operations (Recursive)</th></tr></thead><tbody><tr><td align=right>1</td><td align=center>1</td><td align=center>1</td><td align=center>1</td></tr><tr><td align=right>2</td><td align=center>1</td><td align=center>2</td><td align=center>3</td></tr><tr><td align=right>3</td><td align=center>2</td><td align=center>3</td><td align=center>5</td></tr><tr><td align=right>4</td><td align=center>3</td><td align=center>4</td><td align=center>9</td></tr><tr><td align=right>5</td><td align=center>5</td><td align=center>5</td><td align=center>15</td></tr><tr><td align=right>6</td><td align=center>8</td><td align=center>6</td><td align=center>25</td></tr><tr><td align=right>7</td><td align=center>13</td><td align=center>7</td><td align=center>41</td></tr><tr><td align=right>8</td><td align=center>21</td><td align=center>8</td><td align=center>67</td></tr><tr><td align=right>9</td><td align=center>34</td><td align=center>9</td><td align=center>109</td></tr><tr><td align=right>10</td><td align=center>55</td><td align=center>10</td><td align=center>177</td></tr><tr><td align=right>11</td><td align=center>89</td><td align=center>11</td><td align=center>287</td></tr><tr><td align=right>12</td><td align=center>144</td><td align=center>12</td><td align=center>465</td></tr><tr><td align=right>13</td><td align=center>233</td><td align=center>13</td><td align=center>753</td></tr><tr><td align=right>14</td><td align=center>377</td><td align=center>14</td><td align=center>1219</td></tr><tr><td align=right>15</td><td align=center>610</td><td align=center>15</td><td align=center>1973</td></tr><tr><td align=right>16</td><td align=center>987</td><td align=center>16</td><td align=center>3193</td></tr><tr><td align=right>17</td><td align=center>1597</td><td align=center>17</td><td align=center>5167</td></tr><tr><td align=right>18</td><td align=center>2584</td><td align=center>18</td><td align=center>8361</td></tr><tr><td align=right>19</td><td align=center>4181</td><td align=center>19</td><td align=center>13529</td></tr><tr><td align=right>20</td><td align=center>6765</td><td align=center>20</td><td align=center>21891</td></tr><tr><td align=right>21</td><td align=center>10946</td><td align=center>21</td><td align=center>35421</td></tr><tr><td align=right>22</td><td align=center>17711</td><td align=center>22</td><td align=center>57313</td></tr><tr><td align=right>23</td><td align=center>28657</td><td align=center>23</td><td align=center>92735</td></tr><tr><td align=right>24</td><td align=center>46368</td><td align=center>24</td><td align=center>150049</td></tr><tr><td align=right>25</td><td align=center>75025</td><td align=center>25</td><td align=center>242785</td></tr><tr><td align=right>26</td><td align=center>121393</td><td align=center>26</td><td align=center>392835</td></tr><tr><td align=right>27</td><td align=center>196418</td><td align=center>27</td><td align=center>635621</td></tr><tr><td align=right>28</td><td align=center>317811</td><td align=center>28</td><td align=center>1028457</td></tr><tr><td align=right>29</td><td align=center>514229</td><td align=center>29</td><td align=center>1664079</td></tr><tr><td align=right>30</td><td align=center>832040</td><td align=center>30</td><td align=center>2692537</td></tr><tr><td align=right>31</td><td align=center>1346269</td><td align=center>31</td><td align=center>4356617</td></tr><tr><td align=right>32</td><td align=center>2178309</td><td align=center>32</td><td align=center>7049155</td></tr><tr><td align=right>33</td><td align=center>3524578</td><td align=center>33</td><td align=center>11405773</td></tr><tr><td align=right>34</td><td align=center>5702887</td><td align=center>34</td><td align=center>18454929</td></tr><tr><td align=right>35</td><td align=center>9227465</td><td align=center>35</td><td align=center>29860703</td></tr><tr><td align=right>36</td><td align=center>14930352</td><td align=center>36</td><td align=center>48315633</td></tr><tr><td align=right>37</td><td align=center>24157817</td><td align=center>37</td><td align=center>78176337</td></tr><tr><td align=right>38</td><td align=center>39088169</td><td align=center>38</td><td align=center>126491971</td></tr><tr><td align=right>39</td><td align=center>63245986</td><td align=center>39</td><td align=center>204668309</td></tr><tr><td align=right>40</td><td align=center>102334155</td><td align=center>40</td><td align=center>331160281</td></tr><tr><td align=right>41</td><td align=center>165580141</td><td align=center>41</td><td align=center>535828591</td></tr><tr><td align=right>42</td><td align=center>267914296</td><td align=center>42</td><td align=center>866988873</td></tr><tr><td align=right>43</td><td align=center>433494437</td><td align=center>43</td><td align=center>1402817465</td></tr><tr><td align=right>44</td><td align=center>701408733</td><td align=center>44</td><td align=center>2269806339</td></tr><tr><td align=right>45</td><td align=center>1134903170</td><td align=center>45</td><td align=center>3672623805</td></tr></tbody></table><p><img src=../../post/fibonacci_iterative-recursive.png alt><br>As the Fibonacci sequence gets larger, the number of iterative operations increase constantly, whilst the number ofrecursive operations increase exponentially.. that&rsquo;s bad..<br><em>Well, <code>ops(n) = ops(n-1) + ops(n-2) + 1</code><br>So the 46th Fibonacci number will take <code>2269806339 + 3672623805 + 1 =</code><s><code>5942430145</code></s><code>alot</code> of operations</em></p><p>So, the iterative approach is clearly the better algorithm for Fibonacci numbers..</p><h1 id=optimisation-multiple-calls>Optimisation - Multiple Calls</h1><p>If we need to get several Fibonacci numbers, it might be worthwhile to cache all of the results.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=cp>#include</span> <span class=cpf>&lt;stdlib.h&gt;</span><span class=cp>
+</span><span class=cp></span>
+<span class=k>struct</span> <span class=n>fibonacci</span> <span class=p>{</span>
+  <span class=kt>unsigned</span> <span class=kt>long</span> <span class=kt>int</span> <span class=n>size</span><span class=p>;</span>
+  <span class=kt>unsigned</span> <span class=kt>long</span> <span class=kt>int</span> <span class=o>*</span><span class=n>items</span><span class=p>;</span>
+<span class=p>};</span>
+
+<span class=k>struct</span> <span class=n>fibonacci</span> <span class=n>fibonacci</span> <span class=o>=</span> <span class=p>{</span>
+  <span class=p>.</span><span class=n>size</span> <span class=o>=</span> <span class=mi>0</span><span class=p>,</span>
+  <span class=p>.</span><span class=n>items</span> <span class=o>=</span> <span class=nb>NULL</span>
+<span class=p>};</span>
+
+<span class=kt>unsigned</span> <span class=kt>long</span> <span class=kt>int</span> <span class=nf>ulint_max</span><span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span> <span class=kt>int</span> <span class=n>a</span><span class=p>,</span> <span class=kt>unsigned</span> <span class=kt>long</span> <span class=kt>int</span> <span class=n>b</span><span class=p>)</span> <span class=p>{</span>
+  <span class=k>return</span> <span class=n>a</span> <span class=o>&gt;</span> <span class=n>b</span> <span class=o>?</span> <span class=nl>a</span> <span class=p>:</span> <span class=n>b</span><span class=p>;</span>
+<span class=p>}</span>
+
+<span class=kt>unsigned</span> <span class=kt>long</span> <span class=kt>int</span> <span class=nf>fib</span><span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span> <span class=kt>int</span> <span class=n>n</span><span class=p>)</span> <span class=p>{</span>
+  <span class=k>if</span> <span class=p>(</span><span class=n>n</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+  <span class=p>}</span>
+
+  <span class=k>if</span> <span class=p>(</span><span class=n>n</span> <span class=o>&gt;</span> <span class=n>fibonacci</span><span class=p>.</span><span class=n>size</span><span class=p>)</span> <span class=p>{</span>
+    <span class=kt>int</span> <span class=n>init</span> <span class=o>=</span> <span class=n>fibonacci</span><span class=p>.</span><span class=n>items</span> <span class=o>==</span> <span class=nb>NULL</span><span class=p>;</span>
+
+    <span class=kt>unsigned</span> <span class=kt>long</span> <span class=kt>int</span> <span class=n>oldSize</span> <span class=o>=</span> <span class=n>ulint_max</span><span class=p>(</span><span class=n>fibonacci</span><span class=p>.</span><span class=n>size</span><span class=p>,</span> <span class=mi>2</span><span class=p>);</span>
+
+    <span class=n>fibonacci</span><span class=p>.</span><span class=n>items</span> <span class=o>=</span> <span class=n>realloc</span><span class=p>(</span><span class=n>fibonacci</span><span class=p>.</span><span class=n>items</span><span class=p>,</span> <span class=k>sizeof</span><span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span> <span class=kt>int</span><span class=p>)</span> <span class=o>*</span> <span class=n>ulint_max</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=mi>2</span><span class=p>));</span>
+
+    <span class=k>if</span> <span class=p>(</span><span class=n>init</span><span class=p>)</span> <span class=p>{</span>
+      <span class=n>fibonacci</span><span class=p>.</span><span class=n>items</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+      <span class=n>fibonacci</span><span class=p>.</span><span class=n>items</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+      <span class=n>fibonacci</span><span class=p>.</span><span class=n>size</span> <span class=o>=</span> <span class=mi>2</span><span class=p>;</span>
+    <span class=p>}</span>
+
+    <span class=k>for</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>long</span> <span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=n>oldSize</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=n>n</span><span class=p>;</span> <span class=n>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+      <span class=n>fibonacci</span><span class=p>.</span><span class=n>items</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=n>fibonacci</span><span class=p>.</span><span class=n>items</span><span class=p>[</span><span class=n>i</span> <span class=o>-</span> <span class=mi>1</span><span class=p>]</span> <span class=o>+</span> <span class=n>fibonacci</span><span class=p>.</span><span class=n>items</span><span class=p>[</span><span class=n>i</span> <span class=o>-</span> <span class=mi>2</span><span class=p>];</span>
+    <span class=p>}</span>
+
+    <span class=n>fibonacci</span><span class=p>.</span><span class=n>size</span> <span class=o>=</span> <span class=n>n</span><span class=p>;</span>
+  <span class=p>}</span>
+
+  <span class=k>return</span> <span class=n>fibonacci</span><span class=p>.</span><span class=n>items</span><span class=p>[</span><span class=n>n</span> <span class=o>-</span> <span class=mi>1</span><span class=p>];</span>
+<span class=p>}</span>
+
+<span class=o>//</span> <span class=n>Don</span><span class=err>&#39;</span><span class=n>t</span> <span class=n>forget</span> <span class=n>to</span> <span class=n>call</span> <span class=err>`</span><span class=n>free</span><span class=p>(</span><span class=n>fibonacci</span><span class=p>.</span><span class=n>items</span><span class=p>);</span><span class=err>`</span></code></pre></td></tr></table></div></div><h2 id=generating-100000-fibonacci-numbers>Generating 100000 Fibonacci numbers&hellip;</h2><p>With the caching approach, we get incredibly fast times!</p><table><thead><tr><th align=center>type</th><th align=center>time</th></tr></thead><tbody><tr><td align=center>real</td><td align=center>0m0.006s</td></tr><tr><td align=center>user</td><td align=center>0m0.006s</td></tr><tr><td align=center>sys</td><td align=center>0m0.000s</td></tr></tbody></table><p>As opposed to the standard iterative (non-caching) approach</p><table><thead><tr><th align=center>type</th><th align=center>time</th></tr></thead><tbody><tr><td align=center>real</td><td align=center>0m7.464s</td></tr><tr><td align=center>user</td><td align=center>0m7.454s</td></tr><tr><td align=center>sys</td><td align=center>0m0.000s</td></tr></tbody></table><p>As for the recursive approach, <strong>we get no way close the performance of the iterative approaches</strong>&hellip;<br>Generating <em>just</em> 50 Fibonacci numbers (<strong>0.05%</strong>) takes forever.</p><table><thead><tr><th align=center>type</th><th align=center>time</th></tr></thead><tbody><tr><td align=center>real</td><td align=center>6m39.595s</td></tr><tr><td align=center>user</td><td align=center>6m38.480s</td></tr><tr><td align=center>sys</td><td align=center>0m00.001s</td></tr></tbody></table><p>So, yes - the iterative approach is <u>MUCH</u> better.<br>Although we do use way more memory - these days, it&rsquo;s not that bad&hellip;</p><blockquote><p>&hellip; as long as it&rsquo;s not a memory leak.</p></blockquote></div><footer class=post-footer><nav class=post-nav><a class=prev href=../../post/binary-heaps/><i class="iconfont icon-left"></i><span class="prev-text nav-default">Binary Heaps</span>
+<span class="prev-text nav-mobile">Prev</span></a>
+<a class=next href=../../post/lec04/><span class="next-text nav-default">Lecture 4 - Applications of Recursion</span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article><script>(function(f,a,t,h,o,m){a[h]=a[h]||function(){(a[h].q=a[h].q||[]).push(arguments)};o=f.createElement('script'),m=f.getElementsByTagName('script')[0];o.async=1;o.src=t;o.id='fathom-script';m.parentNode.insertBefore(o,m)})(document,window,'//ss.featherbear.cc/tracker.js','fathom');fathom('set','siteId','NEQTU');fathom('trackPageview');</script></div></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:z5206677@student.unsw.edu.au class="iconfont icon-email" title=email></a><a href=https://www.linkedin.com/in/andrewjinmengwong/ class="iconfont icon-linkedin" title=linkedin></a><a href=https://github.com/featherbear class="iconfont icon-github" title=github></a><a href=https://www.instagram.com/_andrewjwong/ class="iconfont icon-instagram" title=instagram></a><a href=../../index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2018 -
+2021
+<span class=heart><i class="iconfont icon-heart"></i></span><span class=author>Andrew Wong (z5206677)</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=../../dist/even.ece58db6.min.js></script></body></html>

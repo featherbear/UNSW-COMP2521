@@ -1,578 +1,231 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Tutorial One - COMP2521 Summer Fun</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Tutorial One - COMP2521 Summer Fun</title><meta name=renderer content=webkit><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content=no-transform><meta http-equiv=cache-control content=no-siteapp><meta name=theme-color content=#f8f5ec><meta name=msapplication-navbutton-color content=#f8f5ec><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=#f8f5ec><meta name=author content=z5206677><meta name=description content="this is my name"><meta name=keywords content=Hugo,theme,even><meta name=generator content="Hugo 0.52 with even 4.0.0"><link rel=canonical href=../../post/tut01/><link rel=apple-touch-icon sizes=180x180 href=../../apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=../../favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=../../favicon-16x16.png><link rel=manifest href=../../manifest.json><link rel=mask-icon href=../../safari-pinned-tab.svg color=#5bbad5><link href=../../dist/even.93844dae.min.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property=og:title content="Tutorial One"><meta property=og:description content="this is my name"><meta property=og:type content=article><meta property=og:url content=/post/tut01/><meta property=article:published_time content=2018-11-27T17:05:45&#43;11:00><meta property=article:modified_time content=2018-11-27T17:05:45&#43;11:00><meta itemprop=name content="Tutorial One"><meta itemprop=description content="this is my name"><meta itemprop=datePublished content=2018-11-27T17:05:45&#43;11:00><meta itemprop=dateModified content=2018-11-27T17:05:45&#43;11:00><meta itemprop=wordCount content=703><meta itemprop=keywords content><meta name=twitter:card content=summary><meta name=twitter:title content="Tutorial One"><meta name=twitter:description content="this is my name"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=../../ class=logo>COMP2521 Musings</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=../../><li class=mobile-menu-item>Home</li></a><a href=https://github.com/featherbear/UNSW-COMP2521><li class=mobile-menu-item>GitHub</li></a><a href=../../categories/><li class=mobile-menu-item>Categories</li></a><a href=../../almanac.html><li class=mobile-menu-item>Algos</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=../../ class=logo>COMP2521 Musings</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=../../>Home</a></li><li class=menu-item><a class=menu-item-link href=https://github.com/featherbear/UNSW-COMP2521>GitHub</a></li><li class=menu-item><a class=menu-item-link href=../../categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=../../almanac.html>Algos</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>Tutorial One</h1><div class=post-meta><span class=post-time>2018-11-27</span><div class=post-category><a href=../../categories/tutorial-/-labs/>Tutorial / Labs</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><a href=#duplicating-cloning-a-linked-list>Duplicating / cloning a linked list</a></li><li><a href=#reversing-a-linked-list>Reversing a linked list</a></li><li><a href=#double-linked-list>Double linked list</a></li><li><a href=#switch-statements>Switch statements</a><ul><li><a href=#the-break-statement-execution-fall-through>The <code>break</code> statement; execution fall-through</a></li><li><a href=#return-functions-only><code>return</code> (functions only)</a></li><li><a href=#switch-vs-if-else>switch vs if/else</a><ul><li><a href=#using-switch>Using switch</a></li><li><a href=#using-if-else>Using if else</a></li></ul></li></ul></li><li><a href=#ternary-operator>Ternary operator</a></li></ul></nav></div></div><div class=post-content><blockquote><p>this is my name<br>this is my email<br>this is my face<br>this is my intro</p></blockquote><p>Stealing this thanks Gal ~</p><hr><p>This tut/lab focused on revising linked lists, circular linked lists and double linked lists.</p><hr><h1 id=duplicating-cloning-a-linked-list>Duplicating / cloning a linked list</h1><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=c1>// Creates a new node, initialised with the item provided.
+</span><span class=c1>// Returns pointer to node (link).
+</span><span class=c1></span><span class=n>link</span> <span class=nf>node_new</span> <span class=p>(</span><span class=n>Item</span> <span class=n>item</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=n>link</span> <span class=n>n</span> <span class=o>=</span> <span class=n>malloc</span> <span class=p>(</span><span class=k>sizeof</span> <span class=p>(</span><span class=o>*</span><span class=n>n</span><span class=p>));</span>
+    <span class=k>if</span> <span class=p>(</span><span class=n>n</span> <span class=o>==</span> <span class=nb>NULL</span><span class=p>)</span>
+        <span class=n>err</span> <span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=s>&#34;couldn&#39;t allocate&#34;</span><span class=p>);</span>
+    <span class=n>n</span><span class=o>-&gt;</span><span class=n>item</span> <span class=o>=</span> <span class=n>item</span><span class=p>;</span>
+    <span class=n>n</span><span class=o>-&gt;</span><span class=n>next</span> <span class=o>=</span> <span class=nb>NULL</span><span class=p>;</span>
+    <span class=k>return</span> <span class=n>n</span><span class=p>;</span>
+<span class=p>}</span>
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
-
-
-<meta name="author" content="z5206677" /><meta name="description" content="this is my name" /><meta name="keywords" content="Hugo, theme, even" />
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.52 with even 4.0.0" />
-
-
-<link rel="canonical" href="../../post/tut01/" />
-<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
-<link rel="manifest" href="../../manifest.json">
-<link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
-
-
-<link href="../../dist/even.93844dae.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="Tutorial One" />
-<meta property="og:description" content="this is my name" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="/post/tut01/" /><meta property="article:published_time" content="2018-11-27T17:05:45&#43;11:00"/>
-<meta property="article:modified_time" content="2018-11-27T17:05:45&#43;11:00"/>
-
-<meta itemprop="name" content="Tutorial One">
-<meta itemprop="description" content="this is my name">
-
-
-<meta itemprop="datePublished" content="2018-11-27T17:05:45&#43;11:00" />
-<meta itemprop="dateModified" content="2018-11-27T17:05:45&#43;11:00" />
-<meta itemprop="wordCount" content="703">
-
-
-
-<meta itemprop="keywords" content="" />
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Tutorial One"/>
-<meta name="twitter:description" content="this is my name"/>
-
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
-
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
-
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="../../" class="logo">COMP2521 Musings</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="../../">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="https://github.com/featherbear/UNSW-COMP2521">
-        <li class="mobile-menu-item">GitHub</li>
-      </a><a href="../../categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a><a href="../../almanac.html">
-        <li class="mobile-menu-item">Algos</li>
-      </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="../../" class="logo">COMP2521 Musings</a>
-</div>
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="../../">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="https://github.com/featherbear/UNSW-COMP2521">GitHub</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="../../categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="../../almanac.html">Algos</a>
-      </li>
-  </ul>
-</nav>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
-    
-    <header class="post-header">
-      <h1 class="post-title">Tutorial One</h1>
-
-      <div class="post-meta">
-        <span class="post-time"> 2018-11-27 </span>
-        <div class="post-category">
-            <a href="../../categories/tutorial-/-labs/"> Tutorial / Labs </a>
-            </div>
-        
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content always-active">
-    <nav id="TableOfContents">
-<ul>
-<li><a href="#duplicating-cloning-a-linked-list">Duplicating / cloning a linked list</a></li>
-<li><a href="#reversing-a-linked-list">Reversing a linked list</a></li>
-<li><a href="#double-linked-list">Double linked list</a></li>
-<li><a href="#switch-statements">Switch statements</a>
-<ul>
-<li><a href="#the-break-statement-execution-fall-through">The <code>break</code> statement; execution fall-through</a></li>
-<li><a href="#return-functions-only"><code>return</code> (functions only)</a></li>
-<li><a href="#switch-vs-if-else">switch vs if/else</a>
-<ul>
-<li><a href="#using-switch">Using switch</a></li>
-<li><a href="#using-if-else">Using if else</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#ternary-operator">Ternary operator</a></li>
-</ul>
-</nav>
-  </div>
-</div>
-    <div class="post-content">
-      
-
-<blockquote>
-<p>this is my name<br />
-this is my email<br />
-this is my face<br />
-this is my intro</p>
-</blockquote>
-
-<p>Stealing this thanks Gal ~</p>
-
-<hr />
-
-<p>This tut/lab focused on revising linked lists, circular linked lists and double linked lists.</p>
-
-<hr />
-
-<h1 id="duplicating-cloning-a-linked-list">Duplicating / cloning a linked list</h1>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="c1">// Creates a new node, initialised with the item provided.
-</span><span class="c1">// Returns pointer to node (link).
-</span><span class="c1"></span><span class="n">link</span> <span class="nf">node_new</span> <span class="p">(</span><span class="n">Item</span> <span class="n">item</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">link</span> <span class="n">n</span> <span class="o">=</span> <span class="n">malloc</span> <span class="p">(</span><span class="k">sizeof</span> <span class="p">(</span><span class="o">*</span><span class="n">n</span><span class="p">));</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
-        <span class="n">err</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#34;couldn&#39;t allocate&#34;</span><span class="p">);</span>
-    <span class="n">n</span><span class="o">-&gt;</span><span class="n">item</span> <span class="o">=</span> <span class="n">item</span><span class="p">;</span>
-    <span class="n">n</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-    <span class="k">return</span> <span class="n">n</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="c1">// Insert a new node into a given non-empty list.
-</span><span class="c1">// The node is inserted directly after the head of the list ls.
-</span><span class="c1"></span><span class="kt">void</span> <span class="nf">list_insert_next</span> <span class="p">(</span><span class="n">link</span> <span class="n">ls</span><span class="p">,</span> <span class="n">link</span> <span class="n">node</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">assert</span> <span class="p">(</span><span class="n">ls</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
-    <span class="n">assert</span> <span class="p">(</span><span class="n">node</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">);</span>
-    <span class="n">node</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">ls</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
-    <span class="n">ls</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">node</span><span class="p">;</span>
-<span class="p">}</span>
+<span class=c1>// Insert a new node into a given non-empty list.
+</span><span class=c1>// The node is inserted directly after the head of the list ls.
+</span><span class=c1></span><span class=kt>void</span> <span class=nf>list_insert_next</span> <span class=p>(</span><span class=n>link</span> <span class=n>ls</span><span class=p>,</span> <span class=n>link</span> <span class=n>node</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=n>assert</span> <span class=p>(</span><span class=n>ls</span> <span class=o>!=</span> <span class=nb>NULL</span><span class=p>);</span>
+    <span class=n>assert</span> <span class=p>(</span><span class=n>node</span> <span class=o>!=</span> <span class=nb>NULL</span><span class=p>);</span>
+    <span class=n>node</span><span class=o>-&gt;</span><span class=n>next</span> <span class=o>=</span> <span class=n>ls</span><span class=o>-&gt;</span><span class=n>next</span><span class=p>;</span>
+    <span class=n>ls</span><span class=o>-&gt;</span><span class=n>next</span> <span class=o>=</span> <span class=n>node</span><span class=p>;</span>
+<span class=p>}</span>
 
 
-<span class="cm">/* ... */</span>
+<span class=cm>/* ... */</span>
 
-<span class="n">link</span> <span class="nf">duplicateList</span><span class="p">(</span><span class="n">link</span> <span class="n">ls</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// if given an empty list, return NULL
-</span><span class="c1"></span>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">ls</span><span class="p">)</span> <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class=n>link</span> <span class=nf>duplicateList</span><span class=p>(</span><span class=n>link</span> <span class=n>ls</span><span class=p>)</span> <span class=p>{</span>
+  <span class=c1>// if given an empty list, return NULL
+</span><span class=c1></span>  <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>ls</span><span class=p>)</span> <span class=k>return</span> <span class=nb>NULL</span><span class=p>;</span>
 
-  <span class="c1">// Create a new node with the item of the frst item
-</span><span class="c1"></span>  <span class="n">link</span> <span class="n">head</span> <span class="o">=</span> <span class="n">node_new</span><span class="p">(</span><span class="n">ls</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">);</span>
+  <span class=c1>// Create a new node with the item of the frst item
+</span><span class=c1></span>  <span class=n>link</span> <span class=n>head</span> <span class=o>=</span> <span class=n>node_new</span><span class=p>(</span><span class=n>ls</span><span class=o>-&gt;</span><span class=n>item</span><span class=p>);</span>
   
-  <span class="c1">// Set pointer to the last element of the new list
-</span><span class="c1"></span>  <span class="n">link</span> <span class="n">ptr</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+  <span class=c1>// Set pointer to the last element of the new list
+</span><span class=c1></span>  <span class=n>link</span> <span class=n>ptr</span> <span class=o>=</span> <span class=n>head</span><span class=p>;</span>
 
-  <span class="c1">// Set a pointer to the next element of the original list
-</span><span class="c1"></span>  <span class="n">link</span> <span class="n">cursor</span> <span class="o">=</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+  <span class=c1>// Set a pointer to the next element of the original list
+</span><span class=c1></span>  <span class=n>link</span> <span class=n>cursor</span> <span class=o>=</span> <span class=n>head</span><span class=o>-&gt;</span><span class=n>next</span><span class=p>;</span>
 
-  <span class="c1">// Move through the list and clone the items
-</span><span class="c1"></span>  <span class="k">while</span> <span class="p">(</span><span class="n">cursor</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">list_insert_next</span><span class="p">(</span><span class="n">node_new</span><span class="p">(</span><span class="n">cursor</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">),</span> <span class="n">ptr</span><span class="p">)</span>  
-    <span class="n">ptr</span> <span class="o">=</span> <span class="n">ptr</span> <span class="o">-&gt;</span> <span class="n">next</span><span class="p">;</span>
-    <span class="n">cursor</span> <span class="o">=</span> <span class="n">cursor</span> <span class="o">-&gt;</span> <span class="n">next</span><span class="p">;</span>
-  <span class="p">}</span>
+  <span class=c1>// Move through the list and clone the items
+</span><span class=c1></span>  <span class=k>while</span> <span class=p>(</span><span class=n>cursor</span><span class=p>)</span> <span class=p>{</span>
+    <span class=n>list_insert_next</span><span class=p>(</span><span class=n>node_new</span><span class=p>(</span><span class=n>cursor</span><span class=o>-&gt;</span><span class=n>item</span><span class=p>),</span> <span class=n>ptr</span><span class=p>)</span>  
+    <span class=n>ptr</span> <span class=o>=</span> <span class=n>ptr</span> <span class=o>-&gt;</span> <span class=n>next</span><span class=p>;</span>
+    <span class=n>cursor</span> <span class=o>=</span> <span class=n>cursor</span> <span class=o>-&gt;</span> <span class=n>next</span><span class=p>;</span>
+  <span class=p>}</span>
 
-  <span class="k">return</span> <span class="n">head</span><span class="p">;</span>
-<span class="p">}</span></code></pre></td></tr></table>
-</div>
-</div>
-<h1 id="reversing-a-linked-list">Reversing a linked list</h1>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">int</span> <span class="nf">main</span> <span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
-<span class="p">{</span>
-    <span class="n">link</span> <span class="n">ls</span> <span class="o">=</span> <span class="n">list_from_cstr</span> <span class="p">(</span><span class="s">&#34;hello world!&#34;</span><span class="p">);</span>
-    <span class="n">link</span> <span class="n">ls2</span> <span class="o">=</span> <span class="n">list_duplicate</span> <span class="p">(</span><span class="n">ls</span><span class="p">);</span>
+  <span class=k>return</span> <span class=n>head</span><span class=p>;</span>
+<span class=p>}</span></code></pre></td></tr></table></div></div><h1 id=reversing-a-linked-list>Reversing a linked list</h1><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=kt>int</span> <span class=nf>main</span> <span class=p>(</span><span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=kt>char</span> <span class=o>*</span><span class=n>argv</span><span class=p>[])</span>
+<span class=p>{</span>
+    <span class=n>link</span> <span class=n>ls</span> <span class=o>=</span> <span class=n>list_from_cstr</span> <span class=p>(</span><span class=s>&#34;hello world!&#34;</span><span class=p>);</span>
+    <span class=n>link</span> <span class=n>ls2</span> <span class=o>=</span> <span class=n>list_duplicate</span> <span class=p>(</span><span class=n>ls</span><span class=p>);</span>
 
-    <span class="n">list_print</span> <span class="p">(</span><span class="n">ls</span><span class="p">);</span>
-    <span class="n">list_print</span> <span class="p">(</span><span class="n">ls2</span><span class="p">);</span>
-    <span class="n">list_print</span> <span class="p">(</span><span class="n">list_reverse</span> <span class="p">(</span><span class="n">ls</span><span class="p">));</span>
-    <span class="n">list_print</span> <span class="p">(</span><span class="n">ls</span><span class="p">);</span>
-    <span class="n">list_print</span> <span class="p">(</span><span class="n">ls2</span><span class="p">);</span>
+    <span class=n>list_print</span> <span class=p>(</span><span class=n>ls</span><span class=p>);</span>
+    <span class=n>list_print</span> <span class=p>(</span><span class=n>ls2</span><span class=p>);</span>
+    <span class=n>list_print</span> <span class=p>(</span><span class=n>list_reverse</span> <span class=p>(</span><span class=n>ls</span><span class=p>));</span>
+    <span class=n>list_print</span> <span class=p>(</span><span class=n>ls</span><span class=p>);</span>
+    <span class=n>list_print</span> <span class=p>(</span><span class=n>ls2</span><span class=p>);</span>
 
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span></code></pre></td></tr></table>
-</div>
-</div>
-<p>hello world!<br />
-hello world!<br />
-!dlrow elloh<br />
-h             &lt;&ndash; ls1 still points to the h node
-hello world!</p>
+    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+<span class=p>}</span></code></pre></td></tr></table></div></div><p>hello world!<br>hello world!<br>!dlrow elloh<br>h &lt;&ndash; ls1 still points to the h node
+hello world!</p><h1 id=double-linked-list>Double linked list</h1><p><em>e.g linked lists with <code>next</code> and <code>prev</code></em></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=k>typedef</span> <span class=kt>char</span> <span class=n>Item</span><span class=p>;</span>
+<span class=k>typedef</span> <span class=k>struct</span> <span class=n>dnode</span> <span class=o>*</span><span class=n>dlink</span><span class=p>;</span>
 
-<h1 id="double-linked-list">Double linked list</h1>
+<span class=k>struct</span> <span class=n>dnode</span> <span class=p>{</span>
+    <span class=n>Item</span> <span class=n>item</span><span class=p>;</span>
+    <span class=n>dlink</span> <span class=n>prev</span><span class=p>,</span> <span class=n>next</span><span class=p>;</span>
+<span class=p>};</span></code></pre></td></tr></table></div></div><blockquote><p>Write a function append which attaches the list list2 at the end of list1 and returns the resulting list.</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=n>dlink</span> <span class=nf>append</span> <span class=p>(</span><span class=n>dlink</span> <span class=n>list1</span><span class=p>,</span> <span class=n>dlink</span> <span class=n>list2</span><span class=p>)</span> <span class=p>{</span>
+  <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>list1</span><span class=p>)</span> <span class=k>return</span> <span class=n>list2</span><span class=p>;</span>
+  <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>list2</span><span class=p>)</span> <span class=k>return</span> <span class=n>list1</span><span class=p>;</span>
 
-<p><em>e.g linked lists with <code>next</code> and <code>prev</code></em></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">typedef</span> <span class="kt">char</span> <span class="n">Item</span><span class="p">;</span>
-<span class="k">typedef</span> <span class="k">struct</span> <span class="n">dnode</span> <span class="o">*</span><span class="n">dlink</span><span class="p">;</span>
+  <span class=n>dlink</span> <span class=n>last</span> <span class=o>=</span> <span class=n>list1</span><span class=p>;</span>
+  <span class=k>for</span><span class=p>(;</span> <span class=n>last</span><span class=o>-&gt;</span><span class=n>next</span><span class=p>;</span> <span class=n>last</span><span class=o>=</span><span class=n>last</span><span class=o>-&gt;</span><span class=n>next</span><span class=p>);</span> <span class=c1>// while (last-&gt;next) last = last-&gt;next;
+</span><span class=c1></span>  
+  <span class=n>last</span><span class=o>-&gt;</span><span class=n>next</span> <span class=o>=</span> <span class=n>list2</span><span class=p>;</span>
+  <span class=n>list2</span><span class=o>-&gt;</span><span class=n>prev</span> <span class=o>=</span> <span class=n>last</span><span class=p>;</span>
 
-<span class="k">struct</span> <span class="n">dnode</span> <span class="p">{</span>
-    <span class="n">Item</span> <span class="n">item</span><span class="p">;</span>
-    <span class="n">dlink</span> <span class="n">prev</span><span class="p">,</span> <span class="n">next</span><span class="p">;</span>
-<span class="p">};</span></code></pre></td></tr></table>
-</div>
-</div>
-<blockquote>
-<p>Write a function append which attaches the list list2 at the end of list1 and returns the resulting list.</p>
-</blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">dlink</span> <span class="nf">append</span> <span class="p">(</span><span class="n">dlink</span> <span class="n">list1</span><span class="p">,</span> <span class="n">dlink</span> <span class="n">list2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">list1</span><span class="p">)</span> <span class="k">return</span> <span class="n">list2</span><span class="p">;</span>
-  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">list2</span><span class="p">)</span> <span class="k">return</span> <span class="n">list1</span><span class="p">;</span>
-
-  <span class="n">dlink</span> <span class="n">last</span> <span class="o">=</span> <span class="n">list1</span><span class="p">;</span>
-  <span class="k">for</span><span class="p">(;</span> <span class="n">last</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span> <span class="n">last</span><span class="o">=</span><span class="n">last</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">);</span> <span class="c1">// while (last-&gt;next) last = last-&gt;next;
-</span><span class="c1"></span>  
-  <span class="n">last</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">list2</span><span class="p">;</span>
-  <span class="n">list2</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">last</span><span class="p">;</span>
-
-  <span class="k">return</span> <span class="n">list1</span><span class="p">;</span>
-<span class="p">}</span></code></pre></td></tr></table>
-</div>
-</div>
-<blockquote>
-<p>Is it necessary to return the resulting list?<br />
-Could we instead get away with the following interface?<br />
-<code>void append (dlink list1, dlink list2);</code></p>
-</blockquote>
-
-<p>&ndash; We could.</p>
-
-<hr />
-
-<h1 id="switch-statements">Switch statements</h1>
-
-<p>switch (variable) {&hellip;}<br />
-&ndash;&gt; if A else if B else if C else if D else &hellip;</p>
-
-<h2 id="the-break-statement-execution-fall-through">The <code>break</code> statement; execution fall-through</h2>
-
-<p><code>break</code> exits a switch statement.</p>
-
-<p>If it is not present, the execution can continue into other statements.<br />
-This could be beneficial in some cases</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">speed</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
-<span class="k">switch</span> <span class="p">(</span><span class="n">speed</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">case</span> <span class="mi">200</span><span class="o">:</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;You&#39;re going REALLY REALLY fast</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">)</span>
-  <span class="k">case</span> <span class="mi">150</span><span class="o">:</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;You&#39;re going REALLY fast</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">)</span>
-  <span class="k">case</span> <span class="mi">100</span><span class="o">:</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;On your green Ps?</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">)</span>
-  <span class="k">case</span> <span class="mi">90</span><span class="o">:</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Hah learner&#39;s license</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">)</span>
-  <span class="k">case</span> <span class="mi">40</span><span class="o">:</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;ScHoOl ZoNe SpEeD</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">)</span>
-<span class="p">}</span></code></pre></td></tr></table>
-</div>
-</div>
-<p><code>You're going REALLY REALLY fast</code><br />
-<code>You're going REALLY fast</code><br />
-<code>On your green Ps?</code><br />
-<code>Hah learner's license</code><br />
-<code>ScHoOl ZoNe SpEeD</code></p>
-
-<h2 id="return-functions-only"><code>return</code> (functions only)</h2>
-
-<p>We can use a <code>return</code> statement in place of a break if our switch statement is the only code in a function</p>
-
-<h2 id="switch-vs-if-else">switch vs if/else</h2>
-
-<h3 id="using-switch">Using switch</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">assert</span> <span class="p">(</span><span class="n">islower</span> <span class="p">(</span><span class="n">ch</span><span class="p">));</span>
-<span class="k">switch</span> <span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="p">{</span>
-<span class="k">case</span> <span class="sc">&#39;a&#39;</span><span class="o">:</span>
-<span class="k">case</span> <span class="sc">&#39;e&#39;</span><span class="o">:</span>
-<span class="k">case</span> <span class="sc">&#39;i&#39;</span><span class="o">:</span>
-<span class="k">case</span> <span class="sc">&#39;o&#39;</span><span class="o">:</span>
-<span class="k">case</span> <span class="sc">&#39;u&#39;</span><span class="o">:</span>
-    <span class="n">printf</span> <span class="p">(</span><span class="s">&#34;vowel&#34;</span><span class="p">);</span>
-    <span class="k">break</span><span class="p">;</span>
-<span class="k">default</span><span class="o">:</span>
-    <span class="n">printf</span> <span class="p">(</span><span class="s">&#34;consonant&#34;</span><span class="p">);</span>
-    <span class="k">break</span><span class="p">;</span>
-<span class="p">}</span></code></pre></td></tr></table>
-</div>
-</div>
-<h3 id="using-if-else">Using if else</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="n">assert</span> <span class="p">(</span><span class="n">islower</span> <span class="p">(</span><span class="n">ch</span><span class="p">));</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">ch</span> <span class="o">==</span> <span class="sc">&#39;a&#39;</span> <span class="o">||</span> <span class="n">ch</span> <span class="o">==</span> <span class="sc">&#39;e&#39;</span> <span class="o">||</span> <span class="n">ch</span> <span class="o">==</span> <span class="sc">&#39;i&#39;</span> <span class="o">||</span> <span class="n">ch</span> <span class="o">==</span> <span class="sc">&#39;o&#39;</span> <span class="o">||</span> <span class="n">ch</span> <span class="o">==</span> <span class="sc">&#39;u&#39;</span><span class="p">)</span> <span class="n">printf</span><span class="p">(</span><span class="s">&#34;vowel&#34;</span><span class="p">);</span>
-<span class="k">else</span> <span class="nf">printf</span> <span class="p">(</span><span class="s">&#34;consonant&#34;</span><span class="p">);</span></code></pre></td></tr></table>
-</div>
-</div>
-<h1 id="ternary-operator">Ternary operator</h1>
-
-<blockquote>
-<p><code>condition ? valueIfTrue : valueIfFalse</code></p>
-</blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">if</span> <span class="p">(</span><span class="n">condition</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="n">valueIfTrue</span><span class="p">;</span>
-<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="n">valieIfFalse</span><span class="p">;</span>
-<span class="p">}</span></code></pre></td></tr></table>
-</div>
-</div>
-    </div>
-
-    <footer class="post-footer">
-      
-      <nav class="post-nav">
-        <a class="prev" href="../../post/lec01/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Lecture 1</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="../../post/lec02/">
-            <span class="next-text nav-default">Lecture 2 - Abstraction</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
-        </div>
-        
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:z5206677@student.unsw.edu.au" class="iconfont icon-email" title="email"></a>
-      <a href="https://www.linkedin.com/in/andrewjinmengwong/" class="iconfont icon-linkedin" title="linkedin"></a>
-      <a href="https://github.com/featherbear" class="iconfont icon-github" title="github"></a>
-      <a href="https://www.instagram.com/_andrewjwong/" class="iconfont icon-instagram" title="instagram"></a>
-  <a href="../../index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  
-
-  <span class="copyright-year">
-    &copy; 
-    2018 - 
-    2019
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">Andrew Wong (z5206677)</span>
-  </span>
-</div>
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="../../dist/even.ece58db6.min.js"></script>
-
-
-
-
-
-
-
-
-</body>
-</html>
+  <span class=k>return</span> <span class=n>list1</span><span class=p>;</span>
+<span class=p>}</span></code></pre></td></tr></table></div></div><blockquote><p>Is it necessary to return the resulting list?<br>Could we instead get away with the following interface?<br><code>void append (dlink list1, dlink list2);</code></p></blockquote><p>&ndash; We could.</p><hr><h1 id=switch-statements>Switch statements</h1><p>switch (variable) {&hellip;}<br>&ndash;&gt; if A else if B else if C else if D else &hellip;</p><h2 id=the-break-statement-execution-fall-through>The <code>break</code> statement; execution fall-through</h2><p><code>break</code> exits a switch statement.</p><p>If it is not present, the execution can continue into other statements.<br>This could be beneficial in some cases</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=n>speed</span> <span class=o>=</span> <span class=mi>200</span><span class=p>;</span>
+<span class=k>switch</span> <span class=p>(</span><span class=n>speed</span><span class=p>)</span> <span class=p>{</span>
+  <span class=k>case</span> <span class=mi>200</span><span class=o>:</span>
+    <span class=n>printf</span><span class=p>(</span><span class=s>&#34;You&#39;re going REALLY REALLY fast</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>)</span>
+  <span class=k>case</span> <span class=mi>150</span><span class=o>:</span>
+    <span class=n>printf</span><span class=p>(</span><span class=s>&#34;You&#39;re going REALLY fast</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>)</span>
+  <span class=k>case</span> <span class=mi>100</span><span class=o>:</span>
+    <span class=n>printf</span><span class=p>(</span><span class=s>&#34;On your green Ps?</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>)</span>
+  <span class=k>case</span> <span class=mi>90</span><span class=o>:</span>
+    <span class=n>printf</span><span class=p>(</span><span class=s>&#34;Hah learner&#39;s license</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>)</span>
+  <span class=k>case</span> <span class=mi>40</span><span class=o>:</span>
+    <span class=n>printf</span><span class=p>(</span><span class=s>&#34;ScHoOl ZoNe SpEeD</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>)</span>
+<span class=p>}</span></code></pre></td></tr></table></div></div><p><code>You're going REALLY REALLY fast</code><br><code>You're going REALLY fast</code><br><code>On your green Ps?</code><br><code>Hah learner's license</code><br><code>ScHoOl ZoNe SpEeD</code></p><h2 id=return-functions-only><code>return</code> (functions only)</h2><p>We can use a <code>return</code> statement in place of a break if our switch statement is the only code in a function</p><h2 id=switch-vs-if-else>switch vs if/else</h2><h3 id=using-switch>Using switch</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=n>assert</span> <span class=p>(</span><span class=n>islower</span> <span class=p>(</span><span class=n>ch</span><span class=p>));</span>
+<span class=k>switch</span> <span class=p>(</span><span class=n>ch</span><span class=p>)</span> <span class=p>{</span>
+<span class=k>case</span> <span class=sc>&#39;a&#39;</span><span class=o>:</span>
+<span class=k>case</span> <span class=sc>&#39;e&#39;</span><span class=o>:</span>
+<span class=k>case</span> <span class=sc>&#39;i&#39;</span><span class=o>:</span>
+<span class=k>case</span> <span class=sc>&#39;o&#39;</span><span class=o>:</span>
+<span class=k>case</span> <span class=sc>&#39;u&#39;</span><span class=o>:</span>
+    <span class=n>printf</span> <span class=p>(</span><span class=s>&#34;vowel&#34;</span><span class=p>);</span>
+    <span class=k>break</span><span class=p>;</span>
+<span class=k>default</span><span class=o>:</span>
+    <span class=n>printf</span> <span class=p>(</span><span class=s>&#34;consonant&#34;</span><span class=p>);</span>
+    <span class=k>break</span><span class=p>;</span>
+<span class=p>}</span></code></pre></td></tr></table></div></div><h3 id=using-if-else>Using if else</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=n>assert</span> <span class=p>(</span><span class=n>islower</span> <span class=p>(</span><span class=n>ch</span><span class=p>));</span>
+<span class=k>if</span> <span class=p>(</span><span class=n>ch</span> <span class=o>==</span> <span class=sc>&#39;a&#39;</span> <span class=o>||</span> <span class=n>ch</span> <span class=o>==</span> <span class=sc>&#39;e&#39;</span> <span class=o>||</span> <span class=n>ch</span> <span class=o>==</span> <span class=sc>&#39;i&#39;</span> <span class=o>||</span> <span class=n>ch</span> <span class=o>==</span> <span class=sc>&#39;o&#39;</span> <span class=o>||</span> <span class=n>ch</span> <span class=o>==</span> <span class=sc>&#39;u&#39;</span><span class=p>)</span> <span class=n>printf</span><span class=p>(</span><span class=s>&#34;vowel&#34;</span><span class=p>);</span>
+<span class=k>else</span> <span class=nf>printf</span> <span class=p>(</span><span class=s>&#34;consonant&#34;</span><span class=p>);</span></code></pre></td></tr></table></div></div><h1 id=ternary-operator>Ternary operator</h1><blockquote><p><code>condition ? valueIfTrue : valueIfFalse</code></p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=k>if</span> <span class=p>(</span><span class=n>condition</span><span class=p>)</span> <span class=p>{</span>
+  <span class=k>return</span> <span class=n>valueIfTrue</span><span class=p>;</span>
+<span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+  <span class=k>return</span> <span class=n>valieIfFalse</span><span class=p>;</span>
+<span class=p>}</span></code></pre></td></tr></table></div></div></div><footer class=post-footer><nav class=post-nav><a class=prev href=../../post/lec01/><i class="iconfont icon-left"></i><span class="prev-text nav-default">Lecture 1</span>
+<span class="prev-text nav-mobile">Prev</span></a>
+<a class=next href=../../post/lec02/><span class="next-text nav-default">Lecture 2 - Abstraction</span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article><script>(function(f,a,t,h,o,m){a[h]=a[h]||function(){(a[h].q=a[h].q||[]).push(arguments)};o=f.createElement('script'),m=f.getElementsByTagName('script')[0];o.async=1;o.src=t;o.id='fathom-script';m.parentNode.insertBefore(o,m)})(document,window,'//ss.featherbear.cc/tracker.js','fathom');fathom('set','siteId','NEQTU');fathom('trackPageview');</script></div></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:z5206677@student.unsw.edu.au class="iconfont icon-email" title=email></a><a href=https://www.linkedin.com/in/andrewjinmengwong/ class="iconfont icon-linkedin" title=linkedin></a><a href=https://github.com/featherbear class="iconfont icon-github" title=github></a><a href=https://www.instagram.com/_andrewjwong/ class="iconfont icon-instagram" title=instagram></a><a href=../../index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2018 -
+2021
+<span class=heart><i class="iconfont icon-heart"></i></span><span class=author>Andrew Wong (z5206677)</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=../../dist/even.ece58db6.min.js></script></body></html>

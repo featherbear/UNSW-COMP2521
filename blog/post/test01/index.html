@@ -1,625 +1,313 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Class Exam 1 - COMP2521 Summer Fun</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Class Exam 1 - COMP2521 Summer Fun</title><meta name=renderer content=webkit><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content=no-transform><meta http-equiv=cache-control content=no-siteapp><meta name=theme-color content=#f8f5ec><meta name=msapplication-navbutton-color content=#f8f5ec><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-status-bar-style content=#f8f5ec><meta name=author content=z5206677><meta name=description content="Questions and solutions to the 19T0 first class exam"><meta name=keywords content=Hugo,theme,even><meta name=generator content="Hugo 0.52 with even 4.0.0"><link rel=canonical href=../../post/test01/><link rel=apple-touch-icon sizes=180x180 href=../../apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=../../favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=../../favicon-16x16.png><link rel=manifest href=../../manifest.json><link rel=mask-icon href=../../safari-pinned-tab.svg color=#5bbad5><link href=../../dist/even.93844dae.min.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property=og:title content="Class Exam 1"><meta property=og:description content="Questions and solutions to the 19T0 first class exam"><meta property=og:type content=article><meta property=og:url content=/post/test01/><meta property=article:published_time content=2019-01-10T12:00:00&#43;11:00><meta property=article:modified_time content=2019-01-10T12:00:00&#43;11:00><meta itemprop=name content="Class Exam 1"><meta itemprop=description content="Questions and solutions to the 19T0 first class exam"><meta itemprop=datePublished content=2019-01-10T12:00:00&#43;11:00><meta itemprop=dateModified content=2019-01-10T12:00:00&#43;11:00><meta itemprop=wordCount content=894><meta itemprop=keywords content><meta name=twitter:card content=summary><meta name=twitter:title content="Class Exam 1"><meta name=twitter:description content="Questions and solutions to the 19T0 first class exam"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=../../ class=logo>COMP2521 Musings</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=../../><li class=mobile-menu-item>Home</li></a><a href=https://github.com/featherbear/UNSW-COMP2521><li class=mobile-menu-item>GitHub</li></a><a href=../../categories/><li class=mobile-menu-item>Categories</li></a><a href=../../almanac.html><li class=mobile-menu-item>Algos</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=../../ class=logo>COMP2521 Musings</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=../../>Home</a></li><li class=menu-item><a class=menu-item-link href=https://github.com/featherbear/UNSW-COMP2521>GitHub</a></li><li class=menu-item><a class=menu-item-link href=../../categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=../../almanac.html>Algos</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>Class Exam 1</h1><div class=post-meta><span class=post-time>2019-01-10</span><div class=post-category><a href=../../categories/assessments/>Assessments</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><a href=#sorted-array-validation>Sorted Array Validation</a></li><li><a href=#fibonacci-linked-list>Fibonacci Linked List</a></li><li><a href=#dlist-relink>DList Relink</a></li><li><a href=#bst-validation>BST Validation</a></li><li><a href=#bst-prune>BST Prune</a></li></ul></nav></div></div><div class=post-content><p>Had my first practice exam for COMP2521 this week!.</p><h1 id=sorted-array-validation>Sorted Array Validation</h1><p><strong>Task</strong><br>Write a function that recursively checks if an array is sorted</p><p><strong>Prototype</strong><br><code>bool search_p (int xs[], int l, int r)</code><br><code>xs</code> - array<br><code>l</code> - left index<br><code>r</code> - right index</p><p><strong>Code</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=kt>bool</span> <span class=nf>search_p</span> <span class=p>(</span><span class=kt>int</span> <span class=n>xs</span><span class=p>[],</span> <span class=kt>int</span> <span class=n>l</span><span class=p>,</span> <span class=kt>int</span> <span class=n>r</span><span class=p>)</span> <span class=p>{</span>
+    <span class=c1>// exit-case: if the left and right indices cross
+</span><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=n>l</span> <span class=o>&gt;</span> <span class=n>r</span><span class=p>)</span> <span class=k>return</span> <span class=nb>true</span><span class=p>;</span>
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+    <span class=c1>// check the indices
+</span><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=n>xs</span><span class=p>[</span><span class=n>l</span><span class=p>]</span> <span class=o>&gt;</span> <span class=n>xs</span><span class=p>[</span><span class=n>r</span><span class=p>])</span> <span class=k>return</span> <span class=nb>false</span><span class=p>;</span>
 
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+    <span class=k>return</span> <span class=n>search_p</span><span class=p>(</span><span class=n>xs</span><span class=p>,</span> <span class=n>l</span><span class=o>+</span><span class=mi>1</span><span class=p>,</span> <span class=n>r</span><span class=p>);</span>
+<span class=p>}</span></code></pre></td></tr></table></div></div><h1 id=fibonacci-linked-list>Fibonacci Linked List</h1><blockquote><p>Uhm I lost 0.1 marks from this question&hellip;</p></blockquote><p><strong>Task</strong><br>Write a function that generates a linked list of <code>n</code> Fibonacci numbers.
+<em>This question had a quirk&hellip; fib(0) -&gt; NULL, and fib(1) -&gt; item(0)</em></p><p><strong>Prototype</strong><br><code>node *fibonacci(int n)</code></p><p><strong>Code</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=k>typedef</span> <span class=k>struct</span> <span class=n>node</span> <span class=o>*</span><span class=n>Node</span><span class=p>;</span>
+<span class=k>struct</span> <span class=n>node</span> <span class=p>{</span>
+    <span class=kt>int</span> <span class=n>item</span><span class=p>;</span>
+    <span class=n>Node</span> <span class=n>next</span><span class=p>;</span>
+<span class=p>};</span>
+
+<span class=cm>/*
+</span><span class=cm> *  Function: new_node
+</span><span class=cm> *  Creates a node with the item value `i`
+</span><span class=cm> */</span>
+<span class=n>Node</span> <span class=nf>new_node</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>)</span> <span class=p>{</span>
+    <span class=n>Node</span> <span class=n>new</span> <span class=o>=</span> <span class=n>malloc</span><span class=p>(</span><span class=k>sizeof</span><span class=p>(</span><span class=o>*</span><span class=n>new</span><span class=p>));</span>
+    <span class=p>(</span><span class=o>*</span><span class=n>new</span><span class=p>)</span> <span class=o>=</span> <span class=p>(</span><span class=k>struct</span> <span class=n>node</span><span class=p>)</span> <span class=p>{</span>
+        <span class=p>.</span><span class=n>item</span> <span class=o>=</span> <span class=n>i</span><span class=p>,</span>
+        <span class=p>.</span><span class=n>next</span> <span class=o>=</span> <span class=nb>NULL</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+
+<span class=n>node</span> <span class=o>*</span><span class=nf>fibonacci</span><span class=p>(</span><span class=kt>int</span> <span class=n>n</span><span class=p>)</span> <span class=p>{</span>
+    <span class=k>if</span> <span class=p>(</span><span class=n>n</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span> <span class=k>return</span> <span class=nb>NULL</span><span class=p>;</span>
+
+    <span class=n>Node</span> <span class=n>head</span> <span class=o>=</span> <span class=n>new_node</span><span class=p>(</span><span class=mi>0</span><span class=p>);</span>  <span class=c1>// Set up the 1st element (0)
+</span><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=n>n</span> <span class=o>==</span> <span class=mi>1</span><span class=p>)</span> <span class=k>return</span> <span class=n>head</span><span class=p>;</span>  <span class=c1>// And return if fibonacci(1)
+</span><span class=c1></span>
+    <span class=n>Node</span> <span class=n>tail</span> <span class=o>=</span> <span class=n>new_node</span><span class=p>(</span><span class=mi>1</span><span class=p>);</span>  <span class=c1>// Set up the 1st element (0)
+</span><span class=c1></span>    <span class=n>head</span><span class=o>-&gt;</span><span class=n>next</span> <span class=o>=</span> <span class=n>tail</span><span class=p>;</span>
+    <span class=k>if</span> <span class=p>(</span><span class=n>n</span> <span class=o>==</span> <span class=mi>2</span><span class=p>)</span> <span class=k>return</span> <span class=n>head</span><span class=p>;</span>  <span class=c1>// And return if fibonacci(2)
+</span><span class=c1></span>
+    <span class=c1>//
+</span><span class=c1></span>
+    <span class=c1>// Variables to hold the last two values
+</span><span class=c1></span>    <span class=kt>int</span> <span class=n>prev1</span> <span class=o>=</span> <span class=n>head</span><span class=o>-&gt;</span><span class=n>item</span><span class=p>;</span> <span class=c1>// 0
+</span><span class=c1></span>    <span class=kt>int</span> <span class=n>prev2</span> <span class=o>=</span> <span class=n>tail</span><span class=o>-&gt;</span><span class=n>item</span><span class=p>;</span> <span class=c1>// 1
+</span><span class=c1></span>
+    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>3</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;=</span> <span class=n>n</span><span class=p>;</span> <span class=n>i</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
+        <span class=c1>// Make a new node out of the sum of the last two values
+</span><span class=c1></span>        <span class=kt>int</span> <span class=n>nextVal</span> <span class=o>=</span> <span class=n>prev1</span> <span class=o>+</span> <span class=n>prev2</span><span class=p>;</span>
+        <span class=n>Node</span> <span class=n>n</span> <span class=o>=</span> <span class=n>new_node</span><span class=p>(</span><span class=n>nextVal</span><span class=p>);</span>
+        
+        <span class=c1>// Link and reassign the tail
+</span><span class=c1></span>        <span class=n>tail</span><span class=o>-&gt;</span><span class=n>next</span> <span class=o>=</span> <span class=n>n</span><span class=p>;</span>
+        <span class=n>tail</span> <span class=o>=</span> <span class=n>n</span><span class=p>;</span>
+
+        <span class=c1>// Update the last two values
+</span><span class=c1></span>        <span class=n>prev1</span> <span class=o>=</span> <span class=n>prev2</span><span class=p>;</span>
+        <span class=n>prev2</span> <span class=o>=</span> <span class=n>n</span><span class=o>-&gt;</span><span class=n>item</span><span class=p>;</span>
+    <span class=p>}</span>
+
+    <span class=k>return</span> <span class=n>head</span><span class=p>;</span>
+<span class=p>}</span></code></pre></td></tr></table></div></div><h1 id=dlist-relink>DList Relink</h1><p><strong>Task</strong><br>Given two doubly linked lists <code>x</code> and <code>y</code>, write a function that moves all elements from <code>y</code> to <code>x</code></p><p><strong>Prototype</strong><br><code>void list_relink(DList x, DList y)</code></p><p><strong>Code</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=k>typedef</span> <span class=k>struct</span> <span class=n>dlist</span> <span class=o>*</span><span class=n>DList</span><span class=p>;</span>
+<span class=k>typedef</span> <span class=k>struct</span> <span class=n>dnode</span> <span class=o>*</span><span class=n>DNode</span><span class=p>;</span>
+
+<span class=k>struct</span> <span class=n>dlist</span> <span class=p>{</span>
+    <span class=kt>int</span> <span class=n>size</span><span class=p>;</span>
+    <span class=n>DNode</span> <span class=n>head</span><span class=p>;</span>
+    <span class=n>DNode</span> <span class=n>tail</span><span class=p>;</span>
+<span class=p>};</span>
 
 
-<meta name="author" content="z5206677" /><meta name="description" content="Questions and solutions to the 19T0 first class exam" /><meta name="keywords" content="Hugo, theme, even" />
+<span class=k>struct</span> <span class=n>dnode</span> <span class=p>{</span>
+    <span class=kt>int</span> <span class=n>item</span><span class=p>;</span>
+    <span class=n>DNode</span> <span class=n>next</span><span class=p>;</span>
+    <span class=n>DNode</span> <span class=n>tail</span><span class=p>;</span>
+<span class=p>};</span>
 
+<span class=c1>//
+</span><span class=c1></span>
+<span class=kt>void</span> <span class=nf>list_relink</span><span class=p>(</span><span class=n>DList</span> <span class=n>x</span><span class=p>,</span> <span class=n>DList</span> <span class=n>y</span><span class=p>)</span> <span class=p>{</span>
+    <span class=c1>// If y is empty then we don&#39;t need to do anything
+</span><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=n>y</span><span class=o>-&gt;</span><span class=n>size</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span> <span class=k>return</span><span class=p>;</span>
 
-
-
-
-
-<meta name="generator" content="Hugo 0.52 with even 4.0.0" />
-
-
-<link rel="canonical" href="../../post/test01/" />
-<link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
-<link rel="manifest" href="../../manifest.json">
-<link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#5bbad5">
-
-
-<link href="../../dist/even.93844dae.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="Class Exam 1" />
-<meta property="og:description" content="Questions and solutions to the 19T0 first class exam" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="/post/test01/" /><meta property="article:published_time" content="2019-01-10T12:00:00&#43;11:00"/>
-<meta property="article:modified_time" content="2019-01-10T12:00:00&#43;11:00"/>
-
-<meta itemprop="name" content="Class Exam 1">
-<meta itemprop="description" content="Questions and solutions to the 19T0 first class exam">
-
-
-<meta itemprop="datePublished" content="2019-01-10T12:00:00&#43;11:00" />
-<meta itemprop="dateModified" content="2019-01-10T12:00:00&#43;11:00" />
-<meta itemprop="wordCount" content="894">
-
-
-
-<meta itemprop="keywords" content="" />
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Class Exam 1"/>
-<meta name="twitter:description" content="Questions and solutions to the 19T0 first class exam"/>
-
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
-
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
-
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="../../" class="logo">COMP2521 Musings</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="../../">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="https://github.com/featherbear/UNSW-COMP2521">
-        <li class="mobile-menu-item">GitHub</li>
-      </a><a href="../../categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a><a href="../../almanac.html">
-        <li class="mobile-menu-item">Algos</li>
-      </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="../../" class="logo">COMP2521 Musings</a>
-</div>
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="../../">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="https://github.com/featherbear/UNSW-COMP2521">GitHub</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="../../categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="../../almanac.html">Algos</a>
-      </li>
-  </ul>
-</nav>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
+    <span class=k>if</span> <span class=p>(</span><span class=n>x</span><span class=o>-&gt;</span><span class=n>size</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+        <span class=c1>// If x is empty, then just move the head from y
+</span><span class=c1></span>        <span class=n>x</span><span class=o>-&gt;</span><span class=n>head</span> <span class=o>=</span> <span class=n>y</span><span class=o>-&gt;</span><span class=n>head</span><span class=p>;</span>
+    <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+        <span class=n>x</span><span class=o>-&gt;</span><span class=n>tail</span><span class=o>-&gt;</span><span class=n>next</span> <span class=o>=</span> <span class=n>y</span><span class=o>-&gt;</span><span class=n>head</span><span class=p>;</span>
+        <span class=n>y</span><span class=o>-&gt;</span><span class=n>head</span><span class=o>-&gt;</span><span class=n>prev</span> <span class=o>=</span> <span class=n>x</span><span class=o>-&gt;</span><span class=n>tail</span><span class=p>;</span>
+    <span class=p>}</span>
     
-    <header class="post-header">
-      <h1 class="post-title">Class Exam 1</h1>
+    <span class=c1>// Update the new meta for x
+</span><span class=c1></span>    <span class=n>x</span><span class=o>-&gt;</span><span class=n>tail</span> <span class=o>=</span> <span class=n>y</span><span class=o>-&gt;</span><span class=n>tail</span><span class=p>;</span>
+    <span class=n>x</span><span class=o>-&gt;</span><span class=n>size</span> <span class=o>+=</span> <span class=n>y</span><span class=o>-&gt;</span><span class=n>size</span><span class=p>;</span>
 
-      <div class="post-meta">
-        <span class="post-time"> 2019-01-10 </span>
-        <div class="post-category">
-            <a href="../../categories/assessments/"> Assessments </a>
-            </div>
-        
-      </div>
-    </header>
+    <span class=c1>// Unlink y
+</span><span class=c1></span>    <span class=n>y</span><span class=o>-&gt;</span><span class=n>head</span> <span class=o>=</span> <span class=nb>NULL</span><span class=p>;</span>
+    <span class=n>y</span><span class=o>-&gt;</span><span class=n>tail</span> <span class=o>=</span> <span class=nb>NULL</span><span class=p>;</span>   
+    <span class=n>y</span><span class=o>-&gt;</span><span class=n>size</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+<span class=p>}</span></code></pre></td></tr></table></div></div><h1 id=bst-validation>BST Validation</h1><p><strong>Task</strong><br>Given a binary search tree, write a function to check that the search property is held true.</p><p><strong>Prototype</strong><br><code>bool bst_valid(node *tree)</code></p><p><strong>Code</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=k>typedef</span> <span class=k>struct</span> <span class=n>node</span> <span class=o>*</span><span class=n>Node</span><span class=p>;</span>
+<span class=k>typedef</span> <span class=k>struct</span> <span class=n>node</span> <span class=p>{</span>
+    <span class=kt>int</span> <span class=n>item</span><span class=p>;</span>
+    <span class=n>Node</span> <span class=n>left</span><span class=p>;</span>
+    <span class=n>Node</span> <span class=n>right</span><span class=p>;</span>
+<span class=p>}</span>
 
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content always-active">
-    <nav id="TableOfContents">
-<ul>
-<li><a href="#sorted-array-validation">Sorted Array Validation</a></li>
-<li><a href="#fibonacci-linked-list">Fibonacci Linked List</a></li>
-<li><a href="#dlist-relink">DList Relink</a></li>
-<li><a href="#bst-validation">BST Validation</a></li>
-<li><a href="#bst-prune">BST Prune</a></li>
-</ul>
-</nav>
-  </div>
-</div>
-    <div class="post-content">
-      
+<span class=kt>bool</span> <span class=n>bst_valid</span><span class=p>(</span><span class=n>Node</span> <span class=n>tree</span><span class=p>)</span> <span class=p>{</span>
+    <span class=k>if</span> <span class=p>(</span><span class=n>tree</span> <span class=o>==</span> <span class=nb>NULL</span><span class=p>)</span> <span class=k>return</span> <span class=nb>true</span><span class=p>;</span>
 
-<p>Had my first practice exam for COMP2521 this week!.</p>
+    <span class=c1>// if the left subtree exists, ensure that its item is less than the parent
+</span><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=n>tree</span><span class=o>-&gt;</span><span class=n>left</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=p>(</span><span class=n>tree</span><span class=o>-&gt;</span><span class=n>left</span><span class=o>-&gt;</span><span class=n>item</span> <span class=o>&lt;</span> <span class=n>tree</span><span class=o>-&gt;</span><span class=n>item</span><span class=p>))</span> <span class=k>return</span> <span class=nb>false</span><span class=p>;</span>
+    <span class=p>}</span>
 
-<h1 id="sorted-array-validation">Sorted Array Validation</h1>
+    <span class=c1>// if the right subtree exists, ensure that its item is more than the parent
+</span><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=n>tree</span><span class=o>-&gt;</span><span class=n>right</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=p>(</span><span class=n>tree</span><span class=o>-&gt;</span><span class=n>right</span><span class=o>-&gt;</span><span class=n>item</span> <span class=o>&gt;</span> <span class=n>tree</span><span class=o>-&gt;</span><span class=n>item</span><span class=p>))</span> <span class=k>return</span> <span class=nb>false</span><span class=p>;</span>
+    <span class=p>}</span>
 
-<p><strong>Task</strong><br />
-Write a function that recursively checks if an array is sorted</p>
+    <span class=c1>// check down the tree
+</span><span class=c1></span>    <span class=k>return</span> <span class=n>bst_valid</span><span class=p>(</span><span class=n>tree</span><span class=o>-&gt;</span><span class=n>left</span><span class=p>)</span> <span class=o>&amp;&amp;</span> <span class=n>bst_valid</span><span class=p>(</span><span class=n>tree</span><span class=o>-&gt;</span><span class=n>right</span><span class=p>);</span>
+<span class=p>}</span></code></pre></td></tr></table></div></div><h1 id=bst-prune>BST Prune</h1><blockquote><p>I lost 3 marks from this question, not sure where since they don&rsquo;t release the solutions</p></blockquote><p><strong>Task</strong><br>Write a function that drops the nodes past a given depth</p><p><strong>Prototype</strong><br><code>void btree_prune(Node tree, int depth)</code></p><p><strong>Code</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-c data-lang=c><span class=k>typedef</span> <span class=k>struct</span> <span class=n>node</span> <span class=o>*</span><span class=n>Node</span><span class=p>;</span>
+<span class=k>typedef</span> <span class=k>struct</span> <span class=n>node</span> <span class=p>{</span>
+    <span class=kt>int</span> <span class=n>item</span><span class=p>;</span>
+    <span class=n>Node</span> <span class=n>left</span><span class=p>;</span>
+    <span class=n>Node</span> <span class=n>right</span><span class=p>;</span>
+<span class=p>}</span>
 
-<p><strong>Prototype</strong><br />
-<code>bool search_p (int xs[], int l, int r)</code><br />
-<code>xs</code> - array<br />
-<code>l</code> - left index<br />
-<code>r</code> - right index</p>
+<span class=cm>/*
+</span><span class=cm> * Function: btree_drop
+</span><span class=cm> * Recursively release all nodes
+</span><span class=cm> */</span>
+<span class=kt>void</span> <span class=n>btree_drop</span><span class=p>(</span><span class=n>Node</span> <span class=n>tree</span><span class=p>)</span> <span class=p>{</span>
+    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>tree</span><span class=p>)</span> <span class=k>return</span><span class=p>;</span>
+    <span class=n>btree_drop</span><span class=p>(</span><span class=n>tree</span><span class=o>-&gt;</span><span class=n>left</span><span class=p>);</span>
+    <span class=n>btree_drop</span><span class=p>(</span><span class=n>tree</span><span class=o>-&gt;</span><span class=n>right</span><span class=p>;</span>
+    <span class=n>free</span><span class=p>(</span><span class=n>tree</span><span class=p>);</span>
+<span class=p>}</span>
 
-<p><strong>Code</strong></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="kt">bool</span> <span class="nf">search_p</span> <span class="p">(</span><span class="kt">int</span> <span class="n">xs</span><span class="p">[],</span> <span class="kt">int</span> <span class="n">l</span><span class="p">,</span> <span class="kt">int</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// exit-case: if the left and right indices cross
-</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">l</span> <span class="o">&gt;</span> <span class="n">r</span><span class="p">)</span> <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
-
-    <span class="c1">// check the indices
-</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">xs</span><span class="p">[</span><span class="n">r</span><span class="p">])</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
-
-    <span class="k">return</span> <span class="n">search_p</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">l</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">);</span>
-<span class="p">}</span></code></pre></td></tr></table>
-</div>
-</div>
-<h1 id="fibonacci-linked-list">Fibonacci Linked List</h1>
-
-<blockquote>
-<p>Uhm I lost 0.1 marks from this question&hellip;</p>
-</blockquote>
-
-<p><strong>Task</strong><br />
-Write a function that generates a linked list of <code>n</code> Fibonacci numbers.
-<em>This question had a quirk&hellip; fib(0) -&gt; NULL, and fib(1) -&gt; item(0)</em></p>
-
-<p><strong>Prototype</strong><br />
-<code>node *fibonacci(int n)</code></p>
-
-<p><strong>Code</strong></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">node</span> <span class="o">*</span><span class="n">Node</span><span class="p">;</span>
-<span class="k">struct</span> <span class="n">node</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">item</span><span class="p">;</span>
-    <span class="n">Node</span> <span class="n">next</span><span class="p">;</span>
-<span class="p">};</span>
-
-<span class="cm">/*
-</span><span class="cm"> *  Function: new_node
-</span><span class="cm"> *  Creates a node with the item value `i`
-</span><span class="cm"> */</span>
-<span class="n">Node</span> <span class="nf">new_node</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">Node</span> <span class="n">new</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">new</span><span class="p">));</span>
-    <span class="p">(</span><span class="o">*</span><span class="n">new</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">node</span><span class="p">)</span> <span class="p">{</span>
-        <span class="p">.</span><span class="n">item</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span>
-        <span class="p">.</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="n">node</span> <span class="o">*</span><span class="nf">fibonacci</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-
-    <span class="n">Node</span> <span class="n">head</span> <span class="o">=</span> <span class="n">new_node</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>  <span class="c1">// Set up the 1st element (0)
-</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">head</span><span class="p">;</span>  <span class="c1">// And return if fibonacci(1)
-</span><span class="c1"></span>
-    <span class="n">Node</span> <span class="n">tail</span> <span class="o">=</span> <span class="n">new_node</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>  <span class="c1">// Set up the 1st element (0)
-</span><span class="c1"></span>    <span class="n">head</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">tail</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="k">return</span> <span class="n">head</span><span class="p">;</span>  <span class="c1">// And return if fibonacci(2)
-</span><span class="c1"></span>
-    <span class="c1">//
-</span><span class="c1"></span>
-    <span class="c1">// Variables to hold the last two values
-</span><span class="c1"></span>    <span class="kt">int</span> <span class="n">prev1</span> <span class="o">=</span> <span class="n">head</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">;</span> <span class="c1">// 0
-</span><span class="c1"></span>    <span class="kt">int</span> <span class="n">prev2</span> <span class="o">=</span> <span class="n">tail</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">;</span> <span class="c1">// 1
-</span><span class="c1"></span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// Make a new node out of the sum of the last two values
-</span><span class="c1"></span>        <span class="kt">int</span> <span class="n">nextVal</span> <span class="o">=</span> <span class="n">prev1</span> <span class="o">+</span> <span class="n">prev2</span><span class="p">;</span>
-        <span class="n">Node</span> <span class="n">n</span> <span class="o">=</span> <span class="n">new_node</span><span class="p">(</span><span class="n">nextVal</span><span class="p">);</span>
-        
-        <span class="c1">// Link and reassign the tail
-</span><span class="c1"></span>        <span class="n">tail</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
-        <span class="n">tail</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
-
-        <span class="c1">// Update the last two values
-</span><span class="c1"></span>        <span class="n">prev1</span> <span class="o">=</span> <span class="n">prev2</span><span class="p">;</span>
-        <span class="n">prev2</span> <span class="o">=</span> <span class="n">n</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="k">return</span> <span class="n">head</span><span class="p">;</span>
-<span class="p">}</span></code></pre></td></tr></table>
-</div>
-</div>
-<h1 id="dlist-relink">DList Relink</h1>
-
-<p><strong>Task</strong><br />
-Given two doubly linked lists <code>x</code> and <code>y</code>, write a function that moves all elements from <code>y</code> to <code>x</code></p>
-
-<p><strong>Prototype</strong><br />
-<code>void list_relink(DList x, DList y)</code></p>
-
-<p><strong>Code</strong></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">dlist</span> <span class="o">*</span><span class="n">DList</span><span class="p">;</span>
-<span class="k">typedef</span> <span class="k">struct</span> <span class="n">dnode</span> <span class="o">*</span><span class="n">DNode</span><span class="p">;</span>
-
-<span class="k">struct</span> <span class="n">dlist</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">size</span><span class="p">;</span>
-    <span class="n">DNode</span> <span class="n">head</span><span class="p">;</span>
-    <span class="n">DNode</span> <span class="n">tail</span><span class="p">;</span>
-<span class="p">};</span>
-
-
-<span class="k">struct</span> <span class="n">dnode</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">item</span><span class="p">;</span>
-    <span class="n">DNode</span> <span class="n">next</span><span class="p">;</span>
-    <span class="n">DNode</span> <span class="n">tail</span><span class="p">;</span>
-<span class="p">};</span>
-
-<span class="c1">//
-</span><span class="c1"></span>
-<span class="kt">void</span> <span class="nf">list_relink</span><span class="p">(</span><span class="n">DList</span> <span class="n">x</span><span class="p">,</span> <span class="n">DList</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// If y is empty then we don&#39;t need to do anything
-</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">y</span><span class="o">-&gt;</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="o">-&gt;</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// If x is empty, then just move the head from y
-</span><span class="c1"></span>        <span class="n">x</span><span class="o">-&gt;</span><span class="n">head</span> <span class="o">=</span> <span class="n">y</span><span class="o">-&gt;</span><span class="n">head</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">x</span><span class="o">-&gt;</span><span class="n">tail</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">y</span><span class="o">-&gt;</span><span class="n">head</span><span class="p">;</span>
-        <span class="n">y</span><span class="o">-&gt;</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">prev</span> <span class="o">=</span> <span class="n">x</span><span class="o">-&gt;</span><span class="n">tail</span><span class="p">;</span>
-    <span class="p">}</span>
-    
-    <span class="c1">// Update the new meta for x
-</span><span class="c1"></span>    <span class="n">x</span><span class="o">-&gt;</span><span class="n">tail</span> <span class="o">=</span> <span class="n">y</span><span class="o">-&gt;</span><span class="n">tail</span><span class="p">;</span>
-    <span class="n">x</span><span class="o">-&gt;</span><span class="n">size</span> <span class="o">+=</span> <span class="n">y</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">;</span>
-
-    <span class="c1">// Unlink y
-</span><span class="c1"></span>    <span class="n">y</span><span class="o">-&gt;</span><span class="n">head</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-    <span class="n">y</span><span class="o">-&gt;</span><span class="n">tail</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>   
-    <span class="n">y</span><span class="o">-&gt;</span><span class="n">size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span></code></pre></td></tr></table>
-</div>
-</div>
-<h1 id="bst-validation">BST Validation</h1>
-
-<p><strong>Task</strong><br />
-Given a binary search tree, write a function to check that the search property is held true.</p>
-
-<p><strong>Prototype</strong><br />
-<code>bool bst_valid(node *tree)</code></p>
-
-<p><strong>Code</strong></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">node</span> <span class="o">*</span><span class="n">Node</span><span class="p">;</span>
-<span class="k">typedef</span> <span class="k">struct</span> <span class="n">node</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">item</span><span class="p">;</span>
-    <span class="n">Node</span> <span class="n">left</span><span class="p">;</span>
-    <span class="n">Node</span> <span class="n">right</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">bool</span> <span class="n">bst_valid</span><span class="p">(</span><span class="n">Node</span> <span class="n">tree</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">tree</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
-
-    <span class="c1">// if the left subtree exists, ensure that its item is less than the parent
-</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="o">-&gt;</span><span class="n">item</span> <span class="o">&lt;</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">))</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="c1">// if the right subtree exists, ensure that its item is more than the parent
-</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="o">-&gt;</span><span class="n">item</span> <span class="o">&gt;</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">item</span><span class="p">))</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="c1">// check down the tree
-</span><span class="c1"></span>    <span class="k">return</span> <span class="n">bst_valid</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">bst_valid</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
-<span class="p">}</span></code></pre></td></tr></table>
-</div>
-</div>
-<h1 id="bst-prune">BST Prune</h1>
-
-<blockquote>
-<p>I lost 3 marks from this question, not sure where since they don&rsquo;t release the solutions</p>
-</blockquote>
-
-<p><strong>Task</strong><br />
-Write a function that drops the nodes past a given depth</p>
-
-<p><strong>Prototype</strong><br />
-<code>void btree_prune(Node tree, int depth)</code></p>
-
-<p><strong>Code</strong></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="k">typedef</span> <span class="k">struct</span> <span class="n">node</span> <span class="o">*</span><span class="n">Node</span><span class="p">;</span>
-<span class="k">typedef</span> <span class="k">struct</span> <span class="n">node</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">item</span><span class="p">;</span>
-    <span class="n">Node</span> <span class="n">left</span><span class="p">;</span>
-    <span class="n">Node</span> <span class="n">right</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="cm">/*
-</span><span class="cm"> * Function: btree_drop
-</span><span class="cm"> * Recursively release all nodes
-</span><span class="cm"> */</span>
-<span class="kt">void</span> <span class="n">btree_drop</span><span class="p">(</span><span class="n">Node</span> <span class="n">tree</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">tree</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
-    <span class="n">btree_drop</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
-    <span class="n">btree_drop</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">;</span>
-    <span class="n">free</span><span class="p">(</span><span class="n">tree</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="c1">//
-</span><span class="c1"></span><span class="n">Node</span> <span class="n">btree_prune</span><span class="p">(</span><span class="n">Node</span> <span class="n">tree</span><span class="p">,</span> <span class="kt">int</span> <span class="n">depth</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">depth</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">btree_drop</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span>
-        <span class="n">btree_drop</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
-        <span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-        <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-        <span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span> <span class="o">=</span> <span class="n">btree_prune</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">,</span> <span class="n">depth</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-        <span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span> <span class="o">=</span> <span class="n">btree_prune</span><span class="p">(</span><span class="n">tree</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">,</span> <span class="n">depth</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">tree</span><span class="p">;</span>
-<span class="p">}</span></code></pre></td></tr></table>
-</div>
-</div>
-<p><strong>Explanation</strong>
-In order to drop elements only greater than (or equal) to a given depth, I would need to implement some sort of counter.<br />
-However, I could not modify the <code>btree_prune</code> function prototype. I <strong>could</strong> have written a helper function, and turn <code>btree_prune</code> into a wrapper function - but another was was to use the <code>depth</code> parameter!</p>
-
-<p>By decreasing <code>depth</code>, we are effectively saying <em>&ldquo;<code>n</code> more levels to go until we start dropping everything&rdquo;</em>.</p>
-
-    </div>
-
-    <footer class="post-footer">
-      
-      <nav class="post-nav">
-        <a class="prev" href="../../post/tut05/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Tutorial Five</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="../../post/lec09/">
-            <span class="next-text nav-default">Lecture 9 - Sorting</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
-        </div>
-        
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:z5206677@student.unsw.edu.au" class="iconfont icon-email" title="email"></a>
-      <a href="https://www.linkedin.com/in/andrewjinmengwong/" class="iconfont icon-linkedin" title="linkedin"></a>
-      <a href="https://github.com/featherbear" class="iconfont icon-github" title="github"></a>
-      <a href="https://www.instagram.com/_andrewjwong/" class="iconfont icon-instagram" title="instagram"></a>
-  <a href="../../index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  
-
-  <span class="copyright-year">
-    &copy; 
-    2018 - 
-    2019
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">Andrew Wong (z5206677)</span>
-  </span>
-</div>
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="../../dist/even.ece58db6.min.js"></script>
-
-
-
-
-
-
-
-
-</body>
-</html>
+<span class=c1>//
+</span><span class=c1></span><span class=n>Node</span> <span class=n>btree_prune</span><span class=p>(</span><span class=n>Node</span> <span class=n>tree</span><span class=p>,</span> <span class=kt>int</span> <span class=n>depth</span><span class=p>)</span> <span class=p>{</span>
+    <span class=k>if</span> <span class=p>(</span><span class=n>depth</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>btree_drop</span><span class=p>(</span><span class=n>tree</span><span class=o>-&gt;</span><span class=n>left</span><span class=p>);</span>
+        <span class=n>btree_drop</span><span class=p>(</span><span class=n>tree</span><span class=o>-&gt;</span><span class=n>right</span><span class=p>);</span>
+        <span class=n>tree</span><span class=o>-&gt;</span><span class=n>left</span> <span class=o>=</span> <span class=n>tree</span><span class=o>-&gt;</span><span class=n>right</span> <span class=o>=</span> <span class=nb>NULL</span><span class=p>;</span>
+        <span class=k>return</span> <span class=nb>NULL</span><span class=p>;</span>
+    <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+        <span class=n>tree</span><span class=o>-&gt;</span><span class=n>left</span> <span class=o>=</span> <span class=n>btree_prune</span><span class=p>(</span><span class=n>tree</span><span class=o>-&gt;</span><span class=n>left</span><span class=p>,</span> <span class=n>depth</span><span class=o>-</span><span class=mi>1</span><span class=p>);</span>
+        <span class=n>tree</span><span class=o>-&gt;</span><span class=n>right</span> <span class=o>=</span> <span class=n>btree_prune</span><span class=p>(</span><span class=n>tree</span><span class=o>-&gt;</span><span class=n>right</span><span class=p>,</span> <span class=n>depth</span><span class=o>-</span><span class=mi>1</span><span class=p>);</span>
+    <span class=p>}</span>
+    <span class=k>return</span> <span class=n>tree</span><span class=p>;</span>
+<span class=p>}</span></code></pre></td></tr></table></div></div><p><strong>Explanation</strong>
+In order to drop elements only greater than (or equal) to a given depth, I would need to implement some sort of counter.<br>However, I could not modify the <code>btree_prune</code> function prototype. I <strong>could</strong> have written a helper function, and turn <code>btree_prune</code> into a wrapper function - but another was was to use the <code>depth</code> parameter!</p><p>By decreasing <code>depth</code>, we are effectively saying <em>&ldquo;<code>n</code> more levels to go until we start dropping everything&rdquo;</em>.</p></div><footer class=post-footer><nav class=post-nav><a class=prev href=../../post/tut05/><i class="iconfont icon-left"></i><span class="prev-text nav-default">Tutorial Five</span>
+<span class="prev-text nav-mobile">Prev</span></a>
+<a class=next href=../../post/lec09/><span class="next-text nav-default">Lecture 9 - Sorting</span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article><script>(function(f,a,t,h,o,m){a[h]=a[h]||function(){(a[h].q=a[h].q||[]).push(arguments)};o=f.createElement('script'),m=f.getElementsByTagName('script')[0];o.async=1;o.src=t;o.id='fathom-script';m.parentNode.insertBefore(o,m)})(document,window,'//ss.featherbear.cc/tracker.js','fathom');fathom('set','siteId','NEQTU');fathom('trackPageview');</script></div></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:z5206677@student.unsw.edu.au class="iconfont icon-email" title=email></a><a href=https://www.linkedin.com/in/andrewjinmengwong/ class="iconfont icon-linkedin" title=linkedin></a><a href=https://github.com/featherbear class="iconfont icon-github" title=github></a><a href=https://www.instagram.com/_andrewjwong/ class="iconfont icon-instagram" title=instagram></a><a href=../../index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2018 -
+2021
+<span class=heart><i class="iconfont icon-heart"></i></span><span class=author>Andrew Wong (z5206677)</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=../../dist/even.ece58db6.min.js></script></body></html>
